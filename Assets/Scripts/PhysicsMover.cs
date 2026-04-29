@@ -60,13 +60,12 @@ public class PhysicsMover : MonoBehaviour
         //ジャンプ中は足場無視
         if(jumpingPower > 0.0f)return;
         
-        Vector2 footPosition = rigidbody.position + new Vector2(0.0f, collider.bounds.extents.y);
-        RaycastHit2D hit = Physics2D.Raycast(footPosition, Vector2.up, 2.0f*this.collider.bounds.extents.y);
+        Vector2 footPosition = rigidbody.position - new Vector2(0.0f, collider.bounds.extents.y);
+        RaycastHit2D hit = Physics2D.Raycast(footPosition, Vector2.down, 0.1f);
         if (hit.collider != null)
         {
             isAir = false;
-            Vector2 groundedPosition = rigidbody.position + footPosition - hit.point;
-            rigidbody.MovePosition(groundedPosition);
+            rigidbody.MovePosition(hit.point + new Vector2(0.0f, collider.bounds.extents.y));
             Debug.Log("floor");
         }
     }
@@ -80,7 +79,7 @@ public class PhysicsMover : MonoBehaviour
 
     public void StopJump()
     {
-        jumpingPower = 0.1f;
+        jumpingPower *= 0.3f;
     }
 
 }

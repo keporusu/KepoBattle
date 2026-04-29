@@ -51,6 +51,7 @@ public class PlayeController : MonoBehaviour
 
     private void OnJumpStarted(InputAction.CallbackContext ctx)
     {
+        
         if(physicsMover.IsAir)return;
         isJumping = true;
         physicsMover.StartJump(jumpPower);
@@ -59,6 +60,7 @@ public class PlayeController : MonoBehaviour
 
     private void OnJumpCanceled(InputAction.CallbackContext ctx)
     {
+        if(!isJumping)return;
         isJumping = false;
         physicsMover.StopJump();
         Debug.Log("Jump canceled");
