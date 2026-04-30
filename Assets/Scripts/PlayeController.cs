@@ -4,12 +4,14 @@ using UnityEngine.InputSystem;
 public class PlayeController : MonoBehaviour
 {
     [SerializeField] private float jumpPower = 1.0f;
+    [SerializeField] private float moveSpeed = 1.0f;
     private InputAction moveAction;
     private InputAction jumpAction;
     private PhysicsMover physicsMover_cache;
-    
+
     //State
     private bool isJumping=false;
+    private float moveInput = 0f;
 
     void Awake()
     {
@@ -32,6 +34,9 @@ public class PlayeController : MonoBehaviour
 
     private void OnEnable()
     {
+        moveAction.Enable();
+        moveAction.performed += OnMovePerformed;
+        moveAction.canceled += OnMoveCanceled;
         jumpAction.Enable();
         jumpAction.started += OnJumpStarted;
         jumpAction.canceled += OnJumpCanceled;
@@ -39,9 +44,28 @@ public class PlayeController : MonoBehaviour
 
     private void OnDisable()
     {
+        moveAction.performed -= OnMovePerformed;
+        moveAction.canceled -= OnMoveCanceled;
+        moveAction.Disable();
         jumpAction.started -= OnJumpStarted;
         jumpAction.canceled -= OnJumpCanceled;
         jumpAction.Disable();
+    }
+
+    private void Update()
+    {
+        //physicsMover_cache.Move(moveInput * moveSpeed);
+    }
+
+    private void OnMovePerformed(InputAction.CallbackContext ctx)
+    {
+        moveInput = ctx.ReadValue<Vector2>().x * moveSpeed;
+        physicsMover_cache.Move(moveInput);
+    }
+
+    private void OnMoveCanceled(InputAction.CallbackContext ctx)
+    {
+        physicsMover_cache.StopMove();
     }
 
     private void OnJumpStarted(InputAction.CallbackContext ctx)

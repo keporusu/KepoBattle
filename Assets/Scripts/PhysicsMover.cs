@@ -5,12 +5,17 @@ using UnityEngine;
 public class PhysicsMover : MonoBehaviour
 {
     [SerializeField] private float gravity = 1.0f;
+    [SerializeField] private float friction = 1.0f;
+    
     private Rigidbody2D rigidbody_cache;
     private Collider2D collider_cache;
     
     private float accumulatedTime=0.0f;
-    private bool isAir = true;
     private float jumpingPower = 0.0f;
+    private float movingPower = 0.0f;
+    
+    private bool isAir = true;
+    private bool isBraking = false;
     
     public bool IsAir => isAir;
     
@@ -31,24 +36,43 @@ public class PhysicsMover : MonoBehaviour
     {
         Vector2 movePoint = rigidbody_cache.position;
         
-        //空中ではないなら以下の処理をしない
-        if (!isAir) return;
-        
-        
-        if (jumpingPower > 0.0f)
+        //ブレーキ処理
+        if (isBraking)
         {
-            //ジャンプ処理
-            movePoint += jumpingPower * Vector2.up;
-            jumpingPower = Mathf.Max(0.0f, jumpingPower-Time.fixedDeltaTime);
+            if (movingPower > 0.0f)
+            {
+                movingPower = Mathf.Max(0.0f,movingPower-friction*Time.deltaTime);
+            }
+            else if (movingPower < 0.0f)
+            {
+                movingPower = Mathf.Min(0.0f,movingPower+friction*Time.deltaTime);
+            }
+            
+            if (movingPower == 0.0f)
+            {
+                isBraking = false;
+            }
         }
-        else
+        
+        //移動処理
+        movePoint += movingPower *Time.fixedDeltaTime* Vector2.right;
+        
+        //空中での処理
+        if (isAir)
         {
-            //落下処理
-            movePoint += accumulatedTime * gravity * Vector2.down;
-            accumulatedTime+=Time.fixedDeltaTime;
+            if (jumpingPower > 0.0f)
+            {
+                //ジャンプ処理
+                movePoint += jumpingPower * Vector2.up;
+                jumpingPower = Mathf.Max(0.0f, jumpingPower-Time.fixedDeltaTime);
+            }
+            else
+            {
+                //落下処理
+                movePoint += accumulatedTime * gravity * Vector2.down;
+                accumulatedTime+=Time.fixedDeltaTime;
+            }
         }
-        
-        
         
         //最終処理
         rigidbody_cache.MovePosition(movePoint);
@@ -79,5 +103,17 @@ public class PhysicsMover : MonoBehaviour
     {
         jumpingPower *= 0.3f;
     }
+
+    public void Move(float power)
+    {
+        isBraking = false;
+        movingPower = power;
+    }
+
+    public void StopMove()
+    {
+        isBraking = true;
+    }
+    
 
 }
