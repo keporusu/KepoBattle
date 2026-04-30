@@ -6,7 +6,7 @@ public class PlayeController : MonoBehaviour
     [SerializeField] private float jumpPower = 1.0f;
     private InputAction moveAction;
     private InputAction jumpAction;
-    private PhysicsMover physicsMover;
+    private PhysicsMover physicsMover_cache;
     
     //State
     private bool isJumping=false;
@@ -22,8 +22,8 @@ public class PlayeController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        physicsMover = GetComponent<PhysicsMover>();
-        if (physicsMover == null)
+        physicsMover_cache = GetComponent<PhysicsMover>();
+        if (physicsMover_cache == null)
         {
             Debug.LogError("Physics Mover component is missing");
             enabled = false;
@@ -44,17 +44,12 @@ public class PlayeController : MonoBehaviour
         jumpAction.Disable();
     }
 
-    private void FixedUpdate()
-    {
-        
-    }
-
     private void OnJumpStarted(InputAction.CallbackContext ctx)
     {
         
-        if(physicsMover.IsAir)return;
+        if(physicsMover_cache.IsAir)return;
         isJumping = true;
-        physicsMover.StartJump(jumpPower);
+        physicsMover_cache.StartJump(jumpPower);
         Debug.Log("Jump started");
     }
 
@@ -62,7 +57,7 @@ public class PlayeController : MonoBehaviour
     {
         if(!isJumping)return;
         isJumping = false;
-        physicsMover.StopJump();
+        physicsMover_cache.StopJump();
         Debug.Log("Jump canceled");
     }
 }
