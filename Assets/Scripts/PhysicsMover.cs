@@ -16,6 +16,7 @@ public class PhysicsMover : MonoBehaviour
     
     private bool isAir = true;
     private bool isBraking = false;
+    private float snapGroundY = float.NaN;
     
     public bool IsAir => isAir;
     
@@ -57,6 +58,13 @@ public class PhysicsMover : MonoBehaviour
         //移動処理
         movePoint += movingPower *Time.fixedDeltaTime* Vector2.right;
         
+        //着地スナップ補正
+        if (!float.IsNaN(snapGroundY))
+        {
+            movePoint.y = snapGroundY;
+            snapGroundY = float.NaN;
+        }
+
         //空中での処理
         if (isAir)
         {
@@ -86,10 +94,7 @@ public class PhysicsMover : MonoBehaviour
 
         float groundTop = other.bounds.max.y;
         isAir = false;
-        rigidbody_cache.MovePosition(new Vector2(
-            rigidbody_cache.position.x,
-            groundTop + collider_cache.bounds.extents.y
-        ));
+        snapGroundY = groundTop + collider_cache.bounds.extents.y;
     }
 
     public void StartJump(float power)
