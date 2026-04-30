@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayeController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float jumpPower = 1.0f;
     [SerializeField] private float moveSpeed = 1.0f;
     private InputAction moveAction;
     private InputAction jumpAction;
+    private InputAction attackAction;
     private PhysicsMover physicsMover_cache;
+    private Attack attack_cache;
 
     //State
     private bool isJumping=false;
@@ -18,6 +20,7 @@ public class PlayeController : MonoBehaviour
         var inputActions = new InputSystem_Actions();
         moveAction = inputActions.Player.Move;
         jumpAction = inputActions.Player.Jump;
+        attackAction = inputActions.Player.Attack;
     }
 
 
@@ -25,7 +28,8 @@ public class PlayeController : MonoBehaviour
     void Start()
     {
         physicsMover_cache = GetComponent<PhysicsMover>();
-        if (physicsMover_cache == null)
+        attack_cache = GetComponent<Attack>();
+        if (physicsMover_cache == null || attack_cache==null)
         {
             Debug.LogError("Physics Mover component is missing");
             enabled = false;
@@ -40,6 +44,8 @@ public class PlayeController : MonoBehaviour
         jumpAction.Enable();
         jumpAction.started += OnJumpStarted;
         jumpAction.canceled += OnJumpCanceled;
+        attackAction.Enable();
+        attackAction.started += OnAttack;
     }
 
     private void OnDisable()
@@ -50,6 +56,7 @@ public class PlayeController : MonoBehaviour
         jumpAction.started -= OnJumpStarted;
         jumpAction.canceled -= OnJumpCanceled;
         jumpAction.Disable();
+        attackAction.started -= OnAttack;
     }
 
     private void Update()
@@ -83,5 +90,10 @@ public class PlayeController : MonoBehaviour
         isJumping = false;
         physicsMover_cache.StopJump();
         Debug.Log("Jump canceled");
+    }
+
+    private void OnAttack(InputAction.CallbackContext ctx)
+    {
+        attack_cache.StartAttack();
     }
 }
