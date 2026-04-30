@@ -5,8 +5,8 @@ using UnityEngine;
 public class PhysicsMover : MonoBehaviour
 {
     [SerializeField] private float gravity = 1.0f;
-    private Rigidbody2D rigidbody;
-    private Collider2D collider;
+    private Rigidbody2D rigidbody_cache;
+    private Collider2D collider_cache;
     
     private float accumulatedTime=0.0f;
     private bool isAir = true;
@@ -17,9 +17,9 @@ public class PhysicsMover : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-        collider = GetComponent<Collider2D>();
-        if (rigidbody == null || collider == null)
+        rigidbody_cache = GetComponent<Rigidbody2D>();
+        collider_cache = GetComponent<Collider2D>();
+        if (rigidbody_cache == null || collider_cache == null)
         {
             Debug.LogError("Rigidbody or Collider component is missing");
             enabled = false;
@@ -29,7 +29,7 @@ public class PhysicsMover : MonoBehaviour
     
     private void FixedUpdate()
     {
-        Vector2 movePoint = rigidbody.position;
+        Vector2 movePoint = rigidbody_cache.position;
         
         //空中ではないなら以下の処理をしない
         if (!isAir) return;
@@ -51,7 +51,7 @@ public class PhysicsMover : MonoBehaviour
         
         
         //最終処理
-        rigidbody.MovePosition(movePoint);
+        rigidbody_cache.MovePosition(movePoint);
     }
 
     
@@ -60,13 +60,14 @@ public class PhysicsMover : MonoBehaviour
         //ジャンプ中は足場無視
         if(jumpingPower > 0.0f)return;
         
-        Vector2 footPosition = rigidbody.position - new Vector2(0.0f, collider.bounds.extents.y);
-        RaycastHit2D hit = Physics2D.Raycast(footPosition, Vector2.down, 0.1f);
+        Vector2 footPosition = rigidbody_cache.position - new Vector2(0.0f, collider_cache.bounds.extents.y)-Vector2.up*0.01f;
+        //RaycastHit2D hit = Physics2D.Raycast(footPosition, Vector2.down, 0.1f);
+        RaycastHit2D hit = Physics2D.Raycast(footPosition, Vector2.up, 0.5f);
         if (hit.collider != null)
         {
             isAir = false;
-            rigidbody.MovePosition(hit.point + new Vector2(0.0f, collider.bounds.extents.y));
-            Debug.Log("floor");
+            rigidbody_cache.MovePosition(hit.point + new Vector2(0.0f, collider_cache.bounds.extents.y));
+            Debug.Log($"floor: hit = {hit.point}");
         }
     }
 
