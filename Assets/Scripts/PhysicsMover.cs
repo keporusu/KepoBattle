@@ -1,14 +1,15 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PhysicsMover : MonoBehaviour
 {
     [SerializeField] private float gravity = 1.0f;
     [SerializeField] private float friction = 1.0f;
+    [SerializeField] private Collider2D geometryCollider;
     
     private Rigidbody2D rigidbody_cache;
-    private Collider2D collider_cache;
     
     private float accumulatedTime=0.0f;
     private float jumpingPower = 0.0f;
@@ -24,8 +25,7 @@ public class PhysicsMover : MonoBehaviour
     void Start()
     {
         rigidbody_cache = GetComponent<Rigidbody2D>();
-        collider_cache = GetComponent<Collider2D>();
-        if (rigidbody_cache == null || collider_cache == null)
+        if (rigidbody_cache == null || geometryCollider == null)
         {
             Debug.LogError("Rigidbody or Collider component is missing");
             enabled = false;
@@ -89,12 +89,14 @@ public class PhysicsMover : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (!other.CompareTag("Geometry Channel")) return;
+        
         //ジャンプ中は足場無視
-        if(jumpingPower > 0.0f)return;
+        if(jumpingPower > 0.0f) return;
 
         float groundTop = other.bounds.max.y;
         isAir = false;
-        snapGroundY = groundTop + collider_cache.bounds.extents.y;
+        snapGroundY = groundTop + geometryCollider.bounds.extents.y;
     }
 
     public void StartJump(float power)

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Damaged Channel
   - Damage Channel
+  - Geometry Channel
   layers:
   - Default
   - TransparentFX
