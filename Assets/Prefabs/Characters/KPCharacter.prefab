@@ -161,6 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2171305111955803194}
   - component: {fileID: 4933516786887234095}
+  - component: {fileID: 498373253996140966}
   m_Layer: 6
   m_Name: Geometry
   m_TagString: Geometry Channel
@@ -220,6 +221,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!114 &498373253996140966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8354070944974147321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 705c773ca7bac4fa294c5b5e8fd6a400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1001 &885767911355221278
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -324,7 +337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   gravity: 1
   friction: 20
-  geometryCollider: {fileID: 4933516786887234095}
+  geometryCollider: {fileID: 8354070944974147321}
   characterLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -439,6 +452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   damageCollider: {fileID: 311053165707606810}
+  attackDuration: 0.5
 --- !u!4 &8912193247869336344 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8639198977824554502, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}

@@ -5,7 +5,7 @@ using UnityEngine;
 public class DamagedNotifier : MonoBehaviour
 {
     
-    public System.Action<Collider2D> OnDamaged;
+    public System.Action<Collider2D> OnHit;
     private void OnTriggerEnter2D(Collider2D other)
     {
         // 攻撃チャンネルじゃないなら通知しない
@@ -14,6 +14,6 @@ public class DamagedNotifier : MonoBehaviour
             return;
         }
         
-        OnDamaged.Invoke(other);
+        OnHit.Invoke(other);
     }
 }

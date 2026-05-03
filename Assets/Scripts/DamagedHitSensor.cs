@@ -10,7 +10,7 @@ public class DamagedHitSensor : MonoBehaviour
         var damagedNotifier=damagedCollider.GetComponent<DamagedNotifier>();
         if (damagedNotifier != null)
         {
-            damagedNotifier.OnDamaged += DamagedHit;
+            damagedNotifier.OnHit += DamagedHit;
         }
     }
 

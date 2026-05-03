@@ -7,11 +7,12 @@ public class PhysicsMover : MonoBehaviour
 {
     [SerializeField] private float gravity = 1.0f;
     [SerializeField] private float friction = 1.0f;
-    [SerializeField] private Collider2D geometryCollider;
+    [SerializeField] private GameObject geometryCollider;
     //押し判定をする相手
     [SerializeField] private LayerMask characterLayer;
     
     private Rigidbody2D rigidbody_cache;
+    private Collider2D geometryCollider_cache;
     
     //相手キャラクター
     private PhysicsMover otherMover_cache;
@@ -33,12 +34,23 @@ public class PhysicsMover : MonoBehaviour
     void Start()
     {
         rigidbody_cache = GetComponent<Rigidbody2D>();
-        if (rigidbody_cache == null || geometryCollider == null)
+        geometryCollider_cache = geometryCollider.GetComponent<Collider2D>();
+        if (rigidbody_cache == null || geometryCollider == null || geometryCollider_cache == null)
         {
-            Debug.LogError("Rigidbody or Collider component is missing");
+            Debug.LogError("Rigidbody or Geometry is missing");
             enabled = false;
             return;
         }
+
+        var geometryHitNotifier = geometryCollider.GetComponent<GeometryHitNotifier>();
+        if (geometryHitNotifier==null)
+        {
+            Debug.LogError("GeometryHitNotifier is missing");
+            return;
+        }
+
+        geometryHitNotifier.OnHit += OnHitGeometry;
+
     }
     
     private void FixedUpdate()
@@ -106,12 +118,9 @@ public class PhysicsMover : MonoBehaviour
         //最終処理
         rigidbody_cache.MovePosition(movePoint);
     }
-    
-    
-    
-    private void OnTriggerEnter2D(Collider2D other)
+
+    private void OnHitGeometry(Collider2D other)
     {
-        
         if (!other.CompareTag("Geometry Channel")) return;
         
         //相手がキャラクターの場合はキャッシュする
@@ -127,14 +136,14 @@ public class PhysicsMover : MonoBehaviour
         }
         
         //足場の時
-        if (other.bounds.max.y < geometryCollider.bounds.max.y)
+        if (other.bounds.max.y < geometryCollider_cache.bounds.max.y)
         {
             //ジャンプ中は足場無視
             if(jumpingPower > 0.0f) return;
 
             float groundTop = other.bounds.max.y;
             isAir = false;
-            snapGroundY = groundTop + geometryCollider.bounds.extents.y;
+            snapGroundY = groundTop + geometryCollider_cache.bounds.extents.y;
         }
     }
 
