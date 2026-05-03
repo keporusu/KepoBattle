@@ -8,8 +8,11 @@ public class PhysicsMover : MonoBehaviour
     [SerializeField] private float gravity = 1.0f;
     [SerializeField] private float friction = 1.0f;
     [SerializeField] private Collider2D geometryCollider;
+    //押し判定をする相手
+    [SerializeField] private LayerMask characterLayer;
     
     private Rigidbody2D rigidbody_cache;
+    private PhysicsMover otherMover_cache;
     
     private float accumulatedTime=0.0f;
     private float jumpingPower = 0.0f;
@@ -89,14 +92,40 @@ public class PhysicsMover : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
+        
         if (!other.CompareTag("Geometry Channel")) return;
         
-        //ジャンプ中は足場無視
-        if(jumpingPower > 0.0f) return;
+        //相手がキャラクターの場合はキャッシュする
+        if ((characterLayer.value & (1 << other.gameObject.layer)) > 0)
+        {
+            otherMover_cache = other.GetComponent<PhysicsMover>();
+            Debug.Log("Catch Character");
+            return;
+        }
+        
+        //足場の時
+        if (other.bounds.max.y < geometryCollider.bounds.max.y)
+        {
+            //ジャンプ中は足場無視
+            if(jumpingPower > 0.0f) return;
 
-        float groundTop = other.bounds.max.y;
-        isAir = false;
-        snapGroundY = groundTop + geometryCollider.bounds.extents.y;
+            float groundTop = other.bounds.max.y;
+            isAir = false;
+            snapGroundY = groundTop + geometryCollider.bounds.extents.y;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag("Geometry Channel")) return;
+            
+        //相手がキャラクターの場合はキャッシュ解除
+        if ((characterLayer.value & (1 << other.gameObject.layer)) > 0)
+        {
+            otherMover_cache = null;
+            Debug.Log("Lost Character");
+            return;
+        }
     }
 
     public void StartJump(float power)

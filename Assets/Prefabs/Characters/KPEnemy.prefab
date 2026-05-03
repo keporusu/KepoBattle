@@ -10,7 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3693381977577805594, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
       propertyPath: m_Name
-      value: KPCharacter Variant
+      value: KPEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693381977577805594, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8912193247869336344, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
       propertyPath: m_LocalPosition.x

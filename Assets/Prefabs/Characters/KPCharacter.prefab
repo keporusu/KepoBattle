@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2554851186857072665}
   - component: {fileID: 6662370293626620385}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Damage
   m_TagString: Damage Channel
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 8860882433751328344}
   - component: {fileID: 7447568021773866107}
   - component: {fileID: 6813915722058315380}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Damaged
   m_TagString: Damaged Channel
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2171305111955803194}
   - component: {fileID: 4933516786887234095}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Geometry
   m_TagString: Geometry Channel
   m_Icon: {fileID: 0}
@@ -231,6 +231,10 @@ PrefabInstance:
     - target: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       propertyPath: m_Name
       value: KPCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8639198977824554502, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -321,6 +325,9 @@ MonoBehaviour:
   gravity: 1
   friction: 20
   geometryCollider: {fileID: 4933516786887234095}
+  characterLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!50 &1788680669122518426
 Rigidbody2D:
   serializedVersion: 5
