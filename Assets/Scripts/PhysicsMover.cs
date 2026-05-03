@@ -12,7 +12,12 @@ public class PhysicsMover : MonoBehaviour
     [SerializeField] private LayerMask characterLayer;
     
     private Rigidbody2D rigidbody_cache;
+    
+    //相手キャラクター
     private PhysicsMover otherMover_cache;
+    private Collider2D otherCollider_cache;
+    private Rigidbody2D otherRigidbody_cache;
+    private bool hasOtherCharacter=false;
     
     private float accumulatedTime=0.0f;
     private float jumpingPower = 0.0f;
@@ -85,10 +90,24 @@ public class PhysicsMover : MonoBehaviour
             }
         }
         
+        //キャラクター押しあたり判定
+        if (hasOtherCharacter)
+        {
+            if (rigidbody_cache.position.x > otherRigidbody_cache.position.x)
+            {
+                movePoint += 0.5f*Time.fixedDeltaTime * Vector2.right;
+            }
+            else
+            {
+                movePoint -= 0.5f*Time.fixedDeltaTime * Vector2.right;
+            }
+        }
+        
         //最終処理
         rigidbody_cache.MovePosition(movePoint);
     }
-
+    
+    
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -98,7 +117,11 @@ public class PhysicsMover : MonoBehaviour
         //相手がキャラクターの場合はキャッシュする
         if ((characterLayer.value & (1 << other.gameObject.layer)) > 0)
         {
-            otherMover_cache = other.GetComponent<PhysicsMover>();
+            var otherParent=other.transform.parent.gameObject;
+            otherMover_cache = otherParent.GetComponent<PhysicsMover>();
+            otherCollider_cache = other;
+            otherRigidbody_cache=otherParent.GetComponent<Rigidbody2D>();
+            hasOtherCharacter = true;
             Debug.Log("Catch Character");
             return;
         }
@@ -123,6 +146,9 @@ public class PhysicsMover : MonoBehaviour
         if ((characterLayer.value & (1 << other.gameObject.layer)) > 0)
         {
             otherMover_cache = null;
+            otherCollider_cache = null;
+            otherRigidbody_cache = null;
+            hasOtherCharacter = false;
             Debug.Log("Lost Character");
             return;
         }
@@ -150,6 +176,5 @@ public class PhysicsMover : MonoBehaviour
     {
         isBraking = true;
     }
-    
 
 }
