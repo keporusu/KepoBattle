@@ -204,7 +204,7 @@ TextureImporter:
       - {x: 25, y: 26}
       - {x: 26, y: 27}
       weights:
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -212,7 +212,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -220,7 +220,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -228,7 +228,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -236,7 +236,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -244,7 +244,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -252,7 +252,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -260,7 +260,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -268,7 +268,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -276,7 +276,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -284,7 +284,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -292,7 +292,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -300,7 +300,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -308,7 +308,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -316,7 +316,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -324,7 +324,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -332,7 +332,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -340,7 +340,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -348,7 +348,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -356,7 +356,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -364,7 +364,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -372,7 +372,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -380,7 +380,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -388,7 +388,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -396,7 +396,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -404,7 +404,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -412,7 +412,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -420,7 +420,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -498,7 +498,7 @@ TextureImporter:
       - {x: 21, y: 22}
       - {x: 22, y: 23}
       weights:
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -506,7 +506,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -514,7 +514,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -522,7 +522,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -530,7 +530,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -538,7 +538,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -546,7 +546,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -554,7 +554,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -562,7 +562,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -570,7 +570,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -578,7 +578,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -586,7 +586,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -594,7 +594,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -602,7 +602,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -610,7 +610,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -618,7 +618,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -626,7 +626,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -634,7 +634,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -642,7 +642,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -650,7 +650,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -658,7 +658,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -666,7 +666,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -674,7 +674,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -682,7 +682,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -760,7 +760,7 @@ TextureImporter:
       - {x: 21, y: 22}
       - {x: 22, y: 23}
       weights:
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -768,7 +768,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -776,7 +776,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -784,7 +784,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -792,7 +792,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -800,7 +800,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -808,7 +808,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -816,7 +816,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -824,7 +824,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -832,7 +832,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -840,7 +840,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -848,7 +848,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -856,7 +856,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -864,7 +864,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -872,7 +872,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -880,7 +880,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -888,7 +888,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -896,7 +896,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -904,7 +904,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -912,7 +912,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -920,7 +920,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -928,7 +928,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -936,7 +936,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -944,7 +944,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1022,7 +1022,7 @@ TextureImporter:
       - {x: 21, y: 22}
       - {x: 22, y: 23}
       weights:
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1030,7 +1030,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1038,7 +1038,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1046,7 +1046,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1054,7 +1054,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1062,7 +1062,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1070,7 +1070,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1078,7 +1078,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1086,7 +1086,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1094,7 +1094,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1102,7 +1102,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1110,7 +1110,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1118,7 +1118,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1126,7 +1126,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1134,7 +1134,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1142,7 +1142,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1150,7 +1150,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1158,7 +1158,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1166,7 +1166,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1174,7 +1174,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1182,7 +1182,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1190,7 +1190,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1198,7 +1198,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1206,7 +1206,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1284,7 +1284,7 @@ TextureImporter:
       - {x: 21, y: 22}
       - {x: 22, y: 23}
       weights:
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1292,7 +1292,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1300,7 +1300,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1308,7 +1308,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1316,7 +1316,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1324,7 +1324,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1332,7 +1332,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1340,7 +1340,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1348,7 +1348,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1356,7 +1356,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1364,7 +1364,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1372,7 +1372,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1380,7 +1380,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1388,7 +1388,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1396,7 +1396,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1404,7 +1404,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1412,7 +1412,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1420,7 +1420,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1428,7 +1428,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1436,7 +1436,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1444,7 +1444,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1452,7 +1452,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1460,7 +1460,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1468,7 +1468,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -1503,7 +1503,7 @@ TextureImporter:
           rgba: 4278190335
       - name: bone_2
         guid: a4e9ab737c91848f38c55d0da6ac6e01
-        position: {x: 400.78717, y: -0.000007927258, z: 0}
+        position: {x: 400.78717, y: -0.0000073311603, z: 0}
         rotation: {x: 0, y: 0, z: -0.0051530423, w: 0.9999867}
         length: 590.8198
         parentId: 0
@@ -1513,8 +1513,8 @@ TextureImporter:
       - name: bone_3
         guid: 52433db9fe68447b3b8e63dad830bc8c
         position: {x: 66.10058, y: -413.16037, z: 0}
-        rotation: {x: 0, y: -0, z: -0.7071141, w: 0.7070995}
-        length: 411.70178
+        rotation: {x: 0, y: -0, z: -0.70711404, w: 0.7070996}
+        length: 411.7017
         parentId: 1
         color:
           serializedVersion: 2
@@ -1522,8 +1522,8 @@ TextureImporter:
       - name: bone_4
         guid: c0c5245835df746b48e8adc355e2dd94
         position: {x: 57.839622, y: 351.199, z: 0}
-        rotation: {x: 0, y: 0, z: 0.7018161, w: 0.7123582}
-        length: 398.03784
+        rotation: {x: 0, y: 0, z: 0.70181596, w: 0.7123583}
+        length: 398.0378
         parentId: 1
         color:
           serializedVersion: 2
@@ -1532,7 +1532,7 @@ TextureImporter:
         guid: 65effced4d10b49e09f6eeeb47c6c96c
         position: {x: -217.08849, y: 184.03677, z: 0}
         rotation: {x: 0, y: -0, z: 0.9209388, w: 0.38970724}
-        length: 376.19867
+        length: 376.1988
         parentId: 0
         color:
           serializedVersion: 2
@@ -1541,15 +1541,15 @@ TextureImporter:
         guid: 7d049b708a4a54e1292c1ac9bc3bb4ad
         position: {x: -217.00252, y: -208.48557, z: 0}
         rotation: {x: 0, y: -0, z: -0.9060559, w: 0.42315796}
-        length: 383.00565
+        length: 383.00555
         parentId: 0
         color:
           serializedVersion: 2
           rgba: 4294902015
       - name: bone_7
         guid: d5a87100f607a4b818f639bfc459412c
-        position: {x: 411.70175, y: 0.00017640635, z: 0}
-        rotation: {x: 0, y: 0, z: -0.00000067435053, w: 1}
+        position: {x: 411.7017, y: 0.000060509745, z: 0}
+        rotation: {x: 0, y: 0, z: -0.00000080079144, w: 1}
         length: 191.50818
         parentId: 2
         color:
@@ -1557,8 +1557,8 @@ TextureImporter:
           rgba: 4278223103
       - name: bone_8
         guid: 1e37300a8efbc4b73bc1f996e7870ecf
-        position: {x: 398.0378, y: -0.00012102912, z: 0}
-        rotation: {x: 0, y: 0, z: 0.0016867111, w: 0.99999857}
+        position: {x: 398.0378, y: 0.000025435687, z: 0}
+        rotation: {x: 0, y: 0, z: 0.0016868797, w: 0.99999857}
         length: 201.1055
         parentId: 3
         color:
@@ -1566,7 +1566,7 @@ TextureImporter:
           rgba: 4278255488
       - name: bone_9
         guid: 479d9880339c94693a2beef0e533d772
-        position: {x: 376.19864, y: 0.000018359886, z: 0}
+        position: {x: 376.19882, y: 0.0000119690685, z: 0}
         rotation: {x: 0, y: 0, z: -0.0059550824, w: 0.9999823}
         length: 237.35452
         parentId: 4
@@ -1575,8 +1575,8 @@ TextureImporter:
           rgba: 4286643968
       - name: bone_10
         guid: 11998e6d611544b618a7c9699a6ebab8
-        position: {x: 383.00552, y: 0.00010491116, z: 0}
-        rotation: {x: 0, y: 0, z: -0.04062118, w: 0.99917465}
+        position: {x: 383.00555, y: 0.00010936704, z: 0}
+        rotation: {x: 0, y: 0, z: -0.040621176, w: 0.99917465}
         length: 219.9954
         parentId: 5
         color:
@@ -1636,7 +1636,7 @@ TextureImporter:
       - {x: 14.418634, y: 413.66263}
       - {x: 0, y: 394.5345}
       - {x: 13.825475, y: 18.586082}
-      indices: 000000003200000018000000090000000d0000002b00000009000000290000002c0000000a000000300000000b0000000a00000031000000300000000a0000002b000000310000000b000000300000002d0000000c000000300000002f0000000c0000002e000000300000000d000000310000002b0000000e0000002c00000029000000090000002c0000000d0000000f0000002a0000002700000011000000260000002300000012000000240000002100000013000000220000001f00000014000000200000001d000000150000001e0000001a000000160000003200000017000000160000001b0000001c000000160000001c0000003200000017000000320000001900000018000000320000001c0000001000000028000000250000002d000000300000002e00000008000000270000002a000000080000002a0000000e000000000000001900000032000000010000001b0000001500000001000000150000001a000000010000001c0000001b000000020000001e0000001400000002000000140000001d000000020000001a0000001e00000003000000200000001300000003000000130000001f000000030000001d00000020000000080000000e00000029000000040000002200000012000000040000001f0000002200000005000000240000001100000005000000110000002300000005000000210000002400000006000000260000001000000006000000100000002500000006000000230000002600000007000000280000000f000000070000000f000000270000000700000025000000280000000400000012000000210000002f0000003000000031000000
+      indices: 000000003200000018000000090000000d0000002b00000009000000290000002c0000000a000000300000000b0000000a00000031000000300000000a0000002b000000310000000b000000300000002d0000000c000000300000002f0000000c0000002e000000300000000d000000310000002b0000000e0000002c000000290000001000000028000000250000002d000000300000002e00000011000000260000002300000012000000240000002100000013000000220000001f00000014000000200000001d000000150000001e0000001a000000160000003200000017000000160000001b0000001c000000160000001c0000003200000017000000320000001900000018000000320000001c000000090000002c0000000d0000000f0000002a0000002700000008000000270000002a000000040000002200000012000000000000001900000032000000010000001b0000001500000001000000150000001a000000010000001c0000001b000000020000001e0000001400000002000000140000001d000000020000001a0000001e00000003000000200000001300000003000000130000001f000000030000001d00000020000000040000001200000021000000080000002a0000000e000000040000001f0000002200000005000000240000001100000005000000110000002300000005000000210000002400000006000000260000001000000006000000100000002500000006000000230000002600000007000000280000000f000000070000000f00000027000000070000002500000028000000080000000e000000290000002f0000003000000031000000
       edges:
       - {x: 0, y: 24}
       - {x: 24, y: 28}
@@ -1800,12 +1800,12 @@ TextureImporter:
         'boneIndex[1]': 1
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0.99999994
-        'weight[1]': 0
+      - 'weight[0]': 0.98214835
+        'weight[1]': 0.01785164
         'weight[2]': 0
         'weight[3]': 0
         'boneIndex[0]': 0
-        'boneIndex[1]': 0
+        'boneIndex[1]': 1
         'boneIndex[2]': 0
         'boneIndex[3]': 0
       - 'weight[0]': 1
@@ -2016,12 +2016,12 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0.99999994
-        'weight[1]': 0
+      - 'weight[0]': 0.92900705
+        'weight[1]': 0.07099296
         'weight[2]': 0
         'weight[3]': 0
         'boneIndex[0]': 0
-        'boneIndex[1]': 0
+        'boneIndex[1]': 1
         'boneIndex[2]': 0
         'boneIndex[3]': 0
       - 'weight[0]': 1
@@ -2164,7 +2164,7 @@ TextureImporter:
       - {x: 20, y: 21}
       - {x: 21, y: 22}
       weights:
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2172,7 +2172,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2180,7 +2180,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2188,7 +2188,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2196,7 +2196,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2204,7 +2204,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2212,7 +2212,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2220,7 +2220,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2228,7 +2228,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2236,7 +2236,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2244,7 +2244,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2252,7 +2252,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2260,7 +2260,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2268,7 +2268,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2276,7 +2276,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2284,7 +2284,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2292,7 +2292,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2300,7 +2300,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2308,7 +2308,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2316,7 +2316,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2324,7 +2324,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2332,7 +2332,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2340,7 +2340,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2416,7 +2416,7 @@ TextureImporter:
       - {x: 20, y: 21}
       - {x: 21, y: 22}
       weights:
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2424,7 +2424,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2432,7 +2432,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2440,7 +2440,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2448,7 +2448,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2456,7 +2456,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2464,7 +2464,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2472,7 +2472,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2480,7 +2480,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2488,7 +2488,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2496,7 +2496,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2504,7 +2504,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2512,7 +2512,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2520,7 +2520,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2528,7 +2528,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2536,7 +2536,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2544,7 +2544,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2552,7 +2552,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2560,7 +2560,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2568,7 +2568,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2576,7 +2576,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2584,7 +2584,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2592,7 +2592,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2668,7 +2668,7 @@ TextureImporter:
       - {x: 20, y: 21}
       - {x: 21, y: 22}
       weights:
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2676,7 +2676,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2684,7 +2684,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2692,7 +2692,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2700,7 +2700,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2708,7 +2708,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2716,7 +2716,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2724,7 +2724,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2732,7 +2732,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2740,7 +2740,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2748,7 +2748,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2756,7 +2756,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2764,7 +2764,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2772,7 +2772,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2780,7 +2780,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2788,7 +2788,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2796,7 +2796,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2804,7 +2804,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2812,7 +2812,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2820,7 +2820,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2828,7 +2828,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2836,7 +2836,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2844,7 +2844,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2920,7 +2920,7 @@ TextureImporter:
       - {x: 20, y: 21}
       - {x: 21, y: 22}
       weights:
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2928,7 +2928,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2936,7 +2936,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2944,7 +2944,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2952,7 +2952,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2960,7 +2960,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2968,7 +2968,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2976,7 +2976,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2984,7 +2984,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -2992,7 +2992,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3000,7 +3000,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3008,7 +3008,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3016,7 +3016,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3024,7 +3024,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3032,7 +3032,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3040,7 +3040,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3048,7 +3048,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3056,7 +3056,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3064,7 +3064,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3072,7 +3072,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3080,7 +3080,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3088,7 +3088,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
@@ -3096,7 +3096,7 @@ TextureImporter:
         'boneIndex[1]': 0
         'boneIndex[2]': 0
         'boneIndex[3]': 0
-      - 'weight[0]': 0
+      - 'weight[0]': 1
         'weight[1]': 0
         'weight[2]': 0
         'weight[3]': 0
