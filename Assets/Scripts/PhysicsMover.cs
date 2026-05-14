@@ -10,25 +10,31 @@ public class PhysicsMover : MonoBehaviour
     [SerializeField] private GameObject geometryCollider;
     //押し判定をする相手
     [SerializeField] private LayerMask characterLayer;
+
+    public Vector2 Velocity { get; private set; }
     
+    //キャッシュ
     private Rigidbody2D rigidbody_cache;
     private Collider2D geometryCollider_cache;
-    
-    //相手キャラクター
     private PhysicsMover otherMover_cache;
     private Collider2D otherCollider_cache;
     private Rigidbody2D otherRigidbody_cache;
-    private bool hasOtherCharacter=false;
     
+    //常にUpdateする値
     private float accumulatedTime=0.0f;
     private float jumpingPower = 0.0f;
     private float movingPower = 0.0f;
     
+    //状態
+    private bool hasOtherCharacter=false;
     private bool isAir = true;
     private bool isBraking = false;
     private float snapGroundY = float.NaN;
     
     public bool IsAir => isAir;
+    
+    //通知
+    public event System.Action OnGround;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -116,6 +122,7 @@ public class PhysicsMover : MonoBehaviour
         }
         
         //最終処理
+        Velocity = (movePoint - rigidbody_cache.position) / Time.fixedDeltaTime;
         rigidbody_cache.MovePosition(movePoint);
     }
 
@@ -144,6 +151,8 @@ public class PhysicsMover : MonoBehaviour
             float groundTop = other.bounds.max.y;
             isAir = false;
             snapGroundY = groundTop + geometryCollider_cache.bounds.extents.y;
+            //接地通知
+            OnGround?.Invoke();
         }
     }
 

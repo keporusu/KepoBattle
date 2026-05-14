@@ -25,12 +25,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 311053165707606810}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.9, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8912193247869336344}
+  m_Father: {fileID: 7133041187766320876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &6662370293626620385
 CapsuleCollider2D:
@@ -151,6 +151,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b69cd74bd28145049ab75c353b0faed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!1 &5392773905867220222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7133041187766320876}
+  m_Layer: 6
+  m_Name: DamageChannels
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7133041187766320876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5392773905867220222}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2554851186857072665}
+  m_Father: {fileID: 8912193247869336344}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8354070944974147321
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,10 +329,10 @@ PrefabInstance:
       addedObject: {fileID: 8860882433751328344}
     - targetCorrespondingSourceObject: {fileID: 8639198977824554502, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2554851186857072665}
+      addedObject: {fileID: 2171305111955803194}
     - targetCorrespondingSourceObject: {fileID: 8639198977824554502, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2171305111955803194}
+      addedObject: {fileID: 7133041187766320876}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       insertIndex: -1
@@ -370,6 +402,7 @@ Rigidbody2D:
   m_Constraints: 0
 --- !u!212 &-242398550544181917
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -415,6 +448,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -424,7 +458,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &2856287854286749847
 MonoBehaviour:

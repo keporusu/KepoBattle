@@ -1,15 +1,30 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
+    //AnimController遷移用プロパティ名
+    private static readonly int Speed = Animator.StringToHash("Speed");
+    private static readonly int Jump = Animator.StringToHash("Jump");
+    private static readonly int Ground = Animator.StringToHash("Ground");
+    private static readonly int FallSpeed = Animator.StringToHash("FallSpeed");
+
+    //SerializeField
     [SerializeField] private float jumpPower = 1.0f;
     [SerializeField] private float moveSpeed = 1.0f;
+    //AnimatorでSpriteを動かすGameObjectを期待する
+    [SerializeField] private GameObject animSprite;
+    
+    //InputAction
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction attackAction;
+    
+    //キャッシュ
     private PhysicsMover physicsMover_cache;
     private Attack attack_cache;
+    private Animator animator_cache;
 
     //State
     private bool isJumping=false;
@@ -29,16 +44,30 @@ public class PlayerController : MonoBehaviour
     {
         physicsMover_cache = GetComponent<PhysicsMover>();
         attack_cache = GetComponent<Attack>();
-        if (physicsMover_cache == null || attack_cache==null)
+        animator_cache = animSprite.GetComponent<Animator>();
+        if (physicsMover_cache == null)
         {
-            Debug.LogError("Physics Mover component is missing");
-            enabled = false;
+            Debug.LogError("PhysicsMover component not found");
         }
+
+        if (attack_cache == null)
+        {
+            Debug.LogError("Attack component not found");
+        }
+
+        if (animator_cache == null)
+        {
+            Debug.LogError("Animator component not found");
+        }
+        
+        //接地イベント登録
+        physicsMover_cache.OnGround+=OnGround;
     }
 
     private void OnEnable()
     {
         moveAction.Enable();
+        moveAction.started += OnMoveStarted;
         moveAction.performed += OnMovePerformed;
         moveAction.canceled += OnMoveCanceled;
         jumpAction.Enable();
@@ -61,9 +90,26 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //physicsMover_cache.Move(moveInput * moveSpeed);
+        //移動アニメーション(AnimController)
+        animator_cache.SetFloat(Speed, Mathf.Abs(physicsMover_cache.Velocity.x));
+        
+        float fallSpeed= physicsMover_cache.Velocity.y<0 ? -physicsMover_cache.Velocity.y : 0;
+        animator_cache.SetFloat(FallSpeed,fallSpeed);
     }
-
+    
+    private void OnMoveStarted(InputAction.CallbackContext ctx)
+    {
+        //移動時、入力の向きによって反転させる
+        if (ctx.ReadValue<Vector2>().x > 0)
+        {
+            transform.localScale = new Vector3(1.0f, transform.localScale.y, transform.localScale.z);
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1.0f, transform.localScale.y, transform.localScale.z);
+        }
+    }
+    
     private void OnMovePerformed(InputAction.CallbackContext ctx)
     {
         moveInput = ctx.ReadValue<Vector2>().x * moveSpeed;
@@ -81,6 +127,8 @@ public class PlayerController : MonoBehaviour
         if(physicsMover_cache.IsAir)return;
         isJumping = true;
         physicsMover_cache.StartJump(jumpPower);
+        //ジャンプ状態遷移（AnimController）
+        animator_cache.SetTrigger(Jump);
         Debug.Log("Jump started");
     }
 
@@ -91,6 +139,13 @@ public class PlayerController : MonoBehaviour
         physicsMover_cache.StopJump();
         Debug.Log("Jump canceled");
     }
+
+    private void OnGround()
+    {
+        //接地状態遷移（AnimController）
+        animator_cache.SetTrigger(Ground);
+    }
+    
 
     private void OnAttack(InputAction.CallbackContext ctx)
     {
