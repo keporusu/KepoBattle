@@ -2597,10 +2597,7 @@ AnimatorTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Jumping->Ground (landing)
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: Ground
-    m_EventTreshold: 0
+  m_Conditions: []
   m_DstStateMachine: {fileID: 110790842}
   m_DstState: {fileID: 0}
   m_Solo: 0

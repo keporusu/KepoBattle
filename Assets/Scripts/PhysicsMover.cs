@@ -113,11 +113,11 @@ public class PhysicsMover : MonoBehaviour
         {
             if (rigidbody_cache.position.x > otherRigidbody_cache.position.x)
             {
-                movePoint += 0.5f*Time.fixedDeltaTime * Vector2.right;
+                movePoint += 1.5f*Time.fixedDeltaTime * Vector2.right;
             }
             else
             {
-                movePoint -= 0.5f*Time.fixedDeltaTime * Vector2.right;
+                movePoint -= 1.5f*Time.fixedDeltaTime * Vector2.right;
             }
         }
         

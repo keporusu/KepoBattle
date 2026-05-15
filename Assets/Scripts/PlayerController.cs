@@ -144,6 +144,7 @@ public class PlayerController : MonoBehaviour
     {
         //接地状態遷移（AnimController）
         animator_cache.SetTrigger(Ground);
+        Debug.Log("Grounded");
     }
     
 
