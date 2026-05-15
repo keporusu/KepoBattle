@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9004670488980246902
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ac1794d97334d31bcef8170cbb1408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  stateName: Attack1
+--- !u!114 &-3173625221619755900
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ac1794d97334d31bcef8170cbb1408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StateProgressionNotifier
+  stateName: Attack2
 --- !u!74 &7407796
 AnimationClip:
   m_ObjectHideFlags: 0
@@ -1672,7 +1698,7 @@ AnimatorStateTransition:
   m_Name: Stand->Exit(Attack1)
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Jump
+    m_ConditionEvent: Attack1
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
@@ -1975,7 +2001,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 110194682}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -3173625221619755900}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -2031,7 +2058,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 110178584}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 3540563296193786416}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -2192,7 +2220,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 110176288}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -9004670488980246902}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -2398,7 +2427,7 @@ AnimatorStateMachine:
     m_Position: {x: 324, y: 36, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110263780}
-    m_Position: {x: 324, y: 144, z: 0}
+    m_Position: {x: 320, y: 140, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions:
@@ -2430,7 +2459,7 @@ AnimatorStateMachine:
     m_Position: {x: -370, y: -180, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 110726786}
-    m_Position: {x: -100, y: -70, z: 0}
+    m_Position: {x: -100, y: -110, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 110739328}
     m_Position: {x: -370, y: 20, z: 0}
@@ -2456,9 +2485,9 @@ AnimatorStateMachine:
     second:
     - {fileID: 110925208}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -72, y: -156, z: 0}
+  m_AnyStatePosition: {x: -80, y: -190, z: 0}
   m_EntryPosition: {x: -610, y: -120, z: 0}
-  m_ExitPosition: {x: -72, y: 48, z: 0}
+  m_ExitPosition: {x: -80, y: 10, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 110206126}
 --- !u!1107 &110790842
@@ -2479,7 +2508,7 @@ AnimatorStateMachine:
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: 110707980}
-    m_Position: {x: -624, y: 0, z: 0}
+    m_Position: {x: -620, y: 0, z: 0}
   m_AnyStateTransitions: []
   m_EntryTransitions:
   - {fileID: 110957506}
@@ -2491,7 +2520,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -360, y: -192, z: 0}
   m_EntryPosition: {x: -600, y: -204, z: 0}
-  m_ExitPosition: {x: -360, y: 0, z: 0}
+  m_ExitPosition: {x: -360, y: 10, z: 0}
   m_ParentStateMachinePosition: {x: -876, y: -216, z: 0}
   m_DefaultState: {fileID: 110226532}
 --- !u!1109 &110900162
@@ -2821,3 +2850,16 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
+--- !u!114 &3540563296193786416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ac1794d97334d31bcef8170cbb1408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StateProgressionNotifier
+  stateName: SpecialAttack

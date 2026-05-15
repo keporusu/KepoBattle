@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     private static readonly int Jump = Animator.StringToHash("Jump");
     private static readonly int Ground = Animator.StringToHash("Ground");
     private static readonly int FallSpeed = Animator.StringToHash("FallSpeed");
+    private static readonly int Attack1 = Animator.StringToHash("Attack1");
+    private static readonly int Attack2 = Animator.StringToHash("Attack2");
+    private static readonly int Attack3 = Animator.StringToHash("Attack3");
 
     //SerializeField
     [SerializeField] private float jumpPower = 1.0f;
@@ -17,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject animSprite;
     
     //InputAction
+    private InputSystem_Actions inputActions;
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction attackAction;
@@ -32,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        var inputActions = new InputSystem_Actions();
+        inputActions = new InputSystem_Actions();
         moveAction = inputActions.Player.Move;
         jumpAction = inputActions.Player.Jump;
         attackAction = inputActions.Player.Attack;
@@ -62,6 +66,8 @@ public class PlayerController : MonoBehaviour
         
         //接地イベント登録
         physicsMover_cache.OnGround+=OnGround;
+        //Attack初期化
+        attack_cache.InitializeAttack(animator_cache);
     }
 
     private void OnEnable()
@@ -79,13 +85,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
+        moveAction.started -= OnMoveStarted;
         moveAction.performed -= OnMovePerformed;
         moveAction.canceled -= OnMoveCanceled;
-        moveAction.Disable();
         jumpAction.started -= OnJumpStarted;
         jumpAction.canceled -= OnJumpCanceled;
-        jumpAction.Disable();
         attackAction.started -= OnAttack;
+        inputActions.Disable();
     }
 
     private void Update()
@@ -151,5 +157,8 @@ public class PlayerController : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext ctx)
     {
         attack_cache.StartAttack();
+        animator_cache.SetTrigger(Attack1);
+        //animator_cache.SetTrigger(Attack2);
+        //animator_cache.SetTrigger(Attack3);
     }
 }
