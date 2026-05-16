@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
+using NUnit.Framework.Constraints;
+using UnityEngine.XR;
 
 public enum AttackType
 {
@@ -11,7 +15,7 @@ public enum AttackType
     SpecialAttack,
     None,
 }
-public enum CollisionShape
+public enum ColliderShape
 {
     Circle,
     Capsule,
@@ -23,7 +27,7 @@ public enum CapsuleDirection { X, Y, Z }
 [Serializable]
 public struct AttackCollisionSetting
 {
-    public CollisionShape shape;
+    public ColliderShape shape;
 
     // Circle
     public float circleRadius;
@@ -45,14 +49,12 @@ public struct AttackCollisionSetting
 
 public class AttackExecutor : MonoBehaviour
 {
-    //攻撃設定
-    [SerializeField] private GameObject damageCollider;
-    [SerializeField] private float attackDuration = 0.5f;
     
     //攻撃時のコリジョンの設定
     [SerializeField] private List<AttackCollisionSetting> attack1CollisionSettings;
     [SerializeField] private List<AttackCollisionSetting> attack2CollisionSettings;
     [SerializeField] private List<AttackCollisionSetting> specialCollisionSettings;
+    private List<bool> isExecuting=new List<bool>(new bool[5]);
     
     
     private CancellationTokenSource _attackCts;
@@ -62,17 +64,12 @@ public class AttackExecutor : MonoBehaviour
     private StateProgressionNotifier spNotifierAttack1_Cache;
     private StateProgressionNotifier spNotifierAttack2_Cache;
     private StateProgressionNotifier spNotifierSpecial_Cache;
+    
+    private List<DamageColliderManager> damageColliderManagers=new List<DamageColliderManager>();
 
     private AttackType progressAttack = AttackType.None;
-
-    public void Start()
+    public void Initialize(Animator animator)
     {
-        //アニメーター取得
-        var animator = GetComponent<Animator>();
-        if (animator == null)
-        {
-            Debug.LogError("Animator is null");
-        }
         //全てのNotifierを取得
         var spNotifiers = animator.GetBehaviours<StateProgressionNotifier>();
         //それぞれの攻撃のNotifierを取得
@@ -84,42 +81,44 @@ public class AttackExecutor : MonoBehaviour
             Debug.LogError("Some behaviours are missing");
         }
         
-        //アニメーション再生開始時のイベント登録
+        //子どものAttackChannelのコリジョンを取得
+        var allChildren = transform.GetComponentsInChildren<Transform>(true);
+        foreach (var child in allChildren)
+        {
+            //ダメージチャンネルからそれぞれコリジョンを取得してキャッシュする
+            if (child.gameObject.CompareTag("Damage Channel"))
+            {
+                var colliderManager= child.GetComponent<DamageColliderManager>();
+                damageColliderManagers.Add(colliderManager);
+            }
+        }
+        
+        //アニメーション再生中のコリジョン反映イベント
         spNotifierAttack1_Cache.OnStateBegin += SetTypeAttack1;
         spNotifierAttack2_Cache.OnStateBegin += SetTypeAttack2;
         spNotifierSpecial_Cache.OnStateBegin += SetTypeSpecialAttack;
-        spNotifierAttack1_Cache.OnStateProgress += SetCollisionAttack1;
-        spNotifierAttack2_Cache.OnStateBegin += SetCollisionAttack2;
-        spNotifierSpecial_Cache.OnStateBegin += SetCollisionSpecialAttack;
+        spNotifierAttack1_Cache.OnStateProgress += SetCollisionAttack;
+        spNotifierAttack2_Cache.OnStateProgress += SetCollisionAttack;
+        spNotifierSpecial_Cache.OnStateProgress += SetCollisionAttack;
     }
+    
 
 
     public void StartAttack1()
     {
         CancelAttack();
-        
-        progressAttack = AttackType.Attack1;
-        _attackCts = new CancellationTokenSource();
-        DeactivateAfterDuration(_attackCts.Token).Forget();
+        //_attackCts = new CancellationTokenSource();
+        //DeactivateAfterDuration(_attackCts.Token).Forget();
     }
 
     public void CancelAttack()
     {
-        if (_attackCts != null)
+        isExecuting = new List<bool>(new bool[5]);
+        progressAttack = AttackType.None;
+        foreach (var manager in damageColliderManagers)
         {
-            _attackCts.Cancel();
-            _attackCts.Dispose();
-            _attackCts = null;
+            manager.Deactive();
         }
-        damageCollider.SetActive(false);
-    }
-    
-    
-    private async UniTaskVoid DeactivateAfterDuration(CancellationToken ct)
-    {
-        damageCollider.SetActive(true);
-        await UniTask.Delay((int)(attackDuration * 1000), cancellationToken: ct);
-        damageCollider.SetActive(false);
     }
     
     
@@ -127,25 +126,73 @@ public class AttackExecutor : MonoBehaviour
     {
         progressAttack = AttackType.Attack1;
     }
-    private void SetCollisionAttack1(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        // TODO: これを毎フレームAnimControllerのステート中に呼ばれるようにして、コリジョンの位置を調整する
-    }
     private void SetTypeAttack2(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         progressAttack = AttackType.Attack2;
-    }
-    private void SetCollisionAttack2(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        // TODO: これを毎フレームAnimControllerのステート中に呼ばれるようにして、コリジョンの位置を調整する
     }
     private void SetTypeSpecialAttack(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         progressAttack = AttackType.SpecialAttack;
     }
-    private void SetCollisionSpecialAttack(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    private void SetCollisionAttack(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // TODO: これを毎フレームAnimControllerのステート中に呼ばれるようにして、コリジョンの位置を調整する
+        
+        var collisionSettings = attack1CollisionSettings;
+        if (progressAttack == AttackType.Attack2)
+        {
+            collisionSettings = attack2CollisionSettings;
+        }else if (progressAttack == AttackType.SpecialAttack)
+        {
+            collisionSettings = specialCollisionSettings;
+        }
+
+        int id = 0;
+        foreach (var setting in collisionSettings)
+        {
+            if (stateInfo.normalizedTime >= setting.spanStart && !isExecuting[id])
+            {
+                isExecuting[id] = true;
+                UseAvailableCollider(setting,id);
+            }
+            id++;
+        }
+
+        id = 0;
+        foreach (var setting in collisionSettings)
+        {
+            if (stateInfo.normalizedTime > setting.spanEnd && isExecuting[id])
+            {
+                isExecuting[id] = false;
+                DeactivateCollider(id);
+            }
+            id++;
+        }
+    }
+
+    
+    
+    //コリジョンの有効化と、パラメータのセット
+    [CanBeNull]
+    private void UseAvailableCollider(AttackCollisionSetting collisionSetting, int id)
+    {
+        var manager=damageColliderManagers.FirstOrDefault(x => !x.IsActive);
+        if (manager == null)
+        {
+            throw new InvalidOperationException($"DamageColliderManager が足りません");
+        }
+        manager.Activate(collisionSetting,id);
+    }
+    
+    //コリジョンの無効化
+    private void DeactivateCollider(int id)
+    {
+        var manager=damageColliderManagers.FirstOrDefault(x => x.OwnerID == id);
+        if (manager == null)
+        {
+            throw new InvalidOperationException($"DeactivateCollider: OwnerID {id} に対応する DamageColliderManager が見つかりません");
+        }
+        manager.Deactive();
     }
     
     private void OnDestroy()

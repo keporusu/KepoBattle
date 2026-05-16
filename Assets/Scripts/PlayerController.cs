@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
         
         //接地イベント登録
         physicsMover_Cache.OnGround+=OnGround;
+        attackExecutor_Cache.Initialize(animator_Cache);
     }
 
     private void OnEnable()
@@ -156,7 +157,7 @@ public class PlayerController : MonoBehaviour
     {
         attackExecutor_Cache.StartAttack1();
         animator_Cache.SetTrigger(Attack1);
-        //animator_cache.SetTrigger(Attack2);
-        //animator_cache.SetTrigger(Attack3);
+        //animator_Cache.SetTrigger(Attack2);
+        //animator_Cache.SetTrigger(Attack3);
     }
 }

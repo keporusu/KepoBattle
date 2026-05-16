@@ -19,16 +19,16 @@ public class AttackCollisionSettingDrawer : PropertyDrawer
         EditorGUI.PropertyField(rect, shapeProp);
         rect.y += lineH + spacing;
 
-        var shape = (CollisionShape)shapeProp.enumValueIndex;
+        var shape = (ColliderShape)shapeProp.enumValueIndex;
 
         switch (shape)
         {
-            case CollisionShape.Circle:
+            case ColliderShape.Circle:
                 EditorGUI.PropertyField(rect, property.FindPropertyRelative("circleRadius"));
                 rect.y += lineH + spacing;
                 break;
 
-            case CollisionShape.Capsule:
+            case ColliderShape.Capsule:
                 EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleRadius"));
                 rect.y += lineH + spacing;
                 EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleHeight"));
@@ -37,7 +37,7 @@ public class AttackCollisionSettingDrawer : PropertyDrawer
                 rect.y += lineH + spacing;
                 break;
 
-            case CollisionShape.Box:
+            case ColliderShape.Box:
                 EditorGUI.PropertyField(rect, property.FindPropertyRelative("boxSize"));
                 rect.y += lineH + spacing;
                 break;
@@ -59,15 +59,15 @@ public class AttackCollisionSettingDrawer : PropertyDrawer
         float spacing = EditorGUIUtility.standardVerticalSpacing;
 
         var shapeProp = property.FindPropertyRelative("shape");
-        var shape = (CollisionShape)shapeProp.enumValueIndex;
+        var shape = (ColliderShape)shapeProp.enumValueIndex;
 
         // shape + offset + spanStart + spanEnd の 4 行は共通
         int lines = 4;
         lines += shape switch
         {
-            CollisionShape.Circle  => 1,          // circleRadius
-            CollisionShape.Capsule => 3,          // radius + height + direction
-            CollisionShape.Box     => 1,          // boxSize
+            ColliderShape.Circle  => 1,          // circleRadius
+            ColliderShape.Capsule => 3,          // radius + height + direction
+            ColliderShape.Box     => 1,          // boxSize
             _                      => 0,
         };
 
