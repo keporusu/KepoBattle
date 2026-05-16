@@ -5,13 +5,15 @@ public class StateProgressionNotifier : StateMachineBehaviour
     [SerializeField] private string stateName;
 
     public string StateName => stateName;
+    
+    public event System.Action<Animator, AnimatorStateInfo, int> OnStateBegin;
     public event System.Action<Animator, AnimatorStateInfo, int> OnStateProgress;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        OnStateBegin?.Invoke(animator, stateInfo, layerIndex);
+    }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

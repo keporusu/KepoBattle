@@ -26,9 +26,9 @@ public class PlayerController : MonoBehaviour
     private InputAction attackAction;
     
     //キャッシュ
-    private PhysicsMover physicsMover_cache;
-    private Attack attack_cache;
-    private Animator animator_cache;
+    private PhysicsMover physicsMover_Cache;
+    private AttackExecutor attackExecutor_Cache;
+    private Animator animator_Cache;
 
     //State
     private bool isJumping=false;
@@ -46,28 +46,26 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        physicsMover_cache = GetComponent<PhysicsMover>();
-        attack_cache = GetComponent<Attack>();
-        animator_cache = animSprite.GetComponent<Animator>();
-        if (physicsMover_cache == null)
+        physicsMover_Cache = GetComponent<PhysicsMover>();
+        attackExecutor_Cache = GetComponent<AttackExecutor>();
+        animator_Cache = animSprite.GetComponent<Animator>();
+        if (physicsMover_Cache == null)
         {
             Debug.LogError("PhysicsMover component not found");
         }
 
-        if (attack_cache == null)
+        if (attackExecutor_Cache == null)
         {
             Debug.LogError("Attack component not found");
         }
 
-        if (animator_cache == null)
+        if (animator_Cache == null)
         {
             Debug.LogError("Animator component not found");
         }
         
         //接地イベント登録
-        physicsMover_cache.OnGround+=OnGround;
-        //Attack初期化
-        attack_cache.InitializeAttack(animator_cache);
+        physicsMover_Cache.OnGround+=OnGround;
     }
 
     private void OnEnable()
@@ -97,10 +95,10 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         //移動アニメーション(AnimController)
-        animator_cache.SetFloat(Speed, Mathf.Abs(physicsMover_cache.Velocity.x));
+        animator_Cache.SetFloat(Speed, Mathf.Abs(physicsMover_Cache.Velocity.x));
         
-        float fallSpeed= physicsMover_cache.Velocity.y<0 ? -physicsMover_cache.Velocity.y : 0;
-        animator_cache.SetFloat(FallSpeed,fallSpeed);
+        float fallSpeed= physicsMover_Cache.Velocity.y<0 ? -physicsMover_Cache.Velocity.y : 0;
+        animator_Cache.SetFloat(FallSpeed,fallSpeed);
     }
     
     private void OnMoveStarted(InputAction.CallbackContext ctx)
@@ -119,22 +117,22 @@ public class PlayerController : MonoBehaviour
     private void OnMovePerformed(InputAction.CallbackContext ctx)
     {
         moveInput = ctx.ReadValue<Vector2>().x * moveSpeed;
-        physicsMover_cache.Move(moveInput);
+        physicsMover_Cache.Move(moveInput);
     }
 
     private void OnMoveCanceled(InputAction.CallbackContext ctx)
     {
-        physicsMover_cache.StopMove();
+        physicsMover_Cache.StopMove();
     }
 
     private void OnJumpStarted(InputAction.CallbackContext ctx)
     {
         
-        if(physicsMover_cache.IsAir)return;
+        if(physicsMover_Cache.IsAir)return;
         isJumping = true;
-        physicsMover_cache.StartJump(jumpPower);
+        physicsMover_Cache.StartJump(jumpPower);
         //ジャンプ状態遷移（AnimController）
-        animator_cache.SetTrigger(Jump);
+        animator_Cache.SetTrigger(Jump);
         Debug.Log("Jump started");
     }
 
@@ -142,22 +140,22 @@ public class PlayerController : MonoBehaviour
     {
         if(!isJumping)return;
         isJumping = false;
-        physicsMover_cache.StopJump();
+        physicsMover_Cache.StopJump();
         Debug.Log("Jump canceled");
     }
 
     private void OnGround()
     {
         //接地状態遷移（AnimController）
-        animator_cache.SetTrigger(Ground);
+        animator_Cache.SetTrigger(Ground);
         Debug.Log("Grounded");
     }
     
 
     private void OnAttack(InputAction.CallbackContext ctx)
     {
-        attack_cache.StartAttack();
-        animator_cache.SetTrigger(Attack1);
+        attackExecutor_Cache.StartAttack1();
+        animator_Cache.SetTrigger(Attack1);
         //animator_cache.SetTrigger(Attack2);
         //animator_cache.SetTrigger(Attack3);
     }

@@ -14,11 +14,11 @@ public class PhysicsMover : MonoBehaviour
     public Vector2 Velocity { get; private set; }
     
     //キャッシュ
-    private Rigidbody2D rigidbody_cache;
-    private Collider2D geometryCollider_cache;
-    private PhysicsMover otherMover_cache;
-    private Collider2D otherCollider_cache;
-    private Rigidbody2D otherRigidbody_cache;
+    private Rigidbody2D rigidbody_Cache;
+    private Collider2D geometryCollider_Cache;
+    private PhysicsMover otherMover_Cache;
+    private Collider2D otherCollider_Cache;
+    private Rigidbody2D otherRigidbody_Cache;
     
     //常にUpdateする値
     private float accumulatedTime=0.0f;
@@ -39,9 +39,9 @@ public class PhysicsMover : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rigidbody_cache = GetComponent<Rigidbody2D>();
-        geometryCollider_cache = geometryCollider.GetComponent<Collider2D>();
-        if (rigidbody_cache == null || geometryCollider == null || geometryCollider_cache == null)
+        rigidbody_Cache = GetComponent<Rigidbody2D>();
+        geometryCollider_Cache = geometryCollider.GetComponent<Collider2D>();
+        if (rigidbody_Cache == null || geometryCollider == null || geometryCollider_Cache == null)
         {
             Debug.LogError("Rigidbody or Geometry is missing");
             enabled = false;
@@ -61,7 +61,7 @@ public class PhysicsMover : MonoBehaviour
     
     private void FixedUpdate()
     {
-        Vector2 movePoint = rigidbody_cache.position;
+        Vector2 movePoint = rigidbody_Cache.position;
         
         //ブレーキ処理
         if (isBraking)
@@ -111,7 +111,7 @@ public class PhysicsMover : MonoBehaviour
         //キャラクター押しあたり判定
         if (hasOtherCharacter)
         {
-            if (rigidbody_cache.position.x > otherRigidbody_cache.position.x)
+            if (rigidbody_Cache.position.x > otherRigidbody_Cache.position.x)
             {
                 movePoint += 1.5f*Time.fixedDeltaTime * Vector2.right;
             }
@@ -122,8 +122,8 @@ public class PhysicsMover : MonoBehaviour
         }
         
         //最終処理
-        Velocity = (movePoint - rigidbody_cache.position) / Time.fixedDeltaTime;
-        rigidbody_cache.MovePosition(movePoint);
+        Velocity = (movePoint - rigidbody_Cache.position) / Time.fixedDeltaTime;
+        rigidbody_Cache.MovePosition(movePoint);
     }
 
     private void OnHitGeometry(Collider2D other)
@@ -134,23 +134,23 @@ public class PhysicsMover : MonoBehaviour
         if ((characterLayer.value & (1 << other.gameObject.layer)) > 0)
         {
             var otherParent=other.transform.parent.gameObject;
-            otherMover_cache = otherParent.GetComponent<PhysicsMover>();
-            otherCollider_cache = other;
-            otherRigidbody_cache=otherParent.GetComponent<Rigidbody2D>();
+            otherMover_Cache = otherParent.GetComponent<PhysicsMover>();
+            otherCollider_Cache = other;
+            otherRigidbody_Cache=otherParent.GetComponent<Rigidbody2D>();
             hasOtherCharacter = true;
             Debug.Log("Catch Character");
             return;
         }
         
         //足場の時
-        if (other.bounds.max.y < geometryCollider_cache.bounds.max.y)
+        if (other.bounds.max.y < geometryCollider_Cache.bounds.max.y)
         {
             //ジャンプ中は足場無視
             if(jumpingPower > 0.0f) return;
 
             float groundTop = other.bounds.max.y;
             isAir = false;
-            snapGroundY = groundTop + geometryCollider_cache.bounds.extents.y;
+            snapGroundY = groundTop + geometryCollider_Cache.bounds.extents.y;
             //接地通知
             OnGround?.Invoke();
         }
@@ -163,9 +163,9 @@ public class PhysicsMover : MonoBehaviour
         //相手がキャラクターの場合はキャッシュ解除
         if ((characterLayer.value & (1 << other.gameObject.layer)) > 0)
         {
-            otherMover_cache = null;
-            otherCollider_cache = null;
-            otherRigidbody_cache = null;
+            otherMover_Cache = null;
+            otherCollider_Cache = null;
+            otherRigidbody_Cache = null;
             hasOtherCharacter = false;
             Debug.Log("Lost Character");
             return;
