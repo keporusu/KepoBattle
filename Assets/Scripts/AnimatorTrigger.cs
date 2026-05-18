@@ -10,6 +10,7 @@ public class AnimatorTrigger : MonoBehaviour
     private static readonly int Attack1 = Animator.StringToHash("Attack1");
     private static readonly int Attack2 = Animator.StringToHash("Attack2");
     private static readonly int Attack3 = Animator.StringToHash("Attack3");
+    private static readonly int Damage = Animator.StringToHash("Damage");
 
     [SerializeField] private Animator animator;
 
@@ -44,6 +45,11 @@ public class AnimatorTrigger : MonoBehaviour
     public void TriggerAttack3()
     {
         animator.SetTrigger(Attack3);
+    }
+
+    public void TriggerDamage()
+    {
+        animator.SetTrigger(Damage);
     }
     
 }
