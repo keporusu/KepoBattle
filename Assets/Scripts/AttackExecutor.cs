@@ -49,6 +49,7 @@ public struct AttackCollisionSetting
 
 public class AttackExecutor : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
     
     //攻撃時のコリジョンの設定
     [SerializeField] private List<AttackCollisionSetting> attack1CollisionSettings;
@@ -68,7 +69,8 @@ public class AttackExecutor : MonoBehaviour
     private List<DamageColliderManager> damageColliderManagers=new List<DamageColliderManager>();
 
     private AttackType progressAttack = AttackType.None;
-    public void Initialize(Animator animator)
+    
+    void Start()
     {
         //全てのNotifierを取得
         var spNotifiers = animator.GetBehaviours<StateProgressionNotifier>();

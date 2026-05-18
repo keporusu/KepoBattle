@@ -4,20 +4,10 @@ using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
-    //AnimController遷移用プロパティ名
-    private static readonly int Speed = Animator.StringToHash("Speed");
-    private static readonly int Jump = Animator.StringToHash("Jump");
-    private static readonly int Ground = Animator.StringToHash("Ground");
-    private static readonly int FallSpeed = Animator.StringToHash("FallSpeed");
-    private static readonly int Attack1 = Animator.StringToHash("Attack1");
-    private static readonly int Attack2 = Animator.StringToHash("Attack2");
-    private static readonly int Attack3 = Animator.StringToHash("Attack3");
 
     //SerializeField
     [SerializeField] private float jumpPower = 1.0f;
     [SerializeField] private float moveSpeed = 1.0f;
-    //AnimatorでSpriteを動かすGameObjectを期待する
-    [SerializeField] private GameObject animSprite;
     
     //InputAction
     private InputSystem_Actions inputActions;
@@ -28,7 +18,7 @@ public class PlayerController : MonoBehaviour
     //キャッシュ
     private PhysicsMover physicsMover_Cache;
     private AttackExecutor attackExecutor_Cache;
-    private Animator animator_Cache;
+    private AnimatorTrigger animatorTrigger_Cache;
 
     //State
     private bool isJumping=false;
@@ -48,7 +38,8 @@ public class PlayerController : MonoBehaviour
     {
         physicsMover_Cache = GetComponent<PhysicsMover>();
         attackExecutor_Cache = GetComponent<AttackExecutor>();
-        animator_Cache = animSprite.GetComponent<Animator>();
+        animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
+        
         if (physicsMover_Cache == null)
         {
             Debug.LogError("PhysicsMover component not found");
@@ -59,14 +50,13 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("Attack component not found");
         }
 
-        if (animator_Cache == null)
+        if (animatorTrigger_Cache == null)
         {
-            Debug.LogError("Animator component not found");
+            Debug.LogError("AnimatorTrigger component not found");
         }
         
         //接地イベント登録
         physicsMover_Cache.OnGround+=OnGround;
-        attackExecutor_Cache.Initialize(animator_Cache);
     }
 
     private void OnEnable()
@@ -96,10 +86,9 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         //移動アニメーション(AnimController)
-        animator_Cache.SetFloat(Speed, Mathf.Abs(physicsMover_Cache.Velocity.x));
-        
+        animatorTrigger_Cache.SetSpeed(Mathf.Abs(physicsMover_Cache.Velocity.x));
         float fallSpeed= physicsMover_Cache.Velocity.y<0 ? -physicsMover_Cache.Velocity.y : 0;
-        animator_Cache.SetFloat(FallSpeed,fallSpeed);
+        animatorTrigger_Cache.SetFallSpeed(fallSpeed);
     }
     
     private void OnMoveStarted(InputAction.CallbackContext ctx)
@@ -133,7 +122,7 @@ public class PlayerController : MonoBehaviour
         isJumping = true;
         physicsMover_Cache.StartJump(jumpPower);
         //ジャンプ状態遷移（AnimController）
-        animator_Cache.SetTrigger(Jump);
+        animatorTrigger_Cache.TriggerJump();
         Debug.Log("Jump started");
     }
 
@@ -148,7 +137,7 @@ public class PlayerController : MonoBehaviour
     private void OnGround()
     {
         //接地状態遷移（AnimController）
-        animator_Cache.SetTrigger(Ground);
+        animatorTrigger_Cache.TriggerGround();
         Debug.Log("Grounded");
     }
     
@@ -156,8 +145,8 @@ public class PlayerController : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext ctx)
     {
         attackExecutor_Cache.StartAttack1();
-        animator_Cache.SetTrigger(Attack1);
-        //animator_Cache.SetTrigger(Attack2);
-        //animator_Cache.SetTrigger(Attack3);
+        animatorTrigger_Cache.TriggerAttack1();
+        //animatorTrigger_Cache.TriggerAttack2();
+        //animatorTrigger_Cache.TriggerAttack3();
     }
 }
