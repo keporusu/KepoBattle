@@ -5,7 +5,7 @@ using UnityEngine.WSA;
 
 
 
-public class DamageColliderManager : MonoBehaviour
+public class DamageCollisionManager : MonoBehaviour
 {
     private CircleCollider2D circleCollider;
     private CapsuleCollider2D capsuleCollider;
@@ -14,6 +14,7 @@ public class DamageColliderManager : MonoBehaviour
     private ColliderShape lastactiveShape;
     private bool isActive = false;
     private int ownerID=-1;
+    private AttackInfo attackInfo;
     
     public bool IsActive => isActive;
     public int OwnerID => ownerID;
@@ -39,6 +40,8 @@ public class DamageColliderManager : MonoBehaviour
         gameObject.SetActive(true);
         isActive = true;
         ownerID = id;
+        
+        //コリジョン形状の設定
         switch (collisionSetting.shape)
         {
             case ColliderShape.Circle:
@@ -62,6 +65,9 @@ public class DamageColliderManager : MonoBehaviour
             default:
                 return null;
         }
+        
+        //コリジョンの攻撃情報
+        attackInfo.attackPower = collisionSetting.attackPower;
     }
 
     public void Deactive()
@@ -82,5 +88,10 @@ public class DamageColliderManager : MonoBehaviour
         isActive = false;
     }
     
+    
+    AttackInfo GetAttackInfo()
+    {
+        return attackInfo;
+    }
 
 }

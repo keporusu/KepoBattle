@@ -15,36 +15,6 @@ public enum AttackType
     SpecialAttack,
     None,
 }
-public enum ColliderShape
-{
-    Circle,
-    Capsule,
-    Box,
-}
-
-public enum CapsuleDirection { X, Y, Z }
-
-[Serializable]
-public struct AttackCollisionSetting
-{
-    public ColliderShape shape;
-
-    // Circle
-    public float circleRadius;
-
-    // Capsule
-    public float capsuleRadius;
-    public float capsuleHeight;
-    public CapsuleDirection capsuleDirection;
-
-    // Box
-    public Vector3 boxSize;
-
-    // 共通
-    public Vector3 offset;
-    [Range(0f, 1f)] public float spanStart;
-    [Range(0f, 1f)] public float spanEnd;
-}
 
 
 public class AttackExecutor : MonoBehaviour
@@ -66,7 +36,7 @@ public class AttackExecutor : MonoBehaviour
     private StateProgressionNotifier spNotifierAttack2_Cache;
     private StateProgressionNotifier spNotifierSpecial_Cache;
     
-    private List<DamageColliderManager> damageColliderManagers=new List<DamageColliderManager>();
+    private List<DamageCollisionManager> damageColliderManagers=new List<DamageCollisionManager>();
 
     private AttackType progressAttack = AttackType.None;
     
@@ -90,7 +60,7 @@ public class AttackExecutor : MonoBehaviour
             //ダメージチャンネルからそれぞれコリジョンを取得してキャッシュする
             if (child.gameObject.CompareTag("Damage Channel"))
             {
-                var colliderManager= child.GetComponent<DamageColliderManager>();
+                var colliderManager= child.GetComponent<DamageCollisionManager>();
                 damageColliderManagers.Add(colliderManager);
             }
         }

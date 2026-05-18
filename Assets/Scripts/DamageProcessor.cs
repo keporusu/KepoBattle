@@ -4,6 +4,7 @@ public class DamageProcessor : MonoBehaviour
 {
     [SerializeField] private GameObject damagedCollider;
     private AnimatorTrigger animatorTrigger_Cache;
+    private PhysicsMover physicsMover_Cache;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,12 +21,23 @@ public class DamageProcessor : MonoBehaviour
             Debug.LogError("animatorTrigger component not found");
         }
         
+        physicsMover_Cache = GetComponent<PhysicsMover>();
+        if (physicsMover_Cache == null)
+        {
+            Debug.LogError("physicsMover component not found");
+        }
+        
     }
 
     void DamagedHit(Collider2D other)
     {
-        Debug.Log("DamagedHit");
+        var damageCollisionManager = other.GetComponent<DamageCollisionManager>();
+        if (damageCollisionManager != null)
+        {
+            
+        }
         animatorTrigger_Cache.TriggerDamage();
+        Debug.Log("DamagedHit");
     }
     
 }

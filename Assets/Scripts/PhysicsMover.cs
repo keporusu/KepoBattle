@@ -22,8 +22,9 @@ public class PhysicsMover : MonoBehaviour
     
     //常にUpdateする値
     private float accumulatedTime=0.0f;
-    private float jumpingPower = 0.0f;
-    private float movingPower = 0.0f;
+    private float jumpingPower = 0.0f; //ジャンプ時の力
+    private float movingPower = 0.0f; //移動時の力
+    private float forcePower = 0.0f; //攻撃などで無理にかかる力
     
     //状態
     private bool hasOtherCharacter=false;
@@ -193,6 +194,16 @@ public class PhysicsMover : MonoBehaviour
     public void StopMove()
     {
         isBraking = true;
+    }
+
+    /// <summary>
+    /// 自分に特定の方向に力を加える
+    /// </summary>
+    /// <param name="force">加える力</param>
+    /// <param name="forceMode">一回停止させてから力を加えるか？</param>
+    public void ForcePower(Vector3 force, bool forceMode)
+    {
+        //TODO:上方向の力はだんだん減衰させる必要がありそう。forcePowerをどうこうする
     }
 
 }
