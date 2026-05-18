@@ -1297,9 +1297,6 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: Stand->Exit(Jump)
   m_Conditions:
-  - m_ConditionMode: 3
-    m_ConditionEvent: GroundDistance
-    m_EventTreshold: 0.1
   - m_ConditionMode: 1
     m_ConditionEvent: Jump
     m_EventTreshold: 0
