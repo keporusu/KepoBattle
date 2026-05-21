@@ -27,20 +27,23 @@ public struct AttackCollisionSetting
     public CapsuleDirection capsuleDirection;
 
     // Box
-    public Vector3 boxSize;
+    public Vector2 boxSize;
 
     // 共通
-    public Vector3 offset;
+    public Vector2 offset;
     [Range(0f, 1f)] public float spanStart;
     [Range(0f, 1f)] public float spanEnd;
-    public Vector3 attackPower;
+    public Vector2 attackPower;
 }
 
 
 //攻撃情報のみを抽出したもの
-struct AttackInfo
+public struct AttackInfo
 {
-    public Vector3 attackPower;
+    /// <summary>
+    /// 原則として0以上の値を入れること
+    /// </summary>
+    public Vector2 attackPower;
 }
 
 //ヒット情報

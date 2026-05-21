@@ -89,7 +89,7 @@ public class AttackExecutor : MonoBehaviour
         progressAttack = AttackType.None;
         foreach (var manager in damageColliderManagers)
         {
-            manager.Deactive();
+            manager.Deactivate();
         }
     }
     
@@ -164,7 +164,7 @@ public class AttackExecutor : MonoBehaviour
         {
             throw new InvalidOperationException($"DeactivateCollider: OwnerID {id} に対応する DamageColliderManager が見つかりません");
         }
-        manager.Deactive();
+        manager.Deactivate();
     }
     
     private void OnDestroy()

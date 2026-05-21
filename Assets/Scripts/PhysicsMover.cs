@@ -22,14 +22,14 @@ public class PhysicsMover : MonoBehaviour
     
     //常にUpdateする値
     private float accumulatedTime=0.0f;
-    private float jumpingPower = 0.0f; //ジャンプ時の力
     private float movingPower = 0.0f; //移動時の力
-    private float forcePower = 0.0f; //攻撃などで無理にかかる力
+    private Vector2 forcePower = new Vector2(); //攻撃などで無理にかかる力
     
     //状態
     private bool hasOtherCharacter=false;
     private bool isAir = true;
     private bool isBraking = false;
+    private bool isForcing = false;
     private float snapGroundY = float.NaN;
     
     public bool IsAir => isAir;
@@ -64,6 +64,33 @@ public class PhysicsMover : MonoBehaviour
     {
         Vector2 movePoint = rigidbody_Cache.position;
         
+        //無理矢理掛かる力の減衰(横)
+        if (isForcing)
+        {
+            if (forcePower.x > 0.0f)
+            {
+                forcePower.x = Mathf.Max(0.0f,forcePower.x-20.0f*Time.deltaTime);
+            }
+            else if (forcePower.x < 0.0f)
+            {
+                forcePower.x = Mathf.Min(0.0f,forcePower.x+20.0f*Time.deltaTime);
+            }
+            //無理矢理掛かる力の減衰(縦)
+            if (forcePower.y > 0.0f)
+            {
+                forcePower.y = Mathf.Max(0.0f,forcePower.y-20.0f*Time.fixedDeltaTime);
+            }
+            else if (forcePower.y < 0.0f)
+            {
+                forcePower.y = Mathf.Min(0.0f,forcePower.y+20.0f*Time.fixedDeltaTime);
+            }
+
+            if (forcePower == Vector2.zero)
+            {
+                isForcing = false;
+            }
+        }
+        
         //ブレーキ処理
         if (isBraking)
         {
@@ -95,19 +122,14 @@ public class PhysicsMover : MonoBehaviour
         //空中での処理
         if (isAir)
         {
-            if (jumpingPower > 0.0f)
-            {
-                //ジャンプ処理
-                movePoint += jumpingPower * Vector2.up;
-                jumpingPower = Mathf.Max(0.0f, jumpingPower-Time.fixedDeltaTime);
-            }
-            else
-            {
-                //落下処理
-                movePoint += accumulatedTime * gravity * Vector2.down;
-                accumulatedTime+=Time.fixedDeltaTime;
-            }
+            //落下処理
+            movePoint += accumulatedTime * gravity * Vector2.down;
+            accumulatedTime+=Time.fixedDeltaTime;
         }
+        
+        //無理矢理掛かる力による移動
+        movePoint += forcePower.x *Time.fixedDeltaTime* Vector2.right;
+        movePoint += forcePower.y *Time.fixedDeltaTime* Vector2.up;
         
         //キャラクター押しあたり判定
         if (hasOtherCharacter)
@@ -146,12 +168,16 @@ public class PhysicsMover : MonoBehaviour
         //足場の時
         if (other.bounds.max.y < geometryCollider_Cache.bounds.max.y)
         {
-            //ジャンプ中は足場無視
-            if(jumpingPower > 0.0f) return;
+            //上方向に動いているときは足場無視
+            if(Velocity.y > 0.0f) return;
 
             float groundTop = other.bounds.max.y;
             isAir = false;
             snapGroundY = groundTop + geometryCollider_Cache.bounds.extents.y;
+            
+            //地面についた場合、上下方向にかかっている力は0にする
+            forcePower.y = 0.0f;
+            
             //接地通知
             OnGround?.Invoke();
         }
@@ -175,14 +201,12 @@ public class PhysicsMover : MonoBehaviour
 
     public void StartJump(float power)
     {
-        isAir = true;
-        jumpingPower = power;
-        accumulatedTime = 0.0f;
+        ForcePower(new Vector2(0.0f,power),true);
     }
 
     public void StopJump()
     {
-        jumpingPower *= 0.3f;
+        forcePower.y = 0.0f;
     }
 
     public void Move(float power)
@@ -201,9 +225,36 @@ public class PhysicsMover : MonoBehaviour
     /// </summary>
     /// <param name="force">加える力</param>
     /// <param name="forceMode">一回停止させてから力を加えるか？</param>
-    public void ForcePower(Vector3 force, bool forceMode)
+    public void ForcePower(Vector2 force, bool forceMode)
     {
         //TODO:上方向の力はだんだん減衰させる必要がありそう。forcePowerをどうこうする
+        forcePower = force;
+        isForcing = true;
+        if (force.y > 0.0f)
+        {
+            isAir = true;
+            accumulatedTime = 0.0f;
+        }
+
+        if (forceMode)
+        {
+            accumulatedTime=0.0f;
+            movingPower = 0.0f;
+            forcePower = new Vector2();
+        }
+    }
+
+    public void ResetAll()
+    {
+        movingPower = 0.0f; //移動時の力
+        forcePower = new Vector2(); //攻撃などで無理にかかる力
+    
+        //状態
+        hasOtherCharacter=false;
+        isAir = true;
+        isBraking = false;
+        isForcing = false;
+        accumulatedTime = 0.0f;
     }
 
 }

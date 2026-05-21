@@ -663,6 +663,22 @@ PrefabInstance:
       propertyPath: attack1CollisionSettings.Array.data[1].circleRadius
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 2745221334891390084, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
+      propertyPath: attack1CollisionSettings.Array.data[0].attackPower.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2745221334891390084, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
+      propertyPath: attack1CollisionSettings.Array.data[0].attackPower.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2745221334891390084, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
+      propertyPath: attack1CollisionSettings.Array.data[1].attackPower.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2745221334891390084, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
+      propertyPath: attack1CollisionSettings.Array.data[1].attackPower.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4050077619055636999, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -726,6 +742,10 @@ PrefabInstance:
     - target: {fileID: 8132159521656806917, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
       propertyPath: m_Name
       value: KPPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592005129262521717, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
+      propertyPath: jumpPower
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8592005129262521717, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
       propertyPath: animSprite

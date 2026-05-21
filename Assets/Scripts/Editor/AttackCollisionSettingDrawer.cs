@@ -49,6 +49,9 @@ public class AttackCollisionSettingDrawer : PropertyDrawer
         EditorGUI.Slider(rect, property.FindPropertyRelative("spanStart"), 0f, 1f, "Span Start");
         rect.y += lineH + spacing;
         EditorGUI.Slider(rect, property.FindPropertyRelative("spanEnd"),   0f, 1f, "Span End");
+        rect.y += lineH + spacing;
+
+        EditorGUI.PropertyField(rect, property.FindPropertyRelative("attackPower"));
 
         EditorGUI.EndProperty();
     }
@@ -61,8 +64,8 @@ public class AttackCollisionSettingDrawer : PropertyDrawer
         var shapeProp = property.FindPropertyRelative("shape");
         var shape = (ColliderShape)shapeProp.enumValueIndex;
 
-        // shape + offset + spanStart + spanEnd の 4 行は共通
-        int lines = 4;
+        // shape + offset + spanStart + spanEnd + attackPower の 5 行は共通
+        int lines = 5;
         lines += shape switch
         {
             ColliderShape.Circle  => 1,          // circleRadius

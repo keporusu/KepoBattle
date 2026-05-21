@@ -41,6 +41,9 @@ public class DamageCollisionManager : MonoBehaviour
         isActive = true;
         ownerID = id;
         
+        //コリジョンの攻撃情報
+        attackInfo.attackPower = collisionSetting.attackPower;
+        
         //コリジョン形状の設定
         switch (collisionSetting.shape)
         {
@@ -65,12 +68,9 @@ public class DamageCollisionManager : MonoBehaviour
             default:
                 return null;
         }
-        
-        //コリジョンの攻撃情報
-        attackInfo.attackPower = collisionSetting.attackPower;
     }
 
-    public void Deactive()
+    public void Deactivate()
     {
         switch (lastactiveShape)
         {
@@ -89,7 +89,7 @@ public class DamageCollisionManager : MonoBehaviour
     }
     
     
-    AttackInfo GetAttackInfo()
+    public AttackInfo GetAttackInfo()
     {
         return attackInfo;
     }
