@@ -227,20 +227,19 @@ public class PhysicsMover : MonoBehaviour
     /// <param name="forceMode">一回停止させてから力を加えるか？</param>
     public void ForcePower(Vector2 force, bool forceMode)
     {
-        //TODO:上方向の力はだんだん減衰させる必要がありそう。forcePowerをどうこうする
-        forcePower = force;
-        isForcing = true;
-        if (force.y > 0.0f)
-        {
-            isAir = true;
-            accumulatedTime = 0.0f;
-        }
-
         if (forceMode)
         {
             accumulatedTime=0.0f;
             movingPower = 0.0f;
             forcePower = new Vector2();
+        }
+        
+        forcePower += force;
+        isForcing = true;
+        if (force.y > 0.0f)
+        {
+            isAir = true;
+            accumulatedTime = 0.0f;
         }
     }
 
