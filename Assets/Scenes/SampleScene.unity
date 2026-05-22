@@ -827,6 +827,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unitychan_Battle(Sword)
       objectReference: {fileID: 0}
+    - target: {fileID: 6341593781401802801, guid: 517224459be7f4376b61653219e6a47b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -914,6 +918,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6341593781401802801, guid: 517224459be7f4376b61653219e6a47b, type: 3}
       propertyPath: m_DrawMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341593781401802801, guid: 517224459be7f4376b61653219e6a47b, type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6341593781401802801, guid: 517224459be7f4376b61653219e6a47b, type: 3}

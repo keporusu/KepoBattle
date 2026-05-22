@@ -201,7 +201,7 @@ public class PhysicsMover : MonoBehaviour
 
     public void StartJump(float power)
     {
-        ForcePower(new Vector2(0.0f,power),true);
+        ForcePower(new Vector2(0.0f,power),false);
     }
 
     public void StopJump()
