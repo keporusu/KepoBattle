@@ -53,7 +53,6 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         moveAction.Enable();
-        moveAction.started += OnMoveStarted;
         moveAction.performed += OnMovePerformed;
         moveAction.canceled += OnMoveCanceled;
         jumpAction.Enable();
@@ -65,7 +64,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        moveAction.started -= OnMoveStarted;
         moveAction.performed -= OnMovePerformed;
         moveAction.canceled -= OnMoveCanceled;
         jumpAction.started -= OnJumpStarted;
@@ -82,31 +80,25 @@ public class PlayerController : MonoBehaviour
         animatorTrigger_Cache.SetFallSpeed(fallSpeed);
     }
     
-    private void OnMoveStarted(InputAction.CallbackContext ctx)
+    private void OnMovePerformed(InputAction.CallbackContext ctx)
     {
-        if (blockingMove) return;
-        StartMove(ctx.ReadValue<Vector2>().x);
+        if(blockingMove)return;
+        Move(ctx.ReadValue<Vector2>().x);
     }
 
-    private void StartMove(float moveX)
+    private void Move(float moveX)
     {
         //移動時、入力の向きによって反転させる
         if (moveX > 0)
         {
             transform.localScale = new Vector3(1.0f, transform.localScale.y, transform.localScale.z);
         }
-        else
+        else if(moveX < 0)
         {
             transform.localScale = new Vector3(-1.0f, transform.localScale.y, transform.localScale.z);
         }
-    }
-    
-    private void OnMovePerformed(InputAction.CallbackContext ctx)
-    {
-        if(blockingMove)return;
         
-        StartMove(ctx.ReadValue<Vector2>().x);
-        moveInput = ctx.ReadValue<Vector2>().x * moveSpeed;
+        moveInput = moveX * moveSpeed;
         physicsMover_Cache.Move(moveInput);
     }
 
@@ -169,5 +161,9 @@ public class PlayerController : MonoBehaviour
     private void CancelBlockingMove()
     {
         blockingMove = false;
+        
+        //移動ボタンを押しっぱなしだった場合のため必要
+        float currentMoveX = moveAction.ReadValue<Vector2>().x;
+        Move(currentMoveX);
     }
 }
