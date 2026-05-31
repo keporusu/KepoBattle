@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AnimatorTrigger))]
+[RequireComponent(typeof(PhysicsMover))]
 public class DamageProcessor : MonoBehaviour
 {
     [SerializeField] private GameObject damagedCollider;
@@ -16,16 +18,7 @@ public class DamageProcessor : MonoBehaviour
         }
         
         animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
-        if (animatorTrigger_Cache == null)
-        {
-            Debug.LogError("animatorTrigger component not found");
-        }
-        
         physicsMover_Cache = GetComponent<PhysicsMover>();
-        if (physicsMover_Cache == null)
-        {
-            Debug.LogError("physicsMover component not found");
-        }
         
     }
 

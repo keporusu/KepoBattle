@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(PhysicsMover))]
+[RequireComponent(typeof(AttackExecutor))]
 public class EnemyController : MonoBehaviour
 {
     
@@ -20,21 +22,14 @@ public class EnemyController : MonoBehaviour
         physicsMover_Cache = GetComponent<PhysicsMover>();
         attackExecutor_Cache = GetComponent<AttackExecutor>();
         animator_Cache = animSprite.GetComponent<Animator>();
-        
-        if (physicsMover_Cache == null)
-        {
-            Debug.LogError("PhysicsMover component not found");
-        }
-
-        if (attackExecutor_Cache == null)
-        {
-            Debug.LogError("Attack component not found");
-        }
 
         if (animator_Cache == null)
         {
-            Debug.LogError("Animator component not found");
+            Debug.LogError("Animator component not found on animSprite", this);
+            enabled = false;
+            return;
         }
+
         physicsMover_Cache.OnGround+=OnGround;
     }
 

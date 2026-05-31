@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PhysicsMover : MonoBehaviour
 {
     [SerializeField] private float gravity = 1.0f;
@@ -41,18 +42,27 @@ public class PhysicsMover : MonoBehaviour
     void Start()
     {
         rigidbody_Cache = GetComponent<Rigidbody2D>();
-        geometryCollider_Cache = geometryCollider.GetComponent<Collider2D>();
-        if (rigidbody_Cache == null || geometryCollider == null || geometryCollider_Cache == null)
+
+        if (geometryCollider == null)
         {
-            Debug.LogError("Rigidbody or Geometry is missing");
+            Debug.LogError("geometryCollider is not set", this);
+            enabled = false;
+            return;
+        }
+
+        geometryCollider_Cache = geometryCollider.GetComponent<Collider2D>();
+        if (geometryCollider_Cache == null)
+        {
+            Debug.LogError("Collider2D not found on geometryCollider", this);
             enabled = false;
             return;
         }
 
         var geometryHitNotifier = geometryCollider.GetComponent<GeometryHitNotifier>();
-        if (geometryHitNotifier==null)
+        if (geometryHitNotifier == null)
         {
-            Debug.LogError("GeometryHitNotifier is missing");
+            Debug.LogError("GeometryHitNotifier is missing", this);
+            enabled = false;
             return;
         }
 

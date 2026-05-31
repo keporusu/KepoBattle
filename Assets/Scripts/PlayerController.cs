@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
+[RequireComponent(typeof(PhysicsMover))]
+[RequireComponent(typeof(AttackExecutor))]
+[RequireComponent(typeof(AnimatorTrigger))]
 public class PlayerController : MonoBehaviour
 {
 
@@ -39,22 +42,7 @@ public class PlayerController : MonoBehaviour
         physicsMover_Cache = GetComponent<PhysicsMover>();
         attackExecutor_Cache = GetComponent<AttackExecutor>();
         animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
-        
-        if (physicsMover_Cache == null)
-        {
-            Debug.LogError("PhysicsMover component not found");
-        }
 
-        if (attackExecutor_Cache == null)
-        {
-            Debug.LogError("Attack component not found");
-        }
-
-        if (animatorTrigger_Cache == null)
-        {
-            Debug.LogError("AnimatorTrigger component not found");
-        }
-        
         //接地イベント登録
         physicsMover_Cache.OnGround+=OnGround;
     }
