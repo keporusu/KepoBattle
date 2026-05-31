@@ -85,9 +85,13 @@ public class PlayerController : MonoBehaviour
     private void OnMoveStarted(InputAction.CallbackContext ctx)
     {
         if (blockingMove) return;
-        
+        StartMove(ctx.ReadValue<Vector2>().x);
+    }
+
+    private void StartMove(float moveX)
+    {
         //移動時、入力の向きによって反転させる
-        if (ctx.ReadValue<Vector2>().x > 0)
+        if (moveX > 0)
         {
             transform.localScale = new Vector3(1.0f, transform.localScale.y, transform.localScale.z);
         }
@@ -101,16 +105,27 @@ public class PlayerController : MonoBehaviour
     {
         if(blockingMove)return;
         
+        StartMove(ctx.ReadValue<Vector2>().x);
         moveInput = ctx.ReadValue<Vector2>().x * moveSpeed;
         physicsMover_Cache.Move(moveInput);
     }
 
     private void OnMoveCanceled(InputAction.CallbackContext ctx)
     {
+        CancelMove();
+    }
+
+    private void CancelMove()
+    {
         physicsMover_Cache.StopMove();
     }
 
     private void OnJumpStarted(InputAction.CallbackContext ctx)
+    {
+        StartJump();
+    }
+
+    private void StartJump()
     {
         if(blockingMove)return;
         if(physicsMover_Cache.IsAir)return;
@@ -143,7 +158,7 @@ public class PlayerController : MonoBehaviour
         blockingMove = true;
         
         //移動処理をキャンセルする
-        OnMoveCanceled(new InputAction.CallbackContext());
+        CancelMove();
         
         attackExecutor_Cache.StartAttack1();
         animatorTrigger_Cache.TriggerAttack1();
