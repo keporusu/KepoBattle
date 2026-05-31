@@ -6,6 +6,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using NUnit.Framework.Constraints;
+using UnityEngine.Serialization;
 using UnityEngine.XR;
 
 public enum AttackType
@@ -19,26 +20,32 @@ public enum AttackType
 
 public class AttackExecutor : MonoBehaviour
 {
+    
+    //使用するアニメーター
     [SerializeField] private Animator animator;
     
     //攻撃時のコリジョンの設定
     [SerializeField] private List<AttackCollisionSetting> attack1CollisionSettings;
     [SerializeField] private List<AttackCollisionSetting> attack2CollisionSettings;
-    [SerializeField] private List<AttackCollisionSetting> specialCollisionSettings;
-    private List<bool> isExecuting=new List<bool>(new bool[5]);
+    [SerializeField] private List<AttackCollisionSetting> attack3CollisionSettings;
     
-    
+    //攻撃キャンセル
     private CancellationTokenSource _attackCts;
     
-    //ステートの進行状況によってコリジョンを調整する用
-    //private Animator animator_Cache;
+    //ステートの進行状況取得用
     private StateProgressionNotifier spNotifierAttack1_Cache;
     private StateProgressionNotifier spNotifierAttack2_Cache;
-    private StateProgressionNotifier spNotifierSpecial_Cache;
+    private StateProgressionNotifier spNotifierAttack3_Cache;
     
+    //コリジョン管理
+    private List<bool> isExecuting=new List<bool>(new bool[5]);
     private List<DamageCollisionManager> damageColliderManagers=new List<DamageCollisionManager>();
-
+    
+    //進行中の攻撃
     private AttackType progressAttack = AttackType.None;
+    
+    //攻撃終了通知
+    public Action OnAttackFinish;
     
     void Start()
     {
@@ -47,8 +54,8 @@ public class AttackExecutor : MonoBehaviour
         //それぞれの攻撃のNotifierを取得
         spNotifierAttack1_Cache = System.Array.Find(spNotifiers,x=>x.StateName == "Attack1");
         spNotifierAttack2_Cache = System.Array.Find(spNotifiers,x=>x.StateName == "Attack2");
-        spNotifierSpecial_Cache = System.Array.Find(spNotifiers,x=>x.StateName == "SpecialAttack");
-        if (spNotifierAttack1_Cache == null || spNotifierAttack2_Cache == null || spNotifierSpecial_Cache == null)
+        spNotifierAttack3_Cache = System.Array.Find(spNotifiers,x=>x.StateName == "SpecialAttack");
+        if (spNotifierAttack1_Cache == null || spNotifierAttack2_Cache == null || spNotifierAttack3_Cache == null)
         {
             Debug.LogError("Some behaviours are missing");
         }
@@ -68,10 +75,13 @@ public class AttackExecutor : MonoBehaviour
         //アニメーション再生中のコリジョン反映イベント
         spNotifierAttack1_Cache.OnStateBegin += SetTypeAttack1;
         spNotifierAttack2_Cache.OnStateBegin += SetTypeAttack2;
-        spNotifierSpecial_Cache.OnStateBegin += SetTypeSpecialAttack;
+        spNotifierAttack3_Cache.OnStateBegin += SetTypeAttack3Attack;
         spNotifierAttack1_Cache.OnStateProgress += SetCollisionAttack;
         spNotifierAttack2_Cache.OnStateProgress += SetCollisionAttack;
-        spNotifierSpecial_Cache.OnStateProgress += SetCollisionAttack;
+        spNotifierAttack3_Cache.OnStateProgress += SetCollisionAttack;
+        spNotifierAttack1_Cache.OnStateEnd += AttackFinishCallback;
+        spNotifierAttack2_Cache.OnStateEnd += AttackFinishCallback;
+        spNotifierAttack3_Cache.OnStateEnd += AttackFinishCallback;
     }
     
 
@@ -102,7 +112,7 @@ public class AttackExecutor : MonoBehaviour
     {
         progressAttack = AttackType.Attack2;
     }
-    private void SetTypeSpecialAttack(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    private void SetTypeAttack3Attack(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         progressAttack = AttackType.SpecialAttack;
     }
@@ -116,7 +126,7 @@ public class AttackExecutor : MonoBehaviour
             collisionSettings = attack2CollisionSettings;
         }else if (progressAttack == AttackType.SpecialAttack)
         {
-            collisionSettings = specialCollisionSettings;
+            collisionSettings = attack3CollisionSettings;
         }
 
         int id = 0;
@@ -140,6 +150,12 @@ public class AttackExecutor : MonoBehaviour
             }
             id++;
         }
+    }
+    
+    //攻撃終了通知
+    private void AttackFinishCallback(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        OnAttackFinish.Invoke();
     }
 
     

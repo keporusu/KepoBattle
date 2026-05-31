@@ -8,6 +8,7 @@ public class StateProgressionNotifier : StateMachineBehaviour
     
     public event System.Action<Animator, AnimatorStateInfo, int> OnStateBegin;
     public event System.Action<Animator, AnimatorStateInfo, int> OnStateProgress;
+    public event System.Action<Animator, AnimatorStateInfo, int> OnStateEnd;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -22,10 +23,10 @@ public class StateProgressionNotifier : StateMachineBehaviour
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    // override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    // {
-    //     
-    // }
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        OnStateEnd?.Invoke(animator, stateInfo, layerIndex);
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

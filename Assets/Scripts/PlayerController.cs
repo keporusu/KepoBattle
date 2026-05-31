@@ -25,7 +25,9 @@ public class PlayerController : MonoBehaviour
 
     //State
     private bool isJumping=false;
+    private bool blockingMove = false;
     private float moveInput = 0f;
+    
 
     void Awake()
     {
@@ -45,6 +47,7 @@ public class PlayerController : MonoBehaviour
 
         //接地イベント登録
         physicsMover_Cache.OnGround+=OnGround;
+        attackExecutor_Cache.OnAttackFinish += CancelBlockingMove;
     }
 
     private void OnEnable()
@@ -81,6 +84,8 @@ public class PlayerController : MonoBehaviour
     
     private void OnMoveStarted(InputAction.CallbackContext ctx)
     {
+        if (blockingMove) return;
+        
         //移動時、入力の向きによって反転させる
         if (ctx.ReadValue<Vector2>().x > 0)
         {
@@ -94,6 +99,8 @@ public class PlayerController : MonoBehaviour
     
     private void OnMovePerformed(InputAction.CallbackContext ctx)
     {
+        if(blockingMove)return;
+        
         moveInput = ctx.ReadValue<Vector2>().x * moveSpeed;
         physicsMover_Cache.Move(moveInput);
     }
@@ -105,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnJumpStarted(InputAction.CallbackContext ctx)
     {
-        
+        if(blockingMove)return;
         if(physicsMover_Cache.IsAir)return;
         isJumping = true;
         physicsMover_Cache.StartJump(jumpPower);
@@ -132,9 +139,20 @@ public class PlayerController : MonoBehaviour
 
     private void OnAttack(InputAction.CallbackContext ctx)
     {
+        if (blockingMove) return;
+        blockingMove = true;
+        
+        //移動処理をキャンセルする
+        OnMoveCanceled(new InputAction.CallbackContext());
+        
         attackExecutor_Cache.StartAttack1();
         animatorTrigger_Cache.TriggerAttack1();
         //animatorTrigger_Cache.TriggerAttack2();
         //animatorTrigger_Cache.TriggerAttack3();
+    }
+
+    private void CancelBlockingMove()
+    {
+        blockingMove = false;
     }
 }
