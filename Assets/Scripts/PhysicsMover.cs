@@ -23,13 +23,13 @@ public class PhysicsMover : MonoBehaviour
     
     //常にUpdateする値
     private float accumulatedTime=0.0f;
-    private float movingPower = 0.0f; //移動時の力
-    private Vector2 forcePower = new Vector2(); //攻撃などで無理にかかる力
+    protected float movingPower = 0.0f; //移動時の力
+    protected Vector2 forcePower = new Vector2(); //攻撃などで無理にかかる力
     
     //状態
     private bool hasOtherCharacter=false;
     private bool isAir = true;
-    private bool isBraking = false;
+    protected bool isBraking = false;
     private bool isForcing = false;
     private float snapGroundY = float.NaN;
     
@@ -207,27 +207,6 @@ public class PhysicsMover : MonoBehaviour
             Debug.Log("Lost Character");
             return;
         }
-    }
-
-    public void StartJump(float power)
-    {
-        ForcePower(new Vector2(0.0f,power),false);
-    }
-
-    public void StopJump()
-    {
-        forcePower.y = 0.0f;
-    }
-
-    public void Move(float power)
-    {
-        isBraking = false;
-        movingPower = power;
-    }
-
-    public void StopMove()
-    {
-        isBraking = true;
     }
 
     /// <summary>

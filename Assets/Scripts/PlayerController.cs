@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(PhysicsMover))]
+[RequireComponent(typeof(CharacterPhysicsMover))]
 [RequireComponent(typeof(AttackExecutor))]
 [RequireComponent(typeof(AnimatorTrigger))]
 public class PlayerController : MonoBehaviour
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private InputAction attackAction;
     
     //キャッシュ
-    private PhysicsMover physicsMover_Cache;
+    private CharacterPhysicsMover physicsMover_Cache;
     private AttackExecutor attackExecutor_Cache;
     private AnimatorTrigger animatorTrigger_Cache;
 
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        physicsMover_Cache = GetComponent<PhysicsMover>();
+        physicsMover_Cache = GetComponent<CharacterPhysicsMover>();
         attackExecutor_Cache = GetComponent<AttackExecutor>();
         animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
 
