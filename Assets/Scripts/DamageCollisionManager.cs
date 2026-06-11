@@ -43,6 +43,7 @@ public class DamageCollisionManager : MonoBehaviour
         
         //コリジョンの攻撃情報
         attackInfo.attackPower = collisionSetting.attackPower;
+        attackInfo.damage = collisionSetting.damage;
         
         //コリジョン形状の設定
         switch (collisionSetting.shape)

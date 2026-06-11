@@ -34,6 +34,7 @@ public struct AttackCollisionSetting
     [Range(0f, 1f)] public float spanStart;
     [Range(0f, 1f)] public float spanEnd;
     public Vector2 attackPower;
+    public float damage;
 }
 
 
@@ -44,6 +45,8 @@ public struct AttackInfo
     /// 原則として0以上の値を入れること
     /// </summary>
     public Vector2 attackPower;
+
+    public float damage;
 }
 
 //ヒット情報

@@ -599,6 +599,10 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 2022273605}
+    - target: {fileID: 8562092383448415587, guid: 497742b440e2d4d33a92ca1214ffe7a6, type: 3}
+      propertyPath: _maxHealth
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -626,6 +630,14 @@ PrefabInstance:
     - target: {fileID: 2745221334891390084, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
       propertyPath: attack1CollisionSettings.Array.data[0].shape
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2745221334891390084, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
+      propertyPath: attack1CollisionSettings.Array.data[0].damage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2745221334891390084, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
+      propertyPath: attack1CollisionSettings.Array.data[1].damage
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2745221334891390084, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
       propertyPath: attack1CollisionSettings.Array.data[0].spanEnd

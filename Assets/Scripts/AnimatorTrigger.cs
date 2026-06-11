@@ -11,6 +11,7 @@ public class AnimatorTrigger : MonoBehaviour
     private static readonly int Attack2 = Animator.StringToHash("Attack2");
     private static readonly int Attack3 = Animator.StringToHash("Attack3");
     private static readonly int Damage = Animator.StringToHash("Damage");
+    private static readonly int IsDead = Animator.StringToHash("IsDead");
 
     [SerializeField] private Animator animator;
 
@@ -50,6 +51,11 @@ public class AnimatorTrigger : MonoBehaviour
     public void TriggerDamage()
     {
         animator.SetTrigger(Damage);
+    }
+
+    public void TriggerDeath()
+    {
+        animator.SetBool(IsDead, true);
     }
     
 }
