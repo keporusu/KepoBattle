@@ -1,17 +1,18 @@
 using Interfaces;
 using UnityEngine;
 
-[RequireComponent(typeof(AnimatorTrigger))]
 [RequireComponent(typeof(PhysicsMover))]
 public class DamageProcessor : MonoBehaviour
 {
     [SerializeField] private GameObject damagedCollider;
-    private AnimatorTrigger animatorTrigger_Cache;
     private PhysicsMover physicsMover_Cache;
-    private IHealthManager healthManager_Cache;
+    protected IHealthManager healthManager_Cache;
+
+    //なにか処理させたいことがあれば子供が実装
+    protected virtual void OnDamagedHitFinished(){}
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         var damagedNotifier=damagedCollider.GetComponent<DamagedNotifier>();
         Debug.Assert(
@@ -20,8 +21,7 @@ public class DamageProcessor : MonoBehaviour
         );
         damagedNotifier.OnHit += DamagedHit;
         
-        //アニメーショントリガ、強制吹き飛ばし用、HP減算
-        animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
+        //強制吹き飛ばし用、HP減算
         physicsMover_Cache = GetComponent<PhysicsMover>();
         
         var healthManager=healthManager_Cache = GetComponent<IHealthManager>();
@@ -50,15 +50,8 @@ public class DamageProcessor : MonoBehaviour
             healthManager_Cache.TakeDamage(attackInfo.damage);
         }
         
-        //TODO:DamageProcessorはキャラクター専用にしないため、ここの処理は別に逃がすor継承先で行う
-        //ダメージアニメーションに遷移
-        animatorTrigger_Cache.TriggerDamage();
-        if (healthManager_Cache.IsDead)
-        {
-            //死亡遷移
-            animatorTrigger_Cache.TriggerDeath();
-            Debug.Log("Death");
-        }
+        OnDamagedHitFinished();
+        
         Debug.Log("DamagedHit");
     }
     

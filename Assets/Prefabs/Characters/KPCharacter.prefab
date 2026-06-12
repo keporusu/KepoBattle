@@ -105,9 +105,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2856287854286749847}
-    - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7314480121798634907}
     - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       insertIndex: -1
@@ -120,6 +117,9 @@ PrefabInstance:
       addedObject: {fileID: 8617151197068117467}
     - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 87817831895367586}
+    - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1788680669122518426}
     - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       insertIndex: -1
@@ -130,19 +130,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
   m_PrefabInstance: {fileID: 885767911355221278}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2856287854286749847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3693381977577805594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f507145485a6746e19090dc0dbd39cbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  damagedCollider: {fileID: 1059906580081026843}
 --- !u!114 &7314480121798634907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,6 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a8df20fc0a8c4cc8b18b62a70b4cbc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _maxHealth: 100
 --- !u!114 &8617151197068117467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +190,19 @@ MonoBehaviour:
   characterLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &87817831895367586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693381977577805594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 743c2489b97f443709d7314f77bcac3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  damagedCollider: {fileID: 1059906580081026843}
 --- !u!50 &1788680669122518426
 Rigidbody2D:
   serializedVersion: 5
