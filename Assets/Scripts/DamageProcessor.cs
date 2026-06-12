@@ -1,5 +1,6 @@
 using Interfaces;
 using UnityEngine;
+using Character;
 
 [RequireComponent(typeof(PhysicsMover))]
 public class DamageProcessor : MonoBehaviour
