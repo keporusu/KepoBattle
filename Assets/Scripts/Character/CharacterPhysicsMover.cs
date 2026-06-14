@@ -6,18 +6,18 @@ namespace Character
     {
         public void StartJump(float power)
         {
-            ForcePower(new Vector2(0.0f, power), false);
+            ForceVelocity(new Vector2(0.0f, power), false);
         }
 
         public void StopJump()
         {
-            forcePower.y = 0.0f;
+            forceVelocity.y = 0.0f;
         }
 
         public void Move(float power)
         {
             isBraking = false;
-            movingPower = power;
+            movingVelocity = power;
         }
 
         public void StopMove()

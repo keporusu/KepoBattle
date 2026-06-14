@@ -44,7 +44,7 @@ public struct AttackInfo
     /// <summary>
     /// 原則として0以上の値を入れること
     /// </summary>
-    public Vector2 attackPower;
+    public Vector2 attackVelocity;
 
     public float damage;
 }

@@ -43,7 +43,7 @@ namespace Character
             ownerID = id;
 
             //コリジョンの攻撃情報
-            attackInfo.attackPower = collisionSetting.attackPower;
+            attackInfo.attackVelocity = collisionSetting.attackPower;
             attackInfo.damage = collisionSetting.damage;
 
             //コリジョン形状の設定

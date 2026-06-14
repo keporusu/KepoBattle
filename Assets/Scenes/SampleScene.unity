@@ -680,6 +680,14 @@ PrefabInstance:
       value: Ball
       objectReference: {fileID: 0}
     - target: {fileID: 6447102067724230904, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
+      propertyPath: mass
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447102067724230904, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
+      propertyPath: friction
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447102067724230904, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
       propertyPath: characterLayer.m_Bits
       value: 64
       objectReference: {fileID: 0}

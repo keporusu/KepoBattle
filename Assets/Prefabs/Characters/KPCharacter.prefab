@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a8df20fc0a8c4cc8b18b62a70b4cbc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _maxHealth: 100
+  maxHealth: 100
 --- !u!114 &8617151197068117467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,12 +184,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f805a353937b45e48509564708a52f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  gravity: 1
+  gravity: 50
+  mass: 1
   friction: 20
   geometryCollider: {fileID: 8354070944974147321}
-  characterLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &87817831895367586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   damagedCollider: {fileID: 1059906580081026843}
+  invincibleDuration: 0.1
 --- !u!50 &1788680669122518426
 Rigidbody2D:
   serializedVersion: 5

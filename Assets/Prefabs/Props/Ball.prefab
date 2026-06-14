@@ -14,7 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 3869070585266136573, guid: 30b2ee61040fc401e97e11368062c0ad, type: 3}
     - target: {fileID: 2713901720221561264, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: mass
-      value: 0.2
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2713901720221561264, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: gravity
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2713901720221561264, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: geometryCollider

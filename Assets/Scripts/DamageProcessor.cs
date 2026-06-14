@@ -50,9 +50,10 @@ public class DamageProcessor : MonoBehaviour
             //キャラクターの位置関係で、どちら向きに吹き飛ばすか決める
             if (transform.root.position.x < other.transform.root.position.x)
             {
-                attackInfo.attackPower.x = -attackInfo.attackPower.x;
+                attackInfo.attackVelocity.x = -attackInfo.attackVelocity.x;
             }
-            physicsMover_Cache.ForcePower(attackInfo.attackPower,true);
+            //速度を与える
+            physicsMover_Cache.ForceVelocity(attackInfo.attackVelocity,true);
             
             //ダメージ処理
             healthManager_Cache.TakeDamage(attackInfo.damage);
