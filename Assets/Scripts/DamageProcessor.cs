@@ -6,8 +6,13 @@ using Character;
 public class DamageProcessor : MonoBehaviour
 {
     [SerializeField] private GameObject damagedCollider;
+    [SerializeField] private float invincibleDuration = 0.1f;
+
+    //キャッシュ
     private PhysicsMover physicsMover_Cache;
     protected IHealthManager healthManager_Cache;
+
+    private float lastDamagedTime = float.NegativeInfinity;
 
     //なにか処理させたいことがあれば子供が実装
     protected virtual void OnDamagedHitFinished(){}
@@ -34,6 +39,8 @@ public class DamageProcessor : MonoBehaviour
 
     void DamagedHit(Collider2D other)
     {
+        if (Time.time < lastDamagedTime + invincibleDuration) return;
+
         //コリジョン処理
         var damageCollisionManager = other.GetComponent<DamageCollisionManager>();
         if (damageCollisionManager != null)
@@ -49,11 +56,14 @@ public class DamageProcessor : MonoBehaviour
             
             //ダメージ処理
             healthManager_Cache.TakeDamage(attackInfo.damage);
+
+            lastDamagedTime = Time.time;
+            OnDamagedHitFinished();
+            
+            Debug.Log("DamagedHit");
         }
         
-        OnDamagedHitFinished();
         
-        Debug.Log("DamagedHit");
     }
     
 }
