@@ -7,10 +7,12 @@ using UnityEngine.Serialization;
 public class PhysicsMover : MonoBehaviour
 {
     [SerializeField] private float gravity = 1.0f;
+    [SerializeField] private float mass = 1.0f;
     [SerializeField] private float friction = 1.0f;
     [SerializeField] private GameObject geometryCollider;
     //押し判定をする相手
-    [SerializeField] private LayerMask characterLayer;
+    private LayerMask characterLayer;
+    private LayerMask propLayer;
 
     public Vector2 Velocity { get; private set; }
     
@@ -34,6 +36,11 @@ public class PhysicsMover : MonoBehaviour
     private float snapGroundY = float.NaN;
     
     public bool IsAir => isAir;
+    private bool CanPushObject(Collider2D other)
+    {
+        return (characterLayer.value & (1 << other.gameObject.layer)) > 0 ||
+               (propLayer.value & (1 << other.gameObject.layer)) > 0;
+    }
     
     //通知
     public event System.Action OnGround;
@@ -67,7 +74,10 @@ public class PhysicsMover : MonoBehaviour
         }
 
         geometryHitNotifier.OnHit += OnHitGeometry;
-
+        
+        //レイヤー取得
+        characterLayer=LayerMask.GetMask("Character");
+        propLayer=LayerMask.GetMask("Prop");
     }
     
     private void FixedUpdate()
@@ -94,7 +104,7 @@ public class PhysicsMover : MonoBehaviour
             {
                 forcePower.y = Mathf.Min(0.0f,forcePower.y+20.0f*Time.fixedDeltaTime);
             }
-
+            
             if (forcePower == Vector2.zero)
             {
                 isForcing = false;
@@ -138,8 +148,10 @@ public class PhysicsMover : MonoBehaviour
         }
         
         //無理矢理掛かる力による移動
-        movePoint += forcePower.x *Time.fixedDeltaTime* Vector2.right;
-        movePoint += forcePower.y *Time.fixedDeltaTime* Vector2.up;
+        // movePoint += forcePower.x *Time.fixedDeltaTime* Vector2.right;
+        // movePoint += forcePower.y *Time.fixedDeltaTime* Vector2.up;
+        //質量が軽いほどよく飛ぶ
+        movePoint += forcePower * (Vector2.right+Vector2.up)/Mathf.Max(0.0f,mass)*Time.fixedDeltaTime;
         
         //キャラクター押しあたり判定
         if (hasOtherCharacter)
@@ -164,14 +176,14 @@ public class PhysicsMover : MonoBehaviour
         if (!other.CompareTag("Geometry Channel")) return;
         
         //相手がキャラクターの場合はキャッシュする
-        if ((characterLayer.value & (1 << other.gameObject.layer)) > 0)
+        if (CanPushObject(other))
         {
             var otherParent=other.transform.parent.gameObject;
             otherMover_Cache = otherParent.GetComponent<PhysicsMover>();
             otherCollider_Cache = other;
             otherRigidbody_Cache=otherParent.GetComponent<Rigidbody2D>();
             hasOtherCharacter = true;
-            Debug.Log("Catch Character");
+            Debug.Log(gameObject.name+": Catch Character");
             return;
         }
         
@@ -198,13 +210,13 @@ public class PhysicsMover : MonoBehaviour
         if (!other.CompareTag("Geometry Channel")) return;
             
         //相手がキャラクターの場合はキャッシュ解除
-        if ((characterLayer.value & (1 << other.gameObject.layer)) > 0)
+        if (CanPushObject(other))
         {
             otherMover_Cache = null;
             otherCollider_Cache = null;
             otherRigidbody_Cache = null;
             hasOtherCharacter = false;
-            Debug.Log("Lost Character");
+            Debug.Log(gameObject.name+": Lost Character");
             return;
         }
     }
