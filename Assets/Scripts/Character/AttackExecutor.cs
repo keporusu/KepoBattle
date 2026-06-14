@@ -31,16 +31,16 @@ namespace Character
         private CancellationTokenSource _attackCts;
 
         //ステートの進行状況取得用
-        private StateProgressionNotifier spNotifierAttack1_Cache;
-        private StateProgressionNotifier spNotifierAttack2_Cache;
-        private StateProgressionNotifier spNotifierAttack3_Cache;
+        private StateProgressionNotifier _spNotifierAttack1_Cache;
+        private StateProgressionNotifier _spNotifierAttack2_Cache;
+        private StateProgressionNotifier _spNotifierAttack3_Cache;
 
         //コリジョン管理
-        private List<bool> isExecuting = new List<bool>(new bool[5]);
-        private List<DamageCollisionManager> damageColliderManagers = new List<DamageCollisionManager>();
+        private List<bool> _isExecuting = new List<bool>(new bool[5]);
+        private List<DamageCollisionManager> _damageColliderManagers = new List<DamageCollisionManager>();
 
         //進行中の攻撃
-        private AttackType progressAttack = AttackType.None;
+        private AttackType _progressAttack = AttackType.None;
 
         //攻撃終了通知
         public Action OnAttackFinish;
@@ -50,10 +50,10 @@ namespace Character
             //全てのNotifierを取得
             var spNotifiers = animator.GetBehaviours<StateProgressionNotifier>();
             //それぞれの攻撃のNotifierを取得
-            spNotifierAttack1_Cache = System.Array.Find(spNotifiers, x => x.StateName == "Attack1");
-            spNotifierAttack2_Cache = System.Array.Find(spNotifiers, x => x.StateName == "Attack2");
-            spNotifierAttack3_Cache = System.Array.Find(spNotifiers, x => x.StateName == "SpecialAttack");
-            if (spNotifierAttack1_Cache == null || spNotifierAttack2_Cache == null || spNotifierAttack3_Cache == null)
+            _spNotifierAttack1_Cache = System.Array.Find(spNotifiers, x => x.StateName == "Attack1");
+            _spNotifierAttack2_Cache = System.Array.Find(spNotifiers, x => x.StateName == "Attack2");
+            _spNotifierAttack3_Cache = System.Array.Find(spNotifiers, x => x.StateName == "SpecialAttack");
+            if (_spNotifierAttack1_Cache == null || _spNotifierAttack2_Cache == null || _spNotifierAttack3_Cache == null)
             {
                 Debug.LogError("Some behaviours are missing");
             }
@@ -66,20 +66,20 @@ namespace Character
                 if (child.gameObject.CompareTag("Damage Channel"))
                 {
                     var colliderManager = child.GetComponent<DamageCollisionManager>();
-                    damageColliderManagers.Add(colliderManager);
+                    _damageColliderManagers.Add(colliderManager);
                 }
             }
 
             //アニメーション再生中のコリジョン反映イベント
-            spNotifierAttack1_Cache.OnStateBegin += SetTypeAttack1;
-            spNotifierAttack2_Cache.OnStateBegin += SetTypeAttack2;
-            spNotifierAttack3_Cache.OnStateBegin += SetTypeAttack3Attack;
-            spNotifierAttack1_Cache.OnStateProgress += SetCollisionAttack;
-            spNotifierAttack2_Cache.OnStateProgress += SetCollisionAttack;
-            spNotifierAttack3_Cache.OnStateProgress += SetCollisionAttack;
-            spNotifierAttack1_Cache.OnStateEnd += AttackFinishCallback;
-            spNotifierAttack2_Cache.OnStateEnd += AttackFinishCallback;
-            spNotifierAttack3_Cache.OnStateEnd += AttackFinishCallback;
+            _spNotifierAttack1_Cache.OnStateBegin += SetTypeAttack1;
+            _spNotifierAttack2_Cache.OnStateBegin += SetTypeAttack2;
+            _spNotifierAttack3_Cache.OnStateBegin += SetTypeAttack3Attack;
+            _spNotifierAttack1_Cache.OnStateProgress += SetCollisionAttack;
+            _spNotifierAttack2_Cache.OnStateProgress += SetCollisionAttack;
+            _spNotifierAttack3_Cache.OnStateProgress += SetCollisionAttack;
+            _spNotifierAttack1_Cache.OnStateEnd += AttackFinishCallback;
+            _spNotifierAttack2_Cache.OnStateEnd += AttackFinishCallback;
+            _spNotifierAttack3_Cache.OnStateEnd += AttackFinishCallback;
         }
 
 
@@ -93,9 +93,9 @@ namespace Character
 
         public void CancelAttack()
         {
-            isExecuting = new List<bool>(new bool[5]);
-            progressAttack = AttackType.None;
-            foreach (var manager in damageColliderManagers)
+            _isExecuting = new List<bool>(new bool[5]);
+            _progressAttack = AttackType.None;
+            foreach (var manager in _damageColliderManagers)
             {
                 manager.Deactivate();
             }
@@ -104,17 +104,17 @@ namespace Character
 
         private void SetTypeAttack1(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            progressAttack = AttackType.Attack1;
+            _progressAttack = AttackType.Attack1;
         }
 
         private void SetTypeAttack2(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            progressAttack = AttackType.Attack2;
+            _progressAttack = AttackType.Attack2;
         }
 
         private void SetTypeAttack3Attack(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            progressAttack = AttackType.SpecialAttack;
+            _progressAttack = AttackType.SpecialAttack;
         }
 
         private void SetCollisionAttack(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -122,11 +122,11 @@ namespace Character
             // TODO: これを毎フレームAnimControllerのステート中に呼ばれるようにして、コリジョンの位置を調整する
 
             var collisionSettings = attack1CollisionSettings;
-            if (progressAttack == AttackType.Attack2)
+            if (_progressAttack == AttackType.Attack2)
             {
                 collisionSettings = attack2CollisionSettings;
             }
-            else if (progressAttack == AttackType.SpecialAttack)
+            else if (_progressAttack == AttackType.SpecialAttack)
             {
                 collisionSettings = attack3CollisionSettings;
             }
@@ -134,9 +134,9 @@ namespace Character
             int id = 0;
             foreach (var setting in collisionSettings)
             {
-                if (stateInfo.normalizedTime >= setting.spanStart && !isExecuting[id])
+                if (stateInfo.normalizedTime >= setting.spanStart && !_isExecuting[id])
                 {
-                    isExecuting[id] = true;
+                    _isExecuting[id] = true;
                     UseAvailableCollider(setting, id);
                 }
 
@@ -146,9 +146,9 @@ namespace Character
             id = 0;
             foreach (var setting in collisionSettings)
             {
-                if (stateInfo.normalizedTime > setting.spanEnd && isExecuting[id])
+                if (stateInfo.normalizedTime > setting.spanEnd && _isExecuting[id])
                 {
-                    isExecuting[id] = false;
+                    _isExecuting[id] = false;
                     DeactivateCollider(id);
                 }
 
@@ -168,7 +168,7 @@ namespace Character
         [CanBeNull]
         private void UseAvailableCollider(AttackCollisionSetting collisionSetting, int id)
         {
-            var manager = damageColliderManagers.FirstOrDefault(x => !x.IsActive);
+            var manager = _damageColliderManagers.FirstOrDefault(x => !x.IsActive);
             if (manager == null)
             {
                 throw new InvalidOperationException($"DamageColliderManager が足りません");
@@ -180,7 +180,7 @@ namespace Character
         //コリジョンの無効化
         private void DeactivateCollider(int id)
         {
-            var manager = damageColliderManagers.FirstOrDefault(x => x.OwnerID == id);
+            var manager = _damageColliderManagers.FirstOrDefault(x => x.OwnerID == id);
             if (manager == null)
             {
                 throw new InvalidOperationException(

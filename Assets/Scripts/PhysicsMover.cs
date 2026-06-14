@@ -11,33 +11,32 @@ public class PhysicsMover : MonoBehaviour
     [SerializeField] private float friction = 1.0f;
     [SerializeField] private GameObject geometryCollider;
     //押し判定をする相手
-    private LayerMask characterLayer;
-    private LayerMask propLayer;
-    private LayerMask groundLayer;
+    private LayerMask _characterLayer;
+    private LayerMask _propLayer;
+    private LayerMask _groundLayer;
 
     public Vector2 Velocity { get; private set; }
     
     //キャッシュ
-    private Rigidbody2D rigidbody_Cache;
-    private Collider2D geometryCollider_Cache;
-    private Rigidbody2D otherRigidbody_Cache;
+    private Rigidbody2D _rigidbody_Cache;
+    private Collider2D _geometryCollider_Cache;
+    private Rigidbody2D _otherRigidbody_Cache;
     
     //常にUpdateする値
-    protected float movingVelocity = 0.0f; //移動時の速度
-    protected Vector2 forceVelocity = Vector2.zero; //無理に掛かる速度
+    protected float MovingVelocity = 0.0f; //移動時の速度
+    protected Vector2 ForceVelocity = Vector2.zero; //無理に掛かる速度
     
     //状態
-    private bool hasOtherCharacter=false;
-    private bool isAir = true;
-    protected bool isBraking = false;
-    private bool isForcing = false;
-    private float snapGroundY = float.NaN;
+    private bool _hasOtherCharacter=false;
+    private bool _isAir = true;
+    protected bool IsBraking = false;
+    private float _snapGroundY = float.NaN;
     
-    public bool IsAir => isAir;
+    public bool IsAir => _isAir;
     private bool CanPushObject(Collider2D other)
     {
-        return (characterLayer.value & (1 << other.gameObject.layer)) > 0 ||
-               (propLayer.value & (1 << other.gameObject.layer)) > 0;
+        return (_characterLayer.value & (1 << other.gameObject.layer)) > 0 ||
+               (_propLayer.value & (1 << other.gameObject.layer)) > 0;
     }
     
     //通知
@@ -47,7 +46,7 @@ public class PhysicsMover : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rigidbody_Cache = GetComponent<Rigidbody2D>();
+        _rigidbody_Cache = GetComponent<Rigidbody2D>();
 
         if (geometryCollider == null)
         {
@@ -56,8 +55,8 @@ public class PhysicsMover : MonoBehaviour
             return;
         }
 
-        geometryCollider_Cache = geometryCollider.GetComponent<Collider2D>();
-        if (geometryCollider_Cache == null)
+        _geometryCollider_Cache = geometryCollider.GetComponent<Collider2D>();
+        if (_geometryCollider_Cache == null)
         {
             Debug.LogError("Collider2D not found on geometryCollider", this);
             enabled = false;
@@ -75,65 +74,65 @@ public class PhysicsMover : MonoBehaviour
         geometryHitNotifier.OnHit += OnHitGeometry;
         
         //レイヤー取得
-        characterLayer=LayerMask.GetMask("Character");
-        propLayer=LayerMask.GetMask("Prop");
-        groundLayer=LayerMask.GetMask("Ground");
+        _characterLayer=LayerMask.GetMask("Character");
+        _propLayer=LayerMask.GetMask("Prop");
+        _groundLayer=LayerMask.GetMask("Ground");
     }
     
     private void FixedUpdate()
     {
 
         //****移動****
-        Vector2 movePoint = rigidbody_Cache.position;
+        Vector2 movePoint = _rigidbody_Cache.position;
         
         //ブレーキ処理
-        if (isBraking)
+        if (IsBraking)
         {
-            if (movingVelocity > 0.0f)
+            if (MovingVelocity > 0.0f)
             {
-                movingVelocity = Mathf.Max(0.0f,movingVelocity-friction*Time.deltaTime);
+                MovingVelocity = Mathf.Max(0.0f,MovingVelocity-friction*Time.deltaTime);
             }
-            else if (movingVelocity < 0.0f)
+            else if (MovingVelocity < 0.0f)
             {
-                movingVelocity = Mathf.Min(0.0f,movingVelocity+friction*Time.deltaTime);
+                MovingVelocity = Mathf.Min(0.0f,MovingVelocity+friction*Time.deltaTime);
             }
             
-            if (movingVelocity == 0.0f)
+            if (MovingVelocity == 0.0f)
             {
-                isBraking = false;
+                IsBraking = false;
             }
         }
         
         //移動処理
-        movePoint += movingVelocity *Time.fixedDeltaTime* Vector2.right;
+        movePoint += MovingVelocity *Time.fixedDeltaTime* Vector2.right;
 
         //空中での処理
-        if (isAir)
+        if (_isAir)
         {
             //重力による上方向減衰
-            forceVelocity += gravity * Time.fixedDeltaTime * Vector2.down;
+            ForceVelocity += gravity * Time.fixedDeltaTime * Vector2.down;
         }
         //地面についているときの処理
         else
         {
-            if (forceVelocity.x > 0.0f)
+            if (ForceVelocity.x > 0.0f)
             {
-                forceVelocity.x = Mathf.Max(0.0f, forceVelocity.x - friction * Time.deltaTime);
+                ForceVelocity.x = Mathf.Max(0.0f, ForceVelocity.x - friction * Time.deltaTime);
             }
-            else if (forceVelocity.x < 0.0f)
+            else if (ForceVelocity.x < 0.0f)
             {
-                forceVelocity.x = Mathf.Min(0.0f, forceVelocity.x + friction * Time.deltaTime);
+                ForceVelocity.x = Mathf.Min(0.0f, ForceVelocity.x + friction * Time.deltaTime);
             }
         }
         
         //無理矢理掛かる力による移動
         //質量が軽いほどよく飛ぶ
-        movePoint += forceVelocity * (Vector2.right + Vector2.up) / Mathf.Max(0.0f, weight) * Time.fixedDeltaTime;
+        movePoint += ForceVelocity * (Vector2.right + Vector2.up) / Mathf.Max(0.0f, weight) * Time.fixedDeltaTime;
         
         //キャラクター押しあたり判定
-        if (hasOtherCharacter)
+        if (_hasOtherCharacter)
         {
-            if (rigidbody_Cache.position.x > otherRigidbody_Cache.position.x)
+            if (_rigidbody_Cache.position.x > _otherRigidbody_Cache.position.x)
             {
                 movePoint += 1.5f*Time.fixedDeltaTime * Vector2.right;
             }
@@ -144,26 +143,26 @@ public class PhysicsMover : MonoBehaviour
         }
         
         //着地スナップ補正
-        if (!float.IsNaN(snapGroundY))
+        if (!float.IsNaN(_snapGroundY))
         {
-            movePoint.y = snapGroundY;
-            snapGroundY = float.NaN;
+            movePoint.y = _snapGroundY;
+            _snapGroundY = float.NaN;
         }
         
         //最終処理
-        Velocity = (movePoint - rigidbody_Cache.position) / Time.fixedDeltaTime;
-        rigidbody_Cache.MovePosition(movePoint);
+        Velocity = (movePoint - _rigidbody_Cache.position) / Time.fixedDeltaTime;
+        _rigidbody_Cache.MovePosition(movePoint);
         
         
         
         //**********衝突判定関連****************
         
         //地面端から落ちるか？
-        var bottomOffset = geometryCollider_Cache.bounds.min.y - rigidbody_Cache.position.y;
+        var bottomOffset = _geometryCollider_Cache.bounds.min.y - _rigidbody_Cache.position.y;
         var groundOrigin = new Vector2(movePoint.x, movePoint.y + bottomOffset + 0.05f);
-        bool wasAir = isAir;
-        isAir = !Physics2D.Raycast(groundOrigin, Vector2.down, 0.15f, groundLayer);
-        if (!wasAir && isAir)
+        bool wasAir = _isAir;
+        _isAir = !Physics2D.Raycast(groundOrigin, Vector2.down, 0.15f, _groundLayer);
+        if (!wasAir && _isAir)
         {
             OnForceAir?.Invoke();
         }
@@ -177,24 +176,24 @@ public class PhysicsMover : MonoBehaviour
         if (CanPushObject(other))
         {
             var otherParent=other.transform.parent.gameObject;
-            otherRigidbody_Cache=otherParent.GetComponent<Rigidbody2D>();
-            hasOtherCharacter = true;
+            _otherRigidbody_Cache=otherParent.GetComponent<Rigidbody2D>();
+            _hasOtherCharacter = true;
             Debug.Log(gameObject.name+": Catch Character");
             return;
         }
         
         //足場の時
-        if (other.bounds.max.y < geometryCollider_Cache.bounds.max.y)
+        if (other.bounds.max.y < _geometryCollider_Cache.bounds.max.y)
         {
             //上方向に動いているときは足場無視
             if(Velocity.y > 0.0f) return;
 
             float groundTop = other.bounds.max.y;
-            isAir = false;
-            snapGroundY = groundTop + geometryCollider_Cache.bounds.extents.y;
+            _isAir = false;
+            _snapGroundY = groundTop + _geometryCollider_Cache.bounds.extents.y;
             
             //地面についた場合、上下方向にかかっている速度は0にする
-            forceVelocity.y = 0.0f;
+            ForceVelocity.y = 0.0f;
             
             //接地通知
             OnGround?.Invoke();
@@ -208,8 +207,8 @@ public class PhysicsMover : MonoBehaviour
         //相手がキャラクターの場合はキャッシュ解除
         if (CanPushObject(other))
         {
-            otherRigidbody_Cache = null;
-            hasOtherCharacter = false;
+            _otherRigidbody_Cache = null;
+            _hasOtherCharacter = false;
             Debug.Log(gameObject.name+": Lost Character");
             return;
         }
@@ -220,32 +219,30 @@ public class PhysicsMover : MonoBehaviour
     /// </summary>
     /// <param name="velocity">加える速度</param>
     /// <param name="forceMode">一回停止させてから力を加えるか？</param>
-    public void ForceVelocity(Vector2 velocity, bool forceMode)
+    public void AddForceVelocity(Vector2 velocity, bool forceMode)
     {
         if (forceMode)
         {
-            movingVelocity = 0.0f;
-            forceVelocity = new Vector2();
+            MovingVelocity = 0.0f;
+            ForceVelocity = new Vector2();
         }
         
-        forceVelocity += velocity;
-        isForcing = true;
+        ForceVelocity += velocity;
         if (velocity.y > 0.0f)
         {
-            isAir = true;
+            _isAir = true;
         }
     }
 
     public void ResetAll()
     {
-        movingVelocity = 0.0f; //移動時の力
-        forceVelocity = new Vector2(); //攻撃などで無理にかかる速度
+        MovingVelocity = 0.0f; //移動時の力
+        ForceVelocity = new Vector2(); //攻撃などで無理にかかる速度
     
         //状態
-        hasOtherCharacter=false;
-        isAir = true;
-        isBraking = false;
-        isForcing = false;
+        _hasOtherCharacter=false;
+        _isAir = true;
+        IsBraking = false;
     }
 
 }

@@ -9,10 +9,10 @@ public class DamageProcessor : MonoBehaviour
     [SerializeField] private float invincibleDuration = 0.1f;
 
     //キャッシュ
-    private PhysicsMover physicsMover_Cache;
-    protected IHealthManager healthManager_Cache;
+    private PhysicsMover _physicsMover_Cache;
+    protected IHealthManager _healthManager_Cache;
 
-    private float lastDamagedTime = float.NegativeInfinity;
+    private float _lastDamagedTime = float.NegativeInfinity;
 
     //なにか処理させたいことがあれば子供が実装
     protected virtual void OnDamagedHitFinished(){}
@@ -28,9 +28,9 @@ public class DamageProcessor : MonoBehaviour
         damagedNotifier.OnHit += DamagedHit;
         
         //強制吹き飛ばし用、HP減算
-        physicsMover_Cache = GetComponent<PhysicsMover>();
+        _physicsMover_Cache = GetComponent<PhysicsMover>();
         
-        var healthManager=healthManager_Cache = GetComponent<IHealthManager>();
+        var healthManager=_healthManager_Cache = GetComponent<IHealthManager>();
         Debug.Assert(
             healthManager != null,
             "HealthManagerがありません"
@@ -39,7 +39,7 @@ public class DamageProcessor : MonoBehaviour
 
     void DamagedHit(Collider2D other)
     {
-        if (Time.time < lastDamagedTime + invincibleDuration) return;
+        if (Time.time < _lastDamagedTime + invincibleDuration) return;
 
         //コリジョン処理
         var damageCollisionManager = other.GetComponent<DamageCollisionManager>();
@@ -53,12 +53,12 @@ public class DamageProcessor : MonoBehaviour
                 attackInfo.attackVelocity.x = -attackInfo.attackVelocity.x;
             }
             //速度を与える
-            physicsMover_Cache.ForceVelocity(attackInfo.attackVelocity,true);
+            _physicsMover_Cache.AddForceVelocity(attackInfo.attackVelocity,true);
             
             //ダメージ処理
-            healthManager_Cache.TakeDamage(attackInfo.damage);
+            _healthManager_Cache.TakeDamage(attackInfo.damage);
 
-            lastDamagedTime = Time.time;
+            _lastDamagedTime = Time.time;
             OnDamagedHitFinished();
             
             Debug.Log("DamagedHit");

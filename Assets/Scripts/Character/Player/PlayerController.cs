@@ -17,81 +17,81 @@ namespace Character.Player
         [SerializeField] private float moveSpeed = 1.0f;
 
         //InputAction
-        private InputSystem_Actions inputActions;
-        private InputAction moveAction;
-        private InputAction jumpAction;
-        private InputAction attackAction;
+        private InputSystem_Actions _inputActions;
+        private InputAction _moveAction;
+        private InputAction _jumpAction;
+        private InputAction _attackAction;
 
         //キャッシュ
-        private CharacterPhysicsMover physicsMover_Cache;
-        private AttackExecutor attackExecutor_Cache;
-        private AnimatorTrigger animatorTrigger_Cache;
-        private CameraController cameraController_Cache;
+        private CharacterPhysicsMover _physicsMover_Cache;
+        private AttackExecutor _attackExecutor_Cache;
+        private AnimatorTrigger _animatorTrigger_Cache;
+        private CameraController _cameraController_Cache;
 
         //State
-        private bool isJumping = false;
-        private bool blockingMove = false;
-        private float moveInput = 0f;
+        private bool _isJumping = false;
+        private bool _blockingMove = false;
+        private float _moveInput = 0f;
 
 
         void Awake()
         {
-            inputActions = new InputSystem_Actions();
-            moveAction = inputActions.Player.Move;
-            jumpAction = inputActions.Player.Jump;
-            attackAction = inputActions.Player.Attack;
+            _inputActions = new InputSystem_Actions();
+            _moveAction = _inputActions.Player.Move;
+            _jumpAction = _inputActions.Player.Jump;
+            _attackAction = _inputActions.Player.Attack;
         }
 
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            physicsMover_Cache = GetComponent<CharacterPhysicsMover>();
-            attackExecutor_Cache = GetComponent<AttackExecutor>();
-            animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
-            cameraController_Cache = GetComponent<CameraController>();
+            _physicsMover_Cache = GetComponent<CharacterPhysicsMover>();
+            _attackExecutor_Cache = GetComponent<AttackExecutor>();
+            _animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
+            _cameraController_Cache = GetComponent<CameraController>();
 
             //接地イベント登録
-            physicsMover_Cache.OnGround += OnGround;
-            physicsMover_Cache.OnForceAir += OnForceAir;
-            attackExecutor_Cache.OnAttackFinish += CancelBlockingMove;
+            _physicsMover_Cache.OnGround += OnGround;
+            _physicsMover_Cache.OnForceAir += OnForceAir;
+            _attackExecutor_Cache.OnAttackFinish += CancelBlockingMove;
         }
 
         private void OnEnable()
         {
-            moveAction.Enable();
-            moveAction.performed += OnMovePerformed;
-            moveAction.canceled += OnMoveCanceled;
-            jumpAction.Enable();
-            jumpAction.started += OnJumpStarted;
-            jumpAction.canceled += OnJumpCanceled;
-            attackAction.Enable();
-            attackAction.started += OnAttack;
+            _moveAction.Enable();
+            _moveAction.performed += OnMovePerformed;
+            _moveAction.canceled += OnMoveCanceled;
+            _jumpAction.Enable();
+            _jumpAction.started += OnJumpStarted;
+            _jumpAction.canceled += OnJumpCanceled;
+            _attackAction.Enable();
+            _attackAction.started += OnAttack;
         }
 
         private void OnDisable()
         {
-            moveAction.performed -= OnMovePerformed;
-            moveAction.canceled -= OnMoveCanceled;
-            jumpAction.started -= OnJumpStarted;
-            jumpAction.canceled -= OnJumpCanceled;
-            attackAction.started -= OnAttack;
-            inputActions.Disable();
+            _moveAction.performed -= OnMovePerformed;
+            _moveAction.canceled -= OnMoveCanceled;
+            _jumpAction.started -= OnJumpStarted;
+            _jumpAction.canceled -= OnJumpCanceled;
+            _attackAction.started -= OnAttack;
+            _inputActions.Disable();
         }
 
         private void Update()
         {
             //移動アニメーション(AnimController)
-            animatorTrigger_Cache.SetSpeed(Mathf.Abs(physicsMover_Cache.Velocity.x));
-            float fallSpeed = -physicsMover_Cache.Velocity.y;
-            animatorTrigger_Cache.SetFallSpeed(fallSpeed);
+            _animatorTrigger_Cache.SetSpeed(Mathf.Abs(_physicsMover_Cache.Velocity.x));
+            float fallSpeed = -_physicsMover_Cache.Velocity.y;
+            _animatorTrigger_Cache.SetFallSpeed(fallSpeed);
             //カメラ操作
-            cameraController_Cache.SetCameraPosition(transform.position);
+            _cameraController_Cache.SetCameraPosition(transform.position);
         }
 
         private void OnMovePerformed(InputAction.CallbackContext ctx)
         {
-            if (blockingMove) return;
+            if (_blockingMove) return;
             Move(ctx.ReadValue<Vector2>().x);
         }
 
@@ -107,8 +107,8 @@ namespace Character.Player
                 transform.localScale = new Vector3(-1.0f, transform.localScale.y, transform.localScale.z);
             }
 
-            moveInput = moveX * moveSpeed;
-            physicsMover_Cache.Move(moveInput);
+            _moveInput = moveX * moveSpeed;
+            _physicsMover_Cache.Move(_moveInput);
         }
 
         private void OnMoveCanceled(InputAction.CallbackContext ctx)
@@ -118,7 +118,7 @@ namespace Character.Player
 
         private void CancelMove()
         {
-            physicsMover_Cache.StopMove();
+            _physicsMover_Cache.StopMove();
         }
 
         private void OnJumpStarted(InputAction.CallbackContext ctx)
@@ -128,55 +128,55 @@ namespace Character.Player
 
         private void StartJump()
         {
-            if (blockingMove) return;
-            if (physicsMover_Cache.IsAir) return;
-            isJumping = true;
-            physicsMover_Cache.StartJump(jumpPower);
+            if (_blockingMove) return;
+            if (_physicsMover_Cache.IsAir) return;
+            _isJumping = true;
+            _physicsMover_Cache.StartJump(jumpPower);
             //ジャンプ状態遷移（AnimController）
-            animatorTrigger_Cache.TriggerJump();
+            _animatorTrigger_Cache.TriggerJump();
             Debug.Log("Jump started");
         }
 
         private void OnJumpCanceled(InputAction.CallbackContext ctx)
         {
-            if (!isJumping) return;
-            isJumping = false;
-            physicsMover_Cache.StopJump();
+            if (!_isJumping) return;
+            _isJumping = false;
+            _physicsMover_Cache.StopJump();
             Debug.Log("Jump canceled");
         }
 
         private void OnGround()
         {
             //接地状態遷移（AnimController）
-            animatorTrigger_Cache.TriggerGround();
+            _animatorTrigger_Cache.TriggerGround();
             Debug.Log("Grounded");
         }
 
         private void OnForceAir()
         {
-            animatorTrigger_Cache.TriggerAir();
+            _animatorTrigger_Cache.TriggerAir();
         }
 
         private void OnAttack(InputAction.CallbackContext ctx)
         {
-            if (blockingMove) return;
-            blockingMove = true;
+            if (_blockingMove) return;
+            _blockingMove = true;
 
             //移動処理をキャンセルする
             CancelMove();
 
-            attackExecutor_Cache.StartAttack1();
-            animatorTrigger_Cache.TriggerAttack1();
+            _attackExecutor_Cache.StartAttack1();
+            _animatorTrigger_Cache.TriggerAttack1();
             //animatorTrigger_Cache.TriggerAttack2();
             //animatorTrigger_Cache.TriggerAttack3();
         }
 
         private void CancelBlockingMove()
         {
-            blockingMove = false;
+            _blockingMove = false;
 
             //移動ボタンを押しっぱなしだった場合のため必要
-            float currentMoveX = moveAction.ReadValue<Vector2>().x;
+            float currentMoveX = _moveAction.ReadValue<Vector2>().x;
             Move(currentMoveX);
         }
     }

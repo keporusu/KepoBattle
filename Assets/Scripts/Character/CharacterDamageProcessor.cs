@@ -8,12 +8,12 @@ namespace Character
     [RequireComponent(typeof(AnimatorTrigger))]
     public class CharacterDamageProcessor : DamageProcessor
     {
-        private AnimatorTrigger animatorTrigger_Cache;
+        private AnimatorTrigger _animatorTrigger_Cache;
 
         protected override void Start()
         {
             base.Start();
-            animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
+            _animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
         }
 
         protected override void OnDamagedHitFinished()
@@ -21,11 +21,11 @@ namespace Character
             base.OnDamagedHitFinished();
 
             //ダメージアニメーションに遷移
-            animatorTrigger_Cache.TriggerDamage();
-            if (healthManager_Cache.IsDead)
+            _animatorTrigger_Cache.TriggerDamage();
+            if (_healthManager_Cache.IsDead)
             {
                 //死亡遷移
-                animatorTrigger_Cache.TriggerDeath();
+                _animatorTrigger_Cache.TriggerDeath();
                 Debug.Log("Death");
             }
         }

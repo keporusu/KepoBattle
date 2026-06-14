@@ -6,23 +6,23 @@ namespace Character
     {
         public void StartJump(float power)
         {
-            ForceVelocity(new Vector2(0.0f, power), false);
+            AddForceVelocity(new Vector2(0.0f, power), false);
         }
 
         public void StopJump()
         {
-            forceVelocity.y = 0.0f;
+            ForceVelocity.y = 0.0f;
         }
 
         public void Move(float power)
         {
-            isBraking = false;
-            movingVelocity = power;
+            IsBraking = false;
+            MovingVelocity = power;
         }
 
         public void StopMove()
         {
-            isBraking = true;
+            IsBraking = true;
         }
     }
 }

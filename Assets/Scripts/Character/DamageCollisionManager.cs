@@ -8,26 +8,26 @@ namespace Character
 {
     public class DamageCollisionManager : MonoBehaviour
     {
-        private CircleCollider2D circleCollider;
-        private CapsuleCollider2D capsuleCollider;
-        private BoxCollider2D boxCollider;
+        private CircleCollider2D _circleCollider;
+        private CapsuleCollider2D _capsuleCollider;
+        private BoxCollider2D _boxCollider;
 
-        private ColliderShape lastactiveShape;
-        private bool isActive = false;
-        private int ownerID = -1;
-        private AttackInfo attackInfo;
+        private ColliderShape _lastactiveShape;
+        private bool _isActive = false;
+        private int _ownerID = -1;
+        private AttackInfo _attackInfo;
 
-        public bool IsActive => isActive;
-        public int OwnerID => ownerID;
+        public bool IsActive => _isActive;
+        public int OwnerID => _ownerID;
 
         private void Start()
         {
-            circleCollider = GetComponent<CircleCollider2D>();
-            capsuleCollider = GetComponent<CapsuleCollider2D>();
-            boxCollider = GetComponent<BoxCollider2D>();
-            circleCollider.enabled = false;
-            capsuleCollider.enabled = false;
-            boxCollider.enabled = false;
+            _circleCollider = GetComponent<CircleCollider2D>();
+            _capsuleCollider = GetComponent<CapsuleCollider2D>();
+            _boxCollider = GetComponent<BoxCollider2D>();
+            _circleCollider.enabled = false;
+            _capsuleCollider.enabled = false;
+            _boxCollider.enabled = false;
             gameObject.SetActive(false);
         }
 
@@ -37,37 +37,37 @@ namespace Character
             //すでにアクティブなら何もしない
             if (gameObject.activeSelf) return null;
 
-            lastactiveShape = collisionSetting.shape;
+            _lastactiveShape = collisionSetting.shape;
             gameObject.SetActive(true);
-            isActive = true;
-            ownerID = id;
+            _isActive = true;
+            _ownerID = id;
 
             //コリジョンの攻撃情報
-            attackInfo.attackVelocity = collisionSetting.attackPower;
-            attackInfo.damage = collisionSetting.damage;
+            _attackInfo.attackVelocity = collisionSetting.attackPower;
+            _attackInfo.damage = collisionSetting.damage;
 
             //コリジョン形状の設定
             switch (collisionSetting.shape)
             {
                 case ColliderShape.Circle:
-                    circleCollider.radius = collisionSetting.circleRadius;
-                    circleCollider.offset = collisionSetting.offset;
-                    circleCollider.enabled = true;
-                    return circleCollider;
+                    _circleCollider.radius = collisionSetting.circleRadius;
+                    _circleCollider.offset = collisionSetting.offset;
+                    _circleCollider.enabled = true;
+                    return _circleCollider;
                 case ColliderShape.Capsule:
-                    capsuleCollider.size =
+                    _capsuleCollider.size =
                         new Vector2(collisionSetting.capsuleRadius * 2, collisionSetting.capsuleHeight);
-                    capsuleCollider.direction = collisionSetting.capsuleDirection == CapsuleDirection.X
+                    _capsuleCollider.direction = collisionSetting.capsuleDirection == CapsuleDirection.X
                         ? CapsuleDirection2D.Horizontal
                         : CapsuleDirection2D.Vertical;
-                    capsuleCollider.offset = collisionSetting.offset;
-                    capsuleCollider.enabled = true;
-                    return capsuleCollider;
+                    _capsuleCollider.offset = collisionSetting.offset;
+                    _capsuleCollider.enabled = true;
+                    return _capsuleCollider;
                 case ColliderShape.Box:
-                    boxCollider.size = new Vector2(collisionSetting.boxSize.x, collisionSetting.boxSize.y);
-                    boxCollider.offset = collisionSetting.offset;
-                    boxCollider.enabled = true;
-                    return boxCollider;
+                    _boxCollider.size = new Vector2(collisionSetting.boxSize.x, collisionSetting.boxSize.y);
+                    _boxCollider.offset = collisionSetting.offset;
+                    _boxCollider.enabled = true;
+                    return _boxCollider;
                 default:
                     return null;
             }
@@ -75,27 +75,27 @@ namespace Character
 
         public void Deactivate()
         {
-            switch (lastactiveShape)
+            switch (_lastactiveShape)
             {
                 case ColliderShape.Circle:
-                    circleCollider.enabled = false;
+                    _circleCollider.enabled = false;
                     break;
                 case ColliderShape.Capsule:
-                    capsuleCollider.enabled = false;
+                    _capsuleCollider.enabled = false;
                     break;
                 case ColliderShape.Box:
-                    boxCollider.enabled = false;
+                    _boxCollider.enabled = false;
                     break;
             }
 
             gameObject.SetActive(false);
-            isActive = false;
+            _isActive = false;
         }
 
 
         public AttackInfo GetAttackInfo()
         {
-            return attackInfo;
+            return _attackInfo;
         }
     }
 }

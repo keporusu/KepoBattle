@@ -16,31 +16,31 @@ namespace Character.Enemy
         [SerializeField] private GameObject animSprite;
 
         //キャッシュ
-        private PhysicsMover physicsMover_Cache;
-        private AttackExecutor attackExecutor_Cache;
-        private Animator animator_Cache;
+        private PhysicsMover _physicsMover_Cache;
+        private AttackExecutor _attackExecutor_Cache;
+        private Animator _animator_Cache;
 
 
         private void Start()
         {
-            physicsMover_Cache = GetComponent<PhysicsMover>();
-            attackExecutor_Cache = GetComponent<AttackExecutor>();
-            animator_Cache = animSprite.GetComponent<Animator>();
+            _physicsMover_Cache = GetComponent<PhysicsMover>();
+            _attackExecutor_Cache = GetComponent<AttackExecutor>();
+            _animator_Cache = animSprite.GetComponent<Animator>();
 
-            if (animator_Cache == null)
+            if (_animator_Cache == null)
             {
                 Debug.LogError("Animator component not found on animSprite", this);
                 enabled = false;
                 return;
             }
 
-            physicsMover_Cache.OnGround += OnGround;
+            _physicsMover_Cache.OnGround += OnGround;
         }
 
         private void OnGround()
         {
             //接地状態遷移（AnimController）
-            animator_Cache.SetTrigger(Ground);
+            _animator_Cache.SetTrigger(Ground);
             Debug.Log("Grounded");
         }
     }
