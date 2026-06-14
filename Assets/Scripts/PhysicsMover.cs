@@ -13,6 +13,7 @@ public class PhysicsMover : MonoBehaviour
     //押し判定をする相手
     private LayerMask characterLayer;
     private LayerMask propLayer;
+    private LayerMask groundLayer;
 
     public Vector2 Velocity { get; private set; }
     
@@ -41,6 +42,7 @@ public class PhysicsMover : MonoBehaviour
     
     //通知
     public event System.Action OnGround;
+    public event System.Action OnForceAir;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -75,10 +77,13 @@ public class PhysicsMover : MonoBehaviour
         //レイヤー取得
         characterLayer=LayerMask.GetMask("Character");
         propLayer=LayerMask.GetMask("Prop");
+        groundLayer=LayerMask.GetMask("Ground");
     }
     
     private void FixedUpdate()
     {
+
+        //****移動****
         Vector2 movePoint = rigidbody_Cache.position;
         
         //ブレーキ処理
@@ -101,13 +106,6 @@ public class PhysicsMover : MonoBehaviour
         
         //移動処理
         movePoint += movingVelocity *Time.fixedDeltaTime* Vector2.right;
-        
-        //着地スナップ補正
-        if (!float.IsNaN(snapGroundY))
-        {
-            movePoint.y = snapGroundY;
-            snapGroundY = float.NaN;
-        }
 
         //空中での処理
         if (isAir)
@@ -145,9 +143,29 @@ public class PhysicsMover : MonoBehaviour
             }
         }
         
+        //着地スナップ補正
+        if (!float.IsNaN(snapGroundY))
+        {
+            movePoint.y = snapGroundY;
+            snapGroundY = float.NaN;
+        }
+        
         //最終処理
         Velocity = (movePoint - rigidbody_Cache.position) / Time.fixedDeltaTime;
         rigidbody_Cache.MovePosition(movePoint);
+        
+        
+        
+        //**********衝突判定関連****************
+        
+        //地面判定
+        var bottomOffset = geometryCollider_Cache.bounds.min.y - rigidbody_Cache.position.y;
+        var groundOrigin = new Vector2(movePoint.x, movePoint.y + bottomOffset);
+        if (!Physics2D.Raycast(groundOrigin, Vector2.down, 0.1f, groundLayer))
+        {
+            isAir = true;
+            OnForceAir?.Invoke();
+        }
     }
 
     private void OnHitGeometry(Collider2D other)

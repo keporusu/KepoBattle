@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 297521190}
   - component: {fileID: 297521189}
   - component: {fileID: 297521188}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Floor
   m_TagString: Geometry Channel
   m_Icon: {fileID: 0}

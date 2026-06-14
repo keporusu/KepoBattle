@@ -53,6 +53,7 @@ namespace Character.Player
 
             //接地イベント登録
             physicsMover_Cache.OnGround += OnGround;
+            physicsMover_Cache.OnForceAir += OnForceAir;
             attackExecutor_Cache.OnAttackFinish += CancelBlockingMove;
         }
 
@@ -82,7 +83,7 @@ namespace Character.Player
         {
             //移動アニメーション(AnimController)
             animatorTrigger_Cache.SetSpeed(Mathf.Abs(physicsMover_Cache.Velocity.x));
-            float fallSpeed = physicsMover_Cache.Velocity.y < 0 ? -physicsMover_Cache.Velocity.y : 0;
+            float fallSpeed = -physicsMover_Cache.Velocity.y;
             animatorTrigger_Cache.SetFallSpeed(fallSpeed);
             //カメラ操作
             cameraController_Cache.SetCameraPosition(transform.position);
@@ -151,6 +152,10 @@ namespace Character.Player
             Debug.Log("Grounded");
         }
 
+        private void OnForceAir()
+        {
+            animatorTrigger_Cache.TriggerAir();
+        }
 
         private void OnAttack(InputAction.CallbackContext ctx)
         {

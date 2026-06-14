@@ -37,6 +37,11 @@ namespace Character
             animator.SetTrigger(Ground);
         }
 
+        public void TriggerAir()
+        {
+            animator.SetTrigger(Jump);
+        }
+        
         public void TriggerAttack1()
         {
             animator.SetTrigger(Attack1);
