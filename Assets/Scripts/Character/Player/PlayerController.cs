@@ -8,6 +8,7 @@ namespace Character.Player
     [RequireComponent(typeof(CharacterPhysicsMover))]
     [RequireComponent(typeof(AttackExecutor))]
     [RequireComponent(typeof(AnimatorTrigger))]
+    [RequireComponent(typeof(CameraController))]
     public class PlayerController : MonoBehaviour
     {
 
@@ -25,6 +26,7 @@ namespace Character.Player
         private CharacterPhysicsMover physicsMover_Cache;
         private AttackExecutor attackExecutor_Cache;
         private AnimatorTrigger animatorTrigger_Cache;
+        private CameraController cameraController_Cache;
 
         //State
         private bool isJumping = false;
@@ -47,6 +49,7 @@ namespace Character.Player
             physicsMover_Cache = GetComponent<CharacterPhysicsMover>();
             attackExecutor_Cache = GetComponent<AttackExecutor>();
             animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
+            cameraController_Cache = GetComponent<CameraController>();
 
             //接地イベント登録
             physicsMover_Cache.OnGround += OnGround;
@@ -81,6 +84,8 @@ namespace Character.Player
             animatorTrigger_Cache.SetSpeed(Mathf.Abs(physicsMover_Cache.Velocity.x));
             float fallSpeed = physicsMover_Cache.Velocity.y < 0 ? -physicsMover_Cache.Velocity.y : 0;
             animatorTrigger_Cache.SetFallSpeed(fallSpeed);
+            //カメラ操作
+            cameraController_Cache.SetCameraPosition(transform.position);
         }
 
         private void OnMovePerformed(InputAction.CallbackContext ctx)

@@ -701,7 +701,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4050077619055636999, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.894879
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4050077619055636999, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -742,6 +742,14 @@ PrefabInstance:
     - target: {fileID: 4555513506237930620, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4642519649750234335, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 519420032}
+    - target: {fileID: 4642519649750234335, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
+      propertyPath: offset.y
+      value: 1.54
       objectReference: {fileID: 0}
     - target: {fileID: 7193359658284687467, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
       propertyPath: animator
@@ -918,15 +926,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6341593781401802801, guid: 517224459be7f4376b61653219e6a47b, type: 3}
       propertyPath: m_Color.b
-      value: 0.64433026
+      value: 0.13222116
       objectReference: {fileID: 0}
     - target: {fileID: 6341593781401802801, guid: 517224459be7f4376b61653219e6a47b, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6341593781401802801, guid: 517224459be7f4376b61653219e6a47b, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6341593781401802801, guid: 517224459be7f4376b61653219e6a47b, type: 3}
       propertyPath: m_DrawMode
