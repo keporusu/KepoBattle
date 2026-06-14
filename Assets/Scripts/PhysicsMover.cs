@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class PhysicsMover : MonoBehaviour
 {
     [SerializeField] private float gravity = 1.0f;
-    [SerializeField] private float mass = 1.0f;
+    [SerializeField] private float weight = 1.0f;
     [SerializeField] private float friction = 1.0f;
     [SerializeField] private GameObject geometryCollider;
     //押し判定をする相手
@@ -128,7 +128,7 @@ public class PhysicsMover : MonoBehaviour
         
         //無理矢理掛かる力による移動
         //質量が軽いほどよく飛ぶ
-        movePoint += forceVelocity * (Vector2.right + Vector2.up) / Mathf.Max(0.0f, mass) * Time.fixedDeltaTime;
+        movePoint += forceVelocity * (Vector2.right + Vector2.up) / Mathf.Max(0.0f, weight) * Time.fixedDeltaTime;
         
         //キャラクター押しあたり判定
         if (hasOtherCharacter)
@@ -158,12 +158,13 @@ public class PhysicsMover : MonoBehaviour
         
         //**********衝突判定関連****************
         
-        //地面判定
+        //地面端から落ちるか？
         var bottomOffset = geometryCollider_Cache.bounds.min.y - rigidbody_Cache.position.y;
-        var groundOrigin = new Vector2(movePoint.x, movePoint.y + bottomOffset);
-        if (!Physics2D.Raycast(groundOrigin, Vector2.down, 0.1f, groundLayer))
+        var groundOrigin = new Vector2(movePoint.x, movePoint.y + bottomOffset + 0.05f);
+        bool wasAir = isAir;
+        isAir = !Physics2D.Raycast(groundOrigin, Vector2.down, 0.15f, groundLayer);
+        if (!wasAir && isAir)
         {
-            isAir = true;
             OnForceAir?.Invoke();
         }
     }
