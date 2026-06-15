@@ -127,7 +127,7 @@ public class PhysicsMover : MonoBehaviour
         
         //無理矢理掛かる力による移動
         //質量が軽いほどよく飛ぶ
-        movePoint += ForceVelocity * (Vector2.right + Vector2.up) / Mathf.Max(0.0f, weight) * Time.fixedDeltaTime;
+        movePoint += ForceVelocity * (Vector2.right + Vector2.up) / Mathf.Max(0.001f, weight) * Time.fixedDeltaTime;
         
         //キャラクター押しあたり判定
         if (_hasOtherCharacter)
