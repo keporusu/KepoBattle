@@ -86,7 +86,7 @@ namespace Character.Player
             float fallSpeed = -_physicsMover_Cache.Velocity.y;
             _animatorTrigger_Cache.SetFallSpeed(fallSpeed);
             //カメラ操作
-            _cameraController_Cache.SetCameraPosition(transform.position);
+            _cameraController_Cache.AdjustCameraPosition(transform.position);
         }
 
         private void OnMovePerformed(InputAction.CallbackContext ctx)
