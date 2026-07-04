@@ -3,7 +3,6 @@ using Interfaces;
 using UnityEngine;
 using Character;
 
-[RequireComponent(typeof(PhysicsMover))]
 public class DamageProcessor : MonoBehaviour
 {
     [SerializeField] private float invincibleDuration = 0.1f;
@@ -33,7 +32,9 @@ public class DamageProcessor : MonoBehaviour
         
         //強制吹き飛ばし用、HP減算
         _physicsMover_Cache = GetComponent<PhysicsMover>();
-        
+        if (_physicsMover_Cache == null)
+            throw new MissingComponentException($"[{GetType().Name}] PhysicsMover が {gameObject.name} に見つかりません");
+
         var healthManager=_healthManager_Cache = GetComponent<IHealthManager>();
         Debug.Assert(
             healthManager != null,

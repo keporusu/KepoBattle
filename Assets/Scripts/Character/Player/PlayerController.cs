@@ -5,10 +5,6 @@ using Character;
 
 namespace Character.Player
 {
-    [RequireComponent(typeof(CharacterPhysicsMover))]
-    [RequireComponent(typeof(AttackExecutor))]
-    [RequireComponent(typeof(AnimatorTrigger))]
-    [RequireComponent(typeof(CameraController))]
     public class PlayerController : MonoBehaviour
     {
 
@@ -47,9 +43,20 @@ namespace Character.Player
         void Start()
         {
             _physicsMover_Cache = GetComponent<CharacterPhysicsMover>();
+            if (_physicsMover_Cache == null)
+                throw new MissingComponentException($"[{GetType().Name}] CharacterPhysicsMover が {gameObject.name} に見つかりません");
+
             _attackExecutor_Cache = GetComponent<AttackExecutor>();
+            if (_attackExecutor_Cache == null)
+                throw new MissingComponentException($"[{GetType().Name}] AttackExecutor が {gameObject.name} に見つかりません");
+
             _animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
+            if (_animatorTrigger_Cache == null)
+                throw new MissingComponentException($"[{GetType().Name}] AnimatorTrigger が {gameObject.name} に見つかりません");
+
             _cameraController_Cache = GetComponent<CameraController>();
+            if (_cameraController_Cache == null)
+                throw new MissingComponentException($"[{GetType().Name}] CameraController が {gameObject.name} に見つかりません");
 
             //接地イベント登録
             _physicsMover_Cache.OnGround += OnGround;

@@ -5,8 +5,6 @@ using Character;
 namespace Character.Enemy
 {
 
-    [RequireComponent(typeof(PhysicsMover))]
-    [RequireComponent(typeof(AttackExecutor))]
     public class EnemyController : MonoBehaviour
     {
 
@@ -24,15 +22,16 @@ namespace Character.Enemy
         private void Start()
         {
             _physicsMover_Cache = GetComponent<PhysicsMover>();
-            _attackExecutor_Cache = GetComponent<AttackExecutor>();
-            _animator_Cache = animSprite.GetComponent<Animator>();
+            if (_physicsMover_Cache == null)
+                throw new MissingComponentException($"[{GetType().Name}] PhysicsMover が {gameObject.name} に見つかりません");
 
+            _attackExecutor_Cache = GetComponent<AttackExecutor>();
+            if (_attackExecutor_Cache == null)
+                throw new MissingComponentException($"[{GetType().Name}] AttackExecutor が {gameObject.name} に見つかりません");
+
+            _animator_Cache = animSprite.GetComponent<Animator>();
             if (_animator_Cache == null)
-            {
-                Debug.LogError("Animator component not found on animSprite", this);
-                enabled = false;
-                return;
-            }
+                throw new MissingComponentException($"[{GetType().Name}] Animator が animSprite ({animSprite.name}) に見つかりません");
 
             _physicsMover_Cache.OnGround += OnGround;
         }

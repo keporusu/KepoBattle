@@ -5,7 +5,6 @@ using Character;
 namespace Character
 {
 
-    [RequireComponent(typeof(AnimatorTrigger))]
     public class CharacterDamageProcessor : DamageProcessor
     {
         private AnimatorTrigger _animatorTrigger_Cache;
@@ -14,6 +13,8 @@ namespace Character
         {
             base.Start();
             _animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
+            if (_animatorTrigger_Cache == null)
+                throw new MissingComponentException($"[{GetType().Name}] AnimatorTrigger が {gameObject.name} に見つかりません");
         }
 
         protected override void OnDamagedHitFinished()

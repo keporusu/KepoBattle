@@ -4,7 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class PhysicsMover : MonoBehaviour
 {
     [SerializeField] private float gravity = 1.0f;
@@ -48,7 +47,9 @@ public class PhysicsMover : MonoBehaviour
     void Start()
     {
         _rigidbody_Cache = GetComponent<Rigidbody2D>();
-        
+        if (_rigidbody_Cache == null)
+            throw new MissingComponentException($"[{GetType().Name}] Rigidbody2D が {gameObject.name} に見つかりません");
+
         var geometryCollider = GetComponentsInChildren<Transform>()
             .FirstOrDefault(obj => obj.gameObject.CompareTag("Geometry Channel"));
         Debug.Assert(geometryCollider != null,"ジオメトリ用のチャンネルを持ったオブジェクトが存在しません");
