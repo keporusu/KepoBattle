@@ -21,16 +21,13 @@ namespace Character.Enemy
 
         private void Start()
         {
-            _physicsMover_Cache = GetComponent<PhysicsMover>();
-            if (_physicsMover_Cache == null)
+            if (!TryGetComponent(out _physicsMover_Cache))
                 throw new MissingComponentException($"[{GetType().Name}] PhysicsMover が {gameObject.name} に見つかりません");
 
-            _attackExecutor_Cache = GetComponent<AttackExecutor>();
-            if (_attackExecutor_Cache == null)
+            if (!TryGetComponent(out _attackExecutor_Cache))
                 throw new MissingComponentException($"[{GetType().Name}] AttackExecutor が {gameObject.name} に見つかりません");
 
-            _animator_Cache = animSprite.GetComponent<Animator>();
-            if (_animator_Cache == null)
+            if (!animSprite.TryGetComponent(out _animator_Cache))
                 throw new MissingComponentException($"[{GetType().Name}] Animator が animSprite ({animSprite.name}) に見つかりません");
 
             _physicsMover_Cache.OnGround += OnGround;

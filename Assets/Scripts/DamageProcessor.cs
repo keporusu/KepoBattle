@@ -20,8 +20,8 @@ public class DamageProcessor : MonoBehaviour
     protected virtual void Start()
     {
         var damagedCollider = GetComponentsInChildren<Transform>()
-            .FirstOrDefault(obj => obj.gameObject.CompareTag("Damage Channel"));
-        Debug.Assert(damagedCollider != null,"ダメージ用のチャンネルを持ったオブジェクトが存在しません");
+            .FirstOrDefault(obj => obj.gameObject.CompareTag("Damage Channel"))
+            ?? throw new MissingChannelException("Damage Channel", gameObject.name);
         
         var damagedNotifier=damagedCollider.GetComponent<DamageNotifier>();
         Debug.Assert(
@@ -31,8 +31,7 @@ public class DamageProcessor : MonoBehaviour
         damagedNotifier.OnHit += DamagedHit;
         
         //強制吹き飛ばし用、HP減算
-        _physicsMover_Cache = GetComponent<PhysicsMover>();
-        if (_physicsMover_Cache == null)
+        if (!TryGetComponent(out _physicsMover_Cache))
             throw new MissingComponentException($"[{GetType().Name}] PhysicsMover が {gameObject.name} に見つかりません");
 
         var healthManager=_healthManager_Cache = GetComponent<IHealthManager>();

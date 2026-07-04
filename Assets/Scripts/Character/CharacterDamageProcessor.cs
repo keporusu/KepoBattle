@@ -12,8 +12,7 @@ namespace Character
         protected override void Start()
         {
             base.Start();
-            _animatorTrigger_Cache = GetComponent<AnimatorTrigger>();
-            if (_animatorTrigger_Cache == null)
+            if (!TryGetComponent(out _animatorTrigger_Cache))
                 throw new MissingComponentException($"[{GetType().Name}] AnimatorTrigger が {gameObject.name} に見つかりません");
         }
 

@@ -14,8 +14,6 @@ public class PhysicsMover : MonoBehaviour
     private LayerMask _characterLayer;
     private LayerMask _propLayer;
     private LayerMask _groundLayer;
-
-    public Vector2 Velocity { get; private set; }
     
     //キャッシュ
     private Rigidbody2D _rigidbody_Cache;
@@ -32,7 +30,6 @@ public class PhysicsMover : MonoBehaviour
     protected bool IsBraking = false;
     private float _snapGroundY = float.NaN;
     
-    public bool IsAir => _isAir;
     private bool CanPushObject(Collider2D other)
     {
         return (_characterLayer.value & (1 << other.gameObject.layer)) > 0 ||
@@ -43,33 +40,26 @@ public class PhysicsMover : MonoBehaviour
     public event System.Action OnGround;
     public event System.Action OnForceAir;
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //公開プロパティ
+    public bool IsAir => _isAir;
+    public Vector2 Velocity { get; private set; }
+    
     void Start()
     {
-        _rigidbody_Cache = GetComponent<Rigidbody2D>();
-        if (_rigidbody_Cache == null)
+        if (!TryGetComponent(out _rigidbody_Cache))
             throw new MissingComponentException($"[{GetType().Name}] Rigidbody2D が {gameObject.name} に見つかりません");
 
         var geometryCollider = GetComponentsInChildren<Transform>()
-            .FirstOrDefault(obj => obj.gameObject.CompareTag("Geometry Channel"));
-        Debug.Assert(geometryCollider != null,"ジオメトリ用のチャンネルを持ったオブジェクトが存在しません");
+            .FirstOrDefault(obj => obj.gameObject.CompareTag("Geometry Channel"))
+            ?? throw new MissingChannelException("Geometry Channel", gameObject.name);
+        
+        if(!geometryCollider.TryGetComponent(out _geometryCollider_Cache))
+            throw new MissingComponentException($"[{GetType().Name}] Collider2D が {geometryCollider.gameObject.name} に見つかりません");
 
-        _geometryCollider_Cache = geometryCollider.GetComponent<Collider2D>();
-        if (_geometryCollider_Cache == null)
-        {
-            Debug.LogError("Collider2D not found on geometryCollider", this);
-            enabled = false;
-            return;
-        }
-
-        var geometryHitNotifier = geometryCollider.GetComponent<GeometryHitNotifier>();
-        if (geometryHitNotifier == null)
-        {
-            Debug.LogError("GeometryHitNotifier is missing", this);
-            enabled = false;
-            return;
-        }
-
+        if (!geometryCollider.TryGetComponent(out GeometryHitNotifier geometryHitNotifier))
+            throw new MissingComponentException($"[{GetType().Name}] GeometryNotifier が {geometryCollider.gameObject.name} に見つかりません");
+        
+        //イベント登録
         geometryHitNotifier.OnHit += OnHitGeometry;
         
         //レイヤー取得
@@ -78,7 +68,7 @@ public class PhysicsMover : MonoBehaviour
         _groundLayer=LayerMask.GetMask("Ground");
     }
     
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
 
         //****移動****
@@ -218,7 +208,7 @@ public class PhysicsMover : MonoBehaviour
     /// </summary>
     /// <param name="velocity">加える速度</param>
     /// <param name="forceMode">一回停止させてから力を加えるか？</param>
-    public void AddForceVelocity(Vector2 velocity, bool forceMode)
+    public virtual void AddForceVelocity(Vector2 velocity, bool forceMode)
     {
         if (forceMode)
         {
