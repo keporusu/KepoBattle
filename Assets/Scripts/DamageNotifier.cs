@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 //ダメージの通知
-public class DamagedNotifier : MonoBehaviour
+public class DamageNotifier : MonoBehaviour
 {
     
     public System.Action<Collider2D> OnHit;

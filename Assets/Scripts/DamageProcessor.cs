@@ -24,7 +24,7 @@ public class DamageProcessor : MonoBehaviour
             .FirstOrDefault(obj => obj.gameObject.CompareTag("Damage Channel"));
         Debug.Assert(damagedCollider != null,"ダメージ用のチャンネルを持ったオブジェクトが存在しません");
         
-        var damagedNotifier=damagedCollider.GetComponent<DamagedNotifier>();
+        var damagedNotifier=damagedCollider.GetComponent<DamageNotifier>();
         Debug.Assert(
             damagedNotifier != null,
             "DamageNotifierがありません"
