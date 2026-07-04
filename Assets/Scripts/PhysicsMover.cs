@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,7 +10,7 @@ public class PhysicsMover : MonoBehaviour
     [SerializeField] private float gravity = 1.0f;
     [SerializeField] private float weight = 1.0f;
     [SerializeField] private float friction = 1.0f;
-    [SerializeField] private GameObject geometryCollider;
+
     //押し判定をする相手
     private LayerMask _characterLayer;
     private LayerMask _propLayer;
@@ -47,13 +48,10 @@ public class PhysicsMover : MonoBehaviour
     void Start()
     {
         _rigidbody_Cache = GetComponent<Rigidbody2D>();
-
-        if (geometryCollider == null)
-        {
-            Debug.LogError("geometryCollider is not set", this);
-            enabled = false;
-            return;
-        }
+        
+        var geometryCollider = GetComponentsInChildren<Transform>()
+            .FirstOrDefault(obj => obj.gameObject.CompareTag("Geometry Channel"));
+        Debug.Assert(geometryCollider != null,"ダメージ用のチャンネルを持ったオブジェクトが存在しません");
 
         _geometryCollider_Cache = geometryCollider.GetComponent<Collider2D>();
         if (_geometryCollider_Cache == null)

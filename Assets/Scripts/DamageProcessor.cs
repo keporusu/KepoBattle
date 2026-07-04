@@ -1,3 +1,4 @@
+using System.Linq;
 using Interfaces;
 using UnityEngine;
 using Character;
@@ -5,7 +6,6 @@ using Character;
 [RequireComponent(typeof(PhysicsMover))]
 public class DamageProcessor : MonoBehaviour
 {
-    [SerializeField] private GameObject damagedCollider;
     [SerializeField] private float invincibleDuration = 0.1f;
 
     //キャッシュ
@@ -20,6 +20,10 @@ public class DamageProcessor : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
     {
+        var damagedCollider = GetComponentsInChildren<Transform>()
+            .FirstOrDefault(obj => obj.gameObject.CompareTag("Damaged Channel"));
+        Debug.Assert(damagedCollider != null,"ダメージ用のチャンネルを持ったオブジェクトが存在しません");
+        
         var damagedNotifier=damagedCollider.GetComponent<DamagedNotifier>();
         Debug.Assert(
             damagedNotifier != null,
