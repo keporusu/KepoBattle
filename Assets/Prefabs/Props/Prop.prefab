@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5112153642882006690}
   m_Layer: 7
   m_Name: Damaged
-  m_TagString: Damaged Channel
+  m_TagString: Damage Channel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -287,7 +287,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a184e1a2d71794d2f904ce8b8870a924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  damagedCollider: {fileID: 0}
   invincibleDuration: 0.1
 --- !u!114 &2713901720221561264
 MonoBehaviour:
@@ -302,11 +301,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   gravity: 1
+  weight: 1
   friction: 1
-  geometryCollider: {fileID: 0}
-  characterLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!4 &7468385413292746830 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8639198977824554502, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}

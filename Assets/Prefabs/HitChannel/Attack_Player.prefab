@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5810856462610202449}
   - component: {fileID: 474675481600659996}
   m_Layer: 6
-  m_Name: Attack
+  m_Name: Attack_Player
   m_TagString: Attack Channel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
