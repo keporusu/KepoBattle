@@ -32,6 +32,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 5407806777651216494, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: m_Name
+      value: Damage
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407806777651216494, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: m_TagString
+      value: Damage Channel
+      objectReference: {fileID: 0}
     - target: {fileID: 5772230848500986686, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: damagedCollider
       value: 

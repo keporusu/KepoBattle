@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 620387431078727760, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 620387431078727760, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3693381977577805594, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
       propertyPath: m_Name
       value: KPPlayer
@@ -20,9 +28,25 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 3984336461203495091, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984336461203495091, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5392773905867220222, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
       propertyPath: m_Name
       value: DamageChannels
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912102125764525635, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912102125764525635, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8860882433751328344, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -114,3 +138,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1bdd0d615a854fdda49da8a7c769e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  camera: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  maxHorizontal: 100000
+  minHorizontal: -100000
+  maxVertical: 100000
+  minVertical: -100000

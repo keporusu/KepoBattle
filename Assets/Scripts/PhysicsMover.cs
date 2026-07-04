@@ -51,7 +51,7 @@ public class PhysicsMover : MonoBehaviour
         
         var geometryCollider = GetComponentsInChildren<Transform>()
             .FirstOrDefault(obj => obj.gameObject.CompareTag("Geometry Channel"));
-        Debug.Assert(geometryCollider != null,"ダメージ用のチャンネルを持ったオブジェクトが存在しません");
+        Debug.Assert(geometryCollider != null,"ジオメトリ用のチャンネルを持ったオブジェクトが存在しません");
 
         _geometryCollider_Cache = geometryCollider.GetComponent<Collider2D>();
         if (_geometryCollider_Cache == null)

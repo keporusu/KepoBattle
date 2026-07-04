@@ -9,7 +9,7 @@ public class DamagedNotifier : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // 攻撃チャンネルじゃないなら通知しない
-        if (!other.gameObject.CompareTag("Damage Channel"))
+        if (!other.gameObject.CompareTag("Attack Channel"))
         {
             return;
         }

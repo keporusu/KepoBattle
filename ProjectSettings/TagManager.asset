@@ -4,10 +4,10 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Damaged Channel
   - Damage Channel
   - Geometry Channel
   - Enemy
+  - Attack Channel
   layers:
   - Default
   - TransparentFX

@@ -62,8 +62,8 @@ namespace Character
             var allChildren = transform.GetComponentsInChildren<Transform>(true);
             foreach (var child in allChildren)
             {
-                //ダメージチャンネルからそれぞれコリジョンを取得してキャッシュする
-                if (child.gameObject.CompareTag("Damage Channel"))
+                //攻撃チャンネルからそれぞれコリジョンを取得してキャッシュする
+                if (child.gameObject.CompareTag("Attack Channel"))
                 {
                     var colliderManager = child.GetComponent<DamageCollisionManager>();
                     _damageColliderManagers.Add(colliderManager);

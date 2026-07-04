@@ -21,7 +21,7 @@ public class DamageProcessor : MonoBehaviour
     protected virtual void Start()
     {
         var damagedCollider = GetComponentsInChildren<Transform>()
-            .FirstOrDefault(obj => obj.gameObject.CompareTag("Damaged Channel"));
+            .FirstOrDefault(obj => obj.gameObject.CompareTag("Damage Channel"));
         Debug.Assert(damagedCollider != null,"ダメージ用のチャンネルを持ったオブジェクトが存在しません");
         
         var damagedNotifier=damagedCollider.GetComponent<DamagedNotifier>();
