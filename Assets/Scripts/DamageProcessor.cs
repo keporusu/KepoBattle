@@ -46,7 +46,7 @@ public class DamageProcessor : MonoBehaviour
         if (Time.time < _lastDamagedTime + invincibleDuration) return;
 
         //コリジョン処理
-        var damageCollisionManager = other.GetComponent<DamageCollisionManager>();
+        var damageCollisionManager = other.GetComponent<AttackCollisionManager>();
         if (damageCollisionManager != null)
         {
             var attackInfo = damageCollisionManager.GetAttackInfo();

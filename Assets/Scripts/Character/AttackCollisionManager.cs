@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Character
 {
-    public class DamageCollisionManager : MonoBehaviour
+    public class AttackCollisionManager : MonoBehaviour
     {
         private CircleCollider2D _circleCollider;
         private CapsuleCollider2D _capsuleCollider;
