@@ -233,7 +233,7 @@ public class PhysicsMover : MonoBehaviour
         }
     }
 
-    public void ResetAll()
+    public void ResetAll(Vector2 position)
     {
         MovingVelocity = 0.0f; //移動時の力
         ForceVelocity = new Vector2(); //攻撃などで無理にかかる速度
@@ -242,6 +242,10 @@ public class PhysicsMover : MonoBehaviour
         _hasOtherCharacter=false;
         _isAir = true;
         IsBraking = false;
+        _snapGroundY = float.NaN;
+        
+        //位置
+        _rigidbody_Cache.position = position;
     }
 
 }

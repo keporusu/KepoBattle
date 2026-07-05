@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   jumpPower: 0.2
   moveSpeed: 5
+  initialPosition: {x: 2.5, y: 3}
 --- !u!114 &4642519649750234335
 MonoBehaviour:
   m_ObjectHideFlags: 0

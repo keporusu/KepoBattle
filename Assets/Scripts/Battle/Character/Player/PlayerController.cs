@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using Battle.Character;
+using UnityEngine.EventSystems;
 
 namespace Battle.Character.Player
 {
@@ -11,6 +12,7 @@ namespace Battle.Character.Player
         //SerializeField
         [SerializeField] private float jumpPower = 1.0f;
         [SerializeField] private float moveSpeed = 1.0f;
+        [SerializeField] private Vector2 initialPosition = new Vector2(2.5f, 3.0f);
 
         //InputAction
         private InputSystem_Actions _inputActions;
@@ -27,9 +29,14 @@ namespace Battle.Character.Player
         //State
         private bool _isJumping = false;
         private bool _blockingMove = false;
+        private bool _blockingAttack = false;
         private float _moveInput = 0f;
-
-
+        
+        public Vector2 Position => _physicsMover_Cache.Position;
+        public Vector2 Velocity => _physicsMover_Cache.Velocity;
+        //正方向を向いているか？
+        public bool IsForward => transform.localScale.x > 0;
+            
         void Awake()
         {
             _inputActions = new InputSystem_Actions();
@@ -58,6 +65,9 @@ namespace Battle.Character.Player
             _physicsMover_Cache.OnGround += OnGround;
             _physicsMover_Cache.OnForceAir += OnForceAir;
             _attackExecutor_Cache.OnAttackFinish += CancelBlockingMove;
+            
+            //TODO: ここも初期化できるようにしたい（初期化の順番を考えないといけない）
+            //_physicsMover_Cache.ResetAll(initialPosition);
         }
 
         private void OnEnable()
@@ -90,6 +100,16 @@ namespace Battle.Character.Player
             _animatorTrigger_Cache.SetFallSpeed(fallSpeed);
             //カメラ操作
             _cameraController_Cache.AdjustCameraPosition(transform.position);
+            
+            //UI上にマウスがある場合、攻撃できないようにする
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                _blockingAttack = true;
+            }
+            else
+            {
+                _blockingAttack = false;
+            }
         }
 
         private void OnMovePerformed(InputAction.CallbackContext ctx)
@@ -162,6 +182,8 @@ namespace Battle.Character.Player
 
         private void OnAttack(InputAction.CallbackContext ctx)
         {
+            if (_blockingAttack) return;
+            
             if (_blockingMove) return;
             _blockingMove = true;
 
@@ -182,5 +204,12 @@ namespace Battle.Character.Player
             float currentMoveX = _moveAction.ReadValue<Vector2>().x;
             Move(currentMoveX);
         }
+
+        public void Respawn()
+        {
+            _physicsMover_Cache.ResetAll(initialPosition);
+            _animatorTrigger_Cache.TriggerJump();
+        }
+
     }
 }
