@@ -36,6 +36,10 @@ public class PhysicsMover : MonoBehaviour
         return (_characterLayer.value & (1 << other.gameObject.layer)) > 0 ||
                (_propLayer.value & (1 << other.gameObject.layer)) > 0;
     }
+    private bool IsGround(Collider2D other)
+    {
+        return (_groundLayer.value & (1 << other.gameObject.layer)) > 0;
+    }
     
     //通知
     public event System.Action OnGround;
@@ -118,7 +122,10 @@ public class PhysicsMover : MonoBehaviour
         
         //無理矢理掛かる力による移動
         //質量が軽いほどよく飛ぶ
-        movePoint += ForceVelocity * (Vector2.right + Vector2.up) / Mathf.Max(0.001f, weight) * Time.fixedDeltaTime;
+        //接地中はY成分を無視してめり込みを防ぐ
+        var appliedForce = _isAir ? ForceVelocity : new Vector2(ForceVelocity.x, 0.0f);
+        movePoint += appliedForce / Mathf.Max(0.001f, weight) * Time.fixedDeltaTime;
+        //movePoint += ForceVelocity / Mathf.Max(0.001f, weight) * Time.fixedDeltaTime;
         
         //キャラクター押しあたり判定
         if (_hasOtherCharacter)
@@ -152,7 +159,7 @@ public class PhysicsMover : MonoBehaviour
         var bottomOffset = _geometryCollider_Cache.bounds.min.y - _rigidbody_Cache.position.y;
         var groundOrigin = new Vector2(movePoint.x, movePoint.y + bottomOffset + 0.05f);
         bool wasAir = _isAir;
-        _isAir = !Physics2D.Raycast(groundOrigin, Vector2.down, 0.15f, _groundLayer);
+        _isAir = !Physics2D.Raycast(groundOrigin, Vector2.down, 0.08f, _groundLayer);
         if (!wasAir && _isAir)
         {
             OnForceAir?.Invoke();
@@ -174,7 +181,7 @@ public class PhysicsMover : MonoBehaviour
         }
         
         //足場の時
-        if (other.bounds.max.y < _geometryCollider_Cache.bounds.max.y)
+        if (other.bounds.max.y < _geometryCollider_Cache.bounds.max.y && IsGround(other))
         {
             //上方向に動いているときは足場無視
             if(Velocity.y > 0.0f) return;

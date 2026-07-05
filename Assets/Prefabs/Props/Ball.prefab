@@ -74,6 +74,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 3869070585266136573, guid: 30b2ee61040fc401e97e11368062c0ad, type: 3}
+    - target: {fileID: -4348937080197495512, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1230077358553721815, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -93,6 +97,10 @@ PrefabInstance:
     - target: {fileID: 2713901720221561264, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: gravity
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2713901720221561264, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: friction
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3170770376407151376, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -117,6 +125,14 @@ PrefabInstance:
     - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: collisionSetting.circleRadius
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: collisionSetting.attackPower.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: collisionSetting.attackPower.y
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7468385413292746830, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: m_LocalScale.x
