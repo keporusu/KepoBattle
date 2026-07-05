@@ -51,8 +51,6 @@ public class DamageProcessor : MonoBehaviour
         var attackInfoGetter = other.GetComponent<IAttackInfoGetter>();
         if (attackInfoGetter != null)
         {
-            var a = EditorUtility.EntityIdToObject(attackInfoGetter.AttackerID) as GameObject;
-            var b = transform.root.gameObject;
             if (attackInfoGetter.AttackerID == transform.root.gameObject.GetEntityId())
             {
                 //自分の攻撃は自分に当たらない
