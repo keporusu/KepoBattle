@@ -37,7 +37,7 @@ namespace Character
 
         //コリジョン管理
         private List<bool> _isExecuting = new List<bool>(new bool[5]);
-        private List<AttackCollisionManager> _damageColliderManagers = new List<AttackCollisionManager>();
+        private List<CharacterAttackCollisionController> _damageColliderManagers = new List<CharacterAttackCollisionController>();
 
         //進行中の攻撃
         private AttackType _progressAttack = AttackType.None;
@@ -65,7 +65,7 @@ namespace Character
                 //攻撃チャンネルからそれぞれコリジョンを取得してキャッシュする
                 if (child.gameObject.CompareTag("Attack Channel"))
                 {
-                    var colliderManager = child.GetComponent<AttackCollisionManager>();
+                    var colliderManager = child.GetComponent<CharacterAttackCollisionController>();
                     _damageColliderManagers.Add(colliderManager);
                 }
             }

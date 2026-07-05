@@ -2,6 +2,7 @@ using System.Linq;
 using Interfaces;
 using UnityEngine;
 using Character;
+using Exceptions;
 
 public class DamageProcessor : MonoBehaviour
 {
@@ -46,10 +47,10 @@ public class DamageProcessor : MonoBehaviour
         if (Time.time < _lastDamagedTime + invincibleDuration) return;
 
         //コリジョン処理
-        var damageCollisionManager = other.GetComponent<AttackCollisionManager>();
-        if (damageCollisionManager != null)
+        var attackInfoGetter = other.GetComponent<IAttackInfoGetter>();
+        if (attackInfoGetter != null)
         {
-            var attackInfo = damageCollisionManager.GetAttackInfo();
+            var attackInfo = attackInfoGetter.GetAttackInfo();
             
             //キャラクターの位置関係で、どちら向きに吹き飛ばすか決める
             if (transform.root.position.x < other.transform.root.position.x)

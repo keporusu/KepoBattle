@@ -1,7 +1,11 @@
 using System;
 
-public class MissingChannelException : Exception
+namespace Exceptions
 {
-    public MissingChannelException(string tag, string gameObjectName)
-        : base($"タグ \"{tag}\" のチャンネルが {gameObjectName} の子オブジェクトに見つかりません") { }
+    public class MissingChannelException : Exception
+    {
+        public MissingChannelException(string tag, string gameObjectName)
+            : base($"タグ \"{tag}\" のチャンネルが {gameObjectName} の子オブジェクトに見つかりません") { }
+    }
+
 }

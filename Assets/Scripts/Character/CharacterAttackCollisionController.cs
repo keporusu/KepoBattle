@@ -1,17 +1,18 @@
 using System;
+using Interfaces;
 using JetBrains.Annotations;
 using UnityEngine;
 
 
 namespace Character
 {
-    public class AttackCollisionManager : MonoBehaviour
+    public class CharacterAttackCollisionController : MonoBehaviour, IAttackInfoGetter
     {
         private CircleCollider2D _circleCollider;
         private CapsuleCollider2D _capsuleCollider;
         private BoxCollider2D _boxCollider;
 
-        private ColliderShape _lastactiveShape;
+        private ColliderShape _lastActiveShape;
         private bool _isActive = false;
         private int _ownerID = -1;
         private AttackInfo _attackInfo;
@@ -36,7 +37,7 @@ namespace Character
             //すでにアクティブなら何もしない
             if (gameObject.activeSelf) return null;
 
-            _lastactiveShape = collisionSetting.shape;
+            _lastActiveShape = collisionSetting.shape;
             gameObject.SetActive(true);
             _isActive = true;
             _ownerID = id;
@@ -74,7 +75,7 @@ namespace Character
 
         public void Deactivate()
         {
-            switch (_lastactiveShape)
+            switch (_lastActiveShape)
             {
                 case ColliderShape.Circle:
                     _circleCollider.enabled = false;
@@ -90,10 +91,11 @@ namespace Character
             gameObject.SetActive(false);
             _isActive = false;
         }
-
-
+        
         public AttackInfo GetAttackInfo()
         {
+            if (!_isActive)
+                throw new InvalidOperationException($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
             return _attackInfo;
         }
     }

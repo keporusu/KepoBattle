@@ -1,18 +1,20 @@
 using System;
 using UnityEngine;
 using System.Linq;
+using Exceptions;
 
 namespace Prop
 {
     public class AttackController : MonoBehaviour
     {
         [SerializeField] private float relaxSpeed;
-        private PropPhysicsMover physicsMover_Cache;
+        [SerializeField] private AttackCollisionSetting collisionSetting;
+        
         private Collider2D collider2D_Cache;
 
         private void Start()
         {
-            if (!TryGetComponent(out physicsMover_Cache))
+            if (!TryGetComponent(out PropPhysicsMover physicsMover))
             {
                 throw new MissingComponentException($"[{GetType().Name}] PropPhysicsMover が {gameObject.name} に見つかりません");
             }
@@ -20,18 +22,24 @@ namespace Prop
             var attackCollider = GetComponentsInChildren<Transform>()
                 .FirstOrDefault(obj => obj.gameObject.CompareTag("Attack Channel"))
                 ?? throw new MissingChannelException("Attack Channel", gameObject.name);
-            
-            physicsMover_Cache.SetRelaxSpeed(relaxSpeed);
-            attackCollider.gameObject.SetActive(false);
 
-            physicsMover_Cache.OnForce += () =>
+
+            if (!attackCollider.TryGetComponent(out PropAttackCollisionController attackCollisionController))
             {
-                attackCollider.gameObject.SetActive(true);
+                throw new MissingComponentException($"[{GetType().Name}] PropAttackCollisionController が {attackCollider.gameObject.name} に見つかりません");
+            }
+            
+            physicsMover.SetRelaxSpeed(relaxSpeed);
+            attackCollisionController.Initialize(collisionSetting);
+
+            physicsMover.OnForce += () =>
+            {
+                attackCollisionController.Activate();
             };
 
-            physicsMover_Cache.OnRelax += () =>
+            physicsMover.OnRelax += () =>
             {
-                attackCollider.gameObject.SetActive(false);
+                attackCollisionController.Deactivate();
             };
 
         }

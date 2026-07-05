@@ -1159,6 +1159,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2264813240750075675, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
+      propertyPath: collisionSetting.shape
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2264813240750075675, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
+      propertyPath: collisionSetting.circleRadius
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4572414573110285408, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
       propertyPath: m_SortingOrder
       value: 100
