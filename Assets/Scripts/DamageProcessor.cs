@@ -25,7 +25,7 @@ public class DamageProcessor : MonoBehaviour
             .FirstOrDefault(obj => obj.gameObject.CompareTag("Damage Channel"))
             ?? throw new MissingChannelException("Damage Channel", gameObject.name);
         
-        var damagedNotifier=damagedCollider.GetComponent<DamageNotifier>();
+        var damagedNotifier=damagedCollider.GetComponent<DamageHitNotifier>();
         Debug.Assert(
             damagedNotifier != null,
             "DamageNotifierがありません"

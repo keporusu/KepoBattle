@@ -2,14 +2,14 @@ using System;
 using UnityEngine;
 
 //ダメージの通知
-public class DamageNotifier : MonoBehaviour
+public class DamageHitNotifier : MonoBehaviour
 {
     
     public System.Action<Collider2D> OnHit;
 
     private void Start()
     {
-        if (TryGetComponent(out Collider2D col))
+        if (!TryGetComponent(out Collider2D col))
             throw new MissingComponentException($"[{GetType().Name}] Collider2D が {gameObject.name} に見つかりません");
         col.isTrigger = true;
     }
