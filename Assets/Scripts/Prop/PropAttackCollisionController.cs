@@ -2,6 +2,7 @@ using System;
 using Interfaces;
 using NUnit.Framework.Constraints;
 using UnityEngine;
+using Object = System.Object;
 
 namespace Prop
 {
@@ -11,7 +12,10 @@ namespace Prop
         private bool _isActive = false;
         private AttackInfo _attackInfo;
         private Collider2D _collider;
-            
+
+        //攻撃者の識別
+        public EntityId AttackerID { get; private set; }
+
         public void Initialize(AttackCollisionSetting collisionSetting)
         {
             //コリジョンの攻撃情報
@@ -55,10 +59,11 @@ namespace Prop
             _collider.isTrigger = true;
         }
         
-        public void Activate()
+        public void Activate(GameObject attacker)
         {
             _isActive = true;
             _collider.enabled = true;
+            AttackerID = attacker.transform.root.gameObject.GetEntityId();
         }
 
         public void Deactivate()

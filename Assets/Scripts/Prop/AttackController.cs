@@ -10,7 +10,7 @@ namespace Prop
         [SerializeField] private float relaxSpeed;
         [SerializeField] private AttackCollisionSetting collisionSetting;
         
-        private Collider2D collider2D_Cache;
+        private Collider2D _collider2D_Cache;
 
         private void Start()
         {
@@ -32,9 +32,9 @@ namespace Prop
             physicsMover.SetRelaxSpeed(relaxSpeed);
             attackCollisionController.Initialize(collisionSetting);
 
-            physicsMover.OnForce += () =>
+            physicsMover.OnForce += (GameObject instigator) =>
             {
-                attackCollisionController.Activate();
+                attackCollisionController.Activate(instigator);
             };
 
             physicsMover.OnRelax += () =>

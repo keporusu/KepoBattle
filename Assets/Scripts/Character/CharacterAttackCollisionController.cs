@@ -14,11 +14,16 @@ namespace Character
 
         private ColliderShape _lastActiveShape;
         private bool _isActive = false;
-        private int _ownerID = -1;
+        private int _uniqueID = -1;
         private AttackInfo _attackInfo;
 
         public bool IsActive => _isActive;
-        public int OwnerID => _ownerID;
+        
+        //コリジョンの識別
+        public int UniqueID => _uniqueID;
+        
+        //攻撃者の識別
+        public EntityId AttackerID => transform.root.gameObject.GetEntityId();
 
         private void Start()
         {
@@ -40,7 +45,7 @@ namespace Character
             _lastActiveShape = collisionSetting.shape;
             gameObject.SetActive(true);
             _isActive = true;
-            _ownerID = id;
+            _uniqueID = id;
 
             //コリジョンの攻撃情報
             _attackInfo.attackVelocity = collisionSetting.attackPower;

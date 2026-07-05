@@ -209,7 +209,8 @@ public class PhysicsMover : MonoBehaviour
     /// </summary>
     /// <param name="velocity">加える速度</param>
     /// <param name="forceMode">一回停止させてから力を加えるか？</param>
-    public virtual void AddForceVelocity(Vector2 velocity, bool forceMode)
+    /// <param name="instigator">攻撃者のオブジェクト</param>>
+    public virtual void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator)
     {
         if (forceMode)
         {

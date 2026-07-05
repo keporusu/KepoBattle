@@ -6,7 +6,7 @@ namespace Character
     {
         public void StartJump(float power)
         {
-            AddForceVelocity(new Vector2(0.0f, power), false);
+            AddForceVelocity(new Vector2(0.0f, power), false, gameObject);
         }
 
         public void StopJump()

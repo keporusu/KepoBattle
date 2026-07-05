@@ -3,6 +3,7 @@ using Interfaces;
 using UnityEngine;
 using Character;
 using Exceptions;
+using UnityEditor;
 
 public class DamageProcessor : MonoBehaviour
 {
@@ -50,6 +51,14 @@ public class DamageProcessor : MonoBehaviour
         var attackInfoGetter = other.GetComponent<IAttackInfoGetter>();
         if (attackInfoGetter != null)
         {
+            var a = EditorUtility.EntityIdToObject(attackInfoGetter.AttackerID) as GameObject;
+            var b = transform.root.gameObject;
+            if (attackInfoGetter.AttackerID == transform.root.gameObject.GetEntityId())
+            {
+                //自分の攻撃は自分に当たらない
+                return;
+            }
+            
             var attackInfo = attackInfoGetter.GetAttackInfo();
             
             //キャラクターの位置関係で、どちら向きに吹き飛ばすか決める
@@ -58,7 +67,7 @@ public class DamageProcessor : MonoBehaviour
                 attackInfo.attackVelocity.x = -attackInfo.attackVelocity.x;
             }
             //速度を与える
-            _physicsMover_Cache.AddForceVelocity(attackInfo.attackVelocity,true);
+            _physicsMover_Cache.AddForceVelocity(attackInfo.attackVelocity,true,other.transform.root.gameObject);
             
             //ダメージ処理
             _healthManager_Cache.TakeDamage(attackInfo.damage);

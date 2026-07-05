@@ -37,7 +37,7 @@ namespace Character
 
         //コリジョン管理
         private List<bool> _isExecuting = new List<bool>(new bool[5]);
-        private List<CharacterAttackCollisionController> _damageColliderManagers = new List<CharacterAttackCollisionController>();
+        private List<CharacterAttackCollisionController> _damageColliderControllers = new List<CharacterAttackCollisionController>();
 
         //進行中の攻撃
         private AttackType _progressAttack = AttackType.None;
@@ -66,7 +66,7 @@ namespace Character
                 if (child.gameObject.CompareTag("Attack Channel"))
                 {
                     var colliderManager = child.GetComponent<CharacterAttackCollisionController>();
-                    _damageColliderManagers.Add(colliderManager);
+                    _damageColliderControllers.Add(colliderManager);
                 }
             }
 
@@ -95,7 +95,7 @@ namespace Character
         {
             _isExecuting = new List<bool>(new bool[5]);
             _progressAttack = AttackType.None;
-            foreach (var manager in _damageColliderManagers)
+            foreach (var manager in _damageColliderControllers)
             {
                 manager.Deactivate();
             }
@@ -168,7 +168,7 @@ namespace Character
         [CanBeNull]
         private void UseAvailableCollider(AttackCollisionSetting collisionSetting, int id)
         {
-            var manager = _damageColliderManagers.FirstOrDefault(x => !x.IsActive);
+            var manager = _damageColliderControllers.FirstOrDefault(x => !x.IsActive);
             if (manager == null)
             {
                 throw new InvalidOperationException($"DamageColliderManager が足りません");
@@ -180,7 +180,7 @@ namespace Character
         //コリジョンの無効化
         private void DeactivateCollider(int id)
         {
-            var manager = _damageColliderManagers.FirstOrDefault(x => x.OwnerID == id);
+            var manager = _damageColliderControllers.FirstOrDefault(x => x.UniqueID == id);
             if (manager == null)
             {
                 throw new InvalidOperationException(

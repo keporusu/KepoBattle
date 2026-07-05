@@ -11,7 +11,7 @@ namespace Prop
         private bool _isForcing = false;
         
         //イベント
-        public event System.Action OnForce;
+        public event System.Action<GameObject> OnForce;
         public event System.Action OnRelax;
 
         
@@ -20,12 +20,12 @@ namespace Prop
             _relaxSpeed = relaxSpeed;
         }
         
-        public override void AddForceVelocity(Vector2 velocity, bool forceMode)
+        public override void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator)
         {
-            base.AddForceVelocity(velocity, forceMode);
+            base.AddForceVelocity(velocity, forceMode, instigator);
 
             _isForcing = true;
-            OnForce?.Invoke();
+            OnForce?.Invoke(instigator);
         }
 
         protected override void FixedUpdate()
