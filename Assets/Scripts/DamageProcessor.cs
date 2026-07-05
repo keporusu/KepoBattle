@@ -10,7 +10,7 @@ public class DamageProcessor : MonoBehaviour
     [SerializeField] private float invincibleDuration = 0.1f;
 
     //キャッシュ
-    private PhysicsMover _physicsMover_Cache;
+    protected PhysicsMover _physicsMover_Cache;
     protected IHealthManager _healthManager_Cache;
 
     private float _lastDamagedTime = float.NegativeInfinity;
@@ -43,7 +43,7 @@ public class DamageProcessor : MonoBehaviour
         );
     }
 
-    void DamagedHit(Collider2D other)
+    private void DamagedHit(Collider2D other)
     {
         if (Time.time < _lastDamagedTime + invincibleDuration) return;
 

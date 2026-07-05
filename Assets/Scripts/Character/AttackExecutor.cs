@@ -23,9 +23,9 @@ namespace Character
         [SerializeField] private Animator animator;
 
         //攻撃時のコリジョンの設定
-        [SerializeField] private List<AttackCollisionSetting> attack1CollisionSettings;
-        [SerializeField] private List<AttackCollisionSetting> attack2CollisionSettings;
-        [SerializeField] private List<AttackCollisionSetting> attack3CollisionSettings;
+        [SerializeField] private List<AttackCollisionSettingForAction> attack1CollisionSettings;
+        [SerializeField] private List<AttackCollisionSettingForAction> attack2CollisionSettings;
+        [SerializeField] private List<AttackCollisionSettingForAction> attack3CollisionSettings;
 
         //攻撃キャンセル
         private CancellationTokenSource _attackCts;
@@ -166,7 +166,7 @@ namespace Character
 
         //コリジョンの有効化と、パラメータのセット
         [CanBeNull]
-        private void UseAvailableCollider(AttackCollisionSetting collisionSetting, int id)
+        private void UseAvailableCollider(AttackCollisionSettingForAction collisionSetting, int id)
         {
             var manager = _damageColliderControllers.FirstOrDefault(x => !x.IsActive);
             if (manager == null)

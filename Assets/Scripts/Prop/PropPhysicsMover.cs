@@ -20,7 +20,7 @@ namespace Prop
             _relaxSpeed = relaxSpeed;
         }
         
-        public override void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator)
+        public override void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator=null)
         {
             base.AddForceVelocity(velocity, forceMode, instigator);
 

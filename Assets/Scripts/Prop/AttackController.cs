@@ -28,19 +28,44 @@ namespace Prop
             {
                 throw new MissingComponentException($"[{GetType().Name}] PropAttackCollisionController が {attackCollider.gameObject.name} に見つかりません");
             }
-            
-            physicsMover.SetRelaxSpeed(relaxSpeed);
-            attackCollisionController.Initialize(collisionSetting);
 
+            if (!attackCollider.TryGetComponent(out AttackHitNotifier attackHitNotifier))
+            {
+                throw new MissingComponentException($"[{GetType().Name}] attackHitNotifier が {attackCollider.gameObject.name} に見つかりません");
+            }
+            
+            //十分に速度が低下した閾値を設定
+            physicsMover.SetRelaxSpeed(relaxSpeed);
+            //コリジョン初期化
+            attackCollisionController.Initialize(collisionSetting);
+            
+            //攻撃によってイベントを発火
             physicsMover.OnForce += (GameObject instigator) =>
             {
                 attackCollisionController.Activate(instigator);
             };
-
             physicsMover.OnRelax += () =>
             {
                 attackCollisionController.Deactivate();
             };
+            
+            //攻撃があたったら、自身は跳ね返る
+            attackHitNotifier.OnHit += (Collider2D other) =>
+            {
+                //自分が攻撃者の攻撃は自分に当たらない
+                if (attackCollisionController.AttackerID == other.gameObject.transform.root.gameObject.GetEntityId())
+                {
+                    return;
+                }
+                
+                //衝突時の法線を計算し、その法線で反射させる
+                Vector2 closerPoint = other.ClosestPoint(transform.position);
+                Vector2 normal = (physicsMover.Position - closerPoint).normalized;
+                var reflectVelocity = Vector2.Reflect(physicsMover.Velocity, normal);
+                reflectVelocity *= 0.2f;
+                physicsMover.AddForceVelocity(reflectVelocity,true);
+            };
+
 
         }
     }

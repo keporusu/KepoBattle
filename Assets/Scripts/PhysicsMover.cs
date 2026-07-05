@@ -44,6 +44,7 @@ public class PhysicsMover : MonoBehaviour
     //公開プロパティ
     public bool IsAir => _isAir;
     public Vector2 Velocity { get; private set; }
+    public Vector2 Position => _rigidbody_Cache.position;
     
     void Start()
     {
@@ -210,7 +211,7 @@ public class PhysicsMover : MonoBehaviour
     /// <param name="velocity">加える速度</param>
     /// <param name="forceMode">一回停止させてから力を加えるか？</param>
     /// <param name="instigator">攻撃者のオブジェクト</param>>
-    public virtual void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator)
+    public virtual void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator=null)
     {
         if (forceMode)
         {

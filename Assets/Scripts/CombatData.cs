@@ -14,7 +14,7 @@ public enum CapsuleDirection { X, Y, Z }
 
 // 攻撃コリジョンの形状・攻撃情報の設定
 [Serializable]
-public struct AttackCollisionSetting
+public struct AttackCollisionSettingForAction
 {
     public ColliderShape shape;
 
@@ -33,6 +33,29 @@ public struct AttackCollisionSetting
     public Vector2 offset;
     [Range(0f, 1f)] public float spanStart;
     [Range(0f, 1f)] public float spanEnd;
+    public Vector2 attackPower;
+    public float damage;
+}
+
+// AttackCollisionSettingForActionからRangeの情報をなくしたもの
+[Serializable]
+public struct AttackCollisionSetting
+{
+    public ColliderShape shape;
+
+    // Circle
+    public float circleRadius;
+
+    // Capsule
+    public float capsuleRadius;
+    public float capsuleHeight;
+    public CapsuleDirection capsuleDirection;
+
+    // Box
+    public Vector2 boxSize;
+
+    // 共通
+    public Vector2 offset;
     public Vector2 attackPower;
     public float damage;
 }

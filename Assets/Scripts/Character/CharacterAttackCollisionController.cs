@@ -37,7 +37,7 @@ namespace Character
         }
 
         [CanBeNull]
-        public Collider2D Activate(AttackCollisionSetting collisionSetting, int id)
+        public Collider2D Activate(AttackCollisionSettingForAction collisionSetting, int id)
         {
             //すでにアクティブなら何もしない
             if (gameObject.activeSelf) return null;
