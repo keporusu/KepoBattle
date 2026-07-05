@@ -1,10 +1,10 @@
 using System;
-using Interfaces;
+using Battle.Interfaces;
 using JetBrains.Annotations;
 using UnityEngine;
 
 
-namespace Character
+namespace Battle.Character
 {
     public class CharacterAttackCollisionController : MonoBehaviour, IAttackInfoGetter
     {

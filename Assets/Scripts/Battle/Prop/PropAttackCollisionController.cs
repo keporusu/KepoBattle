@@ -1,10 +1,10 @@
 using System;
-using Interfaces;
+using Battle.Interfaces;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 using Object = System.Object;
 
-namespace Prop
+namespace Battle.Prop
 {
     public class PropAttackCollisionController : MonoBehaviour, IAttackInfoGetter
     {

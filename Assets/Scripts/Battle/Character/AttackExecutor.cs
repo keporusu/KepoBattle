@@ -14,7 +14,7 @@ public enum AttackType
     None,
 }
 
-namespace Character
+namespace Battle.Character
 {
     public class AttackExecutor : MonoBehaviour
     {

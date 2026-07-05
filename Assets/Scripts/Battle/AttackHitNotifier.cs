@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 
 
-
 //ダメージの通知
 public class AttackHitNotifier : MonoBehaviour
 {

@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-using Character;
+using Battle.Character;
 
-namespace Character.Enemy
+namespace Battle.Character.Enemy
 {
 
     public class EnemyController : MonoBehaviour

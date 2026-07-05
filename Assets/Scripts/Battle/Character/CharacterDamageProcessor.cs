@@ -1,8 +1,8 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using Character;
+using Battle.Character;
 
-namespace Character
+namespace Battle.Character
 {
 
     public class CharacterDamageProcessor : DamageProcessor

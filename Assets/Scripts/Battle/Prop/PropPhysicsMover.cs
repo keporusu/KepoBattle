@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Prop
+namespace Battle.Prop
 {
     public class PropPhysicsMover : PhysicsMover
     {

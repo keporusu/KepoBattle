@@ -1,7 +1,7 @@
-using Interfaces;
+using Battle.Interfaces;
 using UnityEngine;
 
-namespace Prop
+namespace Battle.Prop
 {
     public class PropHealthManager : MonoBehaviour, IHealthManager
     {

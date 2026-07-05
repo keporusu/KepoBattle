@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Interfaces
+namespace Battle.Interfaces
 {
     public interface IAttackInfoGetter
     {

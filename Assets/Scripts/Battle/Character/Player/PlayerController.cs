@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
-using Character;
+using Battle.Character;
 
-namespace Character.Player
+namespace Battle.Character.Player
 {
     public class PlayerController : MonoBehaviour
     {

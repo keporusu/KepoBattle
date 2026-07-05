@@ -1,7 +1,7 @@
 using System.Linq;
-using Interfaces;
+using Battle.Interfaces;
 using UnityEngine;
-using Character;
+using Battle.Character;
 using Exceptions;
 using UnityEditor;
 

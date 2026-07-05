@@ -1,9 +1,9 @@
 using System;
-using Interfaces;
+using Battle.Interfaces;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Character
+namespace Battle.Character
 {
     public class CharacterHealthManager : MonoBehaviour, IHealthManager
     {

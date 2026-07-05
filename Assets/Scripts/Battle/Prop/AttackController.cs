@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Linq;
 using Exceptions;
 
-namespace Prop
+namespace Battle.Prop
 {
     public class AttackController : MonoBehaviour
     {

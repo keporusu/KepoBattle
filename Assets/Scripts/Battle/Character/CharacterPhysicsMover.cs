@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Character
+namespace Battle.Character
 {
     public class CharacterPhysicsMover : PhysicsMover
     {
