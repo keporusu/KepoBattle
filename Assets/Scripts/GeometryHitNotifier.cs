@@ -7,8 +7,9 @@ public class GeometryHitNotifier : MonoBehaviour
 
     private void Start()
     {
-        if (GetComponent<Collider2D>() == null)
+        if (TryGetComponent(out Collider2D col))
             throw new MissingComponentException($"[{GetType().Name}] Collider2D が {gameObject.name} に見つかりません");
+        col.isTrigger = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

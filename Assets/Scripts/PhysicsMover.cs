@@ -163,7 +163,7 @@ public class PhysicsMover : MonoBehaviour
     {
         if (!other.CompareTag("Geometry Channel")) return;
         
-        //相手がキャラクターの場合はキャッシュする
+        //相手がCharacter or Propの場合はキャッシュする
         if (CanPushObject(other))
         {
             var otherParent=other.transform.parent.gameObject;
