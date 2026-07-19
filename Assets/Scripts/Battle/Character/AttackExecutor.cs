@@ -160,6 +160,7 @@ namespace Battle.Character
         //攻撃終了通知
         private void AttackFinishCallback(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            CancelAttack();
             OnAttackFinish?.Invoke();
         }
 

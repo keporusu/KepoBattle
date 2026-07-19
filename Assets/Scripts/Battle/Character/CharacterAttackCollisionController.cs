@@ -95,6 +95,7 @@ namespace Battle.Character
 
             gameObject.SetActive(false);
             _isActive = false;
+            _uniqueID = -1;
         }
         
         public AttackInfo GetAttackInfo()
