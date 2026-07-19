@@ -1,6 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using Battle.Character;
 
 namespace Battle.Character
 {

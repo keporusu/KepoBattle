@@ -1,8 +1,6 @@
 using System;
 using Battle.Interfaces;
-using NUnit.Framework.Constraints;
 using UnityEngine;
-using Object = System.Object;
 
 namespace Battle.Prop
 {
