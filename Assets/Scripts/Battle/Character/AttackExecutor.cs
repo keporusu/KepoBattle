@@ -93,7 +93,8 @@ namespace Battle.Character
 
         public void CancelAttack()
         {
-            _isExecuting = new List<bool>(new bool[5]);
+            var maxExecuting = Math.Max(Math.Max(attack1CollisionSettings.Count,attack2CollisionSettings.Count),attack3CollisionSettings.Count);
+            _isExecuting = new List<bool>(new bool[maxExecuting]);
             _progressAttack = AttackType.None;
             foreach (var manager in _damageColliderControllers)
             {
