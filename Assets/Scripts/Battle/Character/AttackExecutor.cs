@@ -43,7 +43,7 @@ namespace Battle.Character
         private AttackType _progressAttack = AttackType.None;
 
         //攻撃終了通知
-        public Action OnAttackFinish;
+        public event Action OnAttackFinish;
 
         void Start()
         {
@@ -159,7 +159,7 @@ namespace Battle.Character
         //攻撃終了通知
         private void AttackFinishCallback(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            OnAttackFinish.Invoke();
+            OnAttackFinish?.Invoke();
         }
 
 

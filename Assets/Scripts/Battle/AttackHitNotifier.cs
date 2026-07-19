@@ -6,7 +6,7 @@ using UnityEngine;
 public class AttackHitNotifier : MonoBehaviour
 {
     
-    public System.Action<Collider2D> OnHit;
+    public event Action<Collider2D> OnHit;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -16,6 +16,6 @@ public class AttackHitNotifier : MonoBehaviour
             return;
         }
         
-        OnHit.Invoke(other);
+        OnHit?.Invoke(other);
     }
 }

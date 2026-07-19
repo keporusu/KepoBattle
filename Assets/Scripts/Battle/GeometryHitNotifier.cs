@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GeometryHitNotifier : MonoBehaviour
 {
-    public System.Action<Collider2D> OnHit;
+    public event Action<Collider2D> OnHit;
 
     private void Start()
     {
@@ -20,6 +20,6 @@ public class GeometryHitNotifier : MonoBehaviour
             return;
         }
         
-        OnHit.Invoke(other);
+        OnHit?.Invoke(other);
     }
 }

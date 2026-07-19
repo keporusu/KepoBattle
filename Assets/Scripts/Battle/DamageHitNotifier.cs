@@ -5,7 +5,7 @@ using UnityEngine;
 public class DamageHitNotifier : MonoBehaviour
 {
     
-    public System.Action<Collider2D> OnHit;
+    public event Action<Collider2D> OnHit;
 
     private void Start()
     {
@@ -22,6 +22,6 @@ public class DamageHitNotifier : MonoBehaviour
             return;
         }
         
-        OnHit.Invoke(other);
+        OnHit?.Invoke(other);
     }
 }
