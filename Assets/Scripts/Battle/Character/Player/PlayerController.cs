@@ -102,13 +102,16 @@ namespace Battle.Character.Player
             _cameraController_Cache.AdjustCameraPosition(transform.position);
             
             //UI上にマウスがある場合、攻撃できないようにする
-            if (EventSystem.current.IsPointerOverGameObject())
+            if (EventSystem.current)
             {
-                _blockingAttack = true;
-            }
-            else
-            {
-                _blockingAttack = false;
+                if (EventSystem.current.IsPointerOverGameObject())
+                {
+                    _blockingAttack = true;
+                }
+                else
+                {
+                    _blockingAttack = false;
+                }
             }
         }
 

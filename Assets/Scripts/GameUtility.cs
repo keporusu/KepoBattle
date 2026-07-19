@@ -1,7 +1,6 @@
 using Battle.Character.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Vector2 = System.Numerics.Vector2;
 
 public class GameUtility : MonoBehaviour
 {
