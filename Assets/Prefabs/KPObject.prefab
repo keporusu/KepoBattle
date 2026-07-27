@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8639198977824554502}
   - component: {fileID: -4760685336714672590}
+  - component: {fileID: 3823566940504557246}
   m_Layer: 0
   m_Name: KPObject
   m_TagString: Untagged
@@ -44,3 +45,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09a9c9ca7eba4152b0f7b4021798be3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &3823566940504557246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4542837280164696580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17f7221b1154844d499830e004a90d9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Battle.EntityRoot

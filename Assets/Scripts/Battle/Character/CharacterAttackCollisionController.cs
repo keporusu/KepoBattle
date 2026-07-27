@@ -16,6 +16,7 @@ namespace Battle.Character
         private bool _isActive = false;
         private int _uniqueID = -1;
         private AttackInfo _attackInfo;
+        private EntityRoot _entityRoot_Cache;
 
         public bool IsActive => _isActive;
         
@@ -23,10 +24,13 @@ namespace Battle.Character
         public int UniqueID => _uniqueID;
         
         //攻撃者の識別
-        public EntityId AttackerID => transform.root.gameObject.GetEntityId();
+        public EntityId AttackerID => _entityRoot_Cache.Id;
 
         private void Start()
         {
+            //このコリジョンを持つエンティティ = 攻撃者
+            _entityRoot_Cache = EntityRoot.Require(this);
+
             _circleCollider = GetComponent<CircleCollider2D>();
             _capsuleCollider = GetComponent<CapsuleCollider2D>();
             _boxCollider = GetComponent<BoxCollider2D>();

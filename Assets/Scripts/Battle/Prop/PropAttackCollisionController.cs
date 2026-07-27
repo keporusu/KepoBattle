@@ -65,7 +65,7 @@ namespace Battle.Prop
             //nullであれば、攻撃者に変更はなしと判断
             if (attacker != null)
             {
-                AttackerID = attacker.transform.root.gameObject.GetEntityId();
+                AttackerID = EntityRoot.Require(attacker).Id;
             }
         }
 

@@ -171,8 +171,7 @@ public class PhysicsMover : MonoBehaviour
         //相手がCharacter or Propの場合はキャッシュする
         if (CanPushObject(other))
         {
-            var otherParent=other.transform.parent.gameObject;
-            _otherRigidbody_Cache=otherParent.GetComponent<Rigidbody2D>();
+            _otherRigidbody_Cache=other.GetComponentInParent<Rigidbody2D>();
             _hasOtherCharacter = true;
             Debug.Log(gameObject.name+": Catch Character");
             return;

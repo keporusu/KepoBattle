@@ -54,7 +54,7 @@ namespace Battle.Prop
             attackHitNotifier.OnHit += (Collider2D other) =>
             {
                 //自分が攻撃者の攻撃は自分に当たらない
-                if (attackCollisionController.AttackerID == other.gameObject.transform.root.gameObject.GetEntityId())
+                if (attackCollisionController.AttackerID == EntityRoot.Require(other).Id)
                 {
                     return;
                 }
