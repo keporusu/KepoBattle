@@ -5,6 +5,7 @@ using System.Threading;
 using UnityEngine;
 using JetBrains.Annotations;
 using Animation;
+using Core.Constants;
 
 public enum AttackType
 {
@@ -50,9 +51,9 @@ namespace Battle.Character
             //全てのNotifierを取得
             var spNotifiers = animator.GetBehaviours<StateProgressionNotifier>();
             //それぞれの攻撃のNotifierを取得
-            _spNotifierAttack1_Cache = System.Array.Find(spNotifiers, x => x.StateName == "Attack1");
-            _spNotifierAttack2_Cache = System.Array.Find(spNotifiers, x => x.StateName == "Attack2");
-            _spNotifierAttack3_Cache = System.Array.Find(spNotifiers, x => x.StateName == "SpecialAttack");
+            _spNotifierAttack1_Cache = System.Array.Find(spNotifiers, x => x.StateName == AnimatorStates.Attack1);
+            _spNotifierAttack2_Cache = System.Array.Find(spNotifiers, x => x.StateName == AnimatorStates.Attack2);
+            _spNotifierAttack3_Cache = System.Array.Find(spNotifiers, x => x.StateName == AnimatorStates.SpecialAttack);
             if (_spNotifierAttack1_Cache == null || _spNotifierAttack2_Cache == null || _spNotifierAttack3_Cache == null)
             {
                 Debug.LogError("Some behaviours are missing");
@@ -63,7 +64,7 @@ namespace Battle.Character
             foreach (var child in allChildren)
             {
                 //攻撃チャンネルからそれぞれコリジョンを取得してキャッシュする
-                if (child.gameObject.CompareTag("Attack Channel"))
+                if (child.gameObject.CompareTag(GameTags.AttackChannel))
                 {
                     var colliderManager = child.GetComponent<CharacterAttackCollisionController>();
                     _damageColliderControllers.Add(colliderManager);

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Core.Constants;
 
 public class GeometryHitNotifier : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class GeometryHitNotifier : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // ジオメトリチャンネルじゃないなら通知しない
-        if (!other.gameObject.CompareTag("Geometry Channel"))
+        if (!other.gameObject.CompareTag(GameTags.GeometryChannel))
         {
             return;
         }

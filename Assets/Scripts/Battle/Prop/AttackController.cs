@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Linq;
 using Exceptions;
+using Core.Constants;
 
 namespace Battle.Prop
 {
@@ -20,8 +21,8 @@ namespace Battle.Prop
             }
 
             var attackCollider = GetComponentsInChildren<Transform>()
-                .FirstOrDefault(obj => obj.gameObject.CompareTag("Attack Channel"))
-                ?? throw new MissingChannelException("Attack Channel", gameObject.name);
+                .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.AttackChannel))
+                ?? throw new MissingChannelException(GameTags.AttackChannel, gameObject.name);
 
 
             if (!attackCollider.TryGetComponent(out PropAttackCollisionController attackCollisionController))

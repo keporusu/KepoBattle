@@ -3,6 +3,7 @@ using Battle.Interfaces;
 using UnityEngine;
 using Battle.Character;
 using Exceptions;
+using Core.Constants;
 
 public class DamageProcessor : MonoBehaviour
 {
@@ -21,8 +22,8 @@ public class DamageProcessor : MonoBehaviour
     protected virtual void Start()
     {
         var damagedCollider = GetComponentsInChildren<Transform>()
-            .FirstOrDefault(obj => obj.gameObject.CompareTag("Damage Channel"))
-            ?? throw new MissingChannelException("Damage Channel", gameObject.name);
+            .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.DamageChannel))
+            ?? throw new MissingChannelException(GameTags.DamageChannel, gameObject.name);
         
         var damagedNotifier=damagedCollider.GetComponent<DamageHitNotifier>();
         Debug.Assert(

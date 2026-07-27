@@ -1,6 +1,7 @@
 using System.Linq;
 using UnityEngine;
 using Exceptions;
+using Core.Constants;
 
 public class PhysicsMover : MonoBehaviour
 {
@@ -53,8 +54,8 @@ public class PhysicsMover : MonoBehaviour
             throw new MissingComponentException($"[{GetType().Name}] Rigidbody2D が {gameObject.name} に見つかりません");
 
         var geometryCollider = GetComponentsInChildren<Transform>()
-            .FirstOrDefault(obj => obj.gameObject.CompareTag("Geometry Channel"))
-            ?? throw new MissingChannelException("Geometry Channel", gameObject.name);
+            .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.GeometryChannel))
+            ?? throw new MissingChannelException(GameTags.GeometryChannel, gameObject.name);
         
         if(!geometryCollider.TryGetComponent(out _geometryCollider_Cache))
             throw new MissingComponentException($"[{GetType().Name}] Collider2D が {geometryCollider.gameObject.name} に見つかりません");
@@ -66,9 +67,9 @@ public class PhysicsMover : MonoBehaviour
         geometryHitNotifier.OnHit += OnHitGeometry;
         
         //レイヤー取得
-        _characterLayer=LayerMask.GetMask("Character");
-        _propLayer=LayerMask.GetMask("Prop");
-        _groundLayer=LayerMask.GetMask("Ground");
+        _characterLayer=LayerMask.GetMask(GameLayers.Character);
+        _propLayer=LayerMask.GetMask(GameLayers.Prop);
+        _groundLayer=LayerMask.GetMask(GameLayers.Ground);
     }
     
     protected virtual void FixedUpdate()
@@ -165,8 +166,8 @@ public class PhysicsMover : MonoBehaviour
 
     private void OnHitGeometry(Collider2D other)
     {
-        if (!other.CompareTag("Geometry Channel")) return;
-        
+        if (!other.CompareTag(GameTags.GeometryChannel)) return;
+
         //相手がCharacter or Propの場合はキャッシュする
         if (CanPushObject(other))
         {
@@ -197,8 +198,8 @@ public class PhysicsMover : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (!other.CompareTag("Geometry Channel")) return;
-            
+        if (!other.CompareTag(GameTags.GeometryChannel)) return;
+
         //相手がキャラクターの場合はキャッシュ解除
         if (CanPushObject(other))
         {

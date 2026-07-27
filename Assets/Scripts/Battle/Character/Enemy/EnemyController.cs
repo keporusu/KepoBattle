@@ -1,14 +1,13 @@
 using System;
 using UnityEngine;
 using Battle.Character;
+using Core.Constants;
 
 namespace Battle.Character.Enemy
 {
 
     public class EnemyController : MonoBehaviour
     {
-
-        private static readonly int Ground = Animator.StringToHash("Ground");
 
         //AnimatorでSpriteを動かすGameObjectを期待する
         [SerializeField] private GameObject animSprite;
@@ -36,7 +35,7 @@ namespace Battle.Character.Enemy
         private void OnGround()
         {
             //接地状態遷移（AnimController）
-            _animator_Cache.SetTrigger(Ground);
+            _animator_Cache.SetTrigger(AnimatorParams.Ground);
             Debug.Log("Grounded");
         }
     }
