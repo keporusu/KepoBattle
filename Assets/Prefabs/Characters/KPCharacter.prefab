@@ -363,7 +363,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4392446346560235346, guid: acc9a4d17747a4a659e4b060178f76bb, type: 3}
       propertyPath: m_Name
-      value: Attack2
+      value: AttackChannel2
       objectReference: {fileID: 0}
     - target: {fileID: 6607578369731655391, guid: acc9a4d17747a4a659e4b060178f76bb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -487,7 +487,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4392446346560235346, guid: acc9a4d17747a4a659e4b060178f76bb, type: 3}
       propertyPath: m_Name
-      value: Attack1
+      value: AttackChannel1
       objectReference: {fileID: 0}
     - target: {fileID: 6607578369731655391, guid: acc9a4d17747a4a659e4b060178f76bb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -549,7 +549,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4392446346560235346, guid: acc9a4d17747a4a659e4b060178f76bb, type: 3}
       propertyPath: m_Name
-      value: Attack3
+      value: AttackChannel3
       objectReference: {fileID: 0}
     - target: {fileID: 6607578369731655391, guid: acc9a4d17747a4a659e4b060178f76bb, type: 3}
       propertyPath: m_LocalPosition.x

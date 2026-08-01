@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fb1dbcb0ee54d2d86982609b1fd65ed, type: 3}
+  m_Name: Attack3
+  m_EditorClassIdentifier: Assembly-CSharp::Battle.Character.AttackData
+  attackName: 2
+  collisionSettings:
+  - shape: 0
+    circleRadius: 0.5
+    capsuleRadius: 0
+    capsuleHeight: 0
+    capsuleDirection: 0
+    boxSize: {x: 0, y: 0}
+    offset: {x: 1, y: 0}
+    spanStart: 0.5
+    spanEnd: 0.6
+    attackPower: {x: 4, y: 4}
+    damage: 10
+  - shape: 0
+    circleRadius: 0.2
+    capsuleRadius: 0
+    capsuleHeight: 0
+    capsuleDirection: 0
+    boxSize: {x: 0, y: 0}
+    offset: {x: 0.5, y: 0.5}
+    spanStart: 0.6
+    spanEnd: 0.7
+    attackPower: {x: 4, y: 4}
+    damage: 10
