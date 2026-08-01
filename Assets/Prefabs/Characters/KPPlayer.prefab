@@ -47,15 +47,15 @@ PrefabInstance:
     - target: {fileID: 7314480121798634907, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
       propertyPath: '_attackDatas.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 65684550be8d040b9b04d879d7408d79, type: 2}
+      objectReference: {fileID: 11400000, guid: 3c982fbcb1653402f86a01a859960dc5, type: 2}
     - target: {fileID: 7314480121798634907, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
       propertyPath: '_attackDatas.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: fa7f09917992c47a88aef1bdaaca53d8, type: 2}
+      objectReference: {fileID: 11400000, guid: 65684550be8d040b9b04d879d7408d79, type: 2}
     - target: {fileID: 7314480121798634907, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
       propertyPath: '_attackDatas.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 3c982fbcb1653402f86a01a859960dc5, type: 2}
+      objectReference: {fileID: 11400000, guid: fa7f09917992c47a88aef1bdaaca53d8, type: 2}
     - target: {fileID: 7912102125764525635, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -13,26 +13,4 @@ MonoBehaviour:
   m_Name: Attack3
   m_EditorClassIdentifier: Assembly-CSharp::Battle.Character.AttackData
   attackName: 2
-  collisionSettings:
-  - shape: 0
-    circleRadius: 0.5
-    capsuleRadius: 0
-    capsuleHeight: 0
-    capsuleDirection: 0
-    boxSize: {x: 0, y: 0}
-    offset: {x: 1, y: 0}
-    spanStart: 0.5
-    spanEnd: 0.6
-    attackPower: {x: 4, y: 4}
-    damage: 10
-  - shape: 0
-    circleRadius: 0.2
-    capsuleRadius: 0
-    capsuleHeight: 0
-    capsuleDirection: 0
-    boxSize: {x: 0, y: 0}
-    offset: {x: 0.5, y: 0.5}
-    spanStart: 0.6
-    spanEnd: 0.7
-    attackPower: {x: 4, y: 4}
-    damage: 10
+  collisionSettings: []

@@ -47,10 +47,12 @@ namespace Battle.Character
 
         void Awake()
         {
+            
+            //TODO: 以下の処理はうまくやれば_attackDatasから動的に自動生成できるはず
+            //TODO: 具体的には、attackDatasを走査して、動的に無名関数をmapに登録する
             var attack1 = _attackDatas.FirstOrDefault(x => x.attackName == AttackName.Attack1);
             var attack2 = _attackDatas.FirstOrDefault(x => x.attackName == AttackName.Attack2);
             var attack3 = _attackDatas.FirstOrDefault(x => x.attackName == AttackName.Attack3);
-         
             _animatorStateCallbacks = new Dictionary<AnimatorStates, List<Action<Animator,AnimatorStateInfo,int>>>()
             {
                 { AnimatorStates.Attack1 , new List<Action<Animator,AnimatorStateInfo,int>>()
