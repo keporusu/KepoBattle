@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ac1794d97334d31bcef8170cbb1408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  stateName: Attack1
+  StateName: 0
 --- !u!1101 &-5849885570502016475
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ac1794d97334d31bcef8170cbb1408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StateProgressionNotifier
-  stateName: Attack2
+  StateName: 1
 --- !u!74 &7407796
 AnimationClip:
   m_ObjectHideFlags: 0
@@ -2443,10 +2443,10 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 110278482}
-    m_Position: {x: 312, y: -72, z: 0}
+    m_Position: {x: 310, y: -70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110236268}
-    m_Position: {x: 324, y: 36, z: 0}
+    m_Position: {x: 320, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110263780}
     m_Position: {x: 320, y: 140, z: 0}
@@ -2885,4 +2885,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ac1794d97334d31bcef8170cbb1408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StateProgressionNotifier
-  stateName: SpecialAttack
+  StateName: 2

@@ -1,12 +1,11 @@
 using UnityEngine;
+using Core.Constants;
 
 namespace Animation
 {
     public class StateProgressionNotifier : StateMachineBehaviour
     {
-        [SerializeField] private string stateName;
-
-        public string StateName => stateName;
+        public AnimatorStates StateName;
 
         public event System.Action<Animator, AnimatorStateInfo, int> OnStateBegin;
         public event System.Action<Animator, AnimatorStateInfo, int> OnStateProgress;

@@ -11,7 +11,7 @@ public enum AttackType
 {
     Attack1,
     Attack2,
-    SpecialAttack,
+    Attack3,
     None,
 }
 
@@ -22,20 +22,16 @@ namespace Battle.Character
 
         //使用するアニメーター
         [SerializeField] private Animator animator;
+        //攻撃設定
+        [SerializeField] private List<AttackData> _attackDatas;
 
-        //攻撃時のコリジョンの設定
-        [SerializeField] private List<AttackCollisionSettingForAction> attack1CollisionSettings;
-        [SerializeField] private List<AttackCollisionSettingForAction> attack2CollisionSettings;
-        [SerializeField] private List<AttackCollisionSettingForAction> attack3CollisionSettings;
-
+        //各攻撃に対応するステートの進行状況取得用
+        private List<StateProgressionNotifier> _spNotifierAttacks_Cache = new List<StateProgressionNotifier>();
+        private AnimatorTrigger _animatorTrigger_Cache;
+        
         //攻撃キャンセル
         private CancellationTokenSource _attackCts;
-
-        //ステートの進行状況取得用
-        private StateProgressionNotifier _spNotifierAttack1_Cache;
-        private StateProgressionNotifier _spNotifierAttack2_Cache;
-        private StateProgressionNotifier _spNotifierAttack3_Cache;
-
+        
         //コリジョン管理
         private List<bool> _isExecuting = new List<bool>(new bool[5]);
         private List<CharacterAttackCollisionController> _damageColliderControllers = new List<CharacterAttackCollisionController>();
@@ -45,18 +41,94 @@ namespace Battle.Character
 
         //攻撃終了通知
         public event Action OnAttackFinish;
+        
+        //各攻撃で使うコールバック
+        private Dictionary<AnimatorStates, List<Action<Animator,AnimatorStateInfo,int>>> _animatorStateCallbacks;
 
+        void Awake()
+        {
+            var attack1 = _attackDatas.FirstOrDefault(x => x.attackName == AttackName.Attack1);
+            var attack2 = _attackDatas.FirstOrDefault(x => x.attackName == AttackName.Attack2);
+            var attack3 = _attackDatas.FirstOrDefault(x => x.attackName == AttackName.Attack3);
+         
+            _animatorStateCallbacks = new Dictionary<AnimatorStates, List<Action<Animator,AnimatorStateInfo,int>>>()
+            {
+                { AnimatorStates.Attack1 , new List<Action<Animator,AnimatorStateInfo,int>>()
+                {
+                    //開始
+                    (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
+                    {
+                        _progressAttack = AttackType.Attack1;
+                    },
+                    //途中
+                    (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
+                    {
+                        SetCollisionAttack(attack1,stateInfo);
+                    },
+                    //終了
+                    (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
+                    {
+                        CancelAttack();
+                        OnAttackFinish?.Invoke();
+                    }
+                }},
+                { AnimatorStates.Attack2 , new List<Action<Animator,AnimatorStateInfo,int>>()
+                {
+                    //開始
+                    (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
+                    {
+                        _progressAttack = AttackType.Attack2;
+                    },
+                    //途中
+                    (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
+                    {
+                        SetCollisionAttack(attack2,stateInfo);
+                    },
+                    //終了
+                    (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
+                    {
+                        CancelAttack();
+                        OnAttackFinish?.Invoke();
+                    }
+                }},
+                { AnimatorStates.Attack3 , new List<Action<Animator,AnimatorStateInfo,int>>()
+                {
+                    //開始
+                    (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
+                    {
+                        _progressAttack = AttackType.Attack1;
+                    },
+                    //途中
+                    (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
+                    {
+                        SetCollisionAttack(attack3,stateInfo);
+                    },
+                    //終了
+                    (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
+                    {
+                        CancelAttack();
+                        OnAttackFinish?.Invoke();
+                    }
+                }},
+            };
+        }
+        
+        
         void Start()
         {
             //全てのNotifierを取得
             var spNotifiers = animator.GetBehaviours<StateProgressionNotifier>();
-            //それぞれの攻撃のNotifierを取得
-            _spNotifierAttack1_Cache = System.Array.Find(spNotifiers, x => x.StateName == AnimatorStates.Attack1);
-            _spNotifierAttack2_Cache = System.Array.Find(spNotifiers, x => x.StateName == AnimatorStates.Attack2);
-            _spNotifierAttack3_Cache = System.Array.Find(spNotifiers, x => x.StateName == AnimatorStates.SpecialAttack);
-            if (_spNotifierAttack1_Cache == null || _spNotifierAttack2_Cache == null || _spNotifierAttack3_Cache == null)
+            //それぞれの攻撃のNotifierを取得 Attack ↔ Notifier
+            //TODO: Notifierのステート名と攻撃設定の名前が一致していれば対応付けることにしているが、少し雑
+            foreach(var attackData in _attackDatas)
             {
-                Debug.LogError("Some behaviours are missing");
+                var spNotifier=System.Array.Find(spNotifiers, x => x.StateName.ToString() == attackData.attackName.ToString());
+                _spNotifierAttacks_Cache.Add(spNotifier);
+
+                if (!spNotifier)
+                {
+                    Debug.LogError($"Notifier for {attackData.attackName} is missing.");
+                }
             }
 
             //子どものAttackChannelのコリジョンを取得
@@ -70,31 +142,38 @@ namespace Battle.Character
                     _damageColliderControllers.Add(colliderManager);
                 }
             }
+            
+            //AnimatorTriggerの取得
+            if (!TryGetComponent(out _animatorTrigger_Cache))
+            {
+                throw new MissingComponentException($"[{GetType().Name}] AnimatorTrigger が {gameObject.name} に見つかりません");
+            }
 
             //アニメーション再生中のコリジョン反映イベント
-            _spNotifierAttack1_Cache.OnStateBegin += SetTypeAttack1;
-            _spNotifierAttack2_Cache.OnStateBegin += SetTypeAttack2;
-            _spNotifierAttack3_Cache.OnStateBegin += SetTypeAttack3Attack;
-            _spNotifierAttack1_Cache.OnStateProgress += SetCollisionAttack;
-            _spNotifierAttack2_Cache.OnStateProgress += SetCollisionAttack;
-            _spNotifierAttack3_Cache.OnStateProgress += SetCollisionAttack;
-            _spNotifierAttack1_Cache.OnStateEnd += AttackFinishCallback;
-            _spNotifierAttack2_Cache.OnStateEnd += AttackFinishCallback;
-            _spNotifierAttack3_Cache.OnStateEnd += AttackFinishCallback;
+            for (int i = 0; i < _spNotifierAttacks_Cache.Count; i++)
+            {
+                var state = (AnimatorStates)Enum.Parse(typeof(AnimatorStates),
+                    _spNotifierAttacks_Cache[i].StateName.ToString());
+                _spNotifierAttacks_Cache[i].OnStateBegin += _animatorStateCallbacks[state][0];
+                _spNotifierAttacks_Cache[i].OnStateProgress += _animatorStateCallbacks[state][1];
+                _spNotifierAttacks_Cache[i].OnStateEnd+= _animatorStateCallbacks[state][2];
+            }
         }
 
 
 
-        public void StartAttack1()
+        public void StartAttack(AttackType attackType)
         {
             CancelAttack();
-            //_attackCts = new CancellationTokenSource();
-            //DeactivateAfterDuration(_attackCts.Token).Forget();
+            if (attackType == AttackType.Attack1)
+            {
+                _animatorTrigger_Cache.TriggerAttack1();
+            }
         }
 
         public void CancelAttack()
         {
-            var maxExecuting = Math.Max(Math.Max(attack1CollisionSettings.Count,attack2CollisionSettings.Count),attack3CollisionSettings.Count);
+            var maxExecuting = _attackDatas.Max(x => x.collisionSettings.Count);
             _isExecuting = new List<bool>(new bool[maxExecuting]);
             _progressAttack = AttackType.None;
             foreach (var manager in _damageColliderControllers)
@@ -103,36 +182,12 @@ namespace Battle.Character
             }
         }
 
-
-        private void SetTypeAttack1(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            _progressAttack = AttackType.Attack1;
-        }
-
-        private void SetTypeAttack2(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            _progressAttack = AttackType.Attack2;
-        }
-
-        private void SetTypeAttack3Attack(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            _progressAttack = AttackType.SpecialAttack;
-        }
-
-        private void SetCollisionAttack(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        private void SetCollisionAttack(AttackData attack, AnimatorStateInfo stateInfo)
         {
             // TODO: これを毎フレームAnimControllerのステート中に呼ばれるようにして、コリジョンの位置を調整する
 
-            var collisionSettings = attack1CollisionSettings;
-            if (_progressAttack == AttackType.Attack2)
-            {
-                collisionSettings = attack2CollisionSettings;
-            }
-            else if (_progressAttack == AttackType.SpecialAttack)
-            {
-                collisionSettings = attack3CollisionSettings;
-            }
-
+            var collisionSettings = attack.collisionSettings;
+            
             int id = 0;
             foreach (var setting in collisionSettings)
             {
@@ -156,13 +211,6 @@ namespace Battle.Character
 
                 id++;
             }
-        }
-
-        //攻撃終了通知
-        private void AttackFinishCallback(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            CancelAttack();
-            OnAttackFinish?.Invoke();
         }
 
 
@@ -194,7 +242,7 @@ namespace Battle.Character
 
         private void OnDestroy()
         {
-            CancelAttack();
+            //CancelAttack();
         }
     }
 }

@@ -192,11 +192,10 @@ namespace Battle.Character.Player
 
             //移動処理をキャンセルする
             CancelMove();
-
-            _attackExecutor_Cache.StartAttack1();
-            _animatorTrigger_Cache.TriggerAttack1();
-            //animatorTrigger_Cache.TriggerAttack2();
-            //animatorTrigger_Cache.TriggerAttack3();
+            
+            //現状Attack1のみ
+            //トリガもAttackExecutor側に任せる
+            _attackExecutor_Cache.StartAttack(AttackType.Attack1);
         }
 
         private void CancelBlockingMove()
