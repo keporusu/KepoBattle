@@ -73,6 +73,7 @@ namespace Components.Combat.Damage
                 }
 
                 //速度を与える
+                //TODO: 現状Prop->Propでも決まったattackVelocityが入る。しかし、ここはPropの場合、速度によって動的に変わるべきである
                 _physicsMover_Cache.ForceKnockback(attackInfo.attackVelocity,otherRoot.gameObject);
 
                 //ダメージ処理

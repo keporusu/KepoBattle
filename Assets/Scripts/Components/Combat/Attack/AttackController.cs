@@ -12,6 +12,7 @@ namespace Components.Combat.Attack
 {
     public class AttackController : MonoBehaviour
     {
+        //攻撃判定を生成しない速度
         [SerializeField] private float relaxSpeed;
         [SerializeField] private AttackCollisionSetting collisionSetting;
         
