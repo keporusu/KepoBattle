@@ -240,11 +240,10 @@ namespace Core.Movement
         {
             //上方向に動いているときは足場無視
             if(Velocity.y > 0.0f) return false;
-                
-            float groundTop = groundTopY;
+            
             _isAir = false;
             //※コレが使われるのは1フレーム後であることに注意
-            _snapGroundY = groundTop + selfHalfHeight;
+            _snapGroundY = groundTopY + selfHalfHeight;
 
             //地面についた場合、上下方向にかかっている速度は0にする
             _forceVelocity.y = 0.0f;
