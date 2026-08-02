@@ -8,7 +8,7 @@ namespace Battle.Prop
         [SerializeField] private int maxHealth;
         [SerializeField] private bool unbreakable = true;
         
-        //TODO: 未実装になっているため、どうにかすること
+        //TODO: 破壊処理のような物を入れる
         public float CurrentHealth { get; }
         public bool IsDead => CurrentHealth <= 0 && !unbreakable;
 
