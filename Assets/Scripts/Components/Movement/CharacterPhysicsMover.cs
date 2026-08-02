@@ -12,18 +12,17 @@ namespace Components.Movement
 
         public void StopJump()
         {
-            ForceVelocity.y = 0.0f;
+            CutVelocity(false, true);
         }
 
-        public void Move(float power)
+        public void Move(float velocity)
         {
-            IsBraking = false;
-            MovingVelocity = power;
+            InputMove(velocity);
         }
 
         public void StopMove()
         {
-            IsBraking = true;
+            CutMove();
         }
 
         public void ForceKnockback(Vector2 velocity, GameObject instigator = null)

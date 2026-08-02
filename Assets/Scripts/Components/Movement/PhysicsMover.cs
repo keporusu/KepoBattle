@@ -23,13 +23,13 @@ namespace Components.Movement
         private Rigidbody2D _otherRigidbody_Cache;
 
         //常にUpdateする値
-        protected float MovingVelocity = 0.0f; //移動時の速度
-        protected Vector2 ForceVelocity = Vector2.zero; //無理に掛かる速度
+        private float _movingVelocity = 0.0f; //移動時の速度
+        private Vector2 _forceVelocity = Vector2.zero; //無理に掛かる速度
 
         //状態
         private bool _hasOtherCharacter=false;
         private bool _isAir = true;
-        protected bool IsBraking = false;
+        private bool _isBraking = false;
         private float _snapGroundY = float.NaN;
 
         private bool CanPushObject(Collider2D other)
@@ -75,6 +75,35 @@ namespace Components.Movement
             _propLayer=LayerMask.GetMask(GameLayers.Prop);
             _groundLayer=LayerMask.GetMask(GameLayers.Ground);
         }
+        
+        /// <summary>
+        /// 移動用
+        /// </summary>
+        /// <param name="velocity">速度</param>
+        protected void InputMove(float velocity)
+        {
+            _isBraking = false;
+            _movingVelocity = velocity;
+        }
+        
+        /// <summary>
+        /// ブレーキを掛ける
+        /// </summary>
+        protected void CutMove()
+        {
+            _isBraking = true;
+        }
+
+        /// <summary>
+        /// 速度を直接0にする
+        /// </summary>
+        /// <param name="cutX">x方向を切るか？</param>
+        /// <param name="cutY">y方向を切るか？</param>
+        protected void CutVelocity(bool cutX = true, bool cutY = true)
+        {
+            if (cutX) _forceVelocity.x = 0.0f;
+            if (cutY) _forceVelocity.y = 0.0f;
+        }
 
         protected virtual void FixedUpdate()
         {
@@ -83,49 +112,49 @@ namespace Components.Movement
             Vector2 movePoint = _rigidbody_Cache.position;
 
             //ブレーキ処理
-            if (IsBraking)
+            if (_isBraking)
             {
-                if (MovingVelocity > 0.0f)
+                if (_movingVelocity > 0.0f)
                 {
-                    MovingVelocity = Mathf.Max(0.0f,MovingVelocity-friction*Time.deltaTime);
+                    _movingVelocity = Mathf.Max(0.0f,_movingVelocity-friction*Time.deltaTime);
                 }
-                else if (MovingVelocity < 0.0f)
+                else if (_movingVelocity < 0.0f)
                 {
-                    MovingVelocity = Mathf.Min(0.0f,MovingVelocity+friction*Time.deltaTime);
+                    _movingVelocity = Mathf.Min(0.0f,_movingVelocity+friction*Time.deltaTime);
                 }
 
-                if (MovingVelocity == 0.0f)
+                if (_movingVelocity == 0.0f)
                 {
-                    IsBraking = false;
+                    _isBraking = false;
                 }
             }
 
             //移動処理
-            movePoint += MovingVelocity *Time.fixedDeltaTime* Vector2.right;
+            movePoint += _movingVelocity *Time.fixedDeltaTime* Vector2.right;
 
             //空中での処理
             if (_isAir)
             {
                 //重力による上方向減衰
-                ForceVelocity += gravity * Time.fixedDeltaTime * Vector2.down;
+                _forceVelocity += gravity * Time.fixedDeltaTime * Vector2.down;
             }
             //地面についているときの処理
             else
             {
-                if (ForceVelocity.x > 0.0f)
+                if (_forceVelocity.x > 0.0f)
                 {
-                    ForceVelocity.x = Mathf.Max(0.0f, ForceVelocity.x - friction * Time.deltaTime);
+                    _forceVelocity.x = Mathf.Max(0.0f, _forceVelocity.x - friction * Time.deltaTime);
                 }
-                else if (ForceVelocity.x < 0.0f)
+                else if (_forceVelocity.x < 0.0f)
                 {
-                    ForceVelocity.x = Mathf.Min(0.0f, ForceVelocity.x + friction * Time.deltaTime);
+                    _forceVelocity.x = Mathf.Min(0.0f, _forceVelocity.x + friction * Time.deltaTime);
                 }
             }
 
             //無理矢理掛かる力による移動
             //質量が軽いほどよく飛ぶ
             //接地中はY成分を無視してめり込みを防ぐ
-            var appliedForce = _isAir ? ForceVelocity : new Vector2(ForceVelocity.x, 0.0f);
+            var appliedForce = _isAir ? _forceVelocity : new Vector2(_forceVelocity.x, 0.0f);
             movePoint += appliedForce / Mathf.Max(0.001f, weight) * Time.fixedDeltaTime;
             //movePoint += ForceVelocity / Mathf.Max(0.001f, weight) * Time.fixedDeltaTime;
 
@@ -192,7 +221,7 @@ namespace Components.Movement
                 _snapGroundY = groundTop + _geometryCollider_Cache.bounds.extents.y;
 
                 //地面についた場合、上下方向にかかっている速度は0にする
-                ForceVelocity.y = 0.0f;
+                _forceVelocity.y = 0.0f;
 
                 //接地通知
                 OnGround?.Invoke();
@@ -223,11 +252,11 @@ namespace Components.Movement
         {
             if (forceMode)
             {
-                MovingVelocity = 0.0f;
-                ForceVelocity = new Vector2();
+                _movingVelocity = 0.0f;
+                _forceVelocity = new Vector2();
             }
 
-            ForceVelocity += velocity;
+            _forceVelocity += velocity;
             if (velocity.y > 0.0f)
             {
                 _isAir = true;
@@ -236,13 +265,13 @@ namespace Components.Movement
 
         public void ResetAll(Vector2 position)
         {
-            MovingVelocity = 0.0f; //移動時の力
-            ForceVelocity = new Vector2(); //攻撃などで無理にかかる速度
+            _movingVelocity = 0.0f; //移動時の力
+            _forceVelocity = new Vector2(); //攻撃などで無理にかかる速度
 
             //状態
             _hasOtherCharacter=false;
             _isAir = true;
-            IsBraking = false;
+            _isBraking = false;
             _snapGroundY = float.NaN;
 
             //位置
