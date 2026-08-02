@@ -1,7 +1,7 @@
-using Battle.Interfaces;
+using Core.Contracts;
 using UnityEngine;
 
-namespace Battle.Character
+namespace Components.Movement
 {
     public class CharacterPhysicsMover : PhysicsMover, IKnockbackReceiver
     {

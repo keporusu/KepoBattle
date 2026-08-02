@@ -1,7 +1,7 @@
 using UnityEngine;
 using Core.Constants;
 
-namespace Battle.Character
+namespace Components.Animation
 {
     public class AnimatorTrigger : MonoBehaviour
     {

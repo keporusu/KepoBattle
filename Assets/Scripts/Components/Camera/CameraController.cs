@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Battle.Character.Player
+namespace Components.Camera
 {
     public class CameraController : MonoBehaviour
     {

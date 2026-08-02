@@ -1,89 +1,92 @@
 using System.Linq;
-using Battle.Interfaces;
+using Core.Contracts;
 using UnityEngine;
-using Battle;
-using Battle.Character;
-using Exceptions;
+using Components.Identity;
+using Components.Detection;
+using Core.Exceptions;
 using Core.Constants;
 
-public class DamageProcessor : MonoBehaviour
+namespace Components.Combat.Damage
 {
-    [SerializeField] private float invincibleDuration = 0.1f;
-
-    //キャッシュ
-    protected IKnockbackReceiver _physicsMover_Cache;
-    protected IHealthManager _healthManager_Cache;
-    private EntityRoot _entityRoot_Cache;
-
-    private float _lastDamagedTime = float.NegativeInfinity;
-
-    //なにか処理させたいことがあれば子供が実装
-    protected virtual void OnDamagedHitFinished(){}
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected virtual void Start()
+    public class DamageProcessor : MonoBehaviour
     {
-        var damagedCollider = GetComponentsInChildren<Transform>()
-            .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.DamageChannel))
-            ?? throw new MissingChannelException(GameTags.DamageChannel, gameObject.name);
-        
-        //ダメージ通知
-        var damagedNotifier=damagedCollider.GetComponent<DamageHitNotifier>();
-        if(damagedNotifier == null)
-            throw new MissingComponentException($"[{GetType().Name}] DamagedNotifier が {gameObject.name} に見つかりません");
-        damagedNotifier.OnHit += DamagedHit;
-        
-        //強制吹き飛ばし用
-        if (!TryGetComponent(out _physicsMover_Cache))
-            throw new MissingComponentException($"[{GetType().Name}] PhysicsMover が {gameObject.name} に見つかりません");
-        
-        //HP減算用
-        if (!TryGetComponent(out _healthManager_Cache))
-            throw new MissingComponentException($"[{GetType().Name}] HealthManager が {gameObject.name} に見つかりません");
+        [SerializeField] private float invincibleDuration = 0.1f;
 
-        //自分が属するエンティティ(自傷判定・吹き飛ばし方向の基準)
-        _entityRoot_Cache = EntityRoot.Require(this);
-    }
+        //キャッシュ
+        protected IKnockbackReceiver _physicsMover_Cache;
+        protected IHealthManager _healthManager_Cache;
+        private EntityRoot _entityRoot_Cache;
 
-    private void DamagedHit(Collider2D other)
-    {
-        if (Time.time < _lastDamagedTime + invincibleDuration) return;
+        private float _lastDamagedTime = float.NegativeInfinity;
 
-        //コリジョン処理
-        var attackInfoGetter = other.GetComponent<IAttackInfoGetter>();
-        if (attackInfoGetter != null)
+        //なにか処理させたいことがあれば子供が実装
+        protected virtual void OnDamagedHitFinished(){}
+
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        protected virtual void Start()
         {
-            if (attackInfoGetter.AttackerID == _entityRoot_Cache.Id)
-            {
-                //自分の攻撃は自分に当たらない
-                return;
-            }
+            var damagedCollider = GetComponentsInChildren<Transform>()
+                .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.DamageChannel))
+                ?? throw new MissingChannelException(GameTags.DamageChannel, gameObject.name);
 
-            var attackInfo = attackInfoGetter.GetAttackInfo();
+            //ダメージ通知
+            var damagedNotifier=damagedCollider.GetComponent<DamageHitNotifier>();
+            if(damagedNotifier == null)
+                throw new MissingComponentException($"[{GetType().Name}] DamagedNotifier が {gameObject.name} に見つかりません");
+            damagedNotifier.OnHit += DamagedHit;
 
-            //当たってきたコリジョンが属するエンティティ
-            var otherRoot = EntityRoot.Require(other);
+            //強制吹き飛ばし用
+            if (!TryGetComponent(out _physicsMover_Cache))
+                throw new MissingComponentException($"[{GetType().Name}] PhysicsMover が {gameObject.name} に見つかりません");
 
-            //キャラクターの位置関係で、どちら向きに吹き飛ばすか決める
-            if (_entityRoot_Cache.transform.position.x < otherRoot.transform.position.x)
-            {
-                attackInfo.attackVelocity.x = -attackInfo.attackVelocity.x;
-            }
-            
-            //速度を与える
-            _physicsMover_Cache.ForceKnockback(attackInfo.attackVelocity,otherRoot.gameObject);
-            
-            //ダメージ処理
-            _healthManager_Cache.TakeDamage(attackInfo.damage);
-            _lastDamagedTime = Time.time;
-            
-            //ダメージ後処理
-            OnDamagedHitFinished();
-            
-            Debug.Log("DamagedHit");
+            //HP減算用
+            if (!TryGetComponent(out _healthManager_Cache))
+                throw new MissingComponentException($"[{GetType().Name}] HealthManager が {gameObject.name} に見つかりません");
+
+            //自分が属するエンティティ(自傷判定・吹き飛ばし方向の基準)
+            _entityRoot_Cache = EntityRoot.Require(this);
         }
-        
-        
+
+        private void DamagedHit(Collider2D other)
+        {
+            if (Time.time < _lastDamagedTime + invincibleDuration) return;
+
+            //コリジョン処理
+            var attackInfoGetter = other.GetComponent<IAttackInfoGetter>();
+            if (attackInfoGetter != null)
+            {
+                if (attackInfoGetter.AttackerID == _entityRoot_Cache.Id)
+                {
+                    //自分の攻撃は自分に当たらない
+                    return;
+                }
+
+                var attackInfo = attackInfoGetter.GetAttackInfo();
+
+                //当たってきたコリジョンが属するエンティティ
+                var otherRoot = EntityRoot.Require(other);
+
+                //キャラクターの位置関係で、どちら向きに吹き飛ばすか決める
+                if (_entityRoot_Cache.transform.position.x < otherRoot.transform.position.x)
+                {
+                    attackInfo.attackVelocity.x = -attackInfo.attackVelocity.x;
+                }
+
+                //速度を与える
+                _physicsMover_Cache.ForceKnockback(attackInfo.attackVelocity,otherRoot.gameObject);
+
+                //ダメージ処理
+                _healthManager_Cache.TakeDamage(attackInfo.damage);
+                _lastDamagedTime = Time.time;
+
+                //ダメージ後処理
+                OnDamagedHitFinished();
+
+                Debug.Log("DamagedHit");
+            }
+
+
+        }
+
     }
-    
 }

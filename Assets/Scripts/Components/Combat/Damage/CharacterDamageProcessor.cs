@@ -1,6 +1,7 @@
 using UnityEngine;
+using Components.Animation;
 
-namespace Battle.Character
+namespace Components.Combat.Damage
 {
 
     public class CharacterDamageProcessor : DamageProcessor

@@ -4,19 +4,20 @@ using System.Linq;
 using System.Threading;
 using UnityEngine;
 using JetBrains.Annotations;
-using Animation;
+using Components.Animation;
 using Core.Constants;
+using Data;
 
-public enum AttackType
+namespace Components.Combat.Attack
 {
-    Attack1,
-    Attack2,
-    Attack3,
-    None,
-}
+    public enum AttackType
+    {
+        Attack1,
+        Attack2,
+        Attack3,
+        None,
+    }
 
-namespace Battle.Character
-{
     public class AttackExecutor : MonoBehaviour
     {
 

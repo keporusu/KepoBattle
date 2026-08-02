@@ -1,7 +1,7 @@
-using Battle.Interfaces;
+using Core.Contracts;
 using UnityEngine;
 
-namespace Battle.Prop
+namespace Components.Movement
 {
     public class PropPhysicsMover : PhysicsMover, IKnockbackReceiver
     {

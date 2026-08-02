@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Core.Constants;
 
-namespace Battle.Character
+namespace Data
 {
     public enum AttackName
     {

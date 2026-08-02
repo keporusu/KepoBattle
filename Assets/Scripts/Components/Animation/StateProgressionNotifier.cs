@@ -1,7 +1,7 @@
 using UnityEngine;
 using Core.Constants;
 
-namespace Animation
+namespace Components.Animation
 {
     public class StateProgressionNotifier : StateMachineBehaviour
     {

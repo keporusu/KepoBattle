@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class TeamSetting : MonoBehaviour
+namespace Components.Identity
 {
-    
+    public class TeamSetting : MonoBehaviour
+    {
+
+    }
 }

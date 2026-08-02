@@ -1,10 +1,14 @@
 using System;
 using UnityEngine;
 using System.Linq;
-using Exceptions;
+using Core.Exceptions;
 using Core.Constants;
+using Components.Movement;
+using Components.Detection;
+using Components.Identity;
+using Data;
 
-namespace Battle.Prop
+namespace Components.Combat.Attack
 {
     public class AttackController : MonoBehaviour
     {

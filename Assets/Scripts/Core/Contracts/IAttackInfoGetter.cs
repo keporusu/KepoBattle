@@ -1,6 +1,7 @@
 using UnityEngine;
+using Data;
 
-namespace Battle.Interfaces
+namespace Core.Contracts
 {
     public interface IAttackInfoGetter
     {

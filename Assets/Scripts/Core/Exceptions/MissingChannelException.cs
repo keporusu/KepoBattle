@@ -1,6 +1,6 @@
 using System;
 
-namespace Exceptions
+namespace Core.Exceptions
 {
     public class MissingChannelException : Exception
     {

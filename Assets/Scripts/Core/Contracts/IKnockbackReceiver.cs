@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Battle.Interfaces
+namespace Core.Contracts
 {
     public interface IKnockbackReceiver
     {

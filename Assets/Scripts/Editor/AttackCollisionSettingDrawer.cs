@@ -1,157 +1,161 @@
 using UnityEditor;
 using UnityEngine;
+using Data;
 
-[CustomPropertyDrawer(typeof(AttackCollisionSetting))]
-public class AttackCollisionSettingBaseDrawer : PropertyDrawer
+namespace Editor
 {
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(AttackCollisionSetting))]
+    public class AttackCollisionSettingBaseDrawer : PropertyDrawer
     {
-        EditorGUI.BeginProperty(position, label, property);
-
-        var shapeProp  = property.FindPropertyRelative("shape");
-        var offsetProp = property.FindPropertyRelative("offset");
-
-        float lineH   = EditorGUIUtility.singleLineHeight;
-        float spacing = EditorGUIUtility.standardVerticalSpacing;
-
-        var rect = new Rect(position.x, position.y, position.width, lineH);
-
-        EditorGUI.PropertyField(rect, shapeProp);
-        rect.y += lineH + spacing;
-
-        var shape = (ColliderShape)shapeProp.enumValueIndex;
-
-        switch (shape)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            case ColliderShape.Circle:
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative("circleRadius"));
-                rect.y += lineH + spacing;
-                break;
+            EditorGUI.BeginProperty(position, label, property);
 
-            case ColliderShape.Capsule:
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleRadius"));
-                rect.y += lineH + spacing;
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleHeight"));
-                rect.y += lineH + spacing;
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleDirection"));
-                rect.y += lineH + spacing;
-                break;
+            var shapeProp  = property.FindPropertyRelative("shape");
+            var offsetProp = property.FindPropertyRelative("offset");
 
-            case ColliderShape.Box:
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative("boxSize"));
-                rect.y += lineH + spacing;
-                break;
+            float lineH   = EditorGUIUtility.singleLineHeight;
+            float spacing = EditorGUIUtility.standardVerticalSpacing;
+
+            var rect = new Rect(position.x, position.y, position.width, lineH);
+
+            EditorGUI.PropertyField(rect, shapeProp);
+            rect.y += lineH + spacing;
+
+            var shape = (ColliderShape)shapeProp.enumValueIndex;
+
+            switch (shape)
+            {
+                case ColliderShape.Circle:
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative("circleRadius"));
+                    rect.y += lineH + spacing;
+                    break;
+
+                case ColliderShape.Capsule:
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleRadius"));
+                    rect.y += lineH + spacing;
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleHeight"));
+                    rect.y += lineH + spacing;
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleDirection"));
+                    rect.y += lineH + spacing;
+                    break;
+
+                case ColliderShape.Box:
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative("boxSize"));
+                    rect.y += lineH + spacing;
+                    break;
+            }
+
+            EditorGUI.PropertyField(rect, offsetProp);
+            rect.y += lineH + spacing;
+
+            EditorGUI.PropertyField(rect, property.FindPropertyRelative("attackPower"));
+            rect.y += lineH + spacing;
+
+            EditorGUI.PropertyField(rect, property.FindPropertyRelative("damage"));
+
+            EditorGUI.EndProperty();
         }
 
-        EditorGUI.PropertyField(rect, offsetProp);
-        rect.y += lineH + spacing;
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            float lineH   = EditorGUIUtility.singleLineHeight;
+            float spacing = EditorGUIUtility.standardVerticalSpacing;
 
-        EditorGUI.PropertyField(rect, property.FindPropertyRelative("attackPower"));
-        rect.y += lineH + spacing;
+            var shapeProp = property.FindPropertyRelative("shape");
+            var shape     = (ColliderShape)shapeProp.enumValueIndex;
 
-        EditorGUI.PropertyField(rect, property.FindPropertyRelative("damage"));
+            // shape + offset + attackPower + damage の 4 行は共通
+            int lines = 4;
+            lines += shape switch
+            {
+                ColliderShape.Circle  => 1,
+                ColliderShape.Capsule => 3,
+                ColliderShape.Box     => 1,
+                _                     => 0,
+            };
 
-        EditorGUI.EndProperty();
+            return lines * lineH + (lines - 1) * spacing;
+        }
     }
 
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(AttackCollisionSettingForAction))]
+    public class AttackCollisionSettingDrawer : PropertyDrawer
     {
-        float lineH   = EditorGUIUtility.singleLineHeight;
-        float spacing = EditorGUIUtility.standardVerticalSpacing;
-
-        var shapeProp = property.FindPropertyRelative("shape");
-        var shape     = (ColliderShape)shapeProp.enumValueIndex;
-
-        // shape + offset + attackPower + damage の 4 行は共通
-        int lines = 4;
-        lines += shape switch
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            ColliderShape.Circle  => 1,
-            ColliderShape.Capsule => 3,
-            ColliderShape.Box     => 1,
-            _                     => 0,
-        };
+            EditorGUI.BeginProperty(position, label, property);
 
-        return lines * lineH + (lines - 1) * spacing;
-    }
-}
+            var shapeProp     = property.FindPropertyRelative("shape");
+            var offsetProp    = property.FindPropertyRelative("offset");
 
-[CustomPropertyDrawer(typeof(AttackCollisionSettingForAction))]
-public class AttackCollisionSettingDrawer : PropertyDrawer
-{
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        EditorGUI.BeginProperty(position, label, property);
+            float lineH = EditorGUIUtility.singleLineHeight;
+            float spacing = EditorGUIUtility.standardVerticalSpacing;
 
-        var shapeProp     = property.FindPropertyRelative("shape");
-        var offsetProp    = property.FindPropertyRelative("offset");
+            var rect = new Rect(position.x, position.y, position.width, lineH);
 
-        float lineH = EditorGUIUtility.singleLineHeight;
-        float spacing = EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.PropertyField(rect, shapeProp);
+            rect.y += lineH + spacing;
 
-        var rect = new Rect(position.x, position.y, position.width, lineH);
+            var shape = (ColliderShape)shapeProp.enumValueIndex;
 
-        EditorGUI.PropertyField(rect, shapeProp);
-        rect.y += lineH + spacing;
+            switch (shape)
+            {
+                case ColliderShape.Circle:
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative("circleRadius"));
+                    rect.y += lineH + spacing;
+                    break;
 
-        var shape = (ColliderShape)shapeProp.enumValueIndex;
+                case ColliderShape.Capsule:
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleRadius"));
+                    rect.y += lineH + spacing;
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleHeight"));
+                    rect.y += lineH + spacing;
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleDirection"));
+                    rect.y += lineH + spacing;
+                    break;
 
-        switch (shape)
-        {
-            case ColliderShape.Circle:
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative("circleRadius"));
-                rect.y += lineH + spacing;
-                break;
+                case ColliderShape.Box:
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative("boxSize"));
+                    rect.y += lineH + spacing;
+                    break;
+            }
 
-            case ColliderShape.Capsule:
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleRadius"));
-                rect.y += lineH + spacing;
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleHeight"));
-                rect.y += lineH + spacing;
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative("capsuleDirection"));
-                rect.y += lineH + spacing;
-                break;
+            EditorGUI.PropertyField(rect, offsetProp);
+            rect.y += lineH + spacing;
 
-            case ColliderShape.Box:
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative("boxSize"));
-                rect.y += lineH + spacing;
-                break;
+            EditorGUI.Slider(rect, property.FindPropertyRelative("spanStart"), 0f, 1f, "Span Start");
+            rect.y += lineH + spacing;
+            EditorGUI.Slider(rect, property.FindPropertyRelative("spanEnd"),   0f, 1f, "Span End");
+            rect.y += lineH + spacing;
+
+            EditorGUI.PropertyField(rect, property.FindPropertyRelative("attackPower"));
+            rect.y += lineH + spacing;
+
+            EditorGUI.PropertyField(rect, property.FindPropertyRelative("damage"));
+
+            EditorGUI.EndProperty();
         }
 
-        EditorGUI.PropertyField(rect, offsetProp);
-        rect.y += lineH + spacing;
-
-        EditorGUI.Slider(rect, property.FindPropertyRelative("spanStart"), 0f, 1f, "Span Start");
-        rect.y += lineH + spacing;
-        EditorGUI.Slider(rect, property.FindPropertyRelative("spanEnd"),   0f, 1f, "Span End");
-        rect.y += lineH + spacing;
-
-        EditorGUI.PropertyField(rect, property.FindPropertyRelative("attackPower"));
-        rect.y += lineH + spacing;
-
-        EditorGUI.PropertyField(rect, property.FindPropertyRelative("damage"));
-
-        EditorGUI.EndProperty();
-    }
-
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-    {
-        float lineH = EditorGUIUtility.singleLineHeight;
-        float spacing = EditorGUIUtility.standardVerticalSpacing;
-
-        var shapeProp = property.FindPropertyRelative("shape");
-        var shape = (ColliderShape)shapeProp.enumValueIndex;
-
-        // shape + offset + spanStart + spanEnd + attackPower + damage の 6 行は共通
-        int lines = 6;
-        lines += shape switch
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            ColliderShape.Circle  => 1,          // circleRadius
-            ColliderShape.Capsule => 3,          // radius + height + direction
-            ColliderShape.Box     => 1,          // boxSize
-            _                      => 0,
-        };
+            float lineH = EditorGUIUtility.singleLineHeight;
+            float spacing = EditorGUIUtility.standardVerticalSpacing;
 
-        return lines * lineH + (lines - 1) * spacing;
+            var shapeProp = property.FindPropertyRelative("shape");
+            var shape = (ColliderShape)shapeProp.enumValueIndex;
+
+            // shape + offset + spanStart + spanEnd + attackPower + damage の 6 行は共通
+            int lines = 6;
+            lines += shape switch
+            {
+                ColliderShape.Circle  => 1,          // circleRadius
+                ColliderShape.Capsule => 3,          // radius + height + direction
+                ColliderShape.Box     => 1,          // boxSize
+                _                      => 0,
+            };
+
+            return lines * lineH + (lines - 1) * spacing;
+        }
     }
 }

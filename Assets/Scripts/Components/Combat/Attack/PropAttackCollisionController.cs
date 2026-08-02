@@ -1,8 +1,10 @@
 using System;
-using Battle.Interfaces;
+using Core.Contracts;
 using UnityEngine;
+using Components.Identity;
+using Data;
 
-namespace Battle.Prop
+namespace Components.Combat.Attack
 {
     public class PropAttackCollisionController : MonoBehaviour, IAttackInfoGetter
     {

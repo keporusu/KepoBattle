@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Battle.Prop
+namespace Components.Combat.Damage
 {
     public class PropDamageProcessor : DamageProcessor
     {

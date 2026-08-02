@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Battle
+namespace Components.Identity
 {
     /// <summary>
     /// エンティティ(キャラクター・Prop など、1つの独立した存在)のルートに1つだけ貼るのを強制する。

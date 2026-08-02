@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
-using Battle.Character;
 using UnityEngine.EventSystems;
+using Components.Movement;
+using Components.Combat.Attack;
+using Components.Animation;
+using Components.Camera;
 
-namespace Battle.Character.Player
+namespace Components.Controller
 {
     public class PlayerController : MonoBehaviour
     {

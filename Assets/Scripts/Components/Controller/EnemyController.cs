@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
-using Battle.Character;
+using Components.Combat.Attack;
+using Components.Movement;
 using Core.Constants;
 
-namespace Battle.Character.Enemy
+namespace Components.Controller
 {
 
     public class EnemyController : MonoBehaviour
