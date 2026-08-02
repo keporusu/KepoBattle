@@ -1,8 +1,9 @@
+using Battle.Interfaces;
 using UnityEngine;
 
 namespace Battle.Character
 {
-    public class CharacterPhysicsMover : PhysicsMover
+    public class CharacterPhysicsMover : PhysicsMover, IKnockbackReceiver
     {
         public void StartJump(float power)
         {
@@ -23,6 +24,11 @@ namespace Battle.Character
         public void StopMove()
         {
             IsBraking = true;
+        }
+
+        public void ForceKnockback(Vector2 velocity, GameObject instigator = null)
+        {
+            AddForceVelocity(velocity,true, instigator);
         }
     }
 }

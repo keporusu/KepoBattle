@@ -11,7 +11,7 @@ public class DamageProcessor : MonoBehaviour
     [SerializeField] private float invincibleDuration = 0.1f;
 
     //キャッシュ
-    protected PhysicsMover _physicsMover_Cache;
+    protected IKnockbackReceiver _physicsMover_Cache;
     protected IHealthManager _healthManager_Cache;
     private EntityRoot _entityRoot_Cache;
 
@@ -27,22 +27,19 @@ public class DamageProcessor : MonoBehaviour
             .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.DamageChannel))
             ?? throw new MissingChannelException(GameTags.DamageChannel, gameObject.name);
         
+        //ダメージ通知
         var damagedNotifier=damagedCollider.GetComponent<DamageHitNotifier>();
-        Debug.Assert(
-            damagedNotifier != null,
-            "DamageNotifierがありません"
-        );
+        if(damagedNotifier == null)
+            throw new MissingComponentException($"[{GetType().Name}] DamagedNotifier が {gameObject.name} に見つかりません");
         damagedNotifier.OnHit += DamagedHit;
         
-        //強制吹き飛ばし用、HP減算
+        //強制吹き飛ばし用
         if (!TryGetComponent(out _physicsMover_Cache))
             throw new MissingComponentException($"[{GetType().Name}] PhysicsMover が {gameObject.name} に見つかりません");
-
-        var healthManager=_healthManager_Cache = GetComponent<IHealthManager>();
-        Debug.Assert(
-            healthManager != null,
-            "HealthManagerがありません"
-        );
+        
+        //HP減算用
+        if (!TryGetComponent(out _healthManager_Cache))
+            throw new MissingComponentException($"[{GetType().Name}] HealthManager が {gameObject.name} に見つかりません");
 
         //自分が属するエンティティ(自傷判定・吹き飛ばし方向の基準)
         _entityRoot_Cache = EntityRoot.Require(this);
@@ -72,13 +69,15 @@ public class DamageProcessor : MonoBehaviour
             {
                 attackInfo.attackVelocity.x = -attackInfo.attackVelocity.x;
             }
+            
             //速度を与える
-            _physicsMover_Cache.AddForceVelocity(attackInfo.attackVelocity,true,otherRoot.gameObject);
+            _physicsMover_Cache.ForceKnockback(attackInfo.attackVelocity,otherRoot.gameObject);
             
             //ダメージ処理
             _healthManager_Cache.TakeDamage(attackInfo.damage);
-
             _lastDamagedTime = Time.time;
+            
+            //ダメージ後処理
             OnDamagedHitFinished();
             
             Debug.Log("DamagedHit");

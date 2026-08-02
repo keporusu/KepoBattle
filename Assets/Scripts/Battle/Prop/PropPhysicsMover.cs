@@ -1,8 +1,9 @@
+using Battle.Interfaces;
 using UnityEngine;
 
 namespace Battle.Prop
 {
-    public class PropPhysicsMover : PhysicsMover
+    public class PropPhysicsMover : PhysicsMover, IKnockbackReceiver
     {
         //どのくらいの速度を「落ち着いた」と判定するか
         private float _relaxSpeed;
@@ -20,10 +21,9 @@ namespace Battle.Prop
             _relaxSpeed = relaxSpeed;
         }
         
-        public override void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator=null)
+        public void ForceKnockback(Vector2 velocity, GameObject instigator = null)
         {
-            base.AddForceVelocity(velocity, forceMode, instigator);
-
+            AddForceVelocity(velocity,true, instigator);
             _isForcing = true;
             OnForce?.Invoke(instigator);
         }

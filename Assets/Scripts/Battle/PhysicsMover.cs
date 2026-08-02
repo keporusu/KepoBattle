@@ -65,6 +65,7 @@ public class PhysicsMover : MonoBehaviour
         
         //イベント登録
         geometryHitNotifier.OnHit += OnHitGeometry;
+        geometryHitNotifier.OnRelease += OnReleaseGeometry;
         
         //レイヤー取得
         _characterLayer=LayerMask.GetMask(GameLayers.Character);
@@ -195,7 +196,7 @@ public class PhysicsMover : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnReleaseGeometry(Collider2D other)
     {
         if (!other.CompareTag(GameTags.GeometryChannel)) return;
 
@@ -215,7 +216,7 @@ public class PhysicsMover : MonoBehaviour
     /// <param name="velocity">加える速度</param>
     /// <param name="forceMode">一回停止させてから力を加えるか？</param>
     /// <param name="instigator">攻撃者のオブジェクト</param>>
-    public virtual void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator=null)
+    public void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator=null)
     {
         if (forceMode)
         {
