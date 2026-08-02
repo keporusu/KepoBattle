@@ -11,29 +11,30 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fb1dbcb0ee54d2d86982609b1fd65ed, type: 3}
   m_Name: Attack1
-  m_EditorClassIdentifier: Assembly-CSharp::Battle.Character.AttackData
-  triggerName: 0
-  stateName: 0
+  m_EditorClassIdentifier: Assembly-CSharp::Data.AttackData
+  attackName: 0
   collisionSettings:
-  - shape: 0
-    circleRadius: 0.5
-    capsuleRadius: 0
-    capsuleHeight: 0
-    capsuleDirection: 0
-    boxSize: {x: 0, y: 0}
-    offset: {x: 1, y: 0}
+  - collision:
+      shape: 0
+      circleRadius: 0.5
+      capsuleRadius: 0
+      capsuleHeight: 0
+      capsuleDirection: 0
+      boxSize: {x: 0, y: 0}
+      offset: {x: 1, y: 0}
+      attackPower: {x: 4, y: 4}
+      damage: 10
     spanStart: 0.5
     spanEnd: 0.6
-    attackPower: {x: 4, y: 4}
-    damage: 10
-  - shape: 0
-    circleRadius: 0.2
-    capsuleRadius: 0
-    capsuleHeight: 0
-    capsuleDirection: 0
-    boxSize: {x: 0, y: 0}
-    offset: {x: 0.5, y: 0.5}
+  - collision:
+      shape: 0
+      circleRadius: 0.2
+      capsuleRadius: 0
+      capsuleHeight: 0
+      capsuleDirection: 0
+      boxSize: {x: 0, y: 0}
+      offset: {x: 0.5, y: 0.5}
+      attackPower: {x: 4, y: 4}
+      damage: 10
     spanStart: 0.6
     spanEnd: 0.7
-    attackPower: {x: 4, y: 4}
-    damage: 10

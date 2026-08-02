@@ -15,31 +15,6 @@ namespace Data
 
     // 攻撃コリジョンの形状・攻撃情報の設定
     [Serializable]
-    public struct AttackCollisionSettingForAction
-    {
-        public ColliderShape shape;
-
-        // Circle
-        public float circleRadius;
-
-        // Capsule
-        public float capsuleRadius;
-        public float capsuleHeight;
-        public CapsuleDirection capsuleDirection;
-
-        // Box
-        public Vector2 boxSize;
-
-        // 共通
-        public Vector2 offset;
-        [Range(0f, 1f)] public float spanStart;
-        [Range(0f, 1f)] public float spanEnd;
-        public Vector2 attackPower;
-        public float damage;
-    }
-
-    // AttackCollisionSettingForActionからRangeの情報をなくしたもの
-    [Serializable]
     public struct AttackCollisionSetting
     {
         public ColliderShape shape;
@@ -59,6 +34,16 @@ namespace Data
         public Vector2 offset;
         public Vector2 attackPower;
         public float damage;
+    }
+
+    // AttackCollisionSetting に、アクション中のどの区間で発生させるかを加えたもの
+    [Serializable]
+    public struct AttackCollisionSettingForAction
+    {
+        public AttackCollisionSetting collision;
+
+        [Range(0f, 1f)] public float spanStart;
+        [Range(0f, 1f)] public float spanEnd;
     }
 
 

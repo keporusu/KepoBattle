@@ -197,7 +197,7 @@ namespace Components.Combat.Attack
                 if (stateInfo.normalizedTime >= setting.spanStart && !_isExecuting[id])
                 {
                     _isExecuting[id] = true;
-                    UseAvailableCollider(setting, id);
+                    UseAvailableCollider(setting.collision, id);
                 }
 
                 id++;
@@ -219,7 +219,7 @@ namespace Components.Combat.Attack
 
 
         //コリジョンの有効化と、パラメータのセット
-        private void UseAvailableCollider(AttackCollisionSettingForAction collisionSetting, int id)
+        private void UseAvailableCollider(AttackCollisionSetting collisionSetting, int id)
         {
             var manager = _damageColliderControllers.FirstOrDefault(x => !x.IsActive);
             if (manager == null)

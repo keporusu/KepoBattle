@@ -11,6 +11,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fb1dbcb0ee54d2d86982609b1fd65ed, type: 3}
   m_Name: Attack3
-  m_EditorClassIdentifier: Assembly-CSharp::Battle.Character.AttackData
+  m_EditorClassIdentifier: Assembly-CSharp::Data.AttackData
   attackName: 2
   collisionSettings: []
