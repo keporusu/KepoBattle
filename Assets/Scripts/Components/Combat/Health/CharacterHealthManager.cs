@@ -1,5 +1,6 @@
 using System;
 using Core.Contracts;
+using Core.Combat;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,18 +9,22 @@ namespace Components.Combat.Health
     public class CharacterHealthManager : MonoBehaviour, IHealthManager
     {
         [SerializeField] private float maxHealth = 100;
-        public float CurrentHealth { get; private set; }
-        public bool IsDead => CurrentHealth <= 0;
+        
+        //状態
+        public float CurrentHealth => _healthManager.Hp;
+        public bool IsDead => _healthManager.Hp <= 0;
+        
+        // ロジック
+        private HealthManager _healthManager;
 
-        private void Start()
+        private void Awake()
         {
-            CurrentHealth = maxHealth;
+            _healthManager = new HealthManager(maxHealth);
         }
 
         public void TakeDamage(float damage)
         {
-            CurrentHealth -= damage;
-            CurrentHealth = Mathf.Max(0.0f, CurrentHealth);
+            _healthManager.TakeDamage(damage);
         }
     }
 }
