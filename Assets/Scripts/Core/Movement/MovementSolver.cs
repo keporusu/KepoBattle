@@ -185,14 +185,13 @@ namespace Core.Movement
             //キャラクター押しあたり判定
             if (pushTargetX.HasValue)
             {
-                //TODO: 現状1.5がハードコーディングされているが、修正する
                 if (position.x > pushTargetX.Value)
                 {
-                    movePoint += 1.5f * deltaTime * Vector2.right;
+                    movePoint += _settings.PushSpeed * deltaTime * Vector2.right;
                 }
                 else
                 {
-                    movePoint -= 1.5f * deltaTime * Vector2.right;
+                    movePoint -= _settings.PushSpeed * deltaTime * Vector2.right;
                 }
             }
 
