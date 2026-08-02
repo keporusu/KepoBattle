@@ -1,0 +1,16 @@
+{
+    "name": "KepoBattle.Core",
+    "rootNamespace": "Core",
+    "references": [
+        "GUID:943f85639d814e6a8f5fbad1818dbc9f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

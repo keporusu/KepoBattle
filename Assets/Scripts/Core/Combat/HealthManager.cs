@@ -1,4 +1,4 @@
-using System;
+using UnityEngine;
 
 namespace Core.Combat
 {
@@ -13,14 +13,14 @@ namespace Core.Combat
 
         public void TakeDamage(float damage)
         {
-            damage = Math.Max(damage, 0f);
-            Hp = Math.Max(0, Hp - damage);
+            damage = Mathf.Max(damage, 0f);
+            Hp = Mathf.Max(0, Hp - damage);
         }
 
         public void Heal(float heal)
         {
-            heal = Math.Max(0, heal);
-            Hp = Math.Max(0, Hp + heal);
+            heal = Mathf.Max(0, heal);
+            Hp = Mathf.Max(0, Hp + heal);
         }
     }
 }
