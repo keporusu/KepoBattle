@@ -210,8 +210,10 @@ namespace Components.Movement
                 return;
             }
 
+            if (!IsGround(other)) return;
+            
             //足場の時
-            if (other.bounds.max.y < _geometryCollider_Cache.bounds.max.y && IsGround(other))
+            if (other.bounds.max.y < _geometryCollider_Cache.bounds.max.y)
             {
                 //上方向に動いているときは足場無視
                 if(Velocity.y > 0.0f) return;
