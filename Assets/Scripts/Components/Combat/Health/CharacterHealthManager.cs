@@ -8,14 +8,16 @@ namespace Components.Combat.Health
 {
     public class CharacterHealthManager : MonoBehaviour, IHealthManager
     {
+        // ロジック
+        private HealthManager _healthManager;
+        
         [SerializeField] private float maxHealth = 100;
+        
         
         //状態
         public float CurrentHealth => _healthManager.Hp;
         public bool IsDead => _healthManager.Hp <= 0;
         
-        // ロジック
-        private HealthManager _healthManager;
 
         private void Awake()
         {
@@ -26,5 +28,7 @@ namespace Components.Combat.Health
         {
             _healthManager.TakeDamage(damage);
         }
+        
+        //TODO: 死亡処理のような物を入れる
     }
 }
