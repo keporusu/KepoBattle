@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using Components.Combat.Attack;
 using UnityEngine;
 using Core.Exceptions;
 using Core.Constants;
@@ -60,6 +62,8 @@ namespace Components.Movement
         public Vector2 Velocity =>_movementSolver.Velocity;
         public Vector2 Position => _rigidbody_Cache.position;
         
+        private Vector2 GetVelocity() => _movementSolver.Velocity;
+        
 
         void Awake()
         {
@@ -80,19 +84,53 @@ namespace Components.Movement
             if(!geometryCollider.TryGetComponent(out _geometryCollider_Cache))
                 throw new MissingComponentException($"[{GetType().Name}] Collider2D が {geometryCollider.gameObject.name} に見つかりません");
 
+            //レイヤー取得
+            _characterLayer=LayerMask.GetMask(GameLayers.Character);
+            _propLayer=LayerMask.GetMask(GameLayers.Prop);
+            _groundLayer=LayerMask.GetMask(GameLayers.Ground);
+        }
+
+        private void OnEnable()
+        {
+            var geometryCollider = GetComponentsInChildren<Transform>()
+                                       .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.GeometryChannel))
+                                   ?? throw new MissingChannelException(GameTags.GeometryChannel, gameObject.name);
             if (!geometryCollider.TryGetComponent(out GeometryHitNotifier geometryHitNotifier))
                 throw new MissingComponentException($"[{GetType().Name}] GeometryNotifier が {geometryCollider.gameObject.name} に見つかりません");
 
             //イベント登録
             geometryHitNotifier.OnHit += OnHitGeometry;
             geometryHitNotifier.OnRelease += OnReleaseGeometry;
+            
+            
+            //PropAttackCollisionControllerに攻撃速度を渡す
+            foreach (var controller in GetComponentsInChildren<PropAttackCollisionController>())
+            {
+                controller.OnGetAttackInfo += GetVelocity;
+            }
+        }
 
-            //レイヤー取得
-            _characterLayer=LayerMask.GetMask(GameLayers.Character);
-            _propLayer=LayerMask.GetMask(GameLayers.Prop);
-            _groundLayer=LayerMask.GetMask(GameLayers.Ground);
+        void OnDisable()
+        {
+            var geometryCollider = GetComponentsInChildren<Transform>()
+                                       .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.GeometryChannel))
+                                   ?? throw new MissingChannelException(GameTags.GeometryChannel, gameObject.name);
+            if (!geometryCollider.TryGetComponent(out GeometryHitNotifier geometryHitNotifier))
+                throw new MissingComponentException($"[{GetType().Name}] GeometryNotifier が {geometryCollider.gameObject.name} に見つかりません");
+
+            //イベント解除
+            geometryHitNotifier.OnHit -= OnHitGeometry;
+            geometryHitNotifier.OnRelease -= OnReleaseGeometry;
+            
+            //イベント解除
+            foreach (var controller in GetComponentsInChildren<PropAttackCollisionController>())
+            {
+                controller.OnGetAttackInfo -= GetVelocity;
+            }
         }
         
+        
+
         /// <summary>
         /// 移動用
         /// </summary>

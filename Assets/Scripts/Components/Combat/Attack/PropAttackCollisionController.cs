@@ -15,6 +15,9 @@ namespace Components.Combat.Attack
 
         //攻撃者の識別
         public EntityId AttackerID { get; private set; }
+        
+        //攻撃情報取得時のイベント
+        public event Func<Vector2> OnGetAttackInfo;
 
         public void Initialize(AttackCollisionSetting collisionSetting)
         {
@@ -81,6 +84,14 @@ namespace Components.Combat.Attack
         {
             if (!_isActive)
                 throw new InvalidOperationException($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
+            
+            //自分の速度*αの攻撃速度を持つようにする
+            var selfVelocity = OnGetAttackInfo?.Invoke();
+            if (selfVelocity.HasValue)
+            {
+                var velocity = new Vector2(Mathf.Abs(selfVelocity.Value.x),Mathf.Abs(selfVelocity.Value.y));
+                _attackInfo.attackVelocity = velocity * 0.4f;
+            }
             return _attackInfo;
         }
     }

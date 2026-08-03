@@ -36,6 +36,12 @@ namespace Components.Movement
                 _isForcing = false;
                 OnRelax?.Invoke();
             }
+            
+            //画面外に行き過ぎたら破壊
+            if (Position.y < -10.0f)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

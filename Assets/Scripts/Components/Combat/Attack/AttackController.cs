@@ -18,7 +18,7 @@ namespace Components.Combat.Attack
         
         private Collider2D _collider2D_Cache;
 
-        private void Start()
+        private void OnEnable()
         {
             if (!TryGetComponent(out PropPhysicsMover physicsMover))
             {
