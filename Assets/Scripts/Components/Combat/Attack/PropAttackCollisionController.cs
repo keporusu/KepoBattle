@@ -6,12 +6,24 @@ using Data;
 
 namespace Components.Combat.Attack
 {
+    /// <summary>
+    /// Normal: 設定されたAttackPowerをそのまま用いる
+    /// Velocity: 自身のルートオブジェクトの速度を用いる
+    /// Radial: 自身のルートオブジェクトから相手への向きを用いる
+    /// </summary>
+    public enum AttackPowerType
+    {
+        Normal,
+        Velocity,
+        Radial,
+    }
     public class PropAttackCollisionController : MonoBehaviour, IAttackInfoGetter
     {
 
         private bool _isActive = false;
         private AttackInfo _attackInfo;
         private Collider2D _collider;
+        private AttackPowerType _powerType;
 
         //攻撃者の識別
         public EntityId AttackerID { get; private set; }
@@ -61,9 +73,10 @@ namespace Components.Combat.Attack
             _collider.enabled = false;
             _collider.isTrigger = true;
         }
-        
-        public void Activate(GameObject attacker)
+
+        public void Activate(GameObject attacker, AttackPowerType type = AttackPowerType.Velocity)
         {
+            _powerType = type;
             _isActive = true;
             _collider.enabled = true;
             
@@ -80,18 +93,30 @@ namespace Components.Combat.Attack
             _collider.enabled = false;
         }
 
-        public AttackInfo GetAttackInfo()
+        public AttackInfo GetAttackInfo(Vector2 otherPosition)
         {
             if (!_isActive)
                 throw new InvalidOperationException($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
             
-            //自分の速度*αの攻撃速度を持つようにする
-            var selfVelocity = OnGetAttackInfo?.Invoke();
-            if (selfVelocity.HasValue)
+            //_attackInfoを少し改造する
+            //TODO: AttackPower.x を乗算してどちらも倍率計算させる予定
+            if (_powerType == AttackPowerType.Velocity)
             {
-                var velocity = new Vector2(Mathf.Abs(selfVelocity.Value.x),Mathf.Abs(selfVelocity.Value.y));
-                _attackInfo.attackVelocity = velocity * 0.4f;
+                //自分の速度*αの攻撃速度を持つようにする
+                var selfVelocity = OnGetAttackInfo?.Invoke();
+                if (selfVelocity.HasValue)
+                {
+                    var velocity = new Vector2(Mathf.Abs(selfVelocity.Value.x),Mathf.Abs(selfVelocity.Value.y));
+                    _attackInfo.attackVelocity = velocity * 0.4f;
+                }
             }
+            else if (_powerType == AttackPowerType.Radial)
+            {
+                var rootPos = EntityRoot.Require(this).transform.position;
+                var direction = (otherPosition - new Vector2(rootPos.x, rootPos.y)).normalized;
+                _attackInfo.attackVelocity = direction * 3.0f;
+            }
+            
             return _attackInfo;
         }
     }

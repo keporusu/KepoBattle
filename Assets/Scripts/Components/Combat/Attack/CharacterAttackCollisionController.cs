@@ -103,7 +103,7 @@ namespace Components.Combat.Attack
             _uniqueID = -1;
         }
         
-        public AttackInfo GetAttackInfo()
+        public AttackInfo GetAttackInfo(Vector2 otherPosition)
         {
             if (!_isActive)
                 throw new InvalidOperationException($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
