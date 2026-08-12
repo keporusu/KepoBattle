@@ -48,23 +48,24 @@ namespace Core.Movement
     }
 
     /// <summary>
-    /// 着地対象の足場の情報
+    /// 接触した面の情報
     /// Unity 側の形状クエリ結果をソルバへ渡すための入れ物
+    /// 床・天井・壁のどれであるかは、拾ったセンサの向きで決まる
     /// </summary>
-    public readonly struct GroundHit
+    public readonly struct SurfaceHit
     {
-        public readonly float GroundTopY;  // 足場表面の y 座標
-        public readonly float FootOffset;  // 中心から足元までのオフセット(通常は負)
+        public readonly float SurfacePos;  // 接触面の座標(その軸方向)
+        public readonly float SelfOffset;  // 中心から自分の接触辺までのオフセット
 
-        public GroundHit(float groundTopY, float footOffset)
+        public SurfaceHit(float surfacePos, float selfOffset)
         {
-            GroundTopY = groundTopY;
-            FootOffset = footOffset;
+            SurfacePos = surfacePos;
+            SelfOffset = selfOffset;
         }
 
-        // 着地後の中心 y
-        // 足元(中心 + FootOffset)が足場表面に一致する位置
-        public float SnappedCenterY => GroundTopY - FootOffset;
+        // 吸着後の中心座標
+        // 自分の接触辺(中心 + SelfOffset)が接触面に一致する位置
+        public float SnappedCenter => SurfacePos - SelfOffset;
     }
 
     public sealed class MovementSolver
@@ -245,23 +246,102 @@ namespace Core.Movement
         // Unity 側からの接地情報の注入
 
         /// <summary>
-        /// Predict の結果に接地判定を反映し、最終的な移動先を確定する
-        /// スナップは同じフレーム内で適用されるので、着地の反映は遅れない
+        /// Predict の結果に接触判定を反映し、最終的な移動先を確定する
+        /// スナップは同じフレーム内で適用されるので、接触の反映は遅れない
+        /// 呼び出し側と同じく X → Y の順で解決する
         /// </summary>
         /// <param name="deltaTime">経過時間</param>
         /// <param name="from">移動前の位置</param>
         /// <param name="candidate">Predict が返した移動先</param>
-        /// <param name="hit">移動区間で見つかった足場。無ければ null</param>
+        /// <param name="ground">足場。無ければ null</param>
+        /// <param name="ceiling">天井。無ければ null</param>
+        /// <param name="wall">壁。無ければ null</param>
         /// <returns>確定した移動先と速度</returns>
-        public MoveStep ResolveGround(float deltaTime, Vector2 from, Vector2 candidate, GroundHit? hit)
+        public MoveStep Resolve(
+            float deltaTime,
+            Vector2 from,
+            Vector2 candidate,
+            SurfaceHit? ground,
+            SurfaceHit? ceiling,
+            SurfaceHit? wall)
         {
             bool wasAir = _isAir;
             Vector2 result = candidate;
             float bounceSpeed = 0.0f;
 
-            if (hit.HasValue)
+            //****X軸(壁)****
+            if (wall.HasValue)
             {
-                var snappedY = hit.Value.SnappedCenterY;
+                var snappedX = wall.Value.SnappedCenter;
+
+                //面へ向かっていた向き
+                var wallDir = Mathf.Sign(candidate.x - from.x);
+
+                //面を越えた量(符号付き)
+                var overshoot = candidate.x - snappedX;
+
+                //実際に面を越えていなければ何もしない
+                //床のような吸着は不要で、押し戻す方向にだけ効かせる
+                if (overshoot * wallDir > 0.0f)
+                {
+                    //面へ向かう速度成分
+                    //入力由来の移動(_movingVelocity)は反発させず、位置のクランプのみ行う
+                    //こうすると「壁に歩いて当たったら止まる」「投げた物は跳ね返る」が両立する
+                    var impactSpeed = _forceVelocity.x * wallDir;
+                    if (impactSpeed > 0.0f)
+                    {
+                        var reboundSpeed = impactSpeed * _settings.Restitution;
+                        _forceVelocity.x = -wallDir * reboundSpeed;
+
+                        if (reboundSpeed > 0.0f)
+                        {
+                            bounceSpeed = Mathf.Max(bounceSpeed, reboundSpeed);
+
+                            //接線方向(この場合は垂直方向)の勢いも失う
+                            _forceVelocity.y *= 1.0f - _settings.TangentialFriction;
+                        }
+                    }
+
+                    //めり込み量を跳ね返り側へ返す
+                    result.x = snappedX - overshoot * _settings.Restitution;
+                }
+            }
+
+            //****Y軸(天井)****
+            //上昇中しか呼ばれないので、足場とは排他になる
+            if (ceiling.HasValue)
+            {
+                var snappedY = ceiling.Value.SnappedCenter;
+
+                //面を越えた量(正なら天井を越えている)
+                var overshoot = candidate.y - snappedY;
+
+                if (overshoot > 0.0f)
+                {
+                    //重力が接触面から遠ざける向きに働くので、床のような下限速度判定は不要
+                    var impactSpeed = _forceVelocity.y;
+                    if (impactSpeed > 0.0f)
+                    {
+                        var reboundSpeed = impactSpeed * _settings.Restitution;
+                        _forceVelocity.y = -reboundSpeed;
+
+                        if (reboundSpeed > 0.0f)
+                        {
+                            bounceSpeed = Mathf.Max(bounceSpeed, reboundSpeed);
+                            _forceVelocity.x *= 1.0f - _settings.TangentialFriction;
+                        }
+                    }
+
+                    result.y = snappedY - overshoot * _settings.Restitution;
+                }
+            }
+
+            //****Y軸(足場)****
+            //接地状態を操作するのはここだけ
+            //天井や壁で _isAir を落とすと Predict が y 成分を捨てて張り付く
+            if (ground.HasValue)
+            {
+                var snappedY = ground.Value.SnappedCenter;
 
                 //衝突速度(下向きを正とする)
                 //Predict で重力を加算済みなので、これが接触した瞬間の速度になる
@@ -272,12 +352,12 @@ namespace Core.Movement
                 //その状態は無限に続く微振動にしかならないので、跳ねたことにしない
                 if (reboundSpeed > 0.0f && reboundSpeed >= _settings.MinBounceSpeed)
                 {
-                    bounceSpeed = reboundSpeed;
+                    bounceSpeed = Mathf.Max(bounceSpeed, reboundSpeed);
 
                     //接地扱いにすると Predict が y 成分を捨ててしまう
                     //跳ね返る場合は空中のままにしておく
                     _isAir = true;
-                    _forceVelocity.y = bounceSpeed;
+                    _forceVelocity.y = reboundSpeed;
 
                     //衝突で水平方向の勢いも失う
                     //跳ね返る間は接地摩擦が効かないので、ここで減衰させる
@@ -309,18 +389,21 @@ namespace Core.Movement
             //ここより前で確定させると補正前の速度が外に漏れる
             Velocity = (result - from) / deltaTime;
 
-            //状態が変化した瞬間だけ通知する
-            if (bounceSpeed > 0.0f)
-            {
-                OnBounce?.Invoke(bounceSpeed);
-            }
-            else if (wasAir && !_isAir)
+            //接地状態の遷移通知
+            if (wasAir && !_isAir)
             {
                 OnGround?.Invoke();
             }
             else if (!wasAir && _isAir)
             {
                 OnForceAir?.Invoke();
+            }
+
+            //反発通知
+            //接地の遷移とは独立させる(着地と同時に壁で跳ねる場合があるため)
+            if (bounceSpeed > 0.0f)
+            {
+                OnBounce?.Invoke(bounceSpeed);
             }
 
             return new MoveStep(result, Velocity);

@@ -45,13 +45,19 @@ namespace Components.Movement
         private Collider2D _geometryCollider_Cache;
         private Rigidbody2D _otherRigidbody_Cache;
 
-        //接地判定用
-        private ContactFilter2D _groundFilter;
-        private readonly RaycastHit2D[] _groundHitBuffer = new RaycastHit2D[8];
+        //接触判定用
+        private ContactFilter2D _surfaceFilter;
+        private readonly RaycastHit2D[] _surfaceHitBuffer = new RaycastHit2D[8];
 
         //自分の形状(Startで確定させる)
+        //中心からの各辺のオフセット
         private float _selfWidth;
+        private float _selfHeight;
         private float _footOffset;
+        private float _headOffset;
+        private float _leftOffset;
+        private float _rightOffset;
+        private float _bodyCenterOffsetY;
 
 
         //状態
@@ -127,18 +133,28 @@ namespace Components.Movement
             _propLayer=LayerMask.GetMask(GameLayers.Prop);
             _groundLayer=LayerMask.GetMask(GameLayers.Ground);
 
-            //接地判定用フィルタ
+            //接触判定用フィルタ
             //足場のCollider2Dは GeometryHitNotifier によって isTrigger にされるので
             //useTriggers を有効にしないと一切ヒットしない
-            _groundFilter = new ContactFilter2D { useTriggers = true };
-            _groundFilter.SetLayerMask(_groundLayer);
+            _surfaceFilter = new ContactFilter2D { useTriggers = true };
+            _surfaceFilter.SetLayerMask(_groundLayer);
 
             //自分の形状をキャッシュする
             //Physics2D の AutoSyncTransforms が無効なため、Rigidbody2D.position へ直接代入した
             //直後は bounds が古い値を返す。毎フレーム読まずにここで確定させる
             var geometryBounds = _geometryCollider_Cache.bounds;
+            var center = _rigidbody_Cache.position;
+
             _selfWidth = geometryBounds.size.x;
-            _footOffset = geometryBounds.min.y - _rigidbody_Cache.position.y;
+            _selfHeight = geometryBounds.size.y;
+
+            _footOffset = geometryBounds.min.y - center.y;
+            _headOffset = geometryBounds.max.y - center.y;
+            _leftOffset = geometryBounds.min.x - center.x;
+            _rightOffset = geometryBounds.max.x - center.x;
+
+            //コライダーが中心からずれている場合に備える
+            _bodyCenterOffsetY = (_footOffset + _headOffset) * 0.5f;
         }
 
         private void OnEnable()
@@ -222,16 +238,33 @@ namespace Components.Movement
                 from,
                 pushTargetX);
 
-            //移動区間を掃いて足場を探す
-            GroundHit? groundHit = QueryGround(from, candidate);
+            //X軸を先に解決する
+            //壁で止められた場合、足場の判定はブロック後の x で行う必要がある
+            SurfaceHit? wallHit = QueryWall(from, candidate);
+            var resolvedX = wallHit?.SnappedCenter ?? candidate.x;
 
-            //接地を反映してから確定する
-            //吸着が同じ MovePosition に乗るので、着地は1フレームも遅れない
-            MoveStep step = _movementSolver.ResolveGround(
+            //確定した x で Y軸を解決する
+            //上昇中は足場を掃かないので、天井と足場は排他になる
+            SurfaceHit? ceilingHit = null;
+            SurfaceHit? groundHit = null;
+            if (candidate.y > from.y)
+            {
+                ceilingHit = QueryCeiling(from, candidate, resolvedX);
+            }
+            else
+            {
+                groundHit = QueryGround(from, candidate, resolvedX);
+            }
+
+            //接触を反映してから確定する
+            //吸着が同じ MovePosition に乗るので、接触は1フレームも遅れない
+            MoveStep step = _movementSolver.Resolve(
                 Time.fixedDeltaTime,
                 from,
                 candidate,
-                groundHit);
+                groundHit,
+                ceilingHit,
+                wallHit);
 
             _rigidbody_Cache.MovePosition(step.NextPosition);
         }
@@ -242,8 +275,9 @@ namespace Components.Movement
         /// </summary>
         /// <param name="from">移動前の位置</param>
         /// <param name="to">移動先の予測位置</param>
+        /// <param name="resolvedX">X軸解決後の x。壁で止められた位置で掃くために使う</param>
         /// <returns>着地対象が見つかればその情報、無ければ null</returns>
-        private GroundHit? QueryGround(Vector2 from, Vector2 to)
+        private SurfaceHit? QueryGround(Vector2 from, Vector2 to, float resolvedX)
         {
             var fallDistance = from.y - to.y;
 
@@ -258,7 +292,7 @@ namespace Components.Movement
             //上端を足元に合わせた厚み SkinWidth の箱を、落下量 + 余白ぶんだけ下に掃く
             //x は移動先を使う。移動前の x で掃くと足場の端から出たことを検出できない
             var sensorSize = new Vector2(_selfWidth, SkinWidth);
-            var sensorOrigin = new Vector2(to.x, footY - SkinWidth * 0.5f);
+            var sensorOrigin = new Vector2(resolvedX, footY - SkinWidth * 0.5f);
 
             //静止接地中は落下量が0になる
             //掃引距離を0にすると検出が不安定なので、余白を必ず足しておく
@@ -269,14 +303,14 @@ namespace Components.Movement
                 sensorSize,
                 0.0f,
                 Vector2.down,
-                _groundFilter,
-                _groundHitBuffer,
+                _surfaceFilter,
+                _surfaceHitBuffer,
                 distance);
 
 #if UNITY_EDITOR
             Debug.DrawLine(
-                new Vector2(to.x, footY),
-                new Vector2(to.x, footY - fallDistance - 2.0f * SkinWidth),
+                new Vector2(resolvedX, footY),
+                new Vector2(resolvedX, footY - fallDistance - 2.0f * SkinWidth),
                 count > 0 ? Color.green : Color.red,
                 Time.fixedDeltaTime);
 #endif
@@ -290,7 +324,7 @@ namespace Components.Movement
             {
                 //Physics2D の QueriesStartInColliders が有効なため、めり込んだ状態から掃くと
                 //hit.point と hit.normal が退化する。相手の bounds から表面を取る
-                var topY = _groundHitBuffer[i].collider.bounds.max.y;
+                var topY = _surfaceHitBuffer[i].collider.bounds.max.y;
 
                 //足元より上にある面は足場ではない(横腹や天井への接触)
                 if (topY > footY + SkinWidth) continue;
@@ -303,7 +337,137 @@ namespace Components.Movement
                 }
             }
 
-            return found ? new GroundHit(bestTopY, _footOffset) : (GroundHit?)null;
+            return found ? new SurfaceHit(bestTopY, _footOffset) : (SurfaceHit?)null;
+        }
+
+        /// <summary>
+        /// 上昇区間を掃いて天井を探す
+        /// 足場と違い張り付きは不要なので、掃引に余白を足さない
+        /// </summary>
+        /// <param name="from">移動前の位置</param>
+        /// <param name="to">移動先の予測位置</param>
+        /// <param name="resolvedX">X軸解決後の x</param>
+        /// <returns>天井が見つかればその情報、無ければ null</returns>
+        private SurfaceHit? QueryCeiling(Vector2 from, Vector2 to, float resolvedX)
+        {
+            var riseDistance = to.y - from.y;
+            if (riseDistance <= 0.0f) return null;
+
+            //移動前の頭の高さ
+            var headY = from.y + _headOffset;
+
+            //頭センサ
+            //下端を頭に合わせた厚み SkinWidth の箱を、上昇量ぶんだけ上に掃く
+            var sensorSize = new Vector2(_selfWidth, SkinWidth);
+            var sensorOrigin = new Vector2(resolvedX, headY + SkinWidth * 0.5f);
+
+            var count = Physics2D.BoxCast(
+                sensorOrigin,
+                sensorSize,
+                0.0f,
+                Vector2.up,
+                _surfaceFilter,
+                _surfaceHitBuffer,
+                riseDistance);
+
+#if UNITY_EDITOR
+            Debug.DrawLine(
+                new Vector2(resolvedX, headY),
+                new Vector2(resolvedX, headY + riseDistance + SkinWidth),
+                count > 0 ? Color.cyan : Color.gray,
+                Time.fixedDeltaTime);
+#endif
+
+            if (count == 0) return null;
+
+            var bestBottomY = float.PositiveInfinity;
+            var found = false;
+
+            for (var i = 0; i < count; i++)
+            {
+                var bottomY = _surfaceHitBuffer[i].collider.bounds.min.y;
+
+                //頭より下にある面は天井ではない
+                if (bottomY < headY - SkinWidth) continue;
+
+                //複数の候補があれば一番低い面にぶつかる
+                if (bottomY < bestBottomY)
+                {
+                    bestBottomY = bottomY;
+                    found = true;
+                }
+            }
+
+            return found ? new SurfaceHit(bestBottomY, _headOffset) : (SurfaceHit?)null;
+        }
+
+        /// <summary>
+        /// 水平移動区間を掃いて壁を探す
+        /// </summary>
+        /// <param name="from">移動前の位置</param>
+        /// <param name="to">移動先の予測位置</param>
+        /// <returns>壁が見つかればその情報、無ければ null</returns>
+        private SurfaceHit? QueryWall(Vector2 from, Vector2 to)
+        {
+            var travel = to.x - from.x;
+
+            //水平に動いていなければ解決すべきものが無い
+            if (travel == 0.0f) return null;
+
+            var movingRight = travel > 0.0f;
+            var selfEdgeOffset = movingRight ? _rightOffset : _leftOffset;
+            var edgeX = from.x + selfEdgeOffset;
+            var direction = movingRight ? Vector2.right : Vector2.left;
+
+            //横センサ
+            //上下を SkinWidth ずつ詰める
+            //詰めないと足元の床や頭上の天井を壁として拾ってしまう
+            var sensorHeight = Mathf.Max(SkinWidth, _selfHeight - 2.0f * SkinWidth);
+            var sensorSize = new Vector2(SkinWidth, sensorHeight);
+            var sensorOrigin = new Vector2(
+                edgeX + (movingRight ? SkinWidth : -SkinWidth) * 0.5f,
+                from.y + _bodyCenterOffsetY);
+
+            var count = Physics2D.BoxCast(
+                sensorOrigin,
+                sensorSize,
+                0.0f,
+                direction,
+                _surfaceFilter,
+                _surfaceHitBuffer,
+                Mathf.Abs(travel));
+
+#if UNITY_EDITOR
+            Debug.DrawLine(
+                new Vector2(edgeX, from.y + _bodyCenterOffsetY),
+                new Vector2(to.x + selfEdgeOffset + (movingRight ? SkinWidth : -SkinWidth),
+                    from.y + _bodyCenterOffsetY),
+                count > 0 ? Color.magenta : Color.gray,
+                Time.fixedDeltaTime);
+#endif
+
+            if (count == 0) return null;
+
+            var bestX = movingRight ? float.PositiveInfinity : float.NegativeInfinity;
+            var found = false;
+
+            for (var i = 0; i < count; i++)
+            {
+                var bounds = _surfaceHitBuffer[i].collider.bounds;
+                var faceX = movingRight ? bounds.min.x : bounds.max.x;
+
+                //進行方向の背後にある面は壁ではない
+                if (movingRight ? faceX < edgeX - SkinWidth : faceX > edgeX + SkinWidth) continue;
+
+                //複数の候補があれば一番手前の面で止まる
+                if (movingRight ? faceX < bestX : faceX > bestX)
+                {
+                    bestX = faceX;
+                    found = true;
+                }
+            }
+
+            return found ? new SurfaceHit(bestX, selfEdgeOffset) : (SurfaceHit?)null;
         }
 
         private void OnHitGeometry(Collider2D other)
