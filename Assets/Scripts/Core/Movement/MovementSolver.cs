@@ -31,6 +31,26 @@ namespace Core.Movement
         }
     }
 
+    /// <summary>
+    /// 着地対象の足場の情報
+    /// Unity 側の形状クエリ結果をソルバへ渡すための入れ物
+    /// </summary>
+    public readonly struct GroundHit
+    {
+        public readonly float GroundTopY;  // 足場表面の y 座標
+        public readonly float FootOffset;  // 中心から足元までのオフセット(通常は負)
+
+        public GroundHit(float groundTopY, float footOffset)
+        {
+            GroundTopY = groundTopY;
+            FootOffset = footOffset;
+        }
+
+        // 着地後の中心 y
+        // 足元(中心 + FootOffset)が足場表面に一致する位置
+        public float SnappedCenterY => GroundTopY - FootOffset;
+    }
+
     public sealed class MovementSolver
     {
         private readonly MovementSettings _settings;
@@ -48,9 +68,6 @@ namespace Core.Movement
         private bool _isAir;
         private float _movingVelocity;
         private Vector2 _forceVelocity;
-
-        //スナップ待ちが無い状態を NaN で表す
-        private float _snapGroundY;
 
 
         public event Action OnGround;
@@ -124,14 +141,21 @@ namespace Core.Movement
 
             _isBraking = false;
             _isAir = true;
-            _snapGroundY = float.NaN;
 
             Velocity = Vector2.zero;
         }
 
 
-        // 1フレーム分の変位計算（純粋・副作用は内部状態の更新のみ）
-        public MoveStep Step(float deltaTime, Vector2 position, float? pushTargetX)
+        /// <summary>
+        /// 1フレーム分の移動先を予測する
+        /// 接地解決を含まないので、この結果をそのまま確定させてはいけない
+        /// 必ず ResolveGround に通すこと
+        /// </summary>
+        /// <param name="deltaTime">経過時間</param>
+        /// <param name="position">現在位置</param>
+        /// <param name="pushTargetX">押し合う相手のx座標</param>
+        /// <returns>接地解決前の移動先</returns>
+        public Vector2 Predict(float deltaTime, Vector2 position, float? pushTargetX)
         {
             //****移動****
             Vector2 movePoint = position;
@@ -195,62 +219,56 @@ namespace Core.Movement
                 }
             }
 
-            //着地スナップ補正
-            if (!float.IsNaN(_snapGroundY))
-            {
-                movePoint.y = _snapGroundY;
-                _snapGroundY = float.NaN;
-            }
-
-            //最終処理
-            Velocity = (movePoint - position) / deltaTime;
-            return new MoveStep(movePoint, Velocity);
+            return movePoint;
         }
-        
+
 
         // Unity 側からの接地情報の注入
-        
+
         /// <summary>
-        /// 接地レイの結果を反映する
-        /// 接地→空中に変化した瞬間だけ OnForceAir を通知する
-        /// (接地の通知は TryLand が担当する)
+        /// Predict の結果に接地判定を反映し、最終的な移動先を確定する
+        /// スナップは同じフレーム内で適用されるので、着地の反映は遅れない
         /// </summary>
-        /// <param name="grounded">接地したか？</param>
-        public void ReportGroundProbe(bool grounded)
+        /// <param name="deltaTime">経過時間</param>
+        /// <param name="from">移動前の位置</param>
+        /// <param name="candidate">Predict が返した移動先</param>
+        /// <param name="hit">移動区間で見つかった足場。無ければ null</param>
+        /// <returns>確定した移動先と速度</returns>
+        public MoveStep ResolveGround(float deltaTime, Vector2 from, Vector2 candidate, GroundHit? hit)
         {
             bool wasAir = _isAir;
-            _isAir = !grounded;
+            Vector2 result = candidate;
 
-            if (!wasAir && _isAir)
+            if (hit.HasValue)
+            {
+                _isAir = false;
+
+                //足場表面に吸着させる
+                result.y = hit.Value.SnappedCenterY;
+
+                //地面についた場合、上下方向にかかっている速度は0にする
+                _forceVelocity.y = 0.0f;
+            }
+            else
+            {
+                _isAir = true;
+            }
+
+            //吸着を反映してから確定する
+            //ここより前で確定させると補正前の速度が外に漏れる
+            Velocity = (result - from) / deltaTime;
+
+            //状態が変化した瞬間だけ通知する
+            if (wasAir && !_isAir)
+            {
+                OnGround?.Invoke();
+            }
+            else if (!wasAir && _isAir)
             {
                 OnForceAir?.Invoke();
             }
-        }
-        
-        
-        /// <summary>
-        /// 接地を試みる処理
-        /// 足場にあたったときに呼び出す
-        /// </summary>
-        /// <param name="groundTopY">地面表面のy座標</param>
-        /// <param name="selfHalfHeight">自身の足から中心までの高さ</param>
-        /// <returns></returns>
-        public bool TryLand(float groundTopY, float selfHalfHeight)
-        {
-            //上方向に動いているときは足場無視
-            if(Velocity.y > 0.0f) return false;
-            
-            _isAir = false;
-            //※コレが使われるのは1フレーム後であることに注意
-            _snapGroundY = groundTopY + selfHalfHeight;
 
-            //地面についた場合、上下方向にかかっている速度は0にする
-            _forceVelocity.y = 0.0f;
-
-            //接地通知
-            OnGround?.Invoke();
-            return true;
-
+            return new MoveStep(result, Velocity);
         }
     }
 }
