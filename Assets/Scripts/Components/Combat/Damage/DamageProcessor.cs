@@ -60,8 +60,10 @@ namespace Components.Combat.Damage
                     //自分の攻撃は自分に当たらない
                     return;
                 }
-
-                var attackInfo = attackInfoGetter.GetAttackInfo();
+                
+                //相手の攻撃情報を得る
+                //TODO: 自身のrootは放射状の攻撃でしか使わないため渡したくないが、現状の設計だと妥協
+                var attackInfo = attackInfoGetter.GetAttackInfo(EntityRoot.Require(this).transform.position);
 
                 //当たってきたコリジョンが属するエンティティ
                 var otherRoot = EntityRoot.Require(other);
