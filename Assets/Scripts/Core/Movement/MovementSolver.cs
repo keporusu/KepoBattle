@@ -10,12 +10,28 @@ namespace Core.Movement
         public readonly float Friction;
         public readonly float PushSpeed;  // 現状 1.5f 直書き（L166, L170）
 
-        public MovementSettings(float gravity, float weight, float friction, float pushSpeed)
+        //反発関連
+        public readonly float Restitution;         // 0 で跳ねない。エネルギーが増えないよう 0..1 にクランプ
+        public readonly float MinBounceSpeed;      // これ未満の跳ね返り速度は跳ねたことにしない
+        public readonly float TangentialFriction;  // 1回の衝突で失う水平速度の割合(0..1)
+
+        public MovementSettings(
+            float gravity,
+            float weight,
+            float friction,
+            float pushSpeed,
+            float restitution = 0.0f,
+            float minBounceSpeed = 0.0f,
+            float tangentialFriction = 0.0f)
         {
             Gravity = gravity;
             Weight = Math.Max(0.001f, weight);
             Friction = friction;
             PushSpeed = pushSpeed;
+
+            Restitution = Mathf.Clamp01(restitution);
+            MinBounceSpeed = Math.Max(0.0f, minBounceSpeed);
+            TangentialFriction = Mathf.Clamp01(tangentialFriction);
         }
     }
 
@@ -72,6 +88,9 @@ namespace Core.Movement
 
         public event Action OnGround;
         public event Action OnForceAir;
+
+        //跳ね返った瞬間の通知。引数は跳ね返り速度
+        public event Action<float> OnBounce;
 
         /// <summary>
         /// 移動値をセットする
@@ -238,16 +257,48 @@ namespace Core.Movement
         {
             bool wasAir = _isAir;
             Vector2 result = candidate;
+            float bounceSpeed = 0.0f;
 
             if (hit.HasValue)
             {
-                _isAir = false;
+                var snappedY = hit.Value.SnappedCenterY;
 
-                //足場表面に吸着させる
-                result.y = hit.Value.SnappedCenterY;
+                //衝突速度(下向きを正とする)
+                //Predict で重力を加算済みなので、これが接触した瞬間の速度になる
+                var impactSpeed = -_forceVelocity.y;
+                var reboundSpeed = impactSpeed * _settings.Restitution;
 
-                //地面についた場合、上下方向にかかっている速度は0にする
-                _forceVelocity.y = 0.0f;
+                //跳ね返り速度が小さすぎると、次のステップで重力に負けて即座に再衝突する
+                //その状態は無限に続く微振動にしかならないので、跳ねたことにしない
+                if (reboundSpeed > 0.0f && reboundSpeed >= _settings.MinBounceSpeed)
+                {
+                    bounceSpeed = reboundSpeed;
+
+                    //接地扱いにすると Predict が y 成分を捨ててしまう
+                    //跳ね返る場合は空中のままにしておく
+                    _isAir = true;
+                    _forceVelocity.y = bounceSpeed;
+
+                    //衝突で水平方向の勢いも失う
+                    //跳ね返る間は接地摩擦が効かないので、ここで減衰させる
+                    _forceVelocity.x *= 1.0f - _settings.TangentialFriction;
+
+                    //吸着で切り捨てられるめり込み量を跳ね返り側へ返す
+                    //そのまま表面へ吸着させると1ステップぶんの跳ね返り高さが失われる
+                    var overshoot = Mathf.Max(0.0f, snappedY - candidate.y);
+                    result.y = snappedY + overshoot * _settings.Restitution;
+                }
+                else
+                {
+                    //跳ねるだけの勢いが無いので静止させる
+                    _isAir = false;
+
+                    //足場表面に吸着させる
+                    result.y = snappedY;
+
+                    //地面についた場合、上下方向にかかっている速度は0にする
+                    _forceVelocity.y = 0.0f;
+                }
             }
             else
             {
@@ -259,7 +310,11 @@ namespace Core.Movement
             Velocity = (result - from) / deltaTime;
 
             //状態が変化した瞬間だけ通知する
-            if (wasAir && !_isAir)
+            if (bounceSpeed > 0.0f)
+            {
+                OnBounce?.Invoke(bounceSpeed);
+            }
+            else if (wasAir && !_isAir)
             {
                 OnGround?.Invoke();
             }

@@ -20,6 +20,17 @@ namespace Components.Movement
         [SerializeField] private float friction = 1.0f;
         [SerializeField] private float pushedSpeed = 1.5f;
 
+        //反発関連
+        //0 なら跳ねず、着地後は従来通り friction だけが効く
+        [SerializeField, Range(0.0f, 1.0f)] private float restitution = 0.0f;
+
+        //跳ね返り速度がこれ未満なら跳ねたことにしない
+        //0 なら重力から自動算出する
+        [SerializeField] private float minBounceSpeed = 0.0f;
+
+        //1回の衝突で失う水平速度の割合。跳ね返るときだけ適用される
+        [SerializeField, Range(0.0f, 1.0f)] private float tangentialFriction = 0.0f;
+
         //押し判定をする相手
         private LayerMask _characterLayer;
         private LayerMask _propLayer;
@@ -63,6 +74,11 @@ namespace Components.Movement
             add => _movementSolver.OnForceAir += value;
             remove => _movementSolver.OnForceAir -= value;
         }
+        public event System.Action<float> OnBounce
+        {
+            add => _movementSolver.OnBounce += value;
+            remove => _movementSolver.OnBounce -= value;
+        }
         
         
         //公開プロパティ
@@ -75,8 +91,22 @@ namespace Components.Movement
 
         void Awake()
         {
+            //跳ね返りの下限速度
+            //1ステップで重力が奪う速度の2倍を既定とする
+            //これを下回る跳ね返りは次のステップで下向きに転じ、即座に再衝突してしまう
+            var bounceThreshold = minBounceSpeed > 0.0f
+                ? minBounceSpeed
+                : 2.0f * gravity * Time.fixedDeltaTime;
+
             // ロジック生成
-            var settings = new MovementSettings(gravity, weight, friction, pushedSpeed);
+            var settings = new MovementSettings(
+                gravity,
+                weight,
+                friction,
+                pushedSpeed,
+                restitution,
+                bounceThreshold,
+                tangentialFriction);
             _movementSolver = new MovementSolver(settings);
         }
         
