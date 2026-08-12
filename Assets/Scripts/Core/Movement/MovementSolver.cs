@@ -5,13 +5,13 @@ namespace Core.Movement
 {
     public readonly struct MovementSettings
     {
-        public readonly float Gravity;
+        public readonly float Gravity;    // 重力
         public readonly float Weight;     // コンストラクタで 0.001f 以上にクランプ
-        public readonly float Friction;
+        public readonly float Friction;   // 接地時の摩擦
         public readonly float PushSpeed;  // 現状 1.5f 直書き（L166, L170）
 
         //反発関連
-        public readonly float Restitution;         // 0 で跳ねない。エネルギーが増えないよう 0..1 にクランプ
+        public readonly float Restitution;         // 0で跳ねない。エネルギーが増えないよう 0..1 にクランプ
         public readonly float MinBounceSpeed;      // これ未満の跳ね返り速度は跳ねたことにしない
         public readonly float TangentialFriction;  // 1回の衝突で失う水平速度の割合(0..1)
 
