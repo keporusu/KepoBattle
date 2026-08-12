@@ -102,6 +102,18 @@ PrefabInstance:
       propertyPath: friction
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 2713901720221561264, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: restitution
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2713901720221561264, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: minBounceSpeed
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2713901720221561264, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: tangentialFriction
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 3170770376407151376, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
