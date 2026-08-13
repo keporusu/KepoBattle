@@ -1,5 +1,73 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9136949988586968972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2758755167812691118}
+  - component: {fileID: 5960184851942527804}
+  m_Layer: 7
+  m_Name: Explosion
+  m_TagString: Damage Channel
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2758755167812691118
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9136949988586968972}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1978218121987029254}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &5960184851942527804
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9136949988586968972}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.46, y: -0.17}
+  m_Radius: 15
 --- !u!1001 &8814547447558580130
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -198,7 +266,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7468385413292746830, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1277814214769837219}
+    - targetCorrespondingSourceObject: {fileID: 7468385413292746830, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2758755167812691118}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3407807834408993868, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6245691778578480231}
     - targetCorrespondingSourceObject: {fileID: 6362865065703469651, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2189858978185524979}
@@ -293,3 +367,22 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 2.32
+--- !u!1 &6024678564534605060 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3407807834408993868, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+  m_PrefabInstance: {fileID: 8993972200528875848}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6245691778578480231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6024678564534605060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06f3ee63f1849425c8d6a9786a081995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  explodeTime: 1
+  fireOnSpawn: 0

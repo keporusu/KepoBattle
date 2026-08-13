@@ -19,11 +19,13 @@ namespace Components.Combat.Attack
     }
     public class PropAttackCollisionController : MonoBehaviour, IAttackInfoGetter
     {
-
+        
+        //状態
         private bool _isActive = false;
         private AttackInfo _attackInfo;
         private Collider2D _collider;
         private AttackPowerType _powerType;
+        public bool IsActive => _isActive;
 
         //攻撃者の識別
         public EntityId AttackerID { get; private set; }

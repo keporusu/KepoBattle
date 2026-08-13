@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Core.Exceptions;
@@ -10,13 +11,34 @@ using Data;
 
 namespace Components.Combat.Attack
 {
+    
+    /// <summary>
+    /// コンポーネント
+    /// 速度が速いと攻撃判定が付くデフォルト機能
+    /// また、コリジョンを生成・削除もできる
+    /// </summary>
     public class AttackController : MonoBehaviour
     {
-        //攻撃判定を生成しない速度
-        [SerializeField] private float relaxSpeed;
-        [SerializeField] private AttackCollisionSetting collisionSetting;
         
-        private Collider2D _collider2D_Cache;
+        [SerializeField] private float relaxSpeed; //攻撃判定を生成しない速度
+        [SerializeField] private AttackCollisionSetting collisionSetting; //攻撃判定
+        
+        //キャッシュ
+        private List<Transform> atkChannels;
+        
+        //イベント
+        public event Action OnAttackVelocity; //速度による攻撃を行った時
+
+        private void Awake()
+        {
+            //TODO:手動で追加ではなく、ここで自動的に生成したほうが良い
+            //atkChannelをあるだけ保存しておく
+            atkChannels = new List<Transform>();
+            foreach (var channel in GetComponentsInChildren<Transform>())
+            {
+                atkChannels.Add(channel);
+            }
+        }
 
         private void OnEnable()
         {
@@ -58,6 +80,8 @@ namespace Components.Combat.Attack
             //攻撃があたったら、自身は跳ね返る
             attackHitNotifier.OnHit += (Collider2D other) =>
             {
+                OnAttackVelocity?.Invoke();
+                
                 //自分が攻撃者の攻撃は自分に当たらない
                 if (attackCollisionController.AttackerID == EntityRoot.Require(other).Id)
                 {
@@ -71,9 +95,18 @@ namespace Components.Combat.Attack
                 reflectVelocity *= 0.2f;
                 physicsMover.AddForceVelocity(reflectVelocity,true);
             };
-
-
+            
         }
+        
+        
+        public void ActivateCollision(
+            AttackCollisionSetting setting,
+            AttackPowerType powerType=AttackPowerType.Velocity
+            )
+        {
+            
+        }
+        
     }
 
 }
