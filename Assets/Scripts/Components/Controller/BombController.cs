@@ -90,7 +90,8 @@ namespace Components.Controller
         {
             Fire();
         }
-
+        
+        //TODO: UniTaskScheduler.UnhandledExceptionHandler でキャンセル例外を除外するグローバル設定をし、UniTaskVoid + Forget() でキャンセルがエラーとして出ないようにする
         private async void Fire()
         {
             //着火済みなら着火しない
