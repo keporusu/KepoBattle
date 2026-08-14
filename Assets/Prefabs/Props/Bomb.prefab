@@ -68,68 +68,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.46, y: -0.17}
   m_Radius: 15
---- !u!1001 &8814547447558580130
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1978218121987029254}
-    m_Modifications:
-    - target: {fileID: 6943723375673569922, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
-      propertyPath: m_Name
-      value: Attack
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775505926664168193, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775505926664168193, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775505926664168193, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775505926664168193, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775505926664168193, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775505926664168193, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775505926664168193, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775505926664168193, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775505926664168193, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775505926664168193, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
---- !u!4 &1277814214769837219 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7775505926664168193, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
-  m_PrefabInstance: {fileID: 8814547447558580130}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8993972200528875848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -153,6 +91,10 @@ PrefabInstance:
     - target: {fileID: 1230077358553721815, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1854120792157923243, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: generateCount
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2713901720221561264, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: mass
@@ -263,9 +205,6 @@ PrefabInstance:
     - {fileID: 8867863109109055805, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
     - {fileID: 5407806777651216494, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 7468385413292746830, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1277814214769837219}
     - targetCorrespondingSourceObject: {fileID: 7468385413292746830, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2758755167812691118}
@@ -386,3 +325,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   explodeTime: 1
   fireOnSpawn: 0
+  explosionRadius: 10
+  explosionDamage: 10

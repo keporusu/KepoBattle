@@ -26,7 +26,7 @@ namespace Components.Controller
         private bool _isFire;
         
         //キャッシュ
-        private AttackController _attackController_Cache;
+        private VelocityAttackGenerator _velocityAttackGeneratorCache;
         
         //キャンセル
         private CancellationTokenSource _cts;
@@ -34,7 +34,7 @@ namespace Components.Controller
         private void Start()
         {
             //キャッシュ
-            if(!TryGetComponent(out _attackController_Cache))
+            if(!TryGetComponent(out _velocityAttackGeneratorCache))
                 throw new MissingComponentException($"[{GetType().Name}] AttackController が {gameObject.name} に見つかりません");
             
             //初期化
@@ -61,7 +61,7 @@ namespace Components.Controller
             damagedNotifier.OnHit += FireFromHit;
             
             //自身が体当たりで攻撃したら爆発させる
-            _attackController_Cache.OnAttackVelocity += Explode;
+            _velocityAttackGeneratorCache.OnAttackVelocity += Explode;
         }
         private void OnDisable()
         {
@@ -72,7 +72,7 @@ namespace Components.Controller
                 throw new MissingComponentException($"[{GetType().Name}] DamageHitNotifier が {gameObject.name} に見つかりません");
             damagedNotifier.OnHit -= FireFromHit;
             
-            _attackController_Cache.OnAttackVelocity -= Explode;
+            _velocityAttackGeneratorCache.OnAttackVelocity -= Explode;
         }
         
         
@@ -98,7 +98,7 @@ namespace Components.Controller
         {
             //発火による爆発はキャンセル
             _cts?.Cancel();
-            _attackController_Cache.ActivateCollision(_explosionCollisionSetting);
+            //_velocityAttackGeneratorCache.ActivateCollision(_explosionCollisionSetting);
         }
         
         

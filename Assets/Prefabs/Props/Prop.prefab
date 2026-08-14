@@ -84,6 +84,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7187526979552378451}
+    - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1854120792157923243}
   m_SourcePrefab: {fileID: 100100000, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
 --- !u!1 &3407807834408993868 stripped
 GameObject:
@@ -218,6 +221,10 @@ MonoBehaviour:
   gravity: 1
   weight: 1
   friction: 1
+  pushedSpeed: 1.5
+  restitution: 0
+  minBounceSpeed: 0
+  tangentialFriction: 0
 --- !u!114 &7187526979552378451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,10 +246,22 @@ MonoBehaviour:
     capsuleDirection: 0
     boxSize: {x: 0, y: 0}
     offset: {x: 0, y: 0}
-    spanStart: 0
-    spanEnd: 0
     attackPower: {x: 0, y: 0}
     damage: 0
+--- !u!114 &1854120792157923243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3407807834408993868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a96a5a7d714b40e79c72fe2fe3a372d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  atkChannel_Prefab: {fileID: 6943723375673569922, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
+  generateCount: 1
 --- !u!4 &7468385413292746830 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8639198977824554502, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}

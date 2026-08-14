@@ -25,6 +25,7 @@ namespace Components.Combat.Attack
         private AttackInfo _attackInfo;
         private Collider2D _collider;
         private AttackPowerType _powerType;
+        
         public bool IsActive => _isActive;
 
         //攻撃者の識別
