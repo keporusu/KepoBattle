@@ -21,6 +21,7 @@ namespace Components.Controller
         [SerializeField] private float explosionRadius = 10.0f;
         [SerializeField] private float explosionPower = 2.0f;
         [SerializeField] private float explosionDamage = 10.0f;
+        [SerializeField] private Sprite explosionSprite;
         
         //設定
         private AttackCollisionSetting _explosionCollisionSetting;
@@ -33,7 +34,8 @@ namespace Components.Controller
         private bool _isFire;
         
         //キャンセル
-        private CancellationTokenSource _cts;
+        private CancellationTokenSource _ctsFire;
+        private CancellationTokenSource _ctsExplode;
         
         private void OnEnable()
         {
@@ -95,8 +97,8 @@ namespace Components.Controller
             if(_isFire)return;
             
             _isFire = true;
-            _cts = new CancellationTokenSource();
-            await FireAfterDelay(explodeTime, _cts.Token);
+            _ctsFire = new CancellationTokenSource();
+            await FireAfterDelay(explodeTime, _ctsFire.Token);
         }
 
         private async UniTask FireAfterDelay(float delay, CancellationToken token)
@@ -113,22 +115,29 @@ namespace Components.Controller
         private async void Explode()
         {
             //発火による爆発はキャンセル
-            _cts?.Cancel();
+            _ctsFire?.Cancel();
+            //爆発コリジョンの生成
             var id = _collisionManager_Cache.GetAvailableCollisionId();
             _collisionManager_Cache.ActivateCollision(id,gameObject,_explosionCollisionSetting,AttackPowerType.Radial);
-            _spriteRenderer_Cache.enabled = false;
-            await ExplodeAfterDelay(collisionTime);
+            //TODO: ただの画像変更なので、何かしら対処が必要
+            _spriteRenderer_Cache.sprite = explosionSprite;
+            _ctsExplode = new CancellationTokenSource();
+            await ExplodeAfterDelay(collisionTime,_ctsExplode.Token);
         }
 
-        private async UniTask ExplodeAfterDelay(float delay)
+        private async UniTask ExplodeAfterDelay(float delay,CancellationToken token)
         {
             //数秒後に破壊処理
-            await UniTask.Delay(System.TimeSpan.FromSeconds(delay));
+            await UniTask.Delay(System.TimeSpan.FromSeconds(delay), cancellationToken: token);
             var root = EntityRoot.Require(this);
             Destroy(root.gameObject);
         }
-        
-        
+
+        private void OnDestroy()
+        {
+            _ctsFire?.Cancel();
+            _ctsExplode?.Cancel();
+        }
     }
 
 }

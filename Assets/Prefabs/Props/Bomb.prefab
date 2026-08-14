@@ -329,3 +329,4 @@ MonoBehaviour:
   explosionRadius: 10
   explosionPower: 8
   explosionDamage: 10
+  explosionSprite: {fileID: 439226438843441342, guid: 93ec969cc48064601ac716c8e363ed07, type: 3}
