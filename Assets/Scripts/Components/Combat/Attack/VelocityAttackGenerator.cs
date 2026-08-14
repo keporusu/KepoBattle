@@ -58,13 +58,13 @@ namespace Components.Combat.Attack
                 id,
                 (Collider2D other) =>
                 {
-                    OnAttackVelocity?.Invoke();
-                
                     //自分が攻撃者の攻撃は自分に当たらない
                     if (collisionManager.GetAttackerId(id) == EntityRoot.Require(other).Id)
                     {
                         return;
                     }
+                    
+                    OnAttackVelocity?.Invoke();
                 
                     //衝突時の法線を計算し、その法線で反射させる
                     Vector2 closerPoint = other.ClosestPoint(transform.position);

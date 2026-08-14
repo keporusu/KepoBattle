@@ -99,7 +99,7 @@ namespace Components.Combat.Attack
         public AttackInfo GetAttackInfo(Vector2 otherPosition)
         {
             if (!_isActive)
-                throw new InvalidOperationException($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
+                Debug.LogError($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
             
             //_attackInfoを少し改造する
             //TODO: AttackPower.x を乗算してどちらも倍率計算させる予定
@@ -117,7 +117,7 @@ namespace Components.Combat.Attack
             {
                 var rootPos = EntityRoot.Require(this).transform.position;
                 var direction = (otherPosition - new Vector2(rootPos.x, rootPos.y)).normalized;
-                _attackInfo.attackVelocity = direction * 3.0f;
+                _attackInfo.attackVelocity = direction * _attackInfo.attackVelocity.x;
             }
             
             return _attackInfo;

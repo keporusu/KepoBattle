@@ -19,6 +19,7 @@ namespace Components.Controller
         [SerializeField] private float collisionTime = 0.2f;
         [SerializeField] private bool fireOnSpawn = false; //初手から着火しているか？
         [SerializeField] private float explosionRadius = 10.0f;
+        [SerializeField] private float explosionPower = 2.0f;
         [SerializeField] private float explosionDamage = 10.0f;
         
         //設定
@@ -74,6 +75,7 @@ namespace Components.Controller
             _explosionCollisionSetting.shape = ColliderShape.Circle;
             _explosionCollisionSetting.damage = explosionDamage;
             _explosionCollisionSetting.circleRadius = explosionRadius;
+            _explosionCollisionSetting.attackPower.x = explosionPower;
             
             //着火
             if (fireOnSpawn)

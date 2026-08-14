@@ -22,6 +22,21 @@ namespace Components.Controller
         
         private void Awake()
         {
+            EnsureInitialized();
+        }
+
+        /// <summary>
+        /// コリジョンの初期化
+        /// コンポーネントの並び順によっては他コンポーネントのOnEnableがこのAwakeより先に走るため、
+        /// 公開メソッドからも呼び出して初期化済みを保証する
+        /// </summary>
+        private void EnsureInitialized()
+        {
+            if (atkChannels != null)
+            {
+                return;
+            }
+
             //プレハブに必要なコンポーネントがついているかチェック
             if (!atkChannel_Prefab.TryGetComponent(out PropAttackCollisionController attackCollisionController))
             {
@@ -50,6 +65,7 @@ namespace Components.Controller
         /// <returns>使えるコリジョンのID</returns>
         public int GetAvailableCollisionId()
         {
+            EnsureInitialized();
             for (int id = 0; id < atkChannels.Count; id++)
             {
                 var isActive = atkChannels[id].GetComponent<PropAttackCollisionController>().IsActive;
@@ -77,6 +93,7 @@ namespace Components.Controller
             AttackPowerType powerType=AttackPowerType.Velocity
         )
         {
+            EnsureInitialized();
             if (id >= atkChannels.Count || id < 0)
             {
                 return;
@@ -88,6 +105,7 @@ namespace Components.Controller
 
         public void DeactivateCollision(int id)
         {
+            EnsureInitialized();
             if (id >= atkChannels.Count || id < 0)
             {
                 return;
@@ -97,6 +115,7 @@ namespace Components.Controller
 
         public EntityId GetAttackerId(int id)
         {
+            EnsureInitialized();
             return atkChannels[id].GetComponent<PropAttackCollisionController>().AttackerID;
         }
         
@@ -107,6 +126,7 @@ namespace Components.Controller
         /// <param name="action">登録する関数</param>
         public void AddListener(int id, Action<Collider2D> action)
         {
+            EnsureInitialized();
             if (id >= atkChannels.Count || id < 0)
             {
                 return;
