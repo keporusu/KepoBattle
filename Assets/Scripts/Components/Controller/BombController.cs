@@ -11,6 +11,7 @@ using Data;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
+using Sequence = DG.Tweening.Sequence;
 
 namespace Components.Controller
 {
@@ -89,15 +90,43 @@ namespace Components.Controller
             Fire();
         }
         
-        //TODO: UniTaskScheduler.UnhandledExceptionHandler でキャンセル例外を除外するグローバル設定をし、UniTaskVoid + Forget() でキャンセルがエラーとして出ないようにする
         private async void Fire()
         {
             //着火済みなら着火しない
             if(_isFire)return;
-            
             _isFire = true;
+            
+            //アニメーション開始
+            {
+                Sequence seq = DOTween.Sequence();
+                for (int i = 0; i < 6; i++)
+                {
+                    Color color;
+                    if (i % 2 == 0) color = Color.red;
+                    else color = Color.white;
+
+                    seq.Append(
+                        spRenderer.DOColor(color,0.001f)
+                            .OnStart(() =>
+                            {
+                                /*音鳴らす*/
+                            })
+                        );
+                    seq.Append(DOVirtual.DelayedCall(explodeTime/6,()=>{}));
+                }
+                seq.SetLink(spRenderer.gameObject);
+                seq.Play();
+            }
             _ctsFire = new CancellationTokenSource();
-            await FireAfterDelay(explodeTime, _ctsFire.Token);
+            try
+            {
+                await FireAfterDelay(explodeTime, _ctsFire.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                //キャンセルは正常処理
+            }
+            
         }
 
         private async UniTask FireAfterDelay(float delay, CancellationToken token)
@@ -119,12 +148,22 @@ namespace Components.Controller
             var id = _collisionManager_Cache.GetAvailableCollisionId();
             _collisionManager_Cache.ActivateCollision(id,gameObject,_explosionCollisionSetting,AttackPowerType.Radial);
             //アニメーション開始
-            spRenderer.sprite = explosionSprite;
-            spRenderer.transform.DOScale(Vector3.one * 6.0f, 0.2f).SetLink(spRenderer.gameObject);
-            spRenderer.DOFade(0.0f, 0.2f).SetEase(Ease.OutQuad).SetLink(spRenderer.gameObject);
+            {
+                spRenderer.sprite = explosionSprite;
+                spRenderer.transform.DOScale(Vector3.one * 6.0f, 0.2f).SetLink(spRenderer.gameObject);
+                spRenderer.DOFade(0.0f, 0.2f).SetEase(Ease.OutQuad).SetLink(spRenderer.gameObject);
+            }
             //爆発後処理
             _ctsExplode = new CancellationTokenSource();
-            await ExplodeAfterDelay(collisionTime,_ctsExplode.Token);
+            try
+            {
+                await ExplodeAfterDelay(collisionTime, _ctsExplode.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                //キャンセルは正常処理
+            }
+            
         }
 
         private async UniTask ExplodeAfterDelay(float delay,CancellationToken token)

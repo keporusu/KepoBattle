@@ -335,7 +335,7 @@ MonoBehaviour:
   explodeTime: 1
   collisionTime: 0.2
   fireOnSpawn: 0
-  explosionRadius: 10
+  explosionRadius: 15
   explosionPower: 8
   explosionDamage: 10
   spRenderer: {fileID: 495249261848979074}
