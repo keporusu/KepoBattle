@@ -45,12 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33ef4fcf3ba745b5862a167115255a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  seSource: {fileID: 9030423592057122275}
-  seClips:
-  - name: ExplosionTimer
-    clip: {fileID: 8300000, guid: 35409379dcc0b4cd993ee3be190dbacf, type: 3}
-  - name: Explosion
-    clip: {fileID: 8300000, guid: 4cb9d8f232483475d8857c13d43009bc, type: 3}
+  seSourcePrefab: {fileID: 1327078950309111302, guid: f4381e7f7edbf494cb30575c636ac3a9, type: 3}
+  poolSize: 16
+  seDataList:
+  - {fileID: 11400000, guid: c6f375eb3f2604f9f8e4c05e8e8b4689, type: 2}
+  - {fileID: 11400000, guid: 5c38f959f50594a8ba72b3976408de0c, type: 2}
 --- !u!82 &9030423592057122275
 AudioSource:
   m_ObjectHideFlags: 0

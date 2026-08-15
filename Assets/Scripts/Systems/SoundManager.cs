@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Data;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Systems
 {
@@ -19,12 +21,20 @@ namespace Systems
     public class SoundManager : MonoBehaviour
     {
         public static SoundManager Instance;
+
+        [SerializeField] private AudioSource seSourcePrefab;
+        [SerializeField] private int poolSize = 16;
+        [SerializeField] private AudioData[] seDataList;
         
-        [SerializeField] private AudioSource seSource;
-        [SerializeField] private ClipData[] seClips;
+        //カウンター
+        private int _sourceCounter = 0;
+        
+        //プール
+        private readonly List<AudioSource> _seSourcesPool = new List<AudioSource>();
         
         //マッピング
-        private readonly Dictionary<string, AudioClip> _seClipsMap = new Dictionary<string, AudioClip>();
+        private readonly Dictionary<string, AudioData> _seClipsMap = new Dictionary<string, AudioData>();
+        private readonly Dictionary<int, AudioSource> _activeSources = new Dictionary<int, AudioSource>();
 
         private void Awake()
         {
@@ -39,29 +49,65 @@ namespace Systems
             }
             
             //マッピング
-            foreach (var clip in seClips)
+            foreach (var data in seDataList)
             {
-                _seClipsMap.Add(clip.name, clip.clip);
+                _seClipsMap.Add(data.name, data);
+            }
+            
+            //プール
+            for (int i = 0; i < poolSize; i++)
+            {
+                var source = Instantiate(seSourcePrefab, transform);
+                _seSourcesPool.Add(source);
             }
         }
-
-        public void PlaySe(string clipName)
+        
+        /// <summary>
+        /// 空いてるAudioSourceを探してSEを再生する
+        /// </summary>
+        /// <param name="clipName">クリップの名前</param>
+        /// <returns>今回の再生ID</returns>
+        public int PlaySe(string clipName)
         {
             //TODO: 重いのでマップを作成する
-            var clip = _seClipsMap[clipName];
-            if (clip != null)
+            var data = _seClipsMap[clipName];
+            if (data != null)
             {
-                seSource.PlayOneShot(clip);
+                _sourceCounter++;
+                var source = GetFreeSource();
+                source.clip = data.audioClip;
+                source.volume = data.volume;
+                source.Play();
+                _activeSources[_sourceCounter] = source;
+            }
+            return _sourceCounter;
+        }
+        
+        /// <summary>
+        /// 再生IDを指定して、SEを停止
+        /// </summary>
+        /// <param name="id">再生ID</param>
+        public void StopSe(int id)
+        {
+            if (_activeSources.TryGetValue(id, out var source))
+            {
+                source.Stop();
+                _activeSources.Remove(id);
             }
         }
-
-        public void StopSe(string clipName)
+        
+        
+        private AudioSource GetFreeSource()
         {
-            var clip = _seClipsMap[clipName];
-            if (clip != null)
+            //空いているAudioSourceを探す
+            foreach(var source in _seSourcesPool)
             {
-                seSource.Stop();
+                if (!source.isPlaying)
+                {
+                    return source;
+                }
             }
+            return _seSourcesPool[0];
         }
     }
 

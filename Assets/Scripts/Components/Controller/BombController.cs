@@ -16,6 +16,12 @@ using Sequence = DG.Tweening.Sequence;
 
 namespace Components.Controller
 {
+    public enum BombState
+    {
+        Idle,
+        Fire,
+        Explode,
+    }
     public class BombController : MonoBehaviour
     {
         [SerializeField] private float explodeTime = 1.0f;
@@ -32,9 +38,11 @@ namespace Components.Controller
         
         //キャッシュ
         private CollisionManager _collisionManager_Cache;
+        private SoundManager _soundManager;
         
         //状態
-        private bool _isFire;
+        private BombState _state = BombState.Idle; //発火中か？
+        private int _audioID; //現在再生している音の再生ID
         
         //キャンセル
         private CancellationTokenSource _ctsFire;
@@ -73,6 +81,9 @@ namespace Components.Controller
             if(!TryGetComponent(out _collisionManager_Cache))
                 throw new MissingComponentException($"[{GetType().Name}] CollisionManager が {gameObject.name} に見つかりません");
             
+            _soundManager = SoundManager.Instance;
+            
+            
             //初期化
             _explosionCollisionSetting.shape = ColliderShape.Circle;
             _explosionCollisionSetting.damage = explosionDamage;
@@ -94,8 +105,8 @@ namespace Components.Controller
         private async void Fire()
         {
             //着火済みなら着火しない
-            if(_isFire)return;
-            _isFire = true;
+            if (_state == BombState.Fire) return;
+            _state = BombState.Fire;
             
             //アニメーション開始
             {
@@ -111,7 +122,7 @@ namespace Components.Controller
                         spRenderer.DOColor(color,0.001f)
                             .OnStart(() =>
                             {
-                                if (i1 % 2 == 0) SoundManager.Instance.PlaySe(SoundNames.SeExplosionTimer);
+                                if (i1 % 2 == 0) _audioID = _soundManager.PlaySe(SoundNames.SeExplosionTimer);
                             })
                         );
                     seq.Append(DOVirtual.DelayedCall(explodeTime/6,()=>{}));
@@ -144,6 +155,10 @@ namespace Components.Controller
         
         private async void Explode()
         {
+            //爆発済みなら爆発しない
+            if (_state == BombState.Explode) return;
+            _state = BombState.Explode;
+            
             //発火による爆発はキャンセル
             _ctsFire?.Cancel();
             //爆発コリジョンの生成
@@ -151,7 +166,8 @@ namespace Components.Controller
             _collisionManager_Cache.ActivateCollision(id,gameObject,_explosionCollisionSetting,AttackPowerType.Radial);
             //アニメーション開始
             {
-                SoundManager.Instance.PlaySe(SoundNames.SeExplosion);
+                _soundManager.StopSe(_audioID);
+                _audioID = _soundManager.PlaySe(SoundNames.SeExplosion);
                 spRenderer.sprite = explosionSprite;
                 spRenderer.transform.DOScale(Vector3.one * 6.0f, 0.2f).SetLink(spRenderer.gameObject);
                 spRenderer.DOFade(0.0f, 0.2f).SetEase(Ease.OutQuad).SetLink(spRenderer.gameObject);
