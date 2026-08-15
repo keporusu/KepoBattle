@@ -264,6 +264,11 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.46, y: -0.17}
   m_Radius: 2.32
+--- !u!212 &495249261848979074 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8795099630960080842, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+  m_PrefabInstance: {fileID: 8993972200528875848}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1978218121987029254 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7468385413292746830, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
@@ -333,4 +338,5 @@ MonoBehaviour:
   explosionRadius: 10
   explosionPower: 8
   explosionDamage: 10
+  spRenderer: {fileID: 495249261848979074}
   explosionSprite: {fileID: 439226438843441342, guid: 93ec969cc48064601ac716c8e363ed07, type: 3}

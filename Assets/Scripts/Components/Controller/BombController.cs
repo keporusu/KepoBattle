@@ -8,6 +8,7 @@ using Core.Constants;
 using Core.Exceptions;
 using Cysharp.Threading.Tasks;
 using Data;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace Components.Controller
         [SerializeField] private float explosionRadius = 10.0f;
         [SerializeField] private float explosionPower = 2.0f;
         [SerializeField] private float explosionDamage = 10.0f;
+        [SerializeField] private SpriteRenderer spRenderer;
         [SerializeField] private Sprite explosionSprite;
         
         //設定
@@ -28,7 +30,6 @@ namespace Components.Controller
         
         //キャッシュ
         private CollisionManager _collisionManager_Cache;
-        private SpriteRenderer _spriteRenderer_Cache;
         
         //状態
         private bool _isFire;
@@ -69,10 +70,6 @@ namespace Components.Controller
             //キャッシュ
             if(!TryGetComponent(out _collisionManager_Cache))
                 throw new MissingComponentException($"[{GetType().Name}] CollisionManager が {gameObject.name} に見つかりません");
-
-            _spriteRenderer_Cache = GetComponentInChildren<SpriteRenderer>();
-            if(!_spriteRenderer_Cache)
-                throw new MissingComponentException($"[{GetType().Name}] SpriteRenderer が {gameObject.name} の子以下に見つかりません");
             
             //初期化
             _explosionCollisionSetting.shape = ColliderShape.Circle;
@@ -121,8 +118,11 @@ namespace Components.Controller
             //爆発コリジョンの生成
             var id = _collisionManager_Cache.GetAvailableCollisionId();
             _collisionManager_Cache.ActivateCollision(id,gameObject,_explosionCollisionSetting,AttackPowerType.Radial);
-            //TODO: ただの画像変更なので、何かしら対処が必要
-            _spriteRenderer_Cache.sprite = explosionSprite;
+            //アニメーション開始
+            spRenderer.sprite = explosionSprite;
+            spRenderer.transform.DOScale(Vector3.one * 6.0f, 0.2f).SetLink(spRenderer.gameObject);
+            spRenderer.DOFade(0.0f, 0.2f).SetEase(Ease.OutQuad).SetLink(spRenderer.gameObject);
+            //爆発後処理
             _ctsExplode = new CancellationTokenSource();
             await ExplodeAfterDelay(collisionTime,_ctsExplode.Token);
         }
