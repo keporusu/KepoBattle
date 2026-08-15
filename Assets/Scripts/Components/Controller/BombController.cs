@@ -69,9 +69,10 @@ namespace Components.Controller
             //キャッシュ
             if(!TryGetComponent(out _collisionManager_Cache))
                 throw new MissingComponentException($"[{GetType().Name}] CollisionManager が {gameObject.name} に見つかりません");
-            
-            if(!TryGetComponent(out _spriteRenderer_Cache))
-                throw new MissingComponentException($"[{GetType().Name}] SpriteRenderer が {gameObject.name} に見つかりません");
+
+            _spriteRenderer_Cache = GetComponentInChildren<SpriteRenderer>();
+            if(!_spriteRenderer_Cache)
+                throw new MissingComponentException($"[{GetType().Name}] SpriteRenderer が {gameObject.name} の子以下に見つかりません");
             
             //初期化
             _explosionCollisionSetting.shape = ColliderShape.Circle;
