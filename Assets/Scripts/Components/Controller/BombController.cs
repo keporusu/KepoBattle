@@ -9,6 +9,7 @@ using Core.Exceptions;
 using Cysharp.Threading.Tasks;
 using Data;
 using DG.Tweening;
+using Systems;
 using Unity.VisualScripting;
 using UnityEngine;
 using Sequence = DG.Tweening.Sequence;
@@ -105,11 +106,12 @@ namespace Components.Controller
                     if (i % 2 == 0) color = Color.red;
                     else color = Color.white;
 
+                    var i1 = i;
                     seq.Append(
                         spRenderer.DOColor(color,0.001f)
                             .OnStart(() =>
                             {
-                                /*音鳴らす*/
+                                if (i1 % 2 == 0) SoundManager.Instance.PlaySe(SoundNames.SeExplosionTimer);
                             })
                         );
                     seq.Append(DOVirtual.DelayedCall(explodeTime/6,()=>{}));
