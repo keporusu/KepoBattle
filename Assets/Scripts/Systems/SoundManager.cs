@@ -32,6 +32,7 @@ namespace Systems
 
         public void PlaySe(string clipName)
         {
+            //TODO: 重いのでマップを作成する
             AudioClip clip = System.Array.Find(seClips, c => c.name == clipName);
             if (clip != null) seSource.PlayOneShot(clip);
         }
