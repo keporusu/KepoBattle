@@ -135,6 +135,10 @@ PrefabInstance:
       value: Damage Channel
       objectReference: {fileID: 0}
     - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: relaxSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: collisionSetting.circleRadius
       value: 3
       objectReference: {fileID: 0}

@@ -9,6 +9,7 @@ namespace Systems
         [SerializeField] private GameObject player;
         [SerializeField] private GameObject enemyPrefab;
         [SerializeField] private GameObject ballPrefab;
+        [SerializeField] private GameObject bombPrefab;
 
 
         private PlayerController playerController_Cache;
@@ -30,6 +31,11 @@ namespace Systems
             if (Keyboard.current[Key.Digit2].wasPressedThisFrame)
             {
                 SpawnBall();
+            }
+            
+            if (Keyboard.current[Key.Digit3].wasPressedThisFrame)
+            {
+                SpawnBomb();
             }
         }
 
@@ -53,5 +59,14 @@ namespace Systems
             spawnPos += Vector3.up * 3.0f + spawnDir * 5.0f;
             Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
         }
+
+        private void SpawnBomb()
+        {
+            Vector3 spawnDir = playerController_Cache.IsForward ? Vector3.right : -Vector3.right;
+            Vector3 spawnPos = player.transform.position;
+            spawnPos += Vector3.up * 3.0f + spawnDir * 2.0f;
+            Instantiate(bombPrefab, spawnPos, Quaternion.identity);
+        }
+
     }
 }

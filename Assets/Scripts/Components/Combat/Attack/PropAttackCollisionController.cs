@@ -19,11 +19,21 @@ namespace Components.Combat.Attack
     }
     public class PropAttackCollisionController : MonoBehaviour, IAttackInfoGetter
     {
-
+        
+        //状態
         private bool _isActive = false;
         private AttackInfo _attackInfo;
         private Collider2D _collider;
         private AttackPowerType _powerType;
+
+        //形状ごとのコライダーのキャッシュ
+        //Initializeの度に生成すると、以前のコライダーが有効なまま参照を失い
+        //Deactivateで消せない当たり判定になってしまう
+        private CircleCollider2D _circleCollider;
+        private CapsuleCollider2D _capsuleCollider;
+        private BoxCollider2D _boxCollider;
+
+        public bool IsActive => _isActive;
 
         //攻撃者の識別
         public EntityId AttackerID { get; private set; }
@@ -38,40 +48,78 @@ namespace Components.Combat.Attack
             _attackInfo.damage = collisionSetting.damage;
 
             //コリジョン形状の設定
+            //生成済みのコライダーがあれば使い回す
             switch (collisionSetting.shape)
             {
                 case ColliderShape.Circle:
-                    var circleCollider = gameObject.AddComponent<CircleCollider2D>();
+                    var circleCollider = GetOrAddCollider(ref _circleCollider);
                     circleCollider.radius = collisionSetting.circleRadius;
                     circleCollider.offset = collisionSetting.offset;
-                    circleCollider.enabled = true;
                     _collider = circleCollider;
                     break;
                 case ColliderShape.Capsule:
-                    var capsuleCollider = gameObject.AddComponent<CapsuleCollider2D>();
+                    var capsuleCollider = GetOrAddCollider(ref _capsuleCollider);
                     capsuleCollider.size =
                         new Vector2(collisionSetting.capsuleRadius * 2, collisionSetting.capsuleHeight);
                     capsuleCollider.direction = collisionSetting.capsuleDirection == CapsuleDirection.X
                         ? CapsuleDirection2D.Horizontal
                         : CapsuleDirection2D.Vertical;
                     capsuleCollider.offset = collisionSetting.offset;
-                    capsuleCollider.enabled = true;
                     _collider = capsuleCollider;
                     break;
                 case ColliderShape.Box:
-                    var boxCollider = gameObject.AddComponent<BoxCollider2D>();
+                    var boxCollider = GetOrAddCollider(ref _boxCollider);
                     boxCollider.size = new Vector2(collisionSetting.boxSize.x, collisionSetting.boxSize.y);
                     boxCollider.offset = collisionSetting.offset;
-                    boxCollider.enabled = true;
                     _collider = boxCollider;
                     break;
                 default:
                     break;
             }
-            
+
+            //前回と違う形状に切り替わったとき、使わないコライダーを有効なまま残さない
+            DisableUnusedColliders();
+
             _isActive = false;
             _collider.enabled = false;
             _collider.isTrigger = true;
+        }
+
+        /// <summary>
+        /// 指定した形状のコライダーを取得する
+        /// まだ無ければ生成してキャッシュする
+        /// </summary>
+        /// <param name="cache">形状ごとのキャッシュ</param>
+        /// <returns>使用するコライダー</returns>
+        private T GetOrAddCollider<T>(ref T cache) where T : Collider2D
+        {
+            if (cache == null)
+            {
+                cache = gameObject.AddComponent<T>();
+            }
+
+            return cache;
+        }
+
+        /// <summary>
+        /// 今使っている形状以外のコライダーを無効化する
+        /// </summary>
+        private void DisableUnusedColliders()
+        {
+            if (_circleCollider != null && _circleCollider != _collider)
+            {
+                _circleCollider.enabled = false;
+            }
+
+            if (_capsuleCollider != null && _capsuleCollider != _collider)
+            {
+                _capsuleCollider.enabled = false;
+            }
+
+            if (_boxCollider != null && _boxCollider != _collider)
+            {
+                _boxCollider.enabled = false;
+            }
         }
 
         public void Activate(GameObject attacker, AttackPowerType type = AttackPowerType.Velocity)
@@ -96,7 +144,7 @@ namespace Components.Combat.Attack
         public AttackInfo GetAttackInfo(Vector2 otherPosition)
         {
             if (!_isActive)
-                throw new InvalidOperationException($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
+                Debug.LogError($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
             
             //_attackInfoを少し改造する
             //TODO: AttackPower.x を乗算してどちらも倍率計算させる予定
@@ -114,7 +162,7 @@ namespace Components.Combat.Attack
             {
                 var rootPos = EntityRoot.Require(this).transform.position;
                 var direction = (otherPosition - new Vector2(rootPos.x, rootPos.y)).normalized;
-                _attackInfo.attackVelocity = direction * 3.0f;
+                _attackInfo.attackVelocity = direction * _attackInfo.attackVelocity.x;
             }
             
             return _attackInfo;
