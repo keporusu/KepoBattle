@@ -1,10 +1,16 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Systems
 {
-    
-    
+
+    [Serializable]
+    public struct ClipData
+    {
+        public string name;
+        public AudioClip clip;
+    }
     
     /// <summary>
     /// シングルトン
@@ -15,7 +21,10 @@ namespace Systems
         public static SoundManager Instance;
         
         [SerializeField] private AudioSource seSource;
-        [SerializeField] private AudioClip[] seClips;
+        [SerializeField] private ClipData[] seClips;
+        
+        //マッピング
+        private readonly Dictionary<string, AudioClip> _seClipsMap = new Dictionary<string, AudioClip>();
 
         private void Awake()
         {
@@ -28,13 +37,31 @@ namespace Systems
             {
                 Destroy(gameObject);
             }
+            
+            //マッピング
+            foreach (var clip in seClips)
+            {
+                _seClipsMap.Add(clip.name, clip.clip);
+            }
         }
 
         public void PlaySe(string clipName)
         {
             //TODO: 重いのでマップを作成する
-            AudioClip clip = System.Array.Find(seClips, c => c.name == clipName);
-            if (clip != null) seSource.PlayOneShot(clip);
+            var clip = _seClipsMap[clipName];
+            if (clip != null)
+            {
+                seSource.PlayOneShot(clip);
+            }
+        }
+
+        public void StopSe(string clipName)
+        {
+            var clip = _seClipsMap[clipName];
+            if (clip != null)
+            {
+                seSource.Stop();
+            }
         }
     }
 

@@ -151,6 +151,7 @@ namespace Components.Controller
             _collisionManager_Cache.ActivateCollision(id,gameObject,_explosionCollisionSetting,AttackPowerType.Radial);
             //アニメーション開始
             {
+                SoundManager.Instance.PlaySe(SoundNames.SeExplosion);
                 spRenderer.sprite = explosionSprite;
                 spRenderer.transform.DOScale(Vector3.one * 6.0f, 0.2f).SetLink(spRenderer.gameObject);
                 spRenderer.DOFade(0.0f, 0.2f).SetEase(Ease.OutQuad).SetLink(spRenderer.gameObject);

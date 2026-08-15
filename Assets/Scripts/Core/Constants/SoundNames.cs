@@ -6,5 +6,6 @@ namespace Core.Constants
     public class SoundNames
     {
         public const string SeExplosionTimer = "ExplosionTimer";
+        public const string SeExplosion = "Explosion";
     }
 }
