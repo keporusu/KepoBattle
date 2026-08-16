@@ -28,7 +28,13 @@ namespace Systems
         
         //カウンター
         private int _sourceCounter = 0;
-        
+
+        //同一SEの多重再生を抑える最小間隔
+        //同じクリップが位相一致で重なると振幅が線形加算され、2重で+6dBになる
+        //50ms 以内の同じ音は耳には1つとしてしか聞こえないので、鳴らさなくても違和感が無い
+        private const float SameSeMinInterval = 0.05f;
+        private readonly Dictionary<string, float> _lastPlayedTime = new Dictionary<string, float>();
+
         //プール
         private readonly List<AudioSource> _seSourcesPool = new List<AudioSource>();
         
@@ -66,9 +72,18 @@ namespace Systems
         /// 空いてるAudioSourceを探してSEを再生する
         /// </summary>
         /// <param name="clipName">クリップの名前</param>
-        /// <returns>今回の再生ID</returns>
+        /// <returns>今回の再生ID。多重再生を抑制した場合は無効ID(0)</returns>
         public int PlaySe(string clipName)
         {
+            //直近に同じ音を鳴らしたばかりなら重ねない
+            if (_lastPlayedTime.TryGetValue(clipName, out var lastTime)
+                && Time.unscaledTime - lastTime < SameSeMinInterval)
+            {
+                //_sourceCounter は 1 始まりなので、0 は StopSe から無視される無効IDになる
+                return 0;
+            }
+            _lastPlayedTime[clipName] = Time.unscaledTime;
+
             //TODO: 重いのでマップを作成する
             var data = _seClipsMap[clipName];
             if (data != null)

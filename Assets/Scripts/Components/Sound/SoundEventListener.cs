@@ -65,7 +65,7 @@ namespace Components.Sound
 
         private void OnBounce(float bounceAmount)
         {
-            if (bounceAmount < 0.5f) return;
+            if (bounceAmount < 1.0f) return;
             SoundManager.Instance.PlaySe(SoundNames.SePropBounce);
         }
         

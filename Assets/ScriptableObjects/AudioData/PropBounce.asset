@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PropBounce
   m_EditorClassIdentifier: KepoBattle.Data::Data.AudioData
   audioName: PropBounce
-  audioClip: {fileID: 8300000, guid: e30a55fba391243cf8de1ed3857167c8, type: 3}
-  volume: 0.015
+  audioClip: {fileID: 8300000, guid: aa546c08914e84cd29517ba800130ac4, type: 3}
+  volume: 0.3
