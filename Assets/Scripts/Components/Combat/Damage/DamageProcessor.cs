@@ -5,22 +5,30 @@ using Components.Identity;
 using Components.Detection;
 using Core.Exceptions;
 using Core.Constants;
+using Systems;
+using UnityEngine.Serialization;
 
 namespace Components.Combat.Damage
 {
     public class DamageProcessor : MonoBehaviour
     {
         [SerializeField] private float invincibleDuration = 0.1f;
+        [SerializeField] private string damageSoundFromCharacter;
+        [SerializeField] private string damageSoundFromProp;
 
         //キャッシュ
         protected IKnockbackReceiver _physicsMover_Cache;
         protected IHealthManager _healthManager_Cache;
         private EntityRoot _entityRoot_Cache;
+        
+        //レイヤー
+        LayerMask _characterLayer;
+        LayerMask _propLayer;
 
         private float _lastDamagedTime = float.NegativeInfinity;
 
         //なにか処理させたいことがあれば子供が実装
-        protected virtual void OnDamagedHitFinished(){}
+        protected virtual void OnDamagedHitFinished(Collider2D other){}
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected virtual void Start()
@@ -45,6 +53,10 @@ namespace Components.Combat.Damage
 
             //自分が属するエンティティ(自傷判定・吹き飛ばし方向の基準)
             _entityRoot_Cache = EntityRoot.Require(this);
+            
+            //レイヤー取得
+            _characterLayer = LayerMask.GetMask(GameLayers.Character);
+            _propLayer = LayerMask.GetMask(GameLayers.Prop);
         }
 
         private void DamagedHit(Collider2D other)
@@ -83,7 +95,29 @@ namespace Components.Combat.Damage
                 _lastDamagedTime = Time.time;
 
                 //ダメージ後処理
-                OnDamagedHitFinished();
+                OnDamagedHitFinished(other);
+                
+                //ダメージ音
+                //ダメージ音
+                if (damageSoundFromCharacter.Length > 0 && 
+                    (_characterLayer & (1<<otherRoot.gameObject.layer))>0
+                   )
+                {
+                    SoundManager.Instance.PlaySe(damageSoundFromCharacter);
+                }
+
+                if ((_propLayer & (1 << otherRoot.gameObject.layer)) > 0)
+                {
+                    if (damageSoundFromProp.Length > 0)
+                    {
+                        SoundManager.Instance.PlaySe(damageSoundFromProp);
+                    }
+                    else
+                    {
+                        //デフォルトSE
+                        SoundManager.Instance.PlaySe(SoundNames.SePropDamageFromProp);
+                    }
+                }
 
                 Debug.Log("DamagedHit");
             }

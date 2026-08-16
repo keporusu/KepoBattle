@@ -15,9 +15,9 @@ namespace Components.Combat.Damage
                 throw new MissingComponentException($"[{GetType().Name}] AnimatorTrigger が {gameObject.name} に見つかりません");
         }
 
-        protected override void OnDamagedHitFinished()
+        protected override void OnDamagedHitFinished(Collider2D other)
         {
-            base.OnDamagedHitFinished();
+            base.OnDamagedHitFinished(other);
 
             //ダメージアニメーションに遷移
             _animatorTrigger_Cache.TriggerDamage();

@@ -134,6 +134,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Damage Channel
       objectReference: {fileID: 0}
+    - target: {fileID: 5772230848500986686, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: damageSound
+      value: BallDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772230848500986686, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: damageSoundFromProp
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772230848500986686, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: damageSoundFromCharacter
+      value: BallDamageFromCharacter
+      objectReference: {fileID: 0}
     - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: relaxSpeed
       value: 0.5
