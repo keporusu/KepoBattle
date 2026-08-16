@@ -8,5 +8,6 @@ namespace Core.Constants
         public const string SeExplosionTimer = "ExplosionTimer";
         public const string SeExplosion = "Explosion";
         public const string SePropDamageFromProp = "PropDamageFromProp";
+        public const string SePropBounce = "PropBounce";
     }
 }

@@ -13,7 +13,11 @@ namespace Components.Movement
     {
         // 移動ロジック
         private MovementSolver _movementSolver;
-        
+
+        //購読側の OnEnable が こちらの Awake より先に走ることがあるため、
+        //参照された時点で必ず生成しておく
+        private MovementSolver Solver => _movementSolver ??= CreateSolver();
+
         //公開プロパティ
         [SerializeField] private float gravity = 1.0f;
         [SerializeField] private float weight = 1.0f;
@@ -72,30 +76,30 @@ namespace Components.Movement
         //通知
         public event System.Action OnGround
         {
-            add => _movementSolver.OnGround += value;
-            remove => _movementSolver.OnGround -= value;
+            add => Solver.OnGround += value;
+            remove => Solver.OnGround -= value;
         }
         public event System.Action OnForceAir
         {
-            add => _movementSolver.OnForceAir += value;
-            remove => _movementSolver.OnForceAir -= value;
+            add => Solver.OnForceAir += value;
+            remove => Solver.OnForceAir -= value;
         }
         public event System.Action<float> OnBounce
         {
-            add => _movementSolver.OnBounce += value;
-            remove => _movementSolver.OnBounce -= value;
+            add => Solver.OnBounce += value;
+            remove => Solver.OnBounce -= value;
         }
         
         
         //公開プロパティ
-        public bool IsAir => _movementSolver.IsAir;
-        public Vector2 Velocity =>_movementSolver.Velocity;
+        public bool IsAir => Solver.IsAir;
+        public Vector2 Velocity =>Solver.Velocity;
         public Vector2 Position => _rigidbody_Cache.position;
         
-        private Vector2 GetVelocity() => _movementSolver.Velocity;
+        private Vector2 GetVelocity() => Solver.Velocity;
         
 
-        void Awake()
+        private MovementSolver CreateSolver()
         {
             //跳ね返りの下限速度
             //1ステップで重力が奪う速度の2倍を既定とする
@@ -113,9 +117,16 @@ namespace Components.Movement
                 restitution,
                 bounceThreshold,
                 tangentialFriction);
-            _movementSolver = new MovementSolver(settings);
+            return new MovementSolver(settings);
         }
-        
+
+        void Awake()
+        {
+            //通常はここで確定させる
+            //生成コストをゲーム中に持ち込まないため
+            _ = Solver;
+        }
+
         void Start()
         {
             if (!TryGetComponent(out _rigidbody_Cache))
@@ -204,7 +215,7 @@ namespace Components.Movement
         /// <param name="velocity">速度</param>
         protected void InputMove(float velocity)
         {
-            _movementSolver.InputMove(velocity);
+            Solver.InputMove(velocity);
         }
         
         /// <summary>
@@ -212,7 +223,7 @@ namespace Components.Movement
         /// </summary>
         protected void CutMove()
         {
-            _movementSolver.CutMove();
+            Solver.CutMove();
         }
 
         /// <summary>
@@ -222,7 +233,7 @@ namespace Components.Movement
         /// <param name="cutY">y方向を切るか？</param>
         protected void CutVelocity(bool cutX = true, bool cutY = true)
         {
-            _movementSolver.CutVelocity(cutX, cutY);
+            Solver.CutVelocity(cutX, cutY);
         }
 
         protected virtual void FixedUpdate()
@@ -233,7 +244,7 @@ namespace Components.Movement
             float? pushTargetX= _hasOtherCharacter ? _otherRigidbody_Cache.position.x : null;
 
             //移動先の予測
-            Vector2 candidate = _movementSolver.Predict(
+            Vector2 candidate = Solver.Predict(
                 Time.fixedDeltaTime,
                 from,
                 pushTargetX);
@@ -258,7 +269,7 @@ namespace Components.Movement
 
             //接触を反映してから確定する
             //吸着が同じ MovePosition に乗るので、接触は1フレームも遅れない
-            MoveStep step = _movementSolver.Resolve(
+            MoveStep step = Solver.Resolve(
                 Time.fixedDeltaTime,
                 from,
                 candidate,
@@ -508,13 +519,13 @@ namespace Components.Movement
         /// <param name="instigator">攻撃者のオブジェクト</param>>
         public void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator=null)
         {
-            _movementSolver.AddForceVelocity(velocity, forceMode);
+            Solver.AddForceVelocity(velocity, forceMode);
         }
 
         public void ResetAll(Vector2 position)
         {
             //移動処理を全てリセット
-            _movementSolver.Reset();
+            Solver.Reset();
 
             //位置
             _rigidbody_Cache.position = position;

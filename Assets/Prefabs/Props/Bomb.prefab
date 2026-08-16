@@ -132,6 +132,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Damage Channel
       objectReference: {fileID: 0}
+    - target: {fileID: 6749312193534137205, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: damageSoundFromCharacter
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: collisionSetting.circleRadius
       value: 3

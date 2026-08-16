@@ -20,10 +20,6 @@ namespace Components.Combat.Damage
         protected IKnockbackReceiver _physicsMover_Cache;
         protected IHealthManager _healthManager_Cache;
         private EntityRoot _entityRoot_Cache;
-        
-        //レイヤー
-        LayerMask _characterLayer;
-        LayerMask _propLayer;
 
         private float _lastDamagedTime = float.NegativeInfinity;
 
@@ -54,9 +50,6 @@ namespace Components.Combat.Damage
             //自分が属するエンティティ(自傷判定・吹き飛ばし方向の基準)
             _entityRoot_Cache = EntityRoot.Require(this);
             
-            //レイヤー取得
-            _characterLayer = LayerMask.GetMask(GameLayers.Character);
-            _propLayer = LayerMask.GetMask(GameLayers.Prop);
         }
 
         private void DamagedHit(Collider2D other)
@@ -96,28 +89,6 @@ namespace Components.Combat.Damage
 
                 //ダメージ後処理
                 OnDamagedHitFinished(other);
-                
-                //ダメージ音
-                //ダメージ音
-                if (damageSoundFromCharacter.Length > 0 && 
-                    (_characterLayer & (1<<otherRoot.gameObject.layer))>0
-                   )
-                {
-                    SoundManager.Instance.PlaySe(damageSoundFromCharacter);
-                }
-
-                if ((_propLayer & (1 << otherRoot.gameObject.layer)) > 0)
-                {
-                    if (damageSoundFromProp.Length > 0)
-                    {
-                        SoundManager.Instance.PlaySe(damageSoundFromProp);
-                    }
-                    else
-                    {
-                        //デフォルトSE
-                        SoundManager.Instance.PlaySe(SoundNames.SePropDamageFromProp);
-                    }
-                }
 
                 Debug.Log("DamagedHit");
             }
