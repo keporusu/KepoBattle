@@ -142,11 +142,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: collisionSetting.attackPower.x
-      value: 5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: collisionSetting.attackPower.y
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7468385413292746830, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: m_LocalScale.x

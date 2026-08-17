@@ -148,6 +148,7 @@ namespace Components.Combat.Attack
             
             //_attackInfoを少し改造する
             //TODO: AttackPower.x を乗算してどちらも倍率計算させる予定
+            var attackInfo = _attackInfo;
             if (_powerType == AttackPowerType.Velocity)
             {
                 //自分の速度*αの攻撃速度を持つようにする
@@ -155,17 +156,17 @@ namespace Components.Combat.Attack
                 if (selfVelocity.HasValue)
                 {
                     var velocity = new Vector2(Mathf.Abs(selfVelocity.Value.x),Mathf.Abs(selfVelocity.Value.y));
-                    _attackInfo.attackVelocity = velocity * 0.4f;
+                    attackInfo.attackVelocity = velocity * _attackInfo.attackVelocity.x;
                 }
             }
             else if (_powerType == AttackPowerType.Radial)
             {
                 var rootPos = EntityRoot.Require(this).transform.position;
                 var direction = (otherPosition - new Vector2(rootPos.x, rootPos.y)).normalized;
-                _attackInfo.attackVelocity = direction * _attackInfo.attackVelocity.x;
+                attackInfo.attackVelocity = direction * _attackInfo.attackVelocity.x;
             }
             
-            return _attackInfo;
+            return attackInfo;
         }
     }
 }
