@@ -5,6 +5,7 @@ using UnityEngine;
 using Core.Exceptions;
 using Core.Constants;
 using Components.Detection;
+using Components.Controller;
 using Core.Movement;
 
 namespace Components.Movement
@@ -182,9 +183,14 @@ namespace Components.Movement
             
             
             //PropAttackCollisionControllerに攻撃速度を渡す
-            foreach (var controller in GetComponentsInChildren<PropAttackCollisionController>())
+            //コリジョンは CollisionManager が実行時に生成するので、
+            //子を直接数えるとコンポーネントの並び順によってはまだ0個になる
+            if (TryGetComponent(out CollisionManager collisionManager))
             {
-                controller.OnGetAttackInfo += GetVelocity;
+                foreach (var controller in collisionManager.Controllers)
+                {
+                    controller.OnGetAttackInfo += GetVelocity;
+                }
             }
         }
 
@@ -201,9 +207,12 @@ namespace Components.Movement
             geometryHitNotifier.OnRelease -= OnReleaseGeometry;
             
             //イベント解除
-            foreach (var controller in GetComponentsInChildren<PropAttackCollisionController>())
+            if (TryGetComponent(out CollisionManager collisionManager))
             {
-                controller.OnGetAttackInfo -= GetVelocity;
+                foreach (var controller in collisionManager.Controllers)
+                {
+                    controller.OnGetAttackInfo -= GetVelocity;
+                }
             }
         }
         

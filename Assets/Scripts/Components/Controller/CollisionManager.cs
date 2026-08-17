@@ -19,7 +19,21 @@ namespace Components.Controller
         
         //キャッシュ
         private List<GameObject> atkChannels;
-        
+        private readonly List<PropAttackCollisionController> _controllers = new List<PropAttackCollisionController>();
+
+        /// <summary>
+        /// 生成済みの攻撃コリジョンを列挙する
+        /// 参照された時点で生成を保証するので、コンポーネントの並び順に依存しない
+        /// </summary>
+        public IReadOnlyList<PropAttackCollisionController> Controllers
+        {
+            get
+            {
+                EnsureInitialized();
+                return _controllers;
+            }
+        }
+
         private void Awake()
         {
             EnsureInitialized();
@@ -56,6 +70,7 @@ namespace Components.Controller
                 var atkChannel = Instantiate(atkChannel_Prefab, transform);
                 atkChannel.transform.localPosition = Vector3.zero;
                 atkChannels.Add(atkChannel);
+                _controllers.Add(atkChannel.GetComponent<PropAttackCollisionController>());
             }
         }
         
