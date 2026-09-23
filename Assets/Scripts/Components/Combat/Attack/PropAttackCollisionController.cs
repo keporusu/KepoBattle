@@ -44,7 +44,7 @@ namespace Components.Combat.Attack
         public void Initialize(AttackCollisionSetting collisionSetting)
         {
             //コリジョンの攻撃情報
-            _attackInfo.attackVelocity = collisionSetting.attackPower;
+            _attackInfo.attackPower = collisionSetting.attackPower;
             _attackInfo.damage = collisionSetting.damage;
 
             //コリジョン形状の設定
@@ -140,8 +140,14 @@ namespace Components.Combat.Attack
             _isActive = false;
             _collider.enabled = false;
         }
-
-        public AttackInfo GetAttackInfo(Vector2 otherPosition)
+        
+        
+        /// <summary>
+        /// 自身の攻撃情報を返す
+        /// </summary>
+        /// <param name="otherPosition">ダメージ受ける側の位置</param>
+        /// <returns>自身の攻撃情報</returns>
+        public AttackInfo CalculateAttackInfo(Vector2 otherPosition)
         {
             if (!_isActive)
                 Debug.LogError($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
@@ -156,14 +162,14 @@ namespace Components.Combat.Attack
                 if (selfVelocity.HasValue)
                 {
                     var velocity = new Vector2(Mathf.Abs(selfVelocity.Value.x),Mathf.Abs(selfVelocity.Value.y));
-                    attackInfo.attackVelocity = velocity * _attackInfo.attackVelocity.x;
+                    attackInfo.attackPower = velocity * _attackInfo.attackPower.x;
                 }
             }
             else if (_powerType == AttackPowerType.Radial)
             {
                 var rootPos = EntityRoot.Require(this).transform.position;
                 var direction = (otherPosition - new Vector2(rootPos.x, rootPos.y)).normalized;
-                attackInfo.attackVelocity = direction * _attackInfo.attackVelocity.x;
+                attackInfo.attackPower = direction * _attackInfo.attackPower.x;
             }
             
             return attackInfo;

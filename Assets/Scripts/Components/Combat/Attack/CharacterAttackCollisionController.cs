@@ -53,7 +53,7 @@ namespace Components.Combat.Attack
             _uniqueID = id;
 
             //コリジョンの攻撃情報
-            _attackInfo.attackVelocity = collisionSetting.attackPower;
+            _attackInfo.attackPower = collisionSetting.attackPower;
             _attackInfo.damage = collisionSetting.damage;
 
             //コリジョン形状の設定
@@ -103,7 +103,7 @@ namespace Components.Combat.Attack
             _uniqueID = -1;
         }
         
-        public AttackInfo GetAttackInfo(Vector2 otherPosition)
+        public AttackInfo CalculateAttackInfo(Vector2 otherPosition)
         {
             if (!_isActive)
                 throw new InvalidOperationException($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");

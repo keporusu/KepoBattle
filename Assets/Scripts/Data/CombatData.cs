@@ -51,9 +51,10 @@ namespace Data
     public struct AttackInfo
     {
         /// <summary>
-        /// 原則として0以上の値を入れること
+        /// Character: 向き付きの吹き飛びパワー
+        /// Prop: 
         /// </summary>
-        public Vector2 attackVelocity;
+        public Vector2 attackPower;
 
         public float damage;
     }

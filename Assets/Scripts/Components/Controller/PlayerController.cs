@@ -127,6 +127,7 @@ namespace Components.Controller
         private void Move(float moveX)
         {
             //移動時、入力の向きによって反転させる
+            //TODO: キャラクターのスプライトを反転させるでいい。わざわざ全体を反転させないほうが良い
             if (moveX > 0)
             {
                 transform.localScale = new Vector3(1.0f, transform.localScale.y, transform.localScale.z);
