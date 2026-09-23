@@ -45,9 +45,8 @@ namespace Components.Controller
         private int _audioID; //現在再生している音の再生ID
         
         //キャンセル
-        private CancellationTokenSource _ctsFire;
-        private CancellationTokenSource _ctsExplode;
-        
+        private int? _fireTimerId;
+        private int? _explodeTimerId;
         
         private void Start()
         {
@@ -70,13 +69,17 @@ namespace Components.Controller
                 Fire();
             }
         }
-
+        
+        
         protected override void OnDamageHit(Collider2D other)
         {
             base.OnDamageHit(other);
             
             //着火済みなら着火しない
             if (_state == BombState.Fire) return;
+            //爆発済みなら着火しない
+            if (_state == BombState.Explode) return;
+            
             Fire();
         }
 
@@ -89,9 +92,36 @@ namespace Components.Controller
             Explode();
         }
         
-        private async void Fire()
+        protected override void OnTimerEvent(PropTimerEvent timerEvent)
+        {
+            base.OnTimerEvent(timerEvent);
+            
+            //着火→爆発
+            if (timerEvent.TimerId == _fireTimerId)
+            {
+                //爆発
+                if (timerEvent.EventType == TimerEventType.End)
+                {
+                    Explode();
+                }
+            }
+            //爆発→破棄
+            else if (timerEvent.TimerId == _explodeTimerId) 
+            {
+                //破棄
+                if (timerEvent.EventType == TimerEventType.End)
+                {
+                    DestroyBomb();
+                }
+            }
+        }
+        
+        private void Fire()
         {
             _state = BombState.Fire;
+            
+            //着火タイマー
+            _fireTimerId = SetTimer(explodeTime);
             
             //アニメーション開始
             {
@@ -115,33 +145,24 @@ namespace Components.Controller
                 seq.SetLink(spRenderer.gameObject);
                 seq.Play();
             }
-            
-            _ctsFire = new CancellationTokenSource();
-            try
-            {
-                await FireAfterDelay(explodeTime, _ctsFire.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                //キャンセルは正常処理
-            }
         }
 
-        private async UniTask FireAfterDelay(float delay, CancellationToken token)
-        {
-            await UniTask.Delay(System.TimeSpan.FromSeconds(delay), cancellationToken: token);
-            Explode();
-        }
         
-        private async void Explode()
+        
+        private void Explode()
         {
             _state = BombState.Explode;
             
             //発火による爆発はキャンセル
-            _ctsFire?.Cancel();
+            DestroyTimer(_fireTimerId);
+            
+            //爆発後のタイマー
+            _explodeTimerId = SetTimer(collisionTime);
+            
             //爆発コリジョンの生成
             var id = _collisionManager_Cache.GetAvailableCollisionId();
             _collisionManager_Cache.ActivateCollision(id,gameObject,_explosionCollisionSetting,AttackPowerType.Radial);
+            
             //アニメーション開始
             {
                 _soundManager.StopSe(_audioID);
@@ -151,32 +172,14 @@ namespace Components.Controller
                 spRenderer.DOFade(0.0f, 0.2f).SetEase(Ease.OutQuad).SetLink(spRenderer.gameObject);
             }
             
-            //爆発後処理
-            _ctsExplode = new CancellationTokenSource();
-            try
-            {
-                await ExplodeAfterDelay(collisionTime, _ctsExplode.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                //キャンセルは正常処理
-            }
-            
         }
 
-        private async UniTask ExplodeAfterDelay(float delay,CancellationToken token)
+        private void DestroyBomb()
         {
-            //数秒後に破壊処理
-            await UniTask.Delay(System.TimeSpan.FromSeconds(delay), cancellationToken: token);
             var root = EntityRoot.Require(this);
             Destroy(root.gameObject);
         }
-
-        private void OnDestroy()
-        {
-            _ctsFire?.Cancel();
-            _ctsExplode?.Cancel();
-        }
+        
     }
 
 }

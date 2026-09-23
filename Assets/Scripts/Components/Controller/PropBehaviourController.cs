@@ -23,7 +23,7 @@ public struct PropTimerEvent
 
 public struct PropTimerActionSet
 {
-    public Action TimerAction;
+    public Action<int> TimerAction;
     public CancellationTokenSource Cancel;
 }
 
@@ -86,21 +86,32 @@ namespace Components.Controller
             PropTimerActionSet timerActionSet;
             timerActionSet.Cancel = new CancellationTokenSource();
             
-            async void TimerAction()
+            async void TimerAction(int id)
             {
-                await UniTask.Delay(System.TimeSpan.FromSeconds(time), cancellationToken: timerActionSet.Cancel.Token);
-
+                //time秒待つ
+                try
+                {
+                    await UniTask.Delay(System.TimeSpan.FromSeconds(time), cancellationToken: timerActionSet.Cancel.Token);
+                }
+                catch (OperationCanceledException)
+                {
+                    //キャンセルは正常処理
+                }
+                
+                //タイマー終了イベントの発火
                 PropTimerEvent timerEvent;
-                timerEvent.TimerId = timerCount;
+                timerEvent.TimerId = id;
                 timerEvent.EventType = TimerEventType.End;
                 timerEvent.RemainTime = 0.0f;
                 OnTimerEvent(timerEvent);
+                //タイマー破壊
+                DestroyTimer(id);
             }
 
             timerActionSet.TimerAction = TimerAction;
             
             timerActions[timerCount] = timerActionSet;
-            timerActions[timerCount].TimerAction?.Invoke();
+            timerActions[timerCount].TimerAction?.Invoke(timerCount);
             
             return timerCount++;
         }
@@ -109,9 +120,11 @@ namespace Components.Controller
         /// Idでタイマーを止めてしまう
         /// </summary>
         /// <param name="timerId">タイマーのID</param>
-        protected void DestroyTimer(int timerId)
+        protected void DestroyTimer(int? timerId)
         {
-            timerActions[timerId].Cancel.Cancel();
+            if (!timerId.HasValue) return;
+            
+            timerActions[timerId.Value].Cancel.Cancel();
         }
         
         
