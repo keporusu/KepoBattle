@@ -180,18 +180,6 @@ namespace Components.Movement
             //イベント登録
             geometryHitNotifier.OnHit += OnHitGeometry;
             geometryHitNotifier.OnRelease += OnReleaseGeometry;
-            
-            
-            //PropAttackCollisionControllerに攻撃速度を渡す
-            //コリジョンは CollisionManager が実行時に生成するので、
-            //子を直接数えるとコンポーネントの並び順によってはまだ0個になる
-            if (TryGetComponent(out CollisionManager collisionManager))
-            {
-                foreach (var controller in collisionManager.Controllers)
-                {
-                    controller.OnGetAttackInfo += GetVelocity;
-                }
-            }
         }
 
         void OnDisable()
@@ -205,15 +193,6 @@ namespace Components.Movement
             //イベント解除
             geometryHitNotifier.OnHit -= OnHitGeometry;
             geometryHitNotifier.OnRelease -= OnReleaseGeometry;
-            
-            //イベント解除
-            if (TryGetComponent(out CollisionManager collisionManager))
-            {
-                foreach (var controller in collisionManager.Controllers)
-                {
-                    controller.OnGetAttackInfo -= GetVelocity;
-                }
-            }
         }
         
         

@@ -1,3 +1,4 @@
+using Components.Movement;
 using UnityEngine;
 
 namespace Components.Identity
@@ -54,6 +55,26 @@ namespace Components.Identity
             var name = target == null ? "(null)" : target.name;
             return new MissingComponentException(
                 $"[{nameof(EntityRoot)}] {name} とその親に {nameof(EntityRoot)} が見つかりません");
+        }
+        
+        
+        //位置
+        public Vector2 Position => transform.position;
+        //速度
+        public Vector2? Velocity
+        {
+            get
+            {
+                if (TryGetComponent(out PhysicsMover physicsMover))
+                {
+                    return physicsMover.Velocity;
+                }
+                else
+                {
+                    return null;
+                }
+                
+            }
         }
     }
 }

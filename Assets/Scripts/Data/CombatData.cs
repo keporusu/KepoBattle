@@ -52,7 +52,7 @@ namespace Data
     {
         /// <summary>
         /// Character: 向き付きの吹き飛びパワー
-        /// Prop: 
+        /// Prop: スカラーの吹き飛びパワー（xのみ。yは使用しない）
         /// </summary>
         public Vector2 attackPower;
 

@@ -38,9 +38,6 @@ namespace Components.Combat.Attack
         //攻撃者の識別
         public EntityId AttackerID { get; private set; }
         
-        //攻撃情報取得時のイベント
-        public event Func<Vector2> OnGetAttackInfo;
-
         public void Initialize(AttackCollisionSetting collisionSetting)
         {
             //コリジョンの攻撃情報
@@ -152,13 +149,11 @@ namespace Components.Combat.Attack
             if (!_isActive)
                 Debug.LogError($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
             
-            //_attackInfoを少し改造する
-            //TODO: AttackPower.x を乗算してどちらも倍率計算させる予定
             var attackInfo = _attackInfo;
             if (_powerType == AttackPowerType.Velocity)
             {
                 //自分の速度*αの攻撃速度を持つようにする
-                var selfVelocity = OnGetAttackInfo?.Invoke();
+                var selfVelocity = EntityRoot.Require(this).Velocity;
                 if (selfVelocity.HasValue)
                 {
                     var velocity = new Vector2(Mathf.Abs(selfVelocity.Value.x),Mathf.Abs(selfVelocity.Value.y));
@@ -167,7 +162,7 @@ namespace Components.Combat.Attack
             }
             else if (_powerType == AttackPowerType.Radial)
             {
-                var rootPos = EntityRoot.Require(this).transform.position;
+                var rootPos = EntityRoot.Require(this).Position;
                 var direction = (otherPosition - new Vector2(rootPos.x, rootPos.y)).normalized;
                 attackInfo.attackPower = direction * _attackInfo.attackPower.x;
             }

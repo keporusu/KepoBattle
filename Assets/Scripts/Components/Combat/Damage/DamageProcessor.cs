@@ -66,21 +66,20 @@ namespace Components.Combat.Damage
                     return;
                 }
                 
-                //相手の攻撃情報を得る
+                //相手の攻撃情報を動的に得る
                 //TODO: 自身のrootは放射状の攻撃でしか使わないため渡したくないが、現状の設計だと妥協
-                var attackInfo = attackInfoGetter.CalculateAttackInfo(EntityRoot.Require(this).transform.position);
+                var attackInfo = attackInfoGetter.CalculateAttackInfo(EntityRoot.Require(this).Position);
 
                 //当たってきたコリジョンが属するエンティティ
                 var otherRoot = EntityRoot.Require(other);
 
                 //キャラクターの位置関係で、どちら向きに吹き飛ばすか決める
-                if (_entityRoot_Cache.transform.position.x < otherRoot.transform.position.x)
+                if (_entityRoot_Cache.Position.x < otherRoot.Position.x)
                 {
                     attackInfo.attackPower.x = -attackInfo.attackPower.x;
                 }
 
                 //速度を与える
-                //TODO: 現状Prop->Propでも決まったattackVelocityが入る。しかし、ここはPropの場合、速度によって動的に変わるべきである
                 _physicsMover_Cache.ForceKnockback(attackInfo.attackPower,otherRoot.gameObject);
 
                 //ダメージ処理
