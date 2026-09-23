@@ -22,7 +22,7 @@ namespace Components.Controller
         Fire,
         Explode,
     }
-    public class BombController : MonoBehaviour
+    public class BombController : PropBehaviourController
     {
         [SerializeField] private float explodeTime = 1.0f;
         [SerializeField] private float collisionTime = 0.2f;
@@ -48,32 +48,6 @@ namespace Components.Controller
         private CancellationTokenSource _ctsFire;
         private CancellationTokenSource _ctsExplode;
         
-        private void OnEnable()
-        {
-            
-            //ダメージを受けたら着火し、キャンセル付きのタイマーをスタート
-            var damageCollider = GetComponentsInChildren<Transform>()
-                                     .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.DamageChannel))
-                                 ?? throw new MissingChannelException(GameTags.DamageChannel, gameObject.name);
-            if(!damageCollider.TryGetComponent(out DamageHitNotifier damagedNotifier))
-                throw new MissingComponentException($"[{GetType().Name}] DamageHitNotifier が {gameObject.name} に見つかりません");
-            damagedNotifier.OnHit += FireFromHit;
-            
-            
-            //自身が体当たりで攻撃したら爆発させる
-            if(!TryGetComponent(out VelocityAttackGenerator velocityAttackGenerator))
-                throw new MissingComponentException($"[{GetType().Name}] AttackController が {gameObject.name} に見つかりません");
-            velocityAttackGenerator.OnAttackVelocity += ExplodeFromHit;
-        }
-        private void OnDisable()
-        {
-            var damageCollider = GetComponentsInChildren<Transform>()
-                                     .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.DamageChannel))
-                                 ?? throw new MissingChannelException(GameTags.DamageChannel, gameObject.name);
-            if(!TryGetComponent(out VelocityAttackGenerator velocityAttackGenerator))
-                throw new MissingComponentException($"[{GetType().Name}] VelocityAttackGenerator が {gameObject.name} に見つかりません");
-            velocityAttackGenerator.OnAttackVelocity -= ExplodeFromHit;
-        }
         
         private void Start()
         {
@@ -96,16 +70,27 @@ namespace Components.Controller
                 Fire();
             }
         }
-        
-        private void FireFromHit(Collider2D other)
+
+        protected override void OnDamageHit(Collider2D other)
         {
+            base.OnDamageHit(other);
+            
+            //着火済みなら着火しない
+            if (_state == BombState.Fire) return;
             Fire();
+        }
+
+        protected override void OnAttackVelocity()
+        {
+            base.OnAttackVelocity();
+            
+            //爆発済みなら爆発しない
+            if (_state == BombState.Explode) return;
+            Explode();
         }
         
         private async void Fire()
         {
-            //着火済みなら着火しない
-            if (_state == BombState.Fire) return;
             _state = BombState.Fire;
             
             //アニメーション開始
@@ -130,6 +115,7 @@ namespace Components.Controller
                 seq.SetLink(spRenderer.gameObject);
                 seq.Play();
             }
+            
             _ctsFire = new CancellationTokenSource();
             try
             {
@@ -139,7 +125,6 @@ namespace Components.Controller
             {
                 //キャンセルは正常処理
             }
-            
         }
 
         private async UniTask FireAfterDelay(float delay, CancellationToken token)
@@ -147,16 +132,9 @@ namespace Components.Controller
             await UniTask.Delay(System.TimeSpan.FromSeconds(delay), cancellationToken: token);
             Explode();
         }
-
-        private void ExplodeFromHit()
-        {
-            Explode();
-        }
         
         private async void Explode()
         {
-            //爆発済みなら爆発しない
-            if (_state == BombState.Explode) return;
             _state = BombState.Explode;
             
             //発火による爆発はキャンセル
@@ -172,6 +150,7 @@ namespace Components.Controller
                 spRenderer.transform.DOScale(Vector3.one * 6.0f, 0.2f).SetLink(spRenderer.gameObject);
                 spRenderer.DOFade(0.0f, 0.2f).SetEase(Ease.OutQuad).SetLink(spRenderer.gameObject);
             }
+            
             //爆発後処理
             _ctsExplode = new CancellationTokenSource();
             try

@@ -1490,22 +1490,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2264813240750075675, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
-      propertyPath: collisionSetting.shape
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264813240750075675, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
-      propertyPath: collisionSetting.circleRadius
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264813240750075675, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
-      propertyPath: collisionSetting.attackPower.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2264813240750075675, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
-      propertyPath: collisionSetting.attackPower.y
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 4572414573110285408, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1521,18 +1505,6 @@ PrefabInstance:
     - target: {fileID: 6024678564534605060, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447102067724230904, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
-      propertyPath: mass
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447102067724230904, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
-      propertyPath: friction
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447102067724230904, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
-      propertyPath: characterLayer.m_Bits
-      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
