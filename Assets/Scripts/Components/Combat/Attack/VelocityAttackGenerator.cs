@@ -24,7 +24,7 @@ namespace Components.Combat.Attack
         [SerializeField] private AttackCollisionSetting collisionSetting; //攻撃判定
         
         //イベント
-        public event Action OnAttackVelocity; //速度による攻撃を行った時
+        public event Action<Collider2D> OnAttackVelocity; //速度による攻撃を行った時
 
         private void OnEnable()
         {
@@ -64,7 +64,7 @@ namespace Components.Combat.Attack
                         return;
                     }
                     
-                    OnAttackVelocity?.Invoke();
+                    OnAttackVelocity?.Invoke(other);
                 
                     //衝突時の法線を計算し、その法線で反射させる
                     Vector2 closerPoint = other.ClosestPoint(transform.position);

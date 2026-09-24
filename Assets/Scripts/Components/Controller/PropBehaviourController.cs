@@ -36,7 +36,7 @@ namespace Components.Controller
         protected virtual void OnDamageHit(Collider2D other){}
         
         //体当たりで攻撃した時
-        protected virtual void OnAttackVelocity(){}
+        protected virtual void OnAttackVelocity(Collider2D other){}
         //タイマーイベント
         protected virtual void OnTimerEvent(PropTimerEvent timerEvent){}
         

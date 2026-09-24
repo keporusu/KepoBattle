@@ -73,14 +73,14 @@ namespace Systems
         /// </summary>
         /// <param name="clipName">クリップの名前</param>
         /// <returns>今回の再生ID。多重再生を抑制した場合は無効ID(0)</returns>
-        public int PlaySe(string clipName)
+        public int? PlaySe(string clipName)
         {
             //直近に同じ音を鳴らしたばかりなら重ねない
             if (_lastPlayedTime.TryGetValue(clipName, out var lastTime)
                 && Time.unscaledTime - lastTime < SameSeMinInterval)
             {
                 //_sourceCounter は 1 始まりなので、0 は StopSe から無視される無効IDになる
-                return 0;
+                return null;
             }
             _lastPlayedTime[clipName] = Time.unscaledTime;
 
@@ -102,12 +102,14 @@ namespace Systems
         /// 再生IDを指定して、SEを停止
         /// </summary>
         /// <param name="id">再生ID</param>
-        public void StopSe(int id)
+        public void StopSe(int? id)
         {
-            if (_activeSources.TryGetValue(id, out var source))
+            if (!id.HasValue) return;
+            
+            if (_activeSources.TryGetValue(id.Value, out var source))
             {
                 source.Stop();
-                _activeSources.Remove(id);
+                _activeSources.Remove(id.Value);
             }
         }
         

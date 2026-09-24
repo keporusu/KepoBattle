@@ -42,7 +42,7 @@ namespace Components.Controller
         
         //状態
         private BombState _state = BombState.Idle; //発火中か？
-        private int _audioID; //現在再生している音の再生ID
+        private int? _audioID; //現在再生している音の再生ID
         
         //キャンセル
         private int? _fireTimerId;
@@ -83,9 +83,9 @@ namespace Components.Controller
             Fire();
         }
 
-        protected override void OnAttackVelocity()
+        protected override void OnAttackVelocity(Collider2D other)
         {
-            base.OnAttackVelocity();
+            base.OnAttackVelocity(other);
             
             //爆発済みなら爆発しない
             if (_state == BombState.Explode) return;
@@ -123,28 +123,32 @@ namespace Components.Controller
             //着火タイマー
             _fireTimerId = SetTimer(explodeTime);
             
-            //アニメーション開始
-            {
-                Sequence seq = DOTween.Sequence();
-                for (int i = 0; i < 6; i++)
-                {
-                    Color color;
-                    if (i % 2 == 0) color = Color.red;
-                    else color = Color.white;
+            //アニメーション,SE
+            FireEffect();
+        }
 
-                    var i1 = i;
-                    seq.Append(
-                        spRenderer.DOColor(color,0.001f)
-                            .OnStart(() =>
-                            {
-                                if (i1 % 2 == 0) _audioID = _soundManager.PlaySe(SoundNames.SeExplosionTimer);
-                            })
-                        );
-                    seq.Append(DOVirtual.DelayedCall(explodeTime/6,()=>{}));
-                }
-                seq.SetLink(spRenderer.gameObject);
-                seq.Play();
+        private void FireEffect()
+        {
+            Sequence seq = DOTween.Sequence();
+            for (int i = 0; i < 6; i++)
+            {
+                Color color;
+                if (i % 2 == 0) color = Color.red;
+                else color = Color.white;
+
+                var i1 = i;
+                seq.Append(
+                    spRenderer.DOColor(color,0.001f)
+                        .OnStart(() =>
+                        {
+                            if (i1 % 2 == 0) _audioID = _soundManager.PlaySe(SoundNames.SeExplosionTimer);
+                        })
+                );
+                seq.Append(DOVirtual.DelayedCall(explodeTime/6,()=>{}));
             }
+            seq.SetLink(spRenderer.gameObject);
+            seq.SetId("Fire");
+            seq.Play();
         }
 
         
@@ -153,8 +157,11 @@ namespace Components.Controller
         {
             _state = BombState.Explode;
             
+            //発火中のエフェクト処理はキャンセル
+            DOTween.Kill("Fire");
             //発火による爆発はキャンセル
             DestroyTimer(_fireTimerId);
+            
             
             //爆発後のタイマー
             _explodeTimerId = SetTimer(collisionTime);
@@ -164,14 +171,21 @@ namespace Components.Controller
             _collisionManager_Cache.ActivateCollision(id,gameObject,_explosionCollisionSetting,AttackPowerType.Radial);
             
             //アニメーション開始
+            ExplodeEffect();
+        }
+
+        private void ExplodeEffect()
+        {
+            var aId=_soundManager.PlaySe(SoundNames.SeExplosion);
+            if (aId.HasValue)
             {
-                _soundManager.StopSe(_audioID);
-                _audioID = _soundManager.PlaySe(SoundNames.SeExplosion);
-                spRenderer.sprite = explosionSprite;
-                spRenderer.transform.DOScale(Vector3.one * 6.0f, 0.2f).SetLink(spRenderer.gameObject);
-                spRenderer.DOFade(0.0f, 0.2f).SetEase(Ease.OutQuad).SetLink(spRenderer.gameObject);
+                //_soundManager.StopSe(_audioID);
+                _audioID = aId;
             }
-            
+                
+            spRenderer.sprite = explosionSprite;
+            spRenderer.transform.DOScale(Vector3.one * 6.0f, 0.2f).SetLink(spRenderer.gameObject);
+            spRenderer.DOFade(0.0f, 0.2f).SetEase(Ease.OutQuad).SetLink(spRenderer.gameObject);
         }
 
         private void DestroyBomb()
