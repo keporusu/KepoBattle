@@ -73,11 +73,11 @@ namespace Components.Combat.Damage
                 //当たってきたコリジョンが属するエンティティ
                 var otherRoot = EntityRoot.Require(other);
 
-                //キャラクターの位置関係で、どちら向きに吹き飛ばすか決める
-                if (_entityRoot_Cache.Position.x < otherRoot.Position.x)
-                {
-                    attackInfo.attackPower.x = -attackInfo.attackPower.x;
-                }
+                //位置関係で、どちら向きに吹き飛ばすか決める
+                // if (_entityRoot_Cache.Position.x < otherRoot.Position.x)
+                // {
+                //     attackInfo.attackPower.x = -attackInfo.attackPower.x;
+                // }
 
                 //速度を与える
                 _physicsMover_Cache.ForceKnockback(attackInfo.attackPower,otherRoot.gameObject);

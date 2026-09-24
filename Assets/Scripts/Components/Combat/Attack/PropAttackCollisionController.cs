@@ -25,6 +25,7 @@ namespace Components.Combat.Attack
         private AttackInfo _attackInfo;
         private Collider2D _collider;
         private AttackPowerType _powerType;
+        private bool _ignoreDuration;
 
         //形状ごとのコライダーのキャッシュ
         //Initializeの度に生成すると、以前のコライダーが有効なまま参照を失い
@@ -156,7 +157,7 @@ namespace Components.Combat.Attack
                 var selfVelocity = EntityRoot.Require(this).Velocity;
                 if (selfVelocity.HasValue)
                 {
-                    var velocity = new Vector2(Mathf.Abs(selfVelocity.Value.x),Mathf.Abs(selfVelocity.Value.y));
+                    var velocity = selfVelocity.Value;
                     attackInfo.attackPower = velocity * _attackInfo.attackPower.x;
                 }
             }

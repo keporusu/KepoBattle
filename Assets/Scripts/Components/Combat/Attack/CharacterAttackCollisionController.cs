@@ -107,7 +107,15 @@ namespace Components.Combat.Attack
         {
             if (!_isActive)
                 throw new InvalidOperationException($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
-            return _attackInfo;
+
+            var attackInfo = _attackInfo;
+            
+            //位置関係で、どちら向きに吹き飛ばすか決める
+            if (_entityRoot_Cache.Position.x > otherPosition.x)
+            {
+                attackInfo.attackPower.x = -attackInfo.attackPower.x;
+            }
+            return attackInfo;
         }
     }
 }
