@@ -54,12 +54,12 @@ namespace Components.Combat.Damage
 
         private void DamagedHit(Collider2D other)
         {
-            if (Time.time < _lastDamagedTime + invincibleDuration) return;
+            var attackInfoGetter = other.GetComponent<IAttackInfoGetter>();
 
             //コリジョン処理
-            var attackInfoGetter = other.GetComponent<IAttackInfoGetter>();
             if (attackInfoGetter != null)
             {
+                
                 if (attackInfoGetter.AttackerID == _entityRoot_Cache.Id)
                 {
                     //自分の攻撃は自分に当たらない
@@ -69,6 +69,11 @@ namespace Components.Combat.Damage
                 //相手の攻撃情報を動的に得る
                 //TODO: 自身のrootは放射状の攻撃でしか使わないため渡したくないが、現状の設計だと妥協
                 var attackInfo = attackInfoGetter.CalculateAttackInfo(EntityRoot.Require(this).Position);
+                
+                
+                //ダメージの間隔が短かったらダメージを受けない
+                if (Time.time < _lastDamagedTime + invincibleDuration && !attackInfo.ignoreDuration) return;
+                
 
                 //当たってきたコリジョンが属するエンティティ
                 var otherRoot = EntityRoot.Require(other);

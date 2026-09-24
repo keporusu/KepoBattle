@@ -101,11 +101,13 @@ namespace Components.Controller
         /// <param name="instigator">この攻撃を引き起こしたもの</param>
         /// <param name="setting">コリジョンの設定</param>
         /// <param name="powerType"></param>
+        /// <param name="ignoreDuration">無敵時間を無視するか？</param>
         public void ActivateCollision(
             int id,
             GameObject instigator,
             AttackCollisionSetting setting,
-            AttackPowerType powerType=AttackPowerType.Velocity
+            AttackPowerType powerType=AttackPowerType.Velocity,
+            bool ignoreDuration = false
         )
         {
             EnsureInitialized();
@@ -115,7 +117,7 @@ namespace Components.Controller
             }
             var atk = atkChannels[id].GetComponent<PropAttackCollisionController>();
             atk.Initialize(setting);
-            atk.Activate(instigator,powerType);
+            atk.Activate(instigator, powerType, ignoreDuration);
         }
 
         public void DeactivateCollision(int id)

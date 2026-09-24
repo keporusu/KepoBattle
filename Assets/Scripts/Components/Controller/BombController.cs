@@ -173,7 +173,7 @@ namespace Components.Controller
             
             //爆発コリジョンの生成
             var id = _collisionManager_Cache.GetAvailableCollisionId();
-            _collisionManager_Cache.ActivateCollision(id,gameObject,_explosionCollisionSetting,AttackPowerType.Radial);
+            _collisionManager_Cache.ActivateCollision(id,gameObject,_explosionCollisionSetting,AttackPowerType.Radial,true);
             
             //アニメーション開始
             ExplodeEffect();

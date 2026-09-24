@@ -120,9 +120,10 @@ namespace Components.Combat.Attack
             }
         }
 
-        public void Activate(GameObject attacker, AttackPowerType type = AttackPowerType.Velocity)
+        public void Activate(GameObject attacker, AttackPowerType type = AttackPowerType.Velocity, bool ignoreDuration = false)
         {
             _powerType = type;
+            _ignoreDuration = ignoreDuration;
             _isActive = true;
             _collider.enabled = true;
             
@@ -168,6 +169,7 @@ namespace Components.Combat.Attack
                 attackInfo.attackPower = direction * _attackInfo.attackPower.x;
             }
             
+            attackInfo.ignoreDuration = _ignoreDuration;
             return attackInfo;
         }
     }

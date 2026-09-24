@@ -57,6 +57,8 @@ namespace Data
         public Vector2 attackPower;
 
         public float damage;
+        
+        public bool ignoreDuration;
     }
 
     //ヒット情報
