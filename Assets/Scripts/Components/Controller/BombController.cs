@@ -30,6 +30,8 @@ namespace Components.Controller
         [SerializeField] private float explosionRadius = 10.0f;
         [SerializeField] private float explosionPower = 2.0f;
         [SerializeField] private float explosionDamage = 10.0f;
+        [SerializeField] private Vector2 explosionShakeSize;
+        [SerializeField] private float explosionShakeDuration;
         [SerializeField] private SpriteRenderer spRenderer;
         [SerializeField] private Sprite explosionSprite;
         
@@ -164,7 +166,7 @@ namespace Components.Controller
             
             
             //カメラを揺らす
-            GameUtility.Instance.SetCameraShake(new Vector2(0.5f, 0.5f), 0.2f);
+            GameUtility.Instance.SetCameraShake(explosionShakeSize, explosionShakeDuration);
             
             //爆発後のタイマー
             _explodeTimerId = SetTimer(collisionTime);

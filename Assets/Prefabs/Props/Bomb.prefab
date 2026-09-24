@@ -342,5 +342,7 @@ MonoBehaviour:
   explosionRadius: 15
   explosionPower: 8
   explosionDamage: 10
+  explosionShakeSize: {x: 0.5, y: 0.5}
+  explosionShakeDuration: 0.2
   spRenderer: {fileID: 495249261848979074}
   explosionSprite: {fileID: 439226438843441342, guid: 93ec969cc48064601ac716c8e363ed07, type: 3}
