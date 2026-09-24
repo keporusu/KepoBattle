@@ -147,7 +147,7 @@ namespace Components.Controller
                 seq.Append(DOVirtual.DelayedCall(explodeTime/6,()=>{}));
             }
             seq.SetLink(spRenderer.gameObject);
-            seq.SetId("Fire");
+            seq.SetId("Fire"+gameObject.GetEntityId());
             seq.Play();
         }
 
@@ -158,10 +158,13 @@ namespace Components.Controller
             _state = BombState.Explode;
             
             //発火中のエフェクト処理はキャンセル
-            DOTween.Kill("Fire");
+            DOTween.Kill("Fire"+gameObject.GetEntityId());
             //発火による爆発はキャンセル
             DestroyTimer(_fireTimerId);
             
+            
+            //カメラを揺らす
+            GameUtility.Instance.SetCameraShake(new Vector2(0.5f, 0.5f), 0.2f);
             
             //爆発後のタイマー
             _explodeTimerId = SetTimer(collisionTime);
