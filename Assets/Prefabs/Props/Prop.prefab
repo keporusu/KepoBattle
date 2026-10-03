@@ -178,6 +178,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1854120792157923243}
+    - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4302943512683059569}
   m_SourcePrefab: {fileID: 100100000, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
 --- !u!1 &3407807834408993868 stripped
 GameObject:
@@ -296,6 +299,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   atkChannel_Prefab: {fileID: 6943723375673569922, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
   generateCount: 1
+--- !u!114 &4302943512683059569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3407807834408993868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce19f4a140ec48b8be0ba2bc353a06fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Components.Controller.EventTriggersManager
+  triggerPrefab: {fileID: 4792932405388391787, guid: d05fbdf4e88db4134919a58d1b64b2f5, type: 3}
 --- !u!4 &7468385413292746830 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8639198977824554502, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}

@@ -14,5 +14,8 @@ namespace Core.Constants
 
         //ダメージを受け取るチャンネル
         public const string DamageChannel = "Damage Channel";
+        
+        //イベントトリガ用の汎用チャンネル
+        public const string TriggerChannel = "Trigger Channel";
     }
 }

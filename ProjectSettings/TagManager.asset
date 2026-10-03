@@ -8,6 +8,7 @@ TagManager:
   - Geometry Channel
   - Enemy
   - Attack Channel
+  - Trigger Channel
   layers:
   - Default
   - TransparentFX
