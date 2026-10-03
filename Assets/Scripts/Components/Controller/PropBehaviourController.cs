@@ -52,7 +52,8 @@ namespace Components.Controller
         //プレイヤーから攻撃を受けたときの音
         protected virtual void PlayDamageSoundFromCharacter()
         {
-            SoundManager.Instance.PlaySe("PropDamageFromCharacter");
+            //デフォルトがない
+            //SoundManager.Instance.PlaySe("PropDamageFromCharacter"a);
         }
         //Propが当たってきたときの音
         protected virtual void PlayDamageSoundFromProp()
