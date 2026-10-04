@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4147921145900625571}
   - component: {fileID: 2154877661887856271}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Damage
   m_TagString: Damage Channel
   m_Icon: {fileID: 0}

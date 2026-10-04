@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3408789086535104424}
-  - component: {fileID: 4001138439939711540}
+  - component: {fileID: 5419303844518350935}
   m_Layer: 0
-  m_Name: Geometry
-  m_TagString: Geometry Channel
+  m_Name: Trigger
+  m_TagString: Trigger Channel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4001138439939711540
+--- !u!114 &5419303844518350935
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,6 +41,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4792932405388391787}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 705c773ca7bac4fa294c5b5e8fd6a400, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e37652c4aca4bd9bf49990951810446, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::Components.Detection.EventTriggerNotifier

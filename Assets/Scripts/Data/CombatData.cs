@@ -60,10 +60,24 @@ namespace Data
         
         public bool ignoreDuration;
     }
+    
+    
+    //トリガ用
+    [Serializable]
+    public struct TriggerShapeSetting
+    {
+        //形状
+        public ColliderShape shape;
 
-    //ヒット情報
-    // struct HitInfo
-    // {
-    //     public float
-    // }
+        // Circle
+        public float circleRadius;
+
+        // Capsule
+        public float capsuleRadius;
+        public float capsuleHeight;
+        public CapsuleDirection capsuleDirection;
+
+        // Box
+        public Vector2 boxSize;
+    }
 }

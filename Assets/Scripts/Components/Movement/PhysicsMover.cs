@@ -24,6 +24,7 @@ namespace Components.Movement
         [SerializeField] private float weight = 1.0f;
         [SerializeField] private float friction = 1.0f;
         [SerializeField] private float pushedSpeed = 1.5f;
+        [SerializeField] private bool kinematic = false;
 
         //反発関連
         //0 なら跳ねず、着地後は従来通り friction だけが効く
@@ -226,46 +227,51 @@ namespace Components.Movement
 
         protected virtual void FixedUpdate()
         {
-            var from = _rigidbody_Cache.position;
-
-            //押し合いする相手のx座標
-            float? pushTargetX= _hasOtherCharacter ? _otherRigidbody_Cache.position.x : null;
-
-            //移動先の予測
-            Vector2 candidate = Solver.Predict(
-                Time.fixedDeltaTime,
-                from,
-                pushTargetX);
-
-            //X軸を先に解決する
-            //壁で止められた場合、足場の判定はブロック後の x で行う必要がある
-            SurfaceHit? wallHit = QueryWall(from, candidate);
-            var resolvedX = wallHit?.SnappedCenter ?? candidate.x;
-
-            //確定した x で Y軸を解決する
-            //上昇中は足場を掃かないので、天井と足場は排他になる
-            SurfaceHit? ceilingHit = null;
-            SurfaceHit? groundHit = null;
-            if (candidate.y > from.y)
+            //kinematicの設定の場合、動かないようにする
+            if (!kinematic)
             {
-                ceilingHit = QueryCeiling(from, candidate, resolvedX);
-            }
-            else
-            {
-                groundHit = QueryGround(from, candidate, resolvedX);
-            }
+                var from = _rigidbody_Cache.position;
 
-            //接触を反映してから確定する
-            //吸着が同じ MovePosition に乗るので、接触は1フレームも遅れない
-            MoveStep step = Solver.Resolve(
-                Time.fixedDeltaTime,
-                from,
-                candidate,
-                groundHit,
-                ceilingHit,
-                wallHit);
+                //押し合いする相手のx座標
+                float? pushTargetX= _hasOtherCharacter ? _otherRigidbody_Cache.position.x : null;
 
-            _rigidbody_Cache.MovePosition(step.NextPosition);
+                //移動先の予測
+                Vector2 candidate = Solver.Predict(
+                    Time.fixedDeltaTime,
+                    from,
+                    pushTargetX);
+
+                //X軸を先に解決する
+                //壁で止められた場合、足場の判定はブロック後の x で行う必要がある
+                SurfaceHit? wallHit = QueryWall(from, candidate);
+                var resolvedX = wallHit?.SnappedCenter ?? candidate.x;
+
+                //確定した x で Y軸を解決する
+                //上昇中は足場を掃かないので、天井と足場は排他になる
+                SurfaceHit? ceilingHit = null;
+                SurfaceHit? groundHit = null;
+                if (candidate.y > from.y)
+                {
+                    ceilingHit = QueryCeiling(from, candidate, resolvedX);
+                }
+                else
+                {
+                    groundHit = QueryGround(from, candidate, resolvedX);
+                }
+
+                //接触を反映してから確定する
+                //吸着が同じ MovePosition に乗るので、接触は1フレームも遅れない
+                MoveStep step = Solver.Resolve(
+                    Time.fixedDeltaTime,
+                    from,
+                    candidate,
+                    groundHit,
+                    ceilingHit,
+                    wallHit);
+
+                _rigidbody_Cache.MovePosition(step.NextPosition);
+            }
+            
         }
 
         /// <summary>
