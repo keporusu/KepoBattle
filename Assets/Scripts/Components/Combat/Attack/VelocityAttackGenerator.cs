@@ -33,7 +33,7 @@ namespace Components.Combat.Attack
                 throw new MissingComponentException($"[{GetType().Name}] PropPhysicsMover が {gameObject.name} に見つかりません");
             }
             
-            if (!TryGetComponent(out CollisionManager collisionManager))
+            if (!TryGetComponent(out AttackCollisionsManager collisionManager))
             {
                 throw new MissingComponentException($"[{GetType().Name}] CollisionManager が {gameObject.name} に見つかりません");
             }

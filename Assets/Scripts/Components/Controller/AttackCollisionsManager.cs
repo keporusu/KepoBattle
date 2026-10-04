@@ -12,7 +12,7 @@ namespace Components.Controller
     /// コンポーネント
     /// コリジョンを生成・削除できる
     /// </summary>
-    public class CollisionManager : MonoBehaviour
+    public class AttackCollisionsManager : MonoBehaviour
     {
         [SerializeField] private GameObject atkChannel_Prefab; //生成するコリジョンのオブジェクト
         [SerializeField] private float generateCount = 1;
@@ -100,8 +100,6 @@ namespace Components.Controller
         /// <param name="id">有効化するコリジョンのID</param>
         /// <param name="instigator">この攻撃を引き起こしたもの</param>
         /// <param name="setting">コリジョンの設定</param>
-        /// <param name="powerType"></param>
-        /// <param name="ignoreDuration">無敵時間を無視するか？</param>
         public void ActivateCollision(
             int id,
             GameObject instigator,
