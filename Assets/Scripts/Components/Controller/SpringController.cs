@@ -17,12 +17,21 @@ namespace Components.Controller
     {
         //基本パラメータ
         [SerializeField] private float springForce;
+        [SerializeField] private float angleOffset;
         
         //アニメーション関連
         [SerializeField] private float stretchScale;
         [SerializeField] private float stretchDuration;
         [SerializeField] private GameObject renderer;
-        
+
+        private void OnValidate()
+        {
+            //回転がエディタ上で反映されるようにする
+            var eulerAngles = transform.localEulerAngles;
+            eulerAngles.z = angleOffset;
+            transform.localEulerAngles = eulerAngles;
+        }
+
         //イベントのId
         private int? stretchEventId;
         
@@ -83,7 +92,8 @@ namespace Components.Controller
             //飛ばす処理
             if (!otherRoot.TryGetComponent(out PhysicsMover mover)) return;
 
-            mover.AddForceVelocity(Vector2.up * springForce, true);
+            var forceDirection = Quaternion.Euler(new Vector3(0.0f, 0.0f, angleOffset)) * Vector3.up;
+            mover.AddForceVelocity((Vector2)forceDirection * springForce, true);
             
             //アニメーション再生
             StretchEffect();

@@ -9,6 +9,7 @@ using Core.Exceptions;
 using Cysharp.Threading.Tasks;
 using Data;
 using DG.Tweening;
+using JetBrains.Annotations;
 using Systems;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -49,6 +50,7 @@ namespace Components.Controller
         //キャンセル
         private int? _fireTimerId;
         private int? _explodeTimerId;
+        [CanBeNull] private string _fireAnimationId;
         
         private void Start()
         {
@@ -148,8 +150,10 @@ namespace Components.Controller
                 );
                 seq.Append(DOVirtual.DelayedCall(explodeTime/6,()=>{}));
             }
+
+            _fireAnimationId = "Fire" + gameObject.GetEntityId();
             seq.SetLink(spRenderer.gameObject);
-            seq.SetId("Fire"+gameObject.GetEntityId());
+            seq.SetId(_fireAnimationId);
             seq.Play();
         }
 
@@ -160,7 +164,7 @@ namespace Components.Controller
             _state = BombState.Explode;
             
             //発火中のエフェクト処理はキャンセル
-            DOTween.Kill("Fire"+gameObject.GetEntityId());
+            if (_fireAnimationId != null) DOTween.Kill(_fireAnimationId);
             //発火による爆発はキャンセル
             DestroyTimer(_fireTimerId);
             
@@ -198,7 +202,13 @@ namespace Components.Controller
             var root = EntityRoot.Require(this);
             Destroy(root.gameObject);
         }
-        
+
+        private void OnDestroy()
+        {
+            if (_fireTimerId.HasValue) DestroyTimer(_fireTimerId);
+            if (_explodeTimerId.HasValue) DestroyTimer(_explodeTimerId);
+            if (_fireAnimationId != null) DOTween.Kill(_fireAnimationId);
+        }
     }
 
 }
