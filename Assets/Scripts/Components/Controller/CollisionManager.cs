@@ -105,8 +105,7 @@ namespace Components.Controller
         public void ActivateCollision(
             int id,
             GameObject instigator,
-            AttackCollisionSetting setting,
-            bool ignoreDuration = false
+            AttackCollisionSetting setting
         )
         {
             EnsureInitialized();
@@ -116,7 +115,7 @@ namespace Components.Controller
             }
             var atk = atkChannels[id].GetComponent<PropAttackCollisionController>();
             atk.Initialize(setting);
-            atk.Activate(instigator, ignoreDuration);
+            atk.Activate(instigator);
         }
 
         public void DeactivateCollision(int id)

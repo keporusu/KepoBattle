@@ -13,7 +13,6 @@ namespace Components.Combat.Attack
         //状態
         private bool _isActive = false;
         private Collider2D _collider;
-        private bool _ignoreDuration;
         private AttackCollisionSetting? _setting;
 
         //形状ごとのコライダーのキャッシュ
@@ -108,9 +107,8 @@ namespace Components.Combat.Attack
             }
         }
 
-        public void Activate(GameObject attacker, bool ignoreDuration = false)
+        public void Activate(GameObject attacker)
         {
-            _ignoreDuration = ignoreDuration;
             _isActive = true;
             _collider.enabled = true;
             
@@ -173,7 +171,7 @@ namespace Components.Combat.Attack
             }
             
             attackInfo.damage = _setting.Value.damage;
-            attackInfo.ignoreDuration = _ignoreDuration;
+            attackInfo.ignoreDuration = _setting.Value.ignoreDuration;
             
             return attackInfo;
         }

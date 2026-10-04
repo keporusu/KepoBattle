@@ -46,12 +46,13 @@ namespace Data
         // 共通
         public Vector2 offset;
         public float damage;
+        public bool ignoreDuration;
         
         public AttackPowerType attackPowerType;
-        public float velocityAlpha;
-        public float power;
-        [FormerlySerializedAs("attackPower")] public Vector2 direction;
-        
+        public float velocityAlpha; //Velocityのみ
+        public float power; //RadialとFixedのみ
+        [FormerlySerializedAs("attackPower")] public Vector2 direction; //Fixedのみ
+
     }
 
     // AttackCollisionSetting に、アクション中のどの区間で発生させるかを加えたもの

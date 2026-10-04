@@ -12,11 +12,21 @@ namespace Editor
         {
             "offset",
             "damage",
+            "ignoreDuration",
             "attackPowerType",
-            "velocityAlpha",
-            "power",
-            "direction",
         };
+
+        //attackPowerType ごとに表示する項目
+        private static string[] GetPowerPropertyNames(AttackPowerType type) => type switch
+        {
+            AttackPowerType.Fixed    => new[] { "power", "direction" },
+            AttackPowerType.Velocity => new[] { "velocityAlpha" },
+            AttackPowerType.Radial   => new[] { "power" },
+            _                        => new string[0],
+        };
+
+        private static AttackPowerType GetPowerType(SerializedProperty property)
+            => (AttackPowerType)property.FindPropertyRelative("attackPowerType").enumValueIndex;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -63,6 +73,13 @@ namespace Editor
                 rect.y += lineH + spacing;
             }
 
+            //attackPowerType 依存
+            foreach (var name in GetPowerPropertyNames(GetPowerType(property)))
+            {
+                EditorGUI.PropertyField(rect, property.FindPropertyRelative(name));
+                rect.y += lineH + spacing;
+            }
+
             EditorGUI.EndProperty();
         }
 
@@ -74,8 +91,8 @@ namespace Editor
             var shapeProp = property.FindPropertyRelative("shape");
             var shape     = (ColliderShape)shapeProp.enumValueIndex;
 
-            // shape + 共通項目の行数
-            int lines = 1 + CommonPropertyNames.Length;
+            // shape + 共通項目 + attackPowerType 依存項目の行数
+            int lines = 1 + CommonPropertyNames.Length + GetPowerPropertyNames(GetPowerType(property)).Length;
             lines += shape switch
             {
                 ColliderShape.Circle  => 1,
