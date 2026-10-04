@@ -17,5 +17,8 @@ namespace Core.Constants
         
         //イベントトリガ用の汎用チャンネル
         public const string TriggerChannel = "Trigger Channel";
+        
+        //存在判定チェックチャンネル
+        public const string ExistenceChannel = "Existence Channel";
     }
 }

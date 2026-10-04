@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &941232 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9131258850699653400, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+  m_PrefabInstance: {fileID: 879933538}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &150732483 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8132159521656806917, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
@@ -1727,7 +1732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7468385413292746830, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.06775
+      value: -2.36
       objectReference: {fileID: 0}
     - target: {fileID: 7468385413292746830, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1773,6 +1778,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3407807834408993868, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1720650282}
     - targetCorrespondingSourceObject: {fileID: 8998057824141273364, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 925647017}
@@ -3550,6 +3558,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1720650281 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3407807834408993868, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+  m_PrefabInstance: {fileID: 879933538}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1720650282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720650281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90f1c5dcd2c4affbd10aaab267aea6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Components.Controller.SpringController
+  springForce: 15
+  stretchScale: 1.5
+  stretchDuration: 0.4
+  renderer: {fileID: 941232}
 --- !u!1 &1800390058
 GameObject:
   m_ObjectHideFlags: 0

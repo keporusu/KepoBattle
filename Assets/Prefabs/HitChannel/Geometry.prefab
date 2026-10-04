@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3408789086535104424}
   - component: {fileID: 4001138439939711540}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Geometry
   m_TagString: Geometry Channel
   m_Icon: {fileID: 0}

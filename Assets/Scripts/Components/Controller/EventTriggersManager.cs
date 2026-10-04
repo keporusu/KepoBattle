@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Components.Detection;
 using UnityEngine;
+using Data;
 
 namespace Components.Controller
 {
@@ -21,8 +22,8 @@ namespace Components.Controller
     public class EventTriggersManager : MonoBehaviour
     {
         [SerializeField] GameObject triggerPrefab;
-        
-        private List<TriggerSet> triggerSets;
+
+        private List<TriggerSet> triggerSets = new List<TriggerSet>();
         private int triggersCounter = 0;
         
         /// <summary>
@@ -32,7 +33,7 @@ namespace Components.Controller
         /// <param name="triggerType">Enter or Exit</param>
         /// <param name="offset">コリジョンの位置</param>
         /// <param name="callback">登録したい関数</param>
-        public void Subscribe(TriggerShapeSetting shapeSetting, TriggerType triggerType, Vector2 offset, Action<Collider2D> callback)
+        public int Subscribe(TriggerShapeSetting shapeSetting, TriggerType triggerType, Vector2 offset, Action<Collider2D> callback)
         {
             var triggerPos = new Vector3(offset.x, offset.y, 0);
             var trigger = Instantiate(triggerPrefab, transform);
@@ -52,6 +53,7 @@ namespace Components.Controller
 
             triggerSets.Add(new TriggerSet { id = triggersCounter, notifier = notifier });
             triggersCounter++;
+            return triggersCounter - 1;
         }
         
         

@@ -5,24 +5,6 @@ using Data;
 
 namespace Components.Detection
 {
-    public struct TriggerShapeSetting
-    {
-        //形状
-        public ColliderShape shape;
-
-        // Circle
-        public float circleRadius;
-
-        // Capsule
-        public float capsuleRadius;
-        public float capsuleHeight;
-        public CapsuleDirection capsuleDirection;
-
-        // Box
-        public Vector2 boxSize;
-    }
-    
-    
     public class EventTriggerNotifier : MonoBehaviour
     {
         public event Action<Collider2D> OnTriggerEnter;
@@ -81,8 +63,8 @@ namespace Components.Detection
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            // トリガチャンネルじゃないなら通知しない
-            if (!other.gameObject.CompareTag(GameTags.TriggerChannel))
+            // 存在判定のチャンネルじゃないなら通知しない
+            if (!other.gameObject.CompareTag(GameTags.ExistenceChannel))
             {
                 return;
             }
@@ -92,8 +74,8 @@ namespace Components.Detection
         
         private void OnTriggerExit2D(Collider2D other)
         {
-            // トリガチャンネルじゃないなら通知しない
-            if (!other.gameObject.CompareTag(GameTags.TriggerChannel))
+            // 存在判定のチャンネルじゃないなら通知しない
+            if (!other.gameObject.CompareTag(GameTags.ExistenceChannel))
             {
                 return;
             }
