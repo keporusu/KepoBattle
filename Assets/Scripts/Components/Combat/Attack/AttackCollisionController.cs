@@ -7,7 +7,7 @@ using Data;
 namespace Components.Combat.Attack
 {
     
-    public class PropAttackCollisionController : MonoBehaviour, IAttackInfoGetter
+    public class AttackCollisionController : MonoBehaviour, IAttackInfoGetter
     {
         
         //状態

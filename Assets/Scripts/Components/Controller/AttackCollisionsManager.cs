@@ -19,13 +19,13 @@ namespace Components.Controller
         
         //キャッシュ
         private List<GameObject> atkChannels;
-        private readonly List<PropAttackCollisionController> _controllers = new List<PropAttackCollisionController>();
+        private readonly List<AttackCollisionController> _controllers = new List<AttackCollisionController>();
 
         /// <summary>
         /// 生成済みの攻撃コリジョンを列挙する
         /// 参照された時点で生成を保証するので、コンポーネントの並び順に依存しない
         /// </summary>
-        public IReadOnlyList<PropAttackCollisionController> Controllers
+        public IReadOnlyList<AttackCollisionController> Controllers
         {
             get
             {
@@ -52,7 +52,7 @@ namespace Components.Controller
             }
 
             //プレハブに必要なコンポーネントがついているかチェック
-            if (!atkChannel_Prefab.TryGetComponent(out PropAttackCollisionController attackCollisionController))
+            if (!atkChannel_Prefab.TryGetComponent(out AttackCollisionController attackCollisionController))
             {
                 throw new MissingComponentException($"[{GetType().Name}] PropAttackCollisionController が {atkChannel_Prefab.gameObject.name} に見つかりません");
             }
@@ -70,7 +70,7 @@ namespace Components.Controller
                 var atkChannel = Instantiate(atkChannel_Prefab, transform);
                 atkChannel.transform.localPosition = Vector3.zero;
                 atkChannels.Add(atkChannel);
-                _controllers.Add(atkChannel.GetComponent<PropAttackCollisionController>());
+                _controllers.Add(atkChannel.GetComponent<AttackCollisionController>());
             }
         }
         
@@ -83,7 +83,7 @@ namespace Components.Controller
             EnsureInitialized();
             for (int id = 0; id < atkChannels.Count; id++)
             {
-                var isActive = atkChannels[id].GetComponent<PropAttackCollisionController>().IsActive;
+                var isActive = atkChannels[id].GetComponent<AttackCollisionController>().IsActive;
                 if (!isActive)
                 {
                     return id;
@@ -111,7 +111,7 @@ namespace Components.Controller
             {
                 return;
             }
-            var atk = atkChannels[id].GetComponent<PropAttackCollisionController>();
+            var atk = atkChannels[id].GetComponent<AttackCollisionController>();
             atk.Initialize(setting);
             atk.Activate(instigator);
         }
@@ -123,7 +123,7 @@ namespace Components.Controller
             {
                 return;
             }
-            atkChannels[id].GetComponent<PropAttackCollisionController>().Deactivate();
+            atkChannels[id].GetComponent<AttackCollisionController>().Deactivate();
         }
 
         public bool IsActive(int id)
@@ -133,13 +133,13 @@ namespace Components.Controller
                 return false;
             }
 
-            return atkChannels[id].GetComponent<PropAttackCollisionController>().IsActive;
+            return atkChannels[id].GetComponent<AttackCollisionController>().IsActive;
         }
         
         public EntityId GetAttackerId(int id)
         {
             EnsureInitialized();
-            return atkChannels[id].GetComponent<PropAttackCollisionController>().AttackerID;
+            return atkChannels[id].GetComponent<AttackCollisionController>().AttackerID;
         }
         
         /// <summary>
