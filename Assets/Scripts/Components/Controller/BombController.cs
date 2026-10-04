@@ -65,7 +65,8 @@ namespace Components.Controller
             _explosionCollisionSetting.shape = ColliderShape.Circle;
             _explosionCollisionSetting.damage = explosionDamage;
             _explosionCollisionSetting.circleRadius = explosionRadius;
-            _explosionCollisionSetting.attackPower.x = explosionPower;
+            _explosionCollisionSetting.attackPowerType = AttackPowerType.Radial;
+            _explosionCollisionSetting.power = explosionPower;
             
             //着火
             if (fireOnSpawn)
@@ -177,7 +178,7 @@ namespace Components.Controller
             
             //爆発コリジョンの生成
             var id = _collisionManager_Cache.GetAvailableCollisionId();
-            _collisionManager_Cache.ActivateCollision(id,gameObject,_explosionCollisionSetting,AttackPowerType.Radial,true);
+            _collisionManager_Cache.ActivateCollision(id,gameObject,_explosionCollisionSetting,true);
             
             //アニメーション開始
             ExplodeEffect();

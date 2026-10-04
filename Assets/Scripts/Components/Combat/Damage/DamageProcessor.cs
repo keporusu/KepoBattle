@@ -5,6 +5,7 @@ using Components.Identity;
 using Components.Detection;
 using Core.Exceptions;
 using Core.Constants;
+using Data;
 using Systems;
 using UnityEngine.Serialization;
 
@@ -70,9 +71,10 @@ namespace Components.Combat.Damage
                 //TODO: 自身のrootは放射状の攻撃でしか使わないため渡したくないが、現状の設計だと妥協
                 var attackInfo = attackInfoGetter.CalculateAttackInfo(EntityRoot.Require(this).Position);
                 
+                if(!attackInfo.HasValue)return;
                 
                 //ダメージの間隔が短かったらダメージを受けない
-                if (Time.time < _lastDamagedTime + invincibleDuration && !attackInfo.ignoreDuration) return;
+                if (Time.time < _lastDamagedTime + invincibleDuration && !attackInfo.Value.ignoreDuration) return;
                 
 
                 //当たってきたコリジョンが属するエンティティ
@@ -85,10 +87,10 @@ namespace Components.Combat.Damage
                 // }
 
                 //速度を与える
-                _physicsMover_Cache.ForceKnockback(attackInfo.attackPower,otherRoot.gameObject);
+                _physicsMover_Cache.ForceKnockback(attackInfo.Value.attackPower,otherRoot.gameObject);
 
                 //ダメージ処理
-                _healthManager_Cache.TakeDamage(attackInfo.damage);
+                _healthManager_Cache.TakeDamage(attackInfo.Value.damage);
                 _lastDamagedTime = Time.time;
 
                 //ダメージ後処理

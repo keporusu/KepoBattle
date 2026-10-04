@@ -7,12 +7,22 @@ namespace Editor
     [CustomPropertyDrawer(typeof(AttackCollisionSetting))]
     public class AttackCollisionSettingDrawer : PropertyDrawer
     {
+        //形状に依らず表示する項目（AttackCollisionSetting の宣言順）
+        private static readonly string[] CommonPropertyNames =
+        {
+            "offset",
+            "damage",
+            "attackPowerType",
+            "velocityAlpha",
+            "power",
+            "direction",
+        };
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
 
-            var shapeProp  = property.FindPropertyRelative("shape");
-            var offsetProp = property.FindPropertyRelative("offset");
+            var shapeProp = property.FindPropertyRelative("shape");
 
             float lineH   = EditorGUIUtility.singleLineHeight;
             float spacing = EditorGUIUtility.standardVerticalSpacing;
@@ -46,13 +56,12 @@ namespace Editor
                     break;
             }
 
-            EditorGUI.PropertyField(rect, offsetProp);
-            rect.y += lineH + spacing;
-
-            EditorGUI.PropertyField(rect, property.FindPropertyRelative("attackPower"));
-            rect.y += lineH + spacing;
-
-            EditorGUI.PropertyField(rect, property.FindPropertyRelative("damage"));
+            //共通
+            foreach (var name in CommonPropertyNames)
+            {
+                EditorGUI.PropertyField(rect, property.FindPropertyRelative(name));
+                rect.y += lineH + spacing;
+            }
 
             EditorGUI.EndProperty();
         }
@@ -65,8 +74,8 @@ namespace Editor
             var shapeProp = property.FindPropertyRelative("shape");
             var shape     = (ColliderShape)shapeProp.enumValueIndex;
 
-            // shape + offset + attackPower + damage の 4 行は共通
-            int lines = 4;
+            // shape + 共通項目の行数
+            int lines = 1 + CommonPropertyNames.Length;
             lines += shape switch
             {
                 ColliderShape.Circle  => 1,

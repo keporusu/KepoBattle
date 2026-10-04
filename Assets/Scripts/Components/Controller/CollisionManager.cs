@@ -106,7 +106,6 @@ namespace Components.Controller
             int id,
             GameObject instigator,
             AttackCollisionSetting setting,
-            AttackPowerType powerType=AttackPowerType.Velocity,
             bool ignoreDuration = false
         )
         {
@@ -117,7 +116,7 @@ namespace Components.Controller
             }
             var atk = atkChannels[id].GetComponent<PropAttackCollisionController>();
             atk.Initialize(setting);
-            atk.Activate(instigator, powerType, ignoreDuration);
+            atk.Activate(instigator, ignoreDuration);
         }
 
         public void DeactivateCollision(int id)

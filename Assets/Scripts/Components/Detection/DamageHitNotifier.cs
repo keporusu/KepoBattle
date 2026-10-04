@@ -1,6 +1,9 @@
 using System;
+using Components.Combat.Attack;
+using Components.Identity;
 using UnityEngine;
 using Core.Constants;
+using Data;
 
 namespace Components.Detection
 {
@@ -24,7 +27,9 @@ namespace Components.Detection
             {
                 return;
             }
-
+            
+            
+            //ColliderとAttackInfoを送信する
             OnHit?.Invoke(other);
         }
     }
