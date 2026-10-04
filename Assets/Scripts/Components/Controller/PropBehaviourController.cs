@@ -146,6 +146,8 @@ namespace Components.Controller
                 catch (OperationCanceledException)
                 {
                     //キャンセルは正常処理
+                    DestroyTimer(id);
+                    return;
                 }
                 
                 //タイマー終了イベントの発火
