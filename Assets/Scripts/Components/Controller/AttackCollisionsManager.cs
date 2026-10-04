@@ -126,6 +126,16 @@ namespace Components.Controller
             atkChannels[id].GetComponent<PropAttackCollisionController>().Deactivate();
         }
 
+        public bool IsActive(int id)
+        {
+            if (id >= atkChannels.Count || id < 0)
+            {
+                return false;
+            }
+
+            return atkChannels[id].GetComponent<PropAttackCollisionController>().IsActive;
+        }
+        
         public EntityId GetAttackerId(int id)
         {
             EnsureInitialized();

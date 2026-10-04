@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7133041187766320876
 Transform:
   m_ObjectHideFlags: 0
@@ -189,6 +189,9 @@ PrefabInstance:
       addedObject: {fileID: 7314480121798634907}
     - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 8652624553217155821}
+    - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 2326477371695163764}
     - targetCorrespondingSourceObject: {fileID: 4542837280164696580, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}
       insertIndex: -1
@@ -225,6 +228,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   animator: {fileID: 0}
   _attackDatas: []
+--- !u!114 &8652624553217155821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693381977577805594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a96a5a7d714b40e79c72fe2fe3a372d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Components.Controller.AttackCollisionsManager
+  atkChannel_Prefab: {fileID: 6943723375673569922, guid: 88282e850cf644d3b8db5f9d0dcc15d4, type: 3}
+  generateCount: 2
 --- !u!114 &2326477371695163764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,6 +284,7 @@ MonoBehaviour:
   weight: 1
   friction: 20
   pushedSpeed: 1.5
+  kinematic: 0
   restitution: 0
   minBounceSpeed: 0
   tangentialFriction: 0
