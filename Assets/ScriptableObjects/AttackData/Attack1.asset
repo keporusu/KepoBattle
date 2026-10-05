@@ -16,12 +16,12 @@ MonoBehaviour:
   collisionSettings:
   - collision:
       shape: 0
-      circleRadius: 0.5
+      circleRadius: 0.7
       capsuleRadius: 0
       capsuleHeight: 0
       capsuleDirection: 0
       boxSize: {x: 0, y: 0}
-      offset: {x: 1, y: 0}
+      offset: {x: 0.8, y: 0}
       damage: 10
       ignoreDuration: 0
       attackPowerType: 0
