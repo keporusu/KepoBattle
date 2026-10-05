@@ -34,6 +34,20 @@ namespace Systems
                 controller.SetCameraShake(size, duration);
             }
         }
+        /// <summary>
+        /// マウスのワールド座標の取得
+        /// </summary>
+        public Vector2 GetMouseWorldPos()
+        {
+            if (playerController_Cache.gameObject.TryGetComponent(out CameraController controller))
+            {
+                Vector2 screenPos = Mouse.current.position.ReadValue();
+                Vector3 world = controller.ScreenToWorldPoint(screenPos);
+                return world; // Vector2への暗黙変換でzは捨てられる
+            }
+            
+            return Vector2.zero;
+        }
         
         private void Awake()
         {

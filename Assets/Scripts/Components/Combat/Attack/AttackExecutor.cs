@@ -9,6 +9,7 @@ using Components.Controller;
 using Components.Identity;
 using Core.Constants;
 using Data;
+using Systems;
 
 namespace Components.Combat.Attack
 {
@@ -161,14 +162,27 @@ namespace Components.Combat.Attack
         }
 
 
+        public void StartCharge()
+        {
+            CancelAttack();
+            
+            //チャージっぽく見せるためにアニメーションを止める
+            animator.speed = 0f;
+            animator.Play("Attack1", -1, 0.35f);
+        }
+
 
         public void StartAttack(AttackType attackType)
         {
-            CancelAttack();
-            if (attackType == AttackType.Attack1)
-            {
-                _animatorTrigger_Cache.TriggerAttack1();
-            }
+            //アニメーションを再開始する
+            animator.speed = 1.0f;
+            animator.Play("Attack1", -1, 0.5f);
+            
+            // トリガーは使わない（Chargeで強制的に遷移を行うため）
+            // if (attackType == AttackType.Attack1)
+            // {
+            //     _animatorTrigger_Cache.TriggerAttack1();
+            // }
         }
 
         public void CancelAttack()
@@ -191,7 +205,28 @@ namespace Components.Combat.Attack
             {
                 if (stateInfo.normalizedTime >= setting.spanStart && !_collisionsManager.IsActive(id))
                 {
-                    _collisionsManager.ActivateCollision(id, EntityRoot.Require(this).gameObject, setting.collision);
+                    var fixedCollisionSetting = setting.collision;
+                    
+                    //キャラクターの向きによって攻撃を出す方向を逆にする
+                    var root = EntityRoot.Require(this);
+                    var offset = fixedCollisionSetting.offset;
+                    if (root.IsLeft)
+                    {
+                        fixedCollisionSetting.offset = new Vector2(-offset.x, offset.y);
+                    }
+                    
+                    //マウスの位置によって攻撃の向きを変える
+                    var mousePos = GameUtility.Instance.GetMouseWorldPos();
+                    var attackDir = (mousePos - root.Position).normalized;
+                    var forward = root.IsLeft ? Vector2.left : Vector2.right;
+                    if (Vector2.Dot(attackDir, forward) < 0)
+                    {
+                        //マウスの方向とキャラクターの向きが逆なら、ベクトルを反転させる
+                        attackDir *= -1;
+                    }
+                    fixedCollisionSetting.direction = attackDir;
+                    
+                    _collisionsManager.ActivateCollision(id, root.gameObject, fixedCollisionSetting);
                 }
                 id++;
             }
