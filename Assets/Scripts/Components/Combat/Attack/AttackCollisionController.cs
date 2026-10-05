@@ -147,11 +147,11 @@ namespace Components.Combat.Attack
                 {
                     //単純にパワーと向きで攻撃方向を計算
                     attackInfo.attackPower = _setting.Value.direction.normalized * _setting.Value.power;
-                    //位置関係で逆向きにする
-                    if (EntityRoot.Require(this).Position.x > otherPosition.x)
-                    {
-                        attackInfo.attackPower.x = -attackInfo.attackPower.x;
-                    }
+                    // //位置関係で逆向きにする
+                    // if (EntityRoot.Require(this).Position.x > otherPosition.x)
+                    // {
+                    //     attackInfo.attackPower.x = -attackInfo.attackPower.x;
+                    // }
                     break;
                 }
                 case AttackPowerType.Velocity:

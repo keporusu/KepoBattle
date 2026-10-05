@@ -77,13 +77,13 @@ namespace Components.Identity
             }
         }
         //向き
-        public bool IsLeft
+        public bool IsRight
         {
             get
             {
                 if (TryGetComponent(out PhysicsMover physicsMover))
                 {
-                    return physicsMover.IsForward;
+                    return physicsMover.IsRight;
                 }
                 else
                 {

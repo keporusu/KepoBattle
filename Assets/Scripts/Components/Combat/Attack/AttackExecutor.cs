@@ -210,7 +210,9 @@ namespace Components.Combat.Attack
                     //キャラクターの向きによって攻撃を出す方向を逆にする
                     var root = EntityRoot.Require(this);
                     var offset = fixedCollisionSetting.offset;
-                    if (root.IsLeft)
+                    
+                    //TODO: 左向きなら -offset.x にすべきな気がするが... なぜこれでうまくいくのだろうか
+                    if (root.IsRight)
                     {
                         fixedCollisionSetting.offset = new Vector2(-offset.x, offset.y);
                     }
@@ -218,7 +220,7 @@ namespace Components.Combat.Attack
                     //マウスの位置によって攻撃の向きを変える
                     var mousePos = GameUtility.Instance.GetMouseWorldPos();
                     var attackDir = (mousePos - root.Position).normalized;
-                    var forward = root.IsLeft ? Vector2.left : Vector2.right;
+                    var forward = root.IsRight ? Vector2.right : Vector2.left;
                     if (Vector2.Dot(attackDir, forward) < 0)
                     {
                         //マウスの方向とキャラクターの向きが逆なら、ベクトルを反転させる

@@ -77,11 +77,11 @@ namespace Components.Controller
             //最初のスプライトの向きによって最初の向きを決める
             if (sprite.transform.localScale.x < 0)
             {
-                _physicsMover_Cache.SetLeft(true);
+                _physicsMover_Cache.SetRight(true);
             }
             else
             {
-                _physicsMover_Cache.SetLeft(false);
+                _physicsMover_Cache.SetRight(false);
             }
         }
 
@@ -150,14 +150,14 @@ namespace Components.Controller
                 //transform.localScale = new Vector3(1.0f, transform.localScale.y, transform.localScale.z);
                 var scale = sprite.transform.localScale;
                 sprite.transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
-                _physicsMover_Cache.SetLeft(true);
+                _physicsMover_Cache.SetRight(true);
             }
             else if (moveX < 0)
             {
                 //transform.localScale = new Vector3(-1.0f, transform.localScale.y, transform.localScale.z);
                 var scale = sprite.transform.localScale;
                 sprite.transform.localScale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
-                _physicsMover_Cache.SetLeft(false);
+                _physicsMover_Cache.SetRight(false);
             }
 
             _moveInput = moveX * moveSpeed;
