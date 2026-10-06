@@ -12,20 +12,20 @@ namespace Components.Controller
     /// コンポーネント
     /// コリジョンを生成・削除できる
     /// </summary>
-    public class CollisionManager : MonoBehaviour
+    public class AttackCollisionsManager : MonoBehaviour
     {
         [SerializeField] private GameObject atkChannel_Prefab; //生成するコリジョンのオブジェクト
         [SerializeField] private float generateCount = 1;
         
         //キャッシュ
         private List<GameObject> atkChannels;
-        private readonly List<PropAttackCollisionController> _controllers = new List<PropAttackCollisionController>();
+        private readonly List<AttackCollisionController> _controllers = new List<AttackCollisionController>();
 
         /// <summary>
         /// 生成済みの攻撃コリジョンを列挙する
         /// 参照された時点で生成を保証するので、コンポーネントの並び順に依存しない
         /// </summary>
-        public IReadOnlyList<PropAttackCollisionController> Controllers
+        public IReadOnlyList<AttackCollisionController> Controllers
         {
             get
             {
@@ -52,7 +52,7 @@ namespace Components.Controller
             }
 
             //プレハブに必要なコンポーネントがついているかチェック
-            if (!atkChannel_Prefab.TryGetComponent(out PropAttackCollisionController attackCollisionController))
+            if (!atkChannel_Prefab.TryGetComponent(out AttackCollisionController attackCollisionController))
             {
                 throw new MissingComponentException($"[{GetType().Name}] PropAttackCollisionController が {atkChannel_Prefab.gameObject.name} に見つかりません");
             }
@@ -70,7 +70,7 @@ namespace Components.Controller
                 var atkChannel = Instantiate(atkChannel_Prefab, transform);
                 atkChannel.transform.localPosition = Vector3.zero;
                 atkChannels.Add(atkChannel);
-                _controllers.Add(atkChannel.GetComponent<PropAttackCollisionController>());
+                _controllers.Add(atkChannel.GetComponent<AttackCollisionController>());
             }
         }
         
@@ -83,7 +83,7 @@ namespace Components.Controller
             EnsureInitialized();
             for (int id = 0; id < atkChannels.Count; id++)
             {
-                var isActive = atkChannels[id].GetComponent<PropAttackCollisionController>().IsActive;
+                var isActive = atkChannels[id].GetComponent<AttackCollisionController>().IsActive;
                 if (!isActive)
                 {
                     return id;
@@ -100,14 +100,10 @@ namespace Components.Controller
         /// <param name="id">有効化するコリジョンのID</param>
         /// <param name="instigator">この攻撃を引き起こしたもの</param>
         /// <param name="setting">コリジョンの設定</param>
-        /// <param name="powerType"></param>
-        /// <param name="ignoreDuration">無敵時間を無視するか？</param>
         public void ActivateCollision(
             int id,
             GameObject instigator,
-            AttackCollisionSetting setting,
-            AttackPowerType powerType=AttackPowerType.Velocity,
-            bool ignoreDuration = false
+            AttackCollisionSetting setting
         )
         {
             EnsureInitialized();
@@ -115,9 +111,9 @@ namespace Components.Controller
             {
                 return;
             }
-            var atk = atkChannels[id].GetComponent<PropAttackCollisionController>();
+            var atk = atkChannels[id].GetComponent<AttackCollisionController>();
             atk.Initialize(setting);
-            atk.Activate(instigator, powerType, ignoreDuration);
+            atk.Activate(instigator);
         }
 
         public void DeactivateCollision(int id)
@@ -127,13 +123,23 @@ namespace Components.Controller
             {
                 return;
             }
-            atkChannels[id].GetComponent<PropAttackCollisionController>().Deactivate();
+            atkChannels[id].GetComponent<AttackCollisionController>().Deactivate();
         }
 
+        public bool IsActive(int id)
+        {
+            if (id >= atkChannels.Count || id < 0)
+            {
+                return false;
+            }
+
+            return atkChannels[id].GetComponent<AttackCollisionController>().IsActive;
+        }
+        
         public EntityId GetAttackerId(int id)
         {
             EnsureInitialized();
-            return atkChannels[id].GetComponent<PropAttackCollisionController>().AttackerID;
+            return atkChannels[id].GetComponent<AttackCollisionController>().AttackerID;
         }
         
         /// <summary>

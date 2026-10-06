@@ -5,8 +5,11 @@ using System.Threading;
 using UnityEngine;
 using JetBrains.Annotations;
 using Components.Animation;
+using Components.Controller;
+using Components.Identity;
 using Core.Constants;
 using Data;
+using Systems;
 
 namespace Components.Combat.Attack
 {
@@ -34,8 +37,8 @@ namespace Components.Combat.Attack
         private CancellationTokenSource _attackCts;
         
         //コリジョン管理
-        private List<bool> _isExecuting = new List<bool>(new bool[5]);
-        private List<CharacterAttackCollisionController> _damageColliderControllers = new List<CharacterAttackCollisionController>();
+        private AttackCollisionsManager _collisionsManager;
+        private List<int?> _collisionIds = new List<int?>();
 
         //進行中の攻撃
         private AttackType _progressAttack = AttackType.None;
@@ -45,6 +48,9 @@ namespace Components.Combat.Attack
         
         //各攻撃で使うコールバック
         private Dictionary<AnimatorStates, List<Action<Animator,AnimatorStateInfo,int>>> _animatorStateCallbacks;
+        
+        //設定された攻撃パワー
+        private float? _attackPower;
 
         void Awake()
         {
@@ -133,18 +139,13 @@ namespace Components.Combat.Attack
                     Debug.LogError($"Notifier for {attackData.attackName} is missing.");
                 }
             }
-
-            //子どものAttackChannelのコリジョンを取得
-            var allChildren = transform.GetComponentsInChildren<Transform>(true);
-            foreach (var child in allChildren)
+            
+            //AttackCollisionsManagerの取得
+            if (!TryGetComponent(out _collisionsManager))
             {
-                //攻撃チャンネルからそれぞれコリジョンを取得してキャッシュする
-                if (child.gameObject.CompareTag(GameTags.AttackChannel))
-                {
-                    var colliderManager = child.GetComponent<CharacterAttackCollisionController>();
-                    _damageColliderControllers.Add(colliderManager);
-                }
+                throw new MissingComponentException($"[{GetType().Name}] AttackCollisionsManager が {gameObject.name} に見つかりません");
             }
+            
             
             //AnimatorTriggerの取得
             if (!TryGetComponent(out _animatorTrigger_Cache))
@@ -164,24 +165,38 @@ namespace Components.Combat.Attack
         }
 
 
-
-        public void StartAttack(AttackType attackType)
+        public void StartCharge()
         {
             CancelAttack();
-            if (attackType == AttackType.Attack1)
-            {
-                _animatorTrigger_Cache.TriggerAttack1();
-            }
+            
+            //チャージっぽく見せるためにアニメーションを止める
+            animator.speed = 0f;
+            animator.Play("Attack1", -1, 0.35f);
+        }
+
+
+        public void StartAttack(AttackType attackType, float power)
+        {
+            //パワーの設定
+            _attackPower = power;
+            
+            //アニメーションを再開始する
+            animator.speed = 1.0f;
+            animator.Play("Attack1", -1, 0.5f);
+            
+            // トリガーは使わない（Chargeで強制的に遷移を行うため）
+            // if (attackType == AttackType.Attack1)
+            // {
+            //     _animatorTrigger_Cache.TriggerAttack1();
+            // }
         }
 
         public void CancelAttack()
         {
-            var maxExecuting = _attackDatas.Max(x => x.collisionSettings.Count);
-            _isExecuting = new List<bool>(new bool[maxExecuting]);
             _progressAttack = AttackType.None;
-            foreach (var manager in _damageColliderControllers)
+            foreach (var id in _collisionIds)
             {
-                manager.Deactivate();
+                if (id.HasValue) _collisionsManager.DeactivateCollision(id.Value);
             }
         }
 
@@ -194,54 +209,51 @@ namespace Components.Combat.Attack
             int id = 0;
             foreach (var setting in collisionSettings)
             {
-                if (stateInfo.normalizedTime >= setting.spanStart && !_isExecuting[id])
+                if (stateInfo.normalizedTime >= setting.spanStart && !_collisionsManager.IsActive(id))
                 {
-                    _isExecuting[id] = true;
-                    UseAvailableCollider(setting.collision, id);
+                    var fixedCollisionSetting = setting.collision;
+                    
+                    //パワーの設定
+                    if (_attackPower.HasValue) fixedCollisionSetting.power = _attackPower.Value;
+                    
+                    //キャラクターの向きによって攻撃を出す方向を逆にする
+                    var root = EntityRoot.Require(this);
+                    var offset = fixedCollisionSetting.offset;
+                    
+                    //TODO: 左向きなら -offset.x にすべきな気がするが... なぜこれでうまくいくのだろうか
+                    if (root.IsRight)
+                    {
+                        fixedCollisionSetting.offset = new Vector2(-offset.x, offset.y);
+                    }
+                    
+                    //マウスの位置によって攻撃の向きを変える
+                    var mousePos = GameUtility.Instance.GetMouseWorldPos();
+                    var attackDir = (mousePos - root.Position).normalized;
+                    var forward = root.IsRight ? Vector2.right : Vector2.left;
+                    if (Vector2.Dot(attackDir, forward) < 0)
+                    {
+                        //マウスの方向とキャラクターの向きが逆なら、ベクトルを反転させる
+                        attackDir *= -1;
+                    }
+                    fixedCollisionSetting.direction = attackDir;
+                    
+                    _collisionsManager.ActivateCollision(id, root.gameObject, fixedCollisionSetting);
                 }
-
                 id++;
             }
 
             id = 0;
             foreach (var setting in collisionSettings)
             {
-                if (stateInfo.normalizedTime > setting.spanEnd && _isExecuting[id])
+                if (stateInfo.normalizedTime > setting.spanEnd && _collisionsManager.IsActive(id))
                 {
-                    _isExecuting[id] = false;
-                    DeactivateCollider(id);
+                    _collisionsManager.DeactivateCollision(id);
                 }
 
                 id++;
             }
         }
-
-
-
-        //コリジョンの有効化と、パラメータのセット
-        private void UseAvailableCollider(AttackCollisionSetting collisionSetting, int id)
-        {
-            var manager = _damageColliderControllers.FirstOrDefault(x => !x.IsActive);
-            if (manager == null)
-            {
-                throw new InvalidOperationException($"DamageColliderManager が足りません");
-            }
-
-            manager.Activate(collisionSetting, id);
-        }
-
-        //コリジョンの無効化
-        private void DeactivateCollider(int id)
-        {
-            var manager = _damageColliderControllers.FirstOrDefault(x => x.UniqueID == id);
-            if (manager == null)
-            {
-                throw new InvalidOperationException(
-                    $"DeactivateCollider: OwnerID {id} に対応する DamageColliderManager が見つかりません");
-            }
-
-            manager.Deactivate();
-        }
+        
 
         private void OnDestroy()
         {

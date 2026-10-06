@@ -16,25 +16,17 @@ MonoBehaviour:
   collisionSettings:
   - collision:
       shape: 0
-      circleRadius: 0.5
+      circleRadius: 0.7
       capsuleRadius: 0
       capsuleHeight: 0
       capsuleDirection: 0
       boxSize: {x: 0, y: 0}
-      offset: {x: 1, y: 0}
-      attackPower: {x: 4, y: 4}
+      offset: {x: 0.8, y: 0}
       damage: 10
+      ignoreDuration: 0
+      attackPowerType: 0
+      velocityAlpha: 0
+      power: 5.6
+      direction: {x: 4, y: 4}
     spanStart: 0.5
     spanEnd: 0.6
-  - collision:
-      shape: 0
-      circleRadius: 0.2
-      capsuleRadius: 0
-      capsuleHeight: 0
-      capsuleDirection: 0
-      boxSize: {x: 0, y: 0}
-      offset: {x: 0.5, y: 0.5}
-      attackPower: {x: 4, y: 4}
-      damage: 10
-    spanStart: 0.6
-    spanEnd: 0.7

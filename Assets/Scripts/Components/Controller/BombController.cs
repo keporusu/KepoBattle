@@ -40,7 +40,7 @@ namespace Components.Controller
         private AttackCollisionSetting _explosionCollisionSetting;
         
         //キャッシュ
-        private CollisionManager _collisionManager_Cache;
+        private AttackCollisionsManager _attackCollisionsManagerCache;
         private SoundManager _soundManager;
         
         //状態
@@ -55,7 +55,7 @@ namespace Components.Controller
         private void Start()
         {
             //キャッシュ
-            if(!TryGetComponent(out _collisionManager_Cache))
+            if(!TryGetComponent(out _attackCollisionsManagerCache))
                 throw new MissingComponentException($"[{GetType().Name}] CollisionManager が {gameObject.name} に見つかりません");
             
             _soundManager = SoundManager.Instance;
@@ -65,7 +65,9 @@ namespace Components.Controller
             _explosionCollisionSetting.shape = ColliderShape.Circle;
             _explosionCollisionSetting.damage = explosionDamage;
             _explosionCollisionSetting.circleRadius = explosionRadius;
-            _explosionCollisionSetting.attackPower.x = explosionPower;
+            _explosionCollisionSetting.attackPowerType = AttackPowerType.Radial;
+            _explosionCollisionSetting.power = explosionPower;
+            _explosionCollisionSetting.ignoreDuration = true;
             
             //着火
             if (fireOnSpawn)
@@ -176,8 +178,8 @@ namespace Components.Controller
             _explodeTimerId = SetTimer(collisionTime);
             
             //爆発コリジョンの生成
-            var id = _collisionManager_Cache.GetAvailableCollisionId();
-            _collisionManager_Cache.ActivateCollision(id,gameObject,_explosionCollisionSetting,AttackPowerType.Radial,true);
+            var id = _attackCollisionsManagerCache.GetAvailableCollisionId();
+            _attackCollisionsManagerCache.ActivateCollision(id,gameObject,_explosionCollisionSetting);
             
             //アニメーション開始
             ExplodeEffect();

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Data
 {
@@ -11,7 +12,19 @@ namespace Data
         Box,
     }
     public enum CapsuleDirection { X, Y, Z }
-
+    
+    
+    /// <summary>
+    /// Fixed: 設定されたAttackPowerをそのまま用いる
+    /// Velocity: 自身のルートオブジェクトの速度を用いる
+    /// Radial: 自身のルートオブジェクトから相手への向きを用いる
+    /// </summary>
+    public enum AttackPowerType
+    {
+        Fixed,
+        Velocity,
+        Radial,
+    }
 
     // 攻撃コリジョンの形状・攻撃情報の設定
     [Serializable]
@@ -32,8 +45,14 @@ namespace Data
 
         // 共通
         public Vector2 offset;
-        public Vector2 attackPower;
         public float damage;
+        public bool ignoreDuration;
+        
+        public AttackPowerType attackPowerType;
+        public float velocityAlpha; //Velocityのみ
+        public float power; //RadialとFixedのみ
+        [FormerlySerializedAs("attackPower")] public Vector2 direction; //Fixedのみ
+
     }
 
     // AttackCollisionSetting に、アクション中のどの区間で発生させるかを加えたもの

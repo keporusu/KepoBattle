@@ -16,6 +16,13 @@ namespace Components.Camera
         //状態
         private Vector3 cameraShakeOffset;
         
+        //キャッシュ
+        private UnityEngine.Camera _camera_Cache;
+
+        void Awake()
+        {
+            _camera_Cache = camera.GetComponent<UnityEngine.Camera>();
+        }
 
         /// <summary>
         /// カメラの位置を合わせる
@@ -41,6 +48,11 @@ namespace Components.Camera
             {
                 cameraShakeOffset = new Vector3(cameraShakeOffset.x, y, 0.0f);
             }).SetEase(Ease.OutElastic);
+        }
+
+        public Vector3 ScreenToWorldPoint(Vector2 screenPos)
+        {
+            return _camera_Cache.ScreenToWorldPoint(screenPos);
         }
 
     }

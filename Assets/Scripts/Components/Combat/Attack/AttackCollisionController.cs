@@ -6,26 +6,14 @@ using Data;
 
 namespace Components.Combat.Attack
 {
-    /// <summary>
-    /// Normal: 設定されたAttackPowerをそのまま用いる
-    /// Velocity: 自身のルートオブジェクトの速度を用いる
-    /// Radial: 自身のルートオブジェクトから相手への向きを用いる
-    /// </summary>
-    public enum AttackPowerType
-    {
-        Normal,
-        Velocity,
-        Radial,
-    }
-    public class PropAttackCollisionController : MonoBehaviour, IAttackInfoGetter
+    
+    public class AttackCollisionController : MonoBehaviour, IAttackInfoGetter
     {
         
         //状態
         private bool _isActive = false;
-        private AttackInfo _attackInfo;
         private Collider2D _collider;
-        private AttackPowerType _powerType;
-        private bool _ignoreDuration;
+        private AttackCollisionSetting? _setting;
 
         //形状ごとのコライダーのキャッシュ
         //Initializeの度に生成すると、以前のコライダーが有効なまま参照を失い
@@ -42,8 +30,7 @@ namespace Components.Combat.Attack
         public void Initialize(AttackCollisionSetting collisionSetting)
         {
             //コリジョンの攻撃情報
-            _attackInfo.attackPower = collisionSetting.attackPower;
-            _attackInfo.damage = collisionSetting.damage;
+            _setting = collisionSetting;
 
             //コリジョン形状の設定
             //生成済みのコライダーがあれば使い回す
@@ -120,10 +107,8 @@ namespace Components.Combat.Attack
             }
         }
 
-        public void Activate(GameObject attacker, AttackPowerType type = AttackPowerType.Velocity, bool ignoreDuration = false)
+        public void Activate(GameObject attacker)
         {
-            _powerType = type;
-            _ignoreDuration = ignoreDuration;
             _isActive = true;
             _collider.enabled = true;
             
@@ -146,30 +131,53 @@ namespace Components.Combat.Attack
         /// </summary>
         /// <param name="otherPosition">ダメージ受ける側の位置</param>
         /// <returns>自身の攻撃情報</returns>
-        public AttackInfo CalculateAttackInfo(Vector2 otherPosition)
+        public AttackInfo? CalculateAttackInfo(Vector2 otherPosition)
         {
             if (!_isActive)
                 Debug.LogError($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
+
+
+            if (!_setting.HasValue) return null;
             
-            var attackInfo = _attackInfo;
-            if (_powerType == AttackPowerType.Velocity)
+            AttackInfo attackInfo = new AttackInfo();
+            
+            switch (_setting.Value.attackPowerType)
             {
-                //自分の速度*αの攻撃速度を持つようにする
-                var selfVelocity = EntityRoot.Require(this).Velocity;
-                if (selfVelocity.HasValue)
+                case AttackPowerType.Fixed:
                 {
-                    var velocity = selfVelocity.Value;
-                    attackInfo.attackPower = velocity * _attackInfo.attackPower.x;
+                    //単純にパワーと向きで攻撃方向を計算
+                    attackInfo.attackPower = _setting.Value.direction.normalized * _setting.Value.power;
+                    // //位置関係で逆向きにする
+                    // if (EntityRoot.Require(this).Position.x > otherPosition.x)
+                    // {
+                    //     attackInfo.attackPower.x = -attackInfo.attackPower.x;
+                    // }
+                    break;
+                }
+                case AttackPowerType.Velocity:
+                {
+                    //自分の速度*αの攻撃速度を持つようにする
+                    var selfVelocity = EntityRoot.Require(this).Velocity;
+                    if (selfVelocity.HasValue)
+                    {
+                        var velocity = selfVelocity.Value;
+                        attackInfo.attackPower = velocity * _setting.Value.velocityAlpha;
+                    }
+                    break;
+                }
+                case AttackPowerType.Radial:
+                {
+                    //中心から放射状の向きに攻撃速度を持つ
+                    var rootPos = EntityRoot.Require(this).Position;
+                    var direction = (otherPosition - new Vector2(rootPos.x, rootPos.y)).normalized;
+                    attackInfo.attackPower = direction * _setting.Value.power;
+                    break;
                 }
             }
-            else if (_powerType == AttackPowerType.Radial)
-            {
-                var rootPos = EntityRoot.Require(this).Position;
-                var direction = (otherPosition - new Vector2(rootPos.x, rootPos.y)).normalized;
-                attackInfo.attackPower = direction * _attackInfo.attackPower.x;
-            }
             
-            attackInfo.ignoreDuration = _ignoreDuration;
+            attackInfo.damage = _setting.Value.damage;
+            attackInfo.ignoreDuration = _setting.Value.ignoreDuration;
+            
             return attackInfo;
         }
     }

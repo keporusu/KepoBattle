@@ -7,12 +7,32 @@ namespace Editor
     [CustomPropertyDrawer(typeof(AttackCollisionSetting))]
     public class AttackCollisionSettingDrawer : PropertyDrawer
     {
+        //形状に依らず表示する項目（AttackCollisionSetting の宣言順）
+        private static readonly string[] CommonPropertyNames =
+        {
+            "offset",
+            "damage",
+            "ignoreDuration",
+            "attackPowerType",
+        };
+
+        //attackPowerType ごとに表示する項目
+        private static string[] GetPowerPropertyNames(AttackPowerType type) => type switch
+        {
+            AttackPowerType.Fixed    => new[] { "power", "direction" },
+            AttackPowerType.Velocity => new[] { "velocityAlpha" },
+            AttackPowerType.Radial   => new[] { "power" },
+            _                        => new string[0],
+        };
+
+        private static AttackPowerType GetPowerType(SerializedProperty property)
+            => (AttackPowerType)property.FindPropertyRelative("attackPowerType").enumValueIndex;
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
 
-            var shapeProp  = property.FindPropertyRelative("shape");
-            var offsetProp = property.FindPropertyRelative("offset");
+            var shapeProp = property.FindPropertyRelative("shape");
 
             float lineH   = EditorGUIUtility.singleLineHeight;
             float spacing = EditorGUIUtility.standardVerticalSpacing;
@@ -46,13 +66,19 @@ namespace Editor
                     break;
             }
 
-            EditorGUI.PropertyField(rect, offsetProp);
-            rect.y += lineH + spacing;
+            //共通
+            foreach (var name in CommonPropertyNames)
+            {
+                EditorGUI.PropertyField(rect, property.FindPropertyRelative(name));
+                rect.y += lineH + spacing;
+            }
 
-            EditorGUI.PropertyField(rect, property.FindPropertyRelative("attackPower"));
-            rect.y += lineH + spacing;
-
-            EditorGUI.PropertyField(rect, property.FindPropertyRelative("damage"));
+            //attackPowerType 依存
+            foreach (var name in GetPowerPropertyNames(GetPowerType(property)))
+            {
+                EditorGUI.PropertyField(rect, property.FindPropertyRelative(name));
+                rect.y += lineH + spacing;
+            }
 
             EditorGUI.EndProperty();
         }
@@ -65,8 +91,8 @@ namespace Editor
             var shapeProp = property.FindPropertyRelative("shape");
             var shape     = (ColliderShape)shapeProp.enumValueIndex;
 
-            // shape + offset + attackPower + damage の 4 行は共通
-            int lines = 4;
+            // shape + 共通項目 + attackPowerType 依存項目の行数
+            int lines = 1 + CommonPropertyNames.Length + GetPowerPropertyNames(GetPowerType(property)).Length;
             lines += shape switch
             {
                 ColliderShape.Circle  => 1,

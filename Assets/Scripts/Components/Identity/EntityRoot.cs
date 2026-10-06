@@ -76,5 +76,21 @@ namespace Components.Identity
                 
             }
         }
+        //向き
+        public bool IsRight
+        {
+            get
+            {
+                if (TryGetComponent(out PhysicsMover physicsMover))
+                {
+                    return physicsMover.IsRight;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        
     }
 }

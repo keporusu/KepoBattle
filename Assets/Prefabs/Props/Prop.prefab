@@ -293,6 +293,7 @@ MonoBehaviour:
   weight: 1
   friction: 1
   pushedSpeed: 1.5
+  kinematic: 0
   restitution: 0
   minBounceSpeed: 0
   tangentialFriction: 0
@@ -317,8 +318,11 @@ MonoBehaviour:
     capsuleDirection: 0
     boxSize: {x: 0, y: 0}
     offset: {x: 0, y: 0}
-    attackPower: {x: 0, y: 0}
     damage: 0
+    attackPowerType: 1
+    velocityAlpha: 0.4
+    power: 0
+    direction: {x: 0, y: 0}
 --- !u!114 &1854120792157923243
 MonoBehaviour:
   m_ObjectHideFlags: 0

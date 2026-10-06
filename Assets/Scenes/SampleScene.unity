@@ -2381,6 +2381,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8592005129262521717, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 477360148}
+    - target: {fileID: 8592005129262521717, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
       propertyPath: jumpPower
       value: 15
       objectReference: {fileID: 0}

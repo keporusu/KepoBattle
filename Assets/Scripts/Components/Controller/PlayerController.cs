@@ -16,6 +16,10 @@ namespace Components.Controller
         [SerializeField] private float jumpPower = 1.0f;
         [SerializeField] private float moveSpeed = 1.0f;
         [SerializeField] private Vector2 initialPosition = new Vector2(2.5f, 3.0f);
+        [SerializeField] private float chargeMaxTime = 2.0f;
+        [SerializeField] private float chargeMaxPower = 10.0f;
+        [SerializeField] private float chargeMinPower = 5.0f;
+        [SerializeField] private GameObject sprite;
 
         //InputAction
         private InputSystem_Actions _inputActions;
@@ -34,6 +38,8 @@ namespace Components.Controller
         private bool _blockingMove = false;
         private bool _blockingAttack = false;
         private float _moveInput = 0f;
+        private bool _isCharging = false;
+        private float _chargeStartTime;
         
         public Vector2 Position => _physicsMover_Cache.Position;
         public Vector2 Velocity => _physicsMover_Cache.Velocity;
@@ -71,6 +77,16 @@ namespace Components.Controller
             
             //TODO: ここも初期化できるようにしたい（初期化の順番を考えないといけない）
             //_physicsMover_Cache.ResetAll(initialPosition);
+            
+            //最初のスプライトの向きによって最初の向きを決める
+            if (sprite.transform.localScale.x < 0)
+            {
+                _physicsMover_Cache.SetRight(true);
+            }
+            else
+            {
+                _physicsMover_Cache.SetRight(false);
+            }
         }
 
         private void OnEnable()
@@ -82,7 +98,8 @@ namespace Components.Controller
             _jumpAction.started += OnJumpStarted;
             _jumpAction.canceled += OnJumpCanceled;
             _attackAction.Enable();
-            _attackAction.started += OnAttack;
+            _attackAction.started += OnCharge;
+            _attackAction.canceled += OnAttack;
         }
 
         private void OnDisable()
@@ -91,7 +108,8 @@ namespace Components.Controller
             _moveAction.canceled -= OnMoveCanceled;
             _jumpAction.started -= OnJumpStarted;
             _jumpAction.canceled -= OnJumpCanceled;
-            _attackAction.started -= OnAttack;
+            _attackAction.started -= OnCharge;
+            _attackAction.canceled -= OnAttack;
             _inputActions.Disable();
         }
 
@@ -117,7 +135,10 @@ namespace Components.Controller
                 }
             }
         }
-
+        
+        
+        
+        //移動
         private void OnMovePerformed(InputAction.CallbackContext ctx)
         {
             if (_blockingMove) return;
@@ -130,11 +151,17 @@ namespace Components.Controller
             //TODO: キャラクターのスプライトを反転させるでいい。わざわざ全体を反転させないほうが良い
             if (moveX > 0)
             {
-                transform.localScale = new Vector3(1.0f, transform.localScale.y, transform.localScale.z);
+                //transform.localScale = new Vector3(1.0f, transform.localScale.y, transform.localScale.z);
+                var scale = sprite.transform.localScale;
+                sprite.transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
+                _physicsMover_Cache.SetRight(true);
             }
             else if (moveX < 0)
             {
-                transform.localScale = new Vector3(-1.0f, transform.localScale.y, transform.localScale.z);
+                //transform.localScale = new Vector3(-1.0f, transform.localScale.y, transform.localScale.z);
+                var scale = sprite.transform.localScale;
+                sprite.transform.localScale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
+                _physicsMover_Cache.SetRight(false);
             }
 
             _moveInput = moveX * moveSpeed;
@@ -150,23 +177,26 @@ namespace Components.Controller
         {
             _physicsMover_Cache.StopMove();
         }
-
+        
+        
+        
+        //ジャンプ
         private void OnJumpStarted(InputAction.CallbackContext ctx)
-        {
-            StartJump();
-        }
-
-        private void StartJump()
         {
             if (_blockingMove) return;
             if (_physicsMover_Cache.IsAir) return;
+            Jump();
+        }
+
+        private void Jump()
+        {
             _isJumping = true;
             _physicsMover_Cache.StartJump(jumpPower);
             //ジャンプ状態遷移（AnimController）
             _animatorTrigger_Cache.TriggerJump();
             Debug.Log("Jump started");
         }
-
+        
         private void OnJumpCanceled(InputAction.CallbackContext ctx)
         {
             if (!_isJumping) return;
@@ -174,7 +204,9 @@ namespace Components.Controller
             _physicsMover_Cache.StopJump();
             Debug.Log("Jump canceled");
         }
-
+        
+        
+        //接地/空中
         private void OnGround()
         {
             //接地状態遷移（AnimController）
@@ -186,21 +218,37 @@ namespace Components.Controller
         {
             _animatorTrigger_Cache.TriggerAir();
         }
-
-        private void OnAttack(InputAction.CallbackContext ctx)
+        
+        
+        //攻撃
+        private void OnCharge(InputAction.CallbackContext ctx)
         {
             if (_blockingAttack) return;
             
             if (_blockingMove) return;
             _blockingMove = true;
-
+            
             //移動処理をキャンセルする
             CancelMove();
             
+            _isCharging = true;
+            _chargeStartTime = Time.time;
+            _attackExecutor_Cache.StartCharge();
+        }
+        private void OnAttack(InputAction.CallbackContext ctx)
+        {
+            if(!_isCharging) return;
+            
+            //パワーの決定
+            var power = chargeMinPower + (chargeMaxPower - chargeMinPower) *
+                Mathf.Clamp01((Time.time - _chargeStartTime) / chargeMaxTime);
+            
             //現状Attack1のみ
             //トリガもAttackExecutor側に任せる
-            _attackExecutor_Cache.StartAttack(AttackType.Attack1);
+            _attackExecutor_Cache.StartAttack(AttackType.Attack1, power);
         }
+        
+        
 
         private void CancelBlockingMove()
         {

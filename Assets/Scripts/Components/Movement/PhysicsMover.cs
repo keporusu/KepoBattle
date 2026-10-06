@@ -68,6 +68,7 @@ namespace Components.Movement
 
         //状態
         private bool _hasOtherCharacter = false;
+        private bool _isRight; //向いている向き
 
         private bool CanPushObject(Collider2D other)
         {
@@ -97,6 +98,7 @@ namespace Components.Movement
         public bool IsAir => Solver.IsAir;
         public Vector2 Velocity =>Solver.Velocity;
         public Vector2 Position => _rigidbody_Cache.position;
+        public bool IsRight => _isRight;
         
         private Vector2 GetVelocity() => Solver.Velocity;
         
@@ -514,6 +516,11 @@ namespace Components.Movement
         public void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator=null)
         {
             Solver.AddForceVelocity(velocity, forceMode);
+        }
+
+        public void SetRight(bool right)
+        {
+            _isRight = right;
         }
 
         public void ResetAll(Vector2 position)
