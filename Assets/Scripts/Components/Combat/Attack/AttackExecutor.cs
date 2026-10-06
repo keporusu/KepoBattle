@@ -48,6 +48,9 @@ namespace Components.Combat.Attack
         
         //各攻撃で使うコールバック
         private Dictionary<AnimatorStates, List<Action<Animator,AnimatorStateInfo,int>>> _animatorStateCallbacks;
+        
+        //設定された攻撃パワー
+        private float? _attackPower;
 
         void Awake()
         {
@@ -172,8 +175,11 @@ namespace Components.Combat.Attack
         }
 
 
-        public void StartAttack(AttackType attackType)
+        public void StartAttack(AttackType attackType, float power)
         {
+            //パワーの設定
+            _attackPower = power;
+            
             //アニメーションを再開始する
             animator.speed = 1.0f;
             animator.Play("Attack1", -1, 0.5f);
@@ -206,6 +212,9 @@ namespace Components.Combat.Attack
                 if (stateInfo.normalizedTime >= setting.spanStart && !_collisionsManager.IsActive(id))
                 {
                     var fixedCollisionSetting = setting.collision;
+                    
+                    //パワーの設定
+                    if (_attackPower.HasValue) fixedCollisionSetting.power = _attackPower.Value;
                     
                     //キャラクターの向きによって攻撃を出す方向を逆にする
                     var root = EntityRoot.Require(this);

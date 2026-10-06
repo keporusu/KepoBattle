@@ -16,6 +16,9 @@ namespace Components.Controller
         [SerializeField] private float jumpPower = 1.0f;
         [SerializeField] private float moveSpeed = 1.0f;
         [SerializeField] private Vector2 initialPosition = new Vector2(2.5f, 3.0f);
+        [SerializeField] private float chargeMaxTime = 2.0f;
+        [SerializeField] private float chargeMaxPower = 10.0f;
+        [SerializeField] private float chargeMinPower = 5.0f;
         [SerializeField] private GameObject sprite;
 
         //InputAction
@@ -36,6 +39,7 @@ namespace Components.Controller
         private bool _blockingAttack = false;
         private float _moveInput = 0f;
         private bool _isCharging = false;
+        private float _chargeStartTime;
         
         public Vector2 Position => _physicsMover_Cache.Position;
         public Vector2 Velocity => _physicsMover_Cache.Velocity;
@@ -228,15 +232,20 @@ namespace Components.Controller
             CancelMove();
             
             _isCharging = true;
+            _chargeStartTime = Time.time;
             _attackExecutor_Cache.StartCharge();
         }
         private void OnAttack(InputAction.CallbackContext ctx)
         {
             if(!_isCharging) return;
             
+            //パワーの決定
+            var power = chargeMinPower + (chargeMaxPower - chargeMinPower) *
+                Mathf.Clamp01((Time.time - _chargeStartTime) / chargeMaxTime);
+            
             //現状Attack1のみ
             //トリガもAttackExecutor側に任せる
-            _attackExecutor_Cache.StartAttack(AttackType.Attack1);
+            _attackExecutor_Cache.StartAttack(AttackType.Attack1, power);
         }
         
         
