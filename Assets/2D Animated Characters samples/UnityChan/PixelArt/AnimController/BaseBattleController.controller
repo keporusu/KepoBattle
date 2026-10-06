@@ -13,31 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   StateName: 0
---- !u!1101 &-5849885570502016475
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: Jump
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 110206126}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.75
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!114 &-3173625221619755900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -51,6 +26,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StateProgressionNotifier
   StateName: 1
+--- !u!1101 &-1715951082177133597
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: IsAir
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 110727482}
+  m_DstState: {fileID: 0}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!74 &7407796
 AnimationClip:
   m_ObjectHideFlags: 0
@@ -1050,6 +1050,18 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: IsJumping
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: IsAir
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1088,7 +1100,7 @@ BlendTree:
     m_Motion: {fileID: 7473902}
     m_Threshold: -3
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 0.2
+    m_TimeScale: 0.01
     m_CycleOffset: 0
     m_DirectBlendParameter: Speed
     m_Mirror: 0
@@ -2481,20 +2493,19 @@ AnimatorStateMachine:
     m_Position: {x: -370, y: -180, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 110726786}
-    m_Position: {x: -100, y: -110, z: 0}
+    m_Position: {x: -20, y: -70, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 110739328}
     m_Position: {x: -370, y: 40, z: 0}
   m_AnyStateTransitions:
   - {fileID: 110138322}
-  - {fileID: -5849885570502016475}
+  - {fileID: -1715951082177133597}
   m_EntryTransitions:
   - {fileID: 110970546}
   - {fileID: 110992774}
   m_StateMachineTransitions:
   - first: {fileID: 110790842}
     second:
-    - {fileID: 110979910}
     - {fileID: 110993960}
     - {fileID: 110900162}
     - {fileID: 110922076}
@@ -2508,9 +2519,9 @@ AnimatorStateMachine:
     second:
     - {fileID: 110925208}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -80, y: -190, z: 0}
+  m_AnyStatePosition: {x: 0, y: -190, z: 0}
   m_EntryPosition: {x: -610, y: -120, z: 0}
-  m_ExitPosition: {x: -80, y: 10, z: 0}
+  m_ExitPosition: {x: 40, y: 20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 110206126}
 --- !u!1107 &110790842
@@ -2793,23 +2804,6 @@ AnimatorTransition:
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110270446}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 1
---- !u!1109 &110979910
-AnimatorTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Ground->Jumping(Jump!)
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: Jump
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 110727482}
-  m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0

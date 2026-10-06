@@ -71,3 +71,8 @@ DevDocs/
 
 # macOS
 .DS_Store
+
+# クラッシュ時の自動生成ファイル
+/[Aa]ssets/_Recovery/
+/[Aa]ssets/_Recovery.meta
+mono_crash.*.json

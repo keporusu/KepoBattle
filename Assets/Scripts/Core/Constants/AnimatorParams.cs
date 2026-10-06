@@ -23,5 +23,6 @@ namespace Core.Constants
 
         //Bool
         public static readonly int IsDead = Animator.StringToHash("IsDead");
+        public static readonly int IsAir = Animator.StringToHash("IsAir");
     }
 }

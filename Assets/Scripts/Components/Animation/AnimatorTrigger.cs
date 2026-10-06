@@ -22,6 +22,11 @@ namespace Components.Animation
             animator.SetTrigger(AnimatorParams.Jump);
         }
 
+        public void SetIsAir(bool value)
+        {
+            animator.SetBool(AnimatorParams.IsAir, value);
+        }
+
         public void TriggerGround()
         {
             animator.SetTrigger(AnimatorParams.Ground);

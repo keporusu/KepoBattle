@@ -119,6 +119,7 @@ namespace Components.Controller
             _animatorTrigger_Cache.SetSpeed(Mathf.Abs(_physicsMover_Cache.Velocity.x));
             float fallSpeed = -_physicsMover_Cache.Velocity.y;
             _animatorTrigger_Cache.SetFallSpeed(fallSpeed);
+            _animatorTrigger_Cache.SetIsAir(_physicsMover_Cache.IsAir);
             //カメラ操作
             _cameraController_Cache.AdjustCameraPosition(transform.position);
             
