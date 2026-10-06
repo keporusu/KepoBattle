@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -6,6 +7,7 @@ using Components.Movement;
 using Components.Combat.Attack;
 using Components.Animation;
 using Components.Camera;
+using Cysharp.Threading.Tasks;
 
 namespace Components.Controller
 {
@@ -95,6 +97,7 @@ namespace Components.Controller
             _moveAction.performed += OnMovePerformed;
             _moveAction.canceled += OnMoveCanceled;
             _jumpAction.Enable();
+            _jumpAction.started += RequestSpringForce;
             _jumpAction.started += OnJumpStarted;
             _jumpAction.canceled += OnJumpCanceled;
             _attackAction.Enable();
@@ -106,6 +109,7 @@ namespace Components.Controller
         {
             _moveAction.performed -= OnMovePerformed;
             _moveAction.canceled -= OnMoveCanceled;
+            _jumpAction.started -= RequestSpringForce;
             _jumpAction.started -= OnJumpStarted;
             _jumpAction.canceled -= OnJumpCanceled;
             _attackAction.started -= OnCharge;
@@ -191,12 +195,24 @@ namespace Components.Controller
 
         private void Jump()
         {
+            //ジャンプ処理
             _isJumping = true;
             _physicsMover_Cache.StartJump(jumpPower);
+            
             //ジャンプ状態遷移（AnimController）
             _animatorTrigger_Cache.TriggerJump();
             Debug.Log("Jump started");
+            
         }
+
+        private async void RequestSpringForce(InputAction.CallbackContext ctx)
+        {
+            //バネで飛ぶ時の追加の力
+            _physicsMover_Cache.RequestExtraSpringForceVelocity(true);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+            _physicsMover_Cache.RequestExtraSpringForceVelocity(false);
+        }
+        
         
         private void OnJumpCanceled(InputAction.CallbackContext ctx)
         {

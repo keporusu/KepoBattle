@@ -18,6 +18,8 @@ namespace Components.Controller
         //基本パラメータ
         [SerializeField] private float springForce;
         [SerializeField] private float angleOffset;
+        [SerializeField] private float jumpExtraForce = 8.0f;
+        [SerializeField] private float jumpVectorRatio = 0.8f; //0~1 どのくらいを上向きと許容するか
         
         //アニメーション関連
         [SerializeField] private float stretchScale;
@@ -91,9 +93,13 @@ namespace Components.Controller
             
             //飛ばす処理
             if (!otherRoot.TryGetComponent(out PhysicsMover mover)) return;
-
+            
+            var fixedSpringForce = springForce;
             var forceDirection = Quaternion.Euler(new Vector3(0.0f, 0.0f, angleOffset)) * Vector3.up;
-            mover.AddForceVelocity((Vector2)forceDirection * springForce, true);
+            //力の向きが上向きなら、バネジャンプを認める（横向きを許容するとジャンプじゃなくなる）
+            if (mover.IsRequestedSpringForce && Vector2.Dot(Vector2.up, (Vector2)forceDirection) > jumpVectorRatio)
+                fixedSpringForce += jumpExtraForce;
+            mover.AddForceVelocity((Vector2)forceDirection * fixedSpringForce, true);
             
             //アニメーション再生
             StretchEffect();

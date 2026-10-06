@@ -69,6 +69,7 @@ namespace Components.Movement
         //状態
         private bool _hasOtherCharacter = false;
         private bool _isRight; //向いている向き
+        private bool _isRequestedExtraSpringForce; //ForceVelocity時に追加でかかる外的要因の力(バネ)
 
         private bool CanPushObject(Collider2D other)
         {
@@ -99,6 +100,7 @@ namespace Components.Movement
         public Vector2 Velocity =>Solver.Velocity;
         public Vector2 Position => _rigidbody_Cache.position;
         public bool IsRight => _isRight;
+        public bool IsRequestedSpringForce => _isRequestedExtraSpringForce;
         
         private Vector2 GetVelocity() => Solver.Velocity;
         
@@ -516,6 +518,12 @@ namespace Components.Movement
         public void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator=null)
         {
             Solver.AddForceVelocity(velocity, forceMode);
+        }
+        
+        
+        public void RequestExtraSpringForceVelocity(bool request)
+        {
+            _isRequestedExtraSpringForce = request;
         }
 
         public void SetRight(bool right)
