@@ -21,10 +21,11 @@ namespace Components.Movement
 
         //公開プロパティ
         //[SerializeField] private float gravity = 1.0f;
-        [SerializeField] private float weight = 1.0f;
+        //[SerializeField] private float weight = 1.0f;
         [SerializeField] private float friction = 1.0f;
         [SerializeField] private float pushedSpeed = 1.5f;
         [SerializeField] private bool kinematic = false;
+        [SerializeField] private float blowAlpha = 1.0f;
 
         //反発関連
         //0 なら跳ねず、着地後は従来通り friction だけが効く
@@ -101,6 +102,7 @@ namespace Components.Movement
         public Vector2 Position => _rigidbody_Cache.position;
         public bool IsRight => _isRight;
         public bool IsRequestedSpringForce => _isRequestedExtraSpringForce;
+        public float BlowAlpha => blowAlpha;
         
         private Vector2 GetVelocity() => Solver.Velocity;
         
@@ -117,9 +119,9 @@ namespace Components.Movement
             // ロジック生成
             var settings = new MovementSettings(
                 GamePlaySettings.Gravity,
-                weight,
                 friction,
                 pushedSpeed,
+                blowAlpha,
                 restitution,
                 bounceThreshold,
                 tangentialFriction);
@@ -513,11 +515,11 @@ namespace Components.Movement
         /// 自分に特定の方向に速度を加える
         /// </summary>
         /// <param name="velocity">加える速度</param>
-        /// <param name="forceMode">一回停止させてから力を加えるか？</param>
-        /// <param name="instigator">攻撃者のオブジェクト</param>>
-        public void AddForceVelocity(Vector2 velocity, bool forceMode, GameObject instigator=null)
+        /// <param name="ignoreRecentVelocity">一回停止させてから力を加えるか？</param>
+        /// <param name="instigator">d攻撃者のオブジェクト</param>>
+        public void AddForceVelocity(Vector2 velocity, bool ignoreRecentVelocity, GameObject instigator=null)
         {
-            Solver.AddForceVelocity(velocity, forceMode);
+            Solver.AddForceVelocity(velocity, ignoreRecentVelocity);
         }
         
         

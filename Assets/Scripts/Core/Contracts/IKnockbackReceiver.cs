@@ -10,5 +10,7 @@ namespace Core.Contracts
         /// <param name="velocity">加える速度</param>
         /// <param name="instigator">攻撃者のオブジェクト</param>>
         public  void ForceKnockback(Vector2 velocity, GameObject instigator = null);
+
+        public float BlowAlpha { get; }
     }
 }

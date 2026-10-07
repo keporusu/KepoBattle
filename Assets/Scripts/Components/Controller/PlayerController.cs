@@ -147,9 +147,9 @@ namespace Components.Controller
             //UI更新
             if (_isCharging)
             {
-                var power = (int)(chargeMinPower + (chargeMaxPower - chargeMinPower) *
+                var charge = (int)(chargeMinPower + (chargeMaxPower - chargeMinPower) *
                     Mathf.Clamp01((Time.time - _chargeStartTime) / chargeMaxTime));
-                _playerUIController_Cache.ShowUpdateDebugText(power.ToString());
+                _playerUIController_Cache.ShowUpdateDebugText(charge.ToString());
             }
             else
             {
@@ -274,13 +274,13 @@ namespace Components.Controller
             if(!_isCharging) return;
             _isCharging = false;
             
-            //パワーの決定
-            var power = chargeMinPower + (chargeMaxPower - chargeMinPower) *
+            //チャージ量の決定
+            var charge = chargeMinPower + (chargeMaxPower - chargeMinPower) *
                 Mathf.Clamp01((Time.time - _chargeStartTime) / chargeMaxTime);
             
             //現状Attack1のみ
             //トリガもAttackExecutor側に任せる
-            _attackExecutor_Cache.StartAttack(AttackType.Attack1, power);
+            _attackExecutor_Cache.StartAttack(AttackType.Attack1, charge);
         }
         
         

@@ -1,4 +1,5 @@
 using System.Linq;
+using Components.Combat.Attack;
 using Core.Contracts;
 using UnityEngine;
 using Components.Identity;
@@ -68,8 +69,12 @@ namespace Components.Combat.Damage
                 }
                 
                 //相手の攻撃情報を動的に得る
-                //TODO: 自身のrootは放射状の攻撃でしか使わないため渡したくないが、現状の設計だと妥協
-                var attackInfo = attackInfoGetter.CalculateAttackInfo(EntityRoot.Require(this).Position);
+                var additionalInfo = new AdditionalInfoForAttackCalculation
+                {
+                    OtherPosition = EntityRoot.Require(this).Position, OtherBlowAlpha = _physicsMover_Cache.BlowAlpha
+                };
+                //TODO: 自身のrootは放射状の攻撃でしか使わないため渡したくないが、現状の設計だと妥協。BlowAlphaも同じく
+                var attackInfo = attackInfoGetter.CalculateAttackInfo(additionalInfo);
                 
                 if(!attackInfo.HasValue)return;
                 

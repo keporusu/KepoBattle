@@ -24,6 +24,7 @@ namespace Data
         Fixed,
         Velocity,
         Radial,
+        Destination, //TODO:実装する(Fixedいらないか？)
     }
 
     // 攻撃コリジョンの形状・攻撃情報の設定
@@ -52,6 +53,7 @@ namespace Data
         public float velocityAlpha; //Velocityのみ
         public float power; //RadialとFixedのみ
         [FormerlySerializedAs("attackPower")] public Vector2 direction; //Fixedのみ
+        public Vector2 destination; //Destinationのみ。攻撃者からの相対位置
 
     }
 

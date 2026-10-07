@@ -2,14 +2,19 @@ using System;
 using Core.Contracts;
 using UnityEngine;
 using Components.Identity;
+using Core.Constants;
 using Data;
+using UnityEngine.UIElements;
 
 namespace Components.Combat.Attack
 {
     
+    
     public class AttackCollisionController : MonoBehaviour, IAttackInfoGetter
     {
-        
+        //Destination型で、吹き飛ばしの頂点までに上昇する高さの下限
+        private const float MinRisingHeight = 0.5f;
+
         //状態
         private bool _isActive = false;
         private Collider2D _collider;
@@ -129,9 +134,9 @@ namespace Components.Combat.Attack
         /// <summary>
         /// 自身の攻撃情報を返す
         /// </summary>
-        /// <param name="otherPosition">ダメージ受ける側の位置</param>
+        /// <param name="additionalInfo">AttackInfoを決めるのに必要な相手の追加情報</param>
         /// <returns>自身の攻撃情報</returns>
-        public AttackInfo? CalculateAttackInfo(Vector2 otherPosition)
+        public AttackInfo? CalculateAttackInfo(AdditionalInfoForAttackCalculation additionalInfo)
         {
             if (!_isActive)
                 Debug.LogError($"[{GetType().Name}] コリジョンが非アクティブであるのにも関わらず、攻撃者情報を取得しようとしています");
@@ -147,11 +152,6 @@ namespace Components.Combat.Attack
                 {
                     //単純にパワーと向きで攻撃方向を計算
                     attackInfo.attackPower = _setting.Value.direction.normalized * _setting.Value.power;
-                    // //位置関係で逆向きにする
-                    // if (EntityRoot.Require(this).Position.x > otherPosition.x)
-                    // {
-                    //     attackInfo.attackPower.x = -attackInfo.attackPower.x;
-                    // }
                     break;
                 }
                 case AttackPowerType.Velocity:
@@ -169,8 +169,22 @@ namespace Components.Combat.Attack
                 {
                     //中心から放射状の向きに攻撃速度を持つ
                     var rootPos = EntityRoot.Require(this).Position;
-                    var direction = (otherPosition - new Vector2(rootPos.x, rootPos.y)).normalized;
+                    var direction = (additionalInfo.OtherPosition - new Vector2(rootPos.x, rootPos.y)).normalized;
                     attackInfo.attackPower = direction * _setting.Value.power;
+                    break;
+                }
+                case AttackPowerType.Destination:
+                {
+                    //目標地点（相対）をもとに、attackPowerを算出
+                    var destination = _setting.Value.destination * additionalInfo.OtherBlowAlpha + EntityRoot.Require(this).Position;
+                    //目標地点は放物運動の頂点なので、相手より下にある場合は到達できない
+                    //また高さの差が0に近いと上昇時間も0に近づき、x方向の速度が発散する
+                    //そのため上昇する高さに下限を設ける
+                    var risingHeight = Mathf.Max(destination.y - additionalInfo.OtherPosition.y, MinRisingHeight);
+                    var risingTime = Mathf.Sqrt(risingHeight * 2 / GamePlaySettings.Gravity);
+                    var risingVelocityY = risingTime * GamePlaySettings.Gravity;
+                    var risingVelocityX = (destination.x - additionalInfo.OtherPosition.x) / risingTime;
+                    attackInfo.attackPower = new Vector2(risingVelocityX, risingVelocityY);
                     break;
                 }
             }

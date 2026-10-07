@@ -112,6 +112,10 @@ PrefabInstance:
       propertyPath: friction
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 2713901720221561264, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: blowAlpha
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3170770376407151376, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -135,6 +139,10 @@ PrefabInstance:
     - target: {fileID: 6749312193534137205, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: damageSoundFromCharacter
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: collisionSetting.direction.x
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: collisionSetting.circleRadius

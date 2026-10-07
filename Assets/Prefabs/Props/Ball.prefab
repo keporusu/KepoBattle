@@ -41,6 +41,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2713901720221561264, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: blowAlpha
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2713901720221561264, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: restitution
       value: 0.6
       objectReference: {fileID: 0}

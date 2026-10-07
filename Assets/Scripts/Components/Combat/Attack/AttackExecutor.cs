@@ -49,8 +49,8 @@ namespace Components.Combat.Attack
         //各攻撃で使うコールバック
         private Dictionary<AnimatorStates, List<Action<Animator,AnimatorStateInfo,int>>> _animatorStateCallbacks;
         
-        //設定された攻撃パワー
-        private float? _attackPower;
+        //設定されたチャージ
+        private float? _attackCharge; 
 
         void Awake()
         {
@@ -175,10 +175,10 @@ namespace Components.Combat.Attack
         }
 
 
-        public void StartAttack(AttackType attackType, float power)
+        public void StartAttack(AttackType attackType, float charge)
         {
             //パワーの設定
-            _attackPower = power;
+            _attackCharge = charge;
             
             //アニメーションを再開始する
             animator.speed = 1.0f;
@@ -214,7 +214,7 @@ namespace Components.Combat.Attack
                     var fixedCollisionSetting = setting.collision;
                     
                     //パワーの設定
-                    if (_attackPower.HasValue) fixedCollisionSetting.power = _attackPower.Value;
+                    if (_attackCharge.HasValue) fixedCollisionSetting.power = _attackCharge.Value;
                     
                     //キャラクターの向きによって攻撃を出す方向を逆にする
                     var root = EntityRoot.Require(this);
@@ -226,7 +226,7 @@ namespace Components.Combat.Attack
                         fixedCollisionSetting.offset = new Vector2(-offset.x, offset.y);
                     }
                     
-                    //マウスの位置によって攻撃の向きを変える
+                    //マウスの位置によって目標地点を変える
                     var mousePos = GameUtility.Instance.GetMouseWorldPos();
                     var attackDir = (mousePos - root.Position).normalized;
                     var forward = root.IsRight ? Vector2.right : Vector2.left;
@@ -235,7 +235,9 @@ namespace Components.Combat.Attack
                         //マウスの方向とキャラクターの向きが逆なら、ベクトルを反転させる
                         attackDir *= -1;
                     }
-                    fixedCollisionSetting.direction = attackDir;
+
+                    if (_attackCharge.HasValue)
+                        fixedCollisionSetting.destination = attackDir * _attackCharge.Value;
                     
                     _collisionsManager.ActivateCollision(id, root.gameObject, fixedCollisionSetting);
                 }

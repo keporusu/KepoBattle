@@ -6,9 +6,9 @@ namespace Core.Movement
     public readonly struct MovementSettings
     {
         public readonly float Gravity;    // 重力
-        public readonly float Weight;     // コンストラクタで 0.001f 以上にクランプ
         public readonly float Friction;   // 接地時の摩擦
         public readonly float PushSpeed;  // 現状 1.5f 直書き（L166, L170）
+        public readonly float BlowAlpha;  // 吹き飛び補正
 
         //反発関連
         public readonly float Restitution;         // 0で跳ねない。エネルギーが増えないよう 0..1 にクランプ
@@ -17,17 +17,17 @@ namespace Core.Movement
 
         public MovementSettings(
             float gravity,
-            float weight,
             float friction,
             float pushSpeed,
+            float blowAlpha,
             float restitution = 0.0f,
             float minBounceSpeed = 0.0f,
             float tangentialFriction = 0.0f)
         {
             Gravity = gravity;
-            Weight = Math.Max(0.001f, weight);
             Friction = friction;
             PushSpeed = pushSpeed;
+            BlowAlpha = blowAlpha;
 
             Restitution = Mathf.Clamp01(restitution);
             MinBounceSpeed = Math.Max(0.0f, minBounceSpeed);
@@ -134,10 +134,10 @@ namespace Core.Movement
         /// 自分に特定の方向に速度を加える
         /// </summary>
         /// <param name="velocity">加える速度</param>
-        /// <param name="forceMode">一回停止させてから力を加えるか？</param>
-        public void AddForceVelocity(Vector2 velocity, bool forceMode)
+        /// <param name="ignoreRecentVelocity">一回停止させてから力を加えるか？</param>
+        public void AddForceVelocity(Vector2 velocity, bool ignoreRecentVelocity)
         {
-            if (forceMode)
+            if (ignoreRecentVelocity)
             {
                 _movingVelocity = 0.0f;
                 _forceVelocity = new Vector2();
@@ -206,6 +206,7 @@ namespace Core.Movement
             {
                 //重力による上方向減衰
                 _forceVelocity += _settings.Gravity * deltaTime * Vector2.down;
+                //movePoint += _settings.Gravity * deltaTime * deltaTime * Vector2.down;
             }
             //地面についているときの処理
             else
@@ -221,10 +222,9 @@ namespace Core.Movement
             }
 
             //無理矢理掛かる力による移動
-            //質量が軽いほどよく飛ぶ
             //接地中はY成分を無視してめり込みを防ぐ
             var appliedForce = _isAir ? _forceVelocity : new Vector2(_forceVelocity.x, 0.0f);
-            movePoint += appliedForce / _settings.Weight * deltaTime;
+            movePoint += _settings.BlowAlpha * deltaTime * appliedForce;
 
             //キャラクター押しあたり判定
             if (pushTargetX.HasValue)

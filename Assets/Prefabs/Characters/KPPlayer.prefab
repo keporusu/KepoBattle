@@ -394,9 +394,9 @@ MonoBehaviour:
   jumpPower: 15
   moveSpeed: 5
   initialPosition: {x: 2.5, y: 3}
-  chargeMaxTime: 2
-  chargeMaxPower: 10
-  chargeMinPower: 5
+  chargeMaxTime: 1.2
+  chargeMaxPower: 1.5
+  chargeMinPower: 0.5
   sprite: {fileID: 0}
 --- !u!114 &4642519649750234335
 MonoBehaviour:

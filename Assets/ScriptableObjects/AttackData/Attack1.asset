@@ -24,9 +24,10 @@ MonoBehaviour:
       offset: {x: 0.8, y: 0}
       damage: 10
       ignoreDuration: 0
-      attackPowerType: 0
+      attackPowerType: 3
       velocityAlpha: 0
       power: 5.6
       direction: {x: 4, y: 4}
+      destination: {x: 0, y: 0}
     spanStart: 0.5
     spanEnd: 0.6
