@@ -20,7 +20,7 @@ namespace Components.Movement
         private MovementSolver Solver => _movementSolver ??= CreateSolver();
 
         //公開プロパティ
-        [SerializeField] private float gravity = 1.0f;
+        //[SerializeField] private float gravity = 1.0f;
         [SerializeField] private float weight = 1.0f;
         [SerializeField] private float friction = 1.0f;
         [SerializeField] private float pushedSpeed = 1.5f;
@@ -112,11 +112,11 @@ namespace Components.Movement
             //これを下回る跳ね返りは次のステップで下向きに転じ、即座に再衝突してしまう
             var bounceThreshold = minBounceSpeed > 0.0f
                 ? minBounceSpeed
-                : 2.0f * gravity * Time.fixedDeltaTime;
+                : 2.0f * GamePlaySettings.Gravity * Time.fixedDeltaTime;
 
             // ロジック生成
             var settings = new MovementSettings(
-                gravity,
+                GamePlaySettings.Gravity,
                 weight,
                 friction,
                 pushedSpeed,
