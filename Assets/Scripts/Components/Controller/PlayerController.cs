@@ -34,6 +34,7 @@ namespace Components.Controller
         private AttackExecutor _attackExecutor_Cache;
         private AnimatorTrigger _animatorTrigger_Cache;
         private CameraController _cameraController_Cache;
+        private PlayerUIController _playerUIController_Cache;
 
         //State
         private bool _isJumping = false;
@@ -71,7 +72,10 @@ namespace Components.Controller
 
             if (!TryGetComponent(out _cameraController_Cache))
                 throw new MissingComponentException($"[{GetType().Name}] CameraController が {gameObject.name} に見つかりません");
-
+            
+            if(!TryGetComponent(out _playerUIController_Cache))
+                throw new MissingComponentException($"[{GetType().Name}] PlayerUIController が {gameObject.name} に見つかりません");
+            
             //接地イベント登録
             _physicsMover_Cache.OnGround += OnGround;
             _physicsMover_Cache.OnForceAir += OnForceAir;
@@ -139,6 +143,19 @@ namespace Components.Controller
                     _blockingAttack = false;
                 }
             }
+            
+            //UI更新
+            if (_isCharging)
+            {
+                var power = (int)(chargeMinPower + (chargeMaxPower - chargeMinPower) *
+                    Mathf.Clamp01((Time.time - _chargeStartTime) / chargeMaxTime));
+                _playerUIController_Cache.ShowUpdateDebugText(power.ToString());
+            }
+            else
+            {
+                _playerUIController_Cache.ShowUpdateDebugText("");
+            }
+            
         }
         
         
@@ -255,6 +272,7 @@ namespace Components.Controller
         private void OnAttack(InputAction.CallbackContext ctx)
         {
             if(!_isCharging) return;
+            _isCharging = false;
             
             //パワーの決定
             var power = chargeMinPower + (chargeMaxPower - chargeMinPower) *
