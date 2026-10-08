@@ -79,7 +79,7 @@ namespace Components.Controller
             //接地イベント登録
             _physicsMover_Cache.OnGround += OnGround;
             _physicsMover_Cache.OnForceAir += OnForceAir;
-            _attackExecutor_Cache.OnAttackFinish += CancelBlockingMove;
+            //_attackExecutor_Cache.OnAttackFinish += CancelBlockingMove;
             
             //TODO: ここも初期化できるようにしたい（初期化の順番を考えないといけない）
             //_physicsMover_Cache.ResetAll(initialPosition);
@@ -281,6 +281,9 @@ namespace Components.Controller
             //現状Attack1のみ
             //トリガもAttackExecutor側に任せる
             _attackExecutor_Cache.StartAttack(AttackType.Attack1, charge);
+            
+            //移動を許可
+            CancelBlockingMove();
         }
         
         
