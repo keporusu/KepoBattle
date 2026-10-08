@@ -207,14 +207,14 @@ namespace Components.Controller
         {
             if (_blockingMove) return;
             if (_physicsMover_Cache.IsAir) return;
-            Jump();
+            Jump(jumpPower);
         }
 
-        private void Jump()
+        private void Jump(float power)
         {
             //ジャンプ処理
             _isJumping = true;
-            _physicsMover_Cache.StartJump(jumpPower);
+            _physicsMover_Cache.StartJump(power);
             
             //ジャンプ状態遷移（AnimController）
             _animatorTrigger_Cache.TriggerJump();
@@ -293,7 +293,17 @@ namespace Components.Controller
             float currentMoveX = _moveAction.ReadValue<Vector2>().x;
             Move(currentMoveX);
         }
-
+        
+        
+        /// <summary>
+        /// 外部からの強制ジャンプリクエスト
+        /// </summary>
+        /// <param name="power">ジャンプ力</param>
+        public void RequestJump(float power)
+        {
+            Jump(power);
+        }
+        
         public void Respawn()
         {
             _physicsMover_Cache.ResetAll(initialPosition);

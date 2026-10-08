@@ -53,7 +53,7 @@ namespace Data
         public float velocityAlpha; //Velocityのみ
         public float power; //RadialとFixedのみ
         [FormerlySerializedAs("attackPower")] public Vector2 direction; //Fixedのみ
-        public Vector2 destination; //Destinationのみ。攻撃者からの相対位置
+        public Vector2 destination; //Destinationのみ。吹き飛ばされる相手からの相対位置(放物運動の頂点)
 
     }
 

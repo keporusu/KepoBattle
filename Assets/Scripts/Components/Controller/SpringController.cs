@@ -91,9 +91,10 @@ namespace Components.Controller
                                 (_propLayer.value & (1 << other.gameObject.layer)) > 0;
             if (!manipulatable)return;
             
-            //飛ばす処理
+            
             if (!otherRoot.TryGetComponent(out PhysicsMover mover)) return;
             
+            //飛ばす処理
             var fixedSpringForce = springForce;
             var forceDirection = Quaternion.Euler(new Vector3(0.0f, 0.0f, angleOffset)) * Vector3.up;
             //力の向きが上向きなら、バネジャンプを認める（横向きを許容するとジャンプじゃなくなる）

@@ -175,15 +175,16 @@ namespace Components.Combat.Attack
                 }
                 case AttackPowerType.Destination:
                 {
-                    //目標地点（相対）をもとに、attackPowerを算出
-                    var destination = _setting.Value.destination * additionalInfo.OtherBlowAlpha + EntityRoot.Require(this).Position;
+                    //目標地点（相手からの相対）をもとに、attackPowerを算出
+                    //攻撃者基準にすると、目標地点より奥にいる相手が攻撃者側へ引き戻されてしまう
+                    var relativeDestination = _setting.Value.destination * additionalInfo.OtherBlowAlpha;
                     //目標地点は放物運動の頂点なので、相手より下にある場合は到達できない
                     //また高さの差が0に近いと上昇時間も0に近づき、x方向の速度が発散する
                     //そのため上昇する高さに下限を設ける
-                    var risingHeight = Mathf.Max(destination.y - additionalInfo.OtherPosition.y, MinRisingHeight);
+                    var risingHeight = Mathf.Max(relativeDestination.y, MinRisingHeight);
                     var risingTime = Mathf.Sqrt(risingHeight * 2 / GamePlaySettings.Gravity);
                     var risingVelocityY = risingTime * GamePlaySettings.Gravity;
-                    var risingVelocityX = (destination.x - additionalInfo.OtherPosition.x) / risingTime;
+                    var risingVelocityX = relativeDestination.x / risingTime;
                     attackInfo.attackPower = new Vector2(risingVelocityX, risingVelocityY);
                     break;
                 }
