@@ -21,6 +21,15 @@ namespace Components.Camera
 
         void Awake()
         {
+            //Prefab から生成した場合はシーン上のカメラを参照できないので、メインカメラを使う
+            if (camera == null)
+            {
+                var mainCamera = UnityEngine.Camera.main;
+                if (mainCamera == null)
+                    throw new MissingReferenceException($"[{GetType().Name}] カメラが未設定で、MainCamera タグのカメラもシーンに存在しません");
+                camera = mainCamera.transform;
+            }
+
             _camera_Cache = camera.GetComponent<UnityEngine.Camera>();
         }
 
@@ -43,11 +52,11 @@ namespace Components.Camera
             DOVirtual.Float(xSize, 0.0f, duration, (x) =>
             {
                 cameraShakeOffset = new Vector3(x, cameraShakeOffset.y, 0.0f);
-            }).SetEase(Ease.OutElastic);
+            }).SetEase(Ease.OutElastic).SetLink(gameObject);
             DOVirtual.Float(ySize, 0.0f, duration, (y) =>
             {
                 cameraShakeOffset = new Vector3(cameraShakeOffset.x, y, 0.0f);
-            }).SetEase(Ease.OutElastic);
+            }).SetEase(Ease.OutElastic).SetLink(gameObject);
         }
 
         public Vector3 ScreenToWorldPoint(Vector2 screenPos)

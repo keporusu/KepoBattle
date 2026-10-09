@@ -7,12 +7,17 @@ using Components.Movement;
 using Components.Combat.Attack;
 using Components.Animation;
 using Components.Camera;
+using Core.Contracts;
 using Cysharp.Threading.Tasks;
+using Data;
+using Systems;
 
 namespace Components.Controller
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, ILevelObject
     {
+        //レベルデータのキー
+        private const string FacingRightKey = "facingRight";
 
         //SerializeField
         [SerializeField] private float jumpPower = 1.0f;
@@ -46,11 +51,16 @@ namespace Components.Controller
         
         public Vector2 Position => _physicsMover_Cache.Position;
         public Vector2 Velocity => _physicsMover_Cache.Velocity;
-        //正方向を向いているか？
-        public bool IsForward => transform.localScale.x > 0;
+        //右を向いているか？
+        //絵は右向きなので、ワールド上のスケールが正なら右向き
+        //ルートが反転されていても正しく判定できるよう、localScale ではなく lossyScale で見る
+        public bool IsFacingRight => sprite.transform.lossyScale.x > 0;
             
         void Awake()
         {
+            if (sprite == null)
+                throw new MissingReferenceException($"[{GetType().Name}] sprite が {gameObject.name} に設定されていません");
+
             _inputActions = new InputSystem_Actions();
             _moveAction = _inputActions.Player.Move;
             _jumpAction = _inputActions.Player.Jump;
@@ -85,13 +95,20 @@ namespace Components.Controller
             //_physicsMover_Cache.ResetAll(initialPosition);
             
             //最初のスプライトの向きによって最初の向きを決める
-            if (sprite.transform.localScale.x < 0)
+            _physicsMover_Cache.SetRight(IsFacingRight);
+
+            //マウス座標・カメラシェイク等のため、操作対象として登録する
+            if (GameUtility.Instance != null)
             {
-                _physicsMover_Cache.SetRight(true);
+                GameUtility.Instance.RegisterPlayer(this);
             }
-            else
+        }
+
+        private void OnDestroy()
+        {
+            if (GameUtility.Instance != null)
             {
-                _physicsMover_Cache.SetRight(false);
+                GameUtility.Instance.UnregisterPlayer(this);
             }
         }
 
@@ -170,24 +187,39 @@ namespace Components.Controller
         private void Move(float moveX)
         {
             //移動時、入力の向きによって反転させる
-            //TODO: キャラクターのスプライトを反転させるでいい。わざわざ全体を反転させないほうが良い
             if (moveX > 0)
             {
-                //transform.localScale = new Vector3(1.0f, transform.localScale.y, transform.localScale.z);
-                var scale = sprite.transform.localScale;
-                sprite.transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
-                _physicsMover_Cache.SetRight(true);
+                SetFacingRight(true);
             }
             else if (moveX < 0)
             {
-                //transform.localScale = new Vector3(-1.0f, transform.localScale.y, transform.localScale.z);
-                var scale = sprite.transform.localScale;
-                sprite.transform.localScale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
-                _physicsMover_Cache.SetRight(false);
+                SetFacingRight(false);
             }
 
             _moveInput = moveX * moveSpeed;
             _physicsMover_Cache.Move(_moveInput);
+        }
+
+        /// <summary>
+        /// 向きを設定する
+        /// スプライトのみを反転させ、ルートの Transform は反転させない
+        /// </summary>
+        /// <param name="right">右向きにするか？</param>
+        public void SetFacingRight(bool right)
+        {
+            //親(ルート)が反転されていても、ワールド上で狙った向きになるよう親の符号を掛ける
+            var spriteTransform = sprite.transform;
+            var parentSign = spriteTransform.parent != null ? Mathf.Sign(spriteTransform.parent.lossyScale.x) : 1.0f;
+            var worldSign = right ? 1.0f : -1.0f;
+            var scale = spriteTransform.localScale;
+            spriteTransform.localScale = new Vector3(Mathf.Abs(scale.x) * worldSign * parentSign, scale.y, scale.z);
+
+            //Start 前(レベル読み込み直後)はまだキャッシュが無い
+            //その場合は Start でスプライトの向きから反映される
+            if (_physicsMover_Cache != null)
+            {
+                _physicsMover_Cache.SetRight(right);
+            }
         }
 
         private void OnMoveCanceled(InputAction.CallbackContext ctx)
@@ -311,6 +343,19 @@ namespace Components.Controller
         {
             _physicsMover_Cache.ResetAll(initialPosition);
             _animatorTrigger_Cache.TriggerJump();
+        }
+
+        public void ApplyLevelParameters(LevelObjectParameters parameters)
+        {
+            if (parameters.TryGetBool(FacingRightKey, out var facingRight))
+            {
+                SetFacingRight(facingRight);
+            }
+        }
+
+        public void ExportLevelParameters(LevelObjectParameters parameters)
+        {
+            parameters.SetBool(FacingRightKey, IsFacingRight);
         }
 
     }

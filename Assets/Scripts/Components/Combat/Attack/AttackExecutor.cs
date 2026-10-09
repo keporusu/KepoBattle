@@ -220,8 +220,8 @@ namespace Components.Combat.Attack
                     var root = EntityRoot.Require(this);
                     var offset = fixedCollisionSetting.offset;
                     
-                    //TODO: 左向きなら -offset.x にすべきな気がするが... なぜこれでうまくいくのだろうか
-                    if (root.IsRight)
+                    //offset は右向きを基準とした値なので、左向きなら反転させる
+                    if (!root.IsRight)
                     {
                         fixedCollisionSetting.offset = new Vector2(-offset.x, offset.y);
                     }
