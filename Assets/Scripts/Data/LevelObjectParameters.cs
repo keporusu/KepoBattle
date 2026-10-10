@@ -70,6 +70,19 @@ namespace Data
                    && int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out value);
         }
 
+        /// <summary>
+        /// 自身に無いキーだけを other から補う
+        /// レベルデータに書かれていないパラメータを、Prefab の既定値で埋めるために使う
+        /// </summary>
+        public void MergeMissing(LevelObjectParameters other)
+        {
+            foreach (var entry in other.entries)
+            {
+                if (TryGet(entry.key, out _)) continue;
+                entries.Add(entry);
+            }
+        }
+
         private void Set(string key, LevelParameterType type, string value)
         {
             var parameter = new LevelParameter { key = key, type = type, value = value };

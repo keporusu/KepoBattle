@@ -152,17 +152,9 @@ namespace Components.Controller
             _animatorTrigger_Cache.SetIsAir(_physicsMover_Cache.IsAir);
             
             //UI上にマウスがある場合、攻撃できないようにする
-            if (EventSystem.current)
-            {
-                if (EventSystem.current.IsPointerOverGameObject())
-                {
-                    _blockingAttack = true;
-                }
-                else
-                {
-                    _blockingAttack = false;
-                }
-            }
+            //レベル作成システムの GUI(IMGUI)は EventSystem で判定できないため別に見る
+            var isOverUi = EventSystem.current && EventSystem.current.IsPointerOverGameObject();
+            _blockingAttack = isOverUi || LevelEditor.IsPointerOverGui();
             
             //UI更新
             if (_isCharging)

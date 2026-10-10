@@ -63,6 +63,9 @@ namespace Components.Camera
 
         private void LateUpdate()
         {
+            //編集中はレベル作成システムがカメラを動かすので追従しない
+            if (LevelManager.IsEditMode) return;
+
             //プレイヤーの移動を反映した後に追従する
             var gameUtility = GameUtility.Instance;
             if (gameUtility == null) return;

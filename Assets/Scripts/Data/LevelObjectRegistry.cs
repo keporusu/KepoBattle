@@ -33,14 +33,20 @@ namespace Data
 
         public bool TryGetPrefab(string key, out GameObject prefab)
         {
-            foreach (var entry in entries)
+            prefab = TryGetEntry(key, out var entry) ? entry.prefab : null;
+            return prefab != null;
+        }
+
+        public bool TryGetEntry(string key, out Entry entry)
+        {
+            foreach (var candidate in entries)
             {
-                if (entry.key != key) continue;
-                prefab = entry.prefab;
-                return prefab != null;
+                if (candidate.key != key) continue;
+                entry = candidate;
+                return true;
             }
 
-            prefab = null;
+            entry = default;
             return false;
         }
     }

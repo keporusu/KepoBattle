@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using Components.Camera;
@@ -33,6 +34,9 @@ namespace Systems
         private bool _isRestartRequested;
         private bool _isEditMode;
 
+        //生成したオブジェクト(永続ID → オブジェクト)
+        private readonly Dictionary<string, LevelObjectIdentity> _spawnedObjects = new Dictionary<string, LevelObjectIdentity>();
+
         //現在のレベルデータ(読み込み前は null)
         //レベル作成システムではこれを編集中のデータとして書き換え、保存していなくてもそのままプレイできる
         public LevelData CurrentLevel => _levelData;
@@ -48,6 +52,25 @@ namespace Systems
         //レベルから生成したオブジェクトの親
         //やり直し時にまとめて破棄されるので、プレイ中に生成するものもここに入れる
         public Transform ObjectRoot => _objectRoot;
+
+        //種別キーと Prefab の対応表
+        public LevelObjectRegistry Registry => registry;
+
+        //レベルデータから生成したオブジェクト
+        //プレイ中に破棄されたものは含まれない(Unity の null 判定で除く)
+        public IEnumerable<LevelObjectIdentity> SpawnedObjects
+        {
+            get
+            {
+                foreach (var spawned in _spawnedObjects.Values)
+                {
+                    if (spawned != null) yield return spawned;
+                }
+            }
+        }
+
+        //レベルデータに保存していない変更があるか？
+        public bool IsDirty { get; private set; }
 
         //レベルを生成し終えた時の通知
         public event Action OnLevelBuilt;
@@ -141,7 +164,129 @@ namespace Systems
         public void SetLevel(LevelData levelData)
         {
             _levelData = levelData;
+            IsDirty = false;
             Rebuild();
+        }
+
+        //****編集用の操作****
+        //レベルデータを書き換え、生成済みのオブジェクトにも同じ変更を反映する
+        //作り直さないので、編集中に選択しているオブジェクトはそのまま残る
+
+        /// <summary>
+        /// 永続IDから生成済みのオブジェクトを探す
+        /// </summary>
+        public bool TryGetSpawnedObject(string id, out LevelObjectIdentity spawned)
+        {
+            return _spawnedObjects.TryGetValue(id, out spawned) && spawned != null;
+        }
+
+        /// <summary>
+        /// 永続IDからレベルデータを探す
+        /// </summary>
+        public LevelObjectData FindObjectData(string id)
+        {
+            return _levelData?.objects.Find(objectData => objectData.id == id);
+        }
+
+        /// <summary>
+        /// オブジェクトを追加する
+        /// </summary>
+        /// <param name="type">種別キー</param>
+        /// <param name="position">位置</param>
+        /// <returns>生成したオブジェクト。生成できなければ null</returns>
+        public LevelObjectIdentity AddObject(string type, Vector2 position)
+        {
+            if (_levelData == null) return null;
+
+            var objectData = new LevelObjectData
+            {
+                type = type,
+                id = Guid.NewGuid().ToString(),
+                position = position,
+            };
+
+            var spawned = Spawn(objectData);
+            if (spawned == null) return null;
+
+            //パラメータは Prefab の既定値で埋めておく
+            objectData.parameters = spawned.Export().parameters;
+
+            _levelData.objects.Add(objectData);
+            IsDirty = true;
+            return spawned;
+        }
+
+        /// <summary>
+        /// オブジェクトを削除する
+        /// </summary>
+        public void RemoveObject(string id)
+        {
+            if (_levelData == null) return;
+
+            _levelData.objects.RemoveAll(objectData => objectData.id == id);
+
+            if (_spawnedObjects.TryGetValue(id, out var spawned))
+            {
+                _spawnedObjects.Remove(id);
+                if (spawned != null)
+                {
+                    spawned.gameObject.SetActive(false);
+                    Destroy(spawned.gameObject);
+                }
+            }
+
+            IsDirty = true;
+        }
+
+        /// <summary>
+        /// オブジェクトを動かす
+        /// </summary>
+        public void MoveObject(string id, Vector2 position)
+        {
+            var objectData = FindObjectData(id);
+            if (objectData == null) return;
+
+            objectData.position = position;
+
+            if (_spawnedObjects.TryGetValue(id, out var spawned) && spawned != null)
+            {
+                var spawnedTransform = spawned.transform;
+                spawnedTransform.position = new Vector3(position.x, position.y, spawnedTransform.position.z);
+            }
+
+            IsDirty = true;
+        }
+
+        /// <summary>
+        /// レベルデータに書かれていないパラメータを、生成済みオブジェクトの現在値で補う
+        /// 編集画面に全てのパラメータを並べるために使う
+        /// </summary>
+        public void FillMissingParameters(string id)
+        {
+            var objectData = FindObjectData(id);
+            if (objectData == null) return;
+            if (!_spawnedObjects.TryGetValue(id, out var spawned) || spawned == null) return;
+
+            objectData.parameters.MergeMissing(spawned.Export().parameters);
+        }
+
+        /// <summary>
+        /// レベルデータのパラメータを書き換えた後に呼び、生成済みオブジェクトに反映する
+        /// </summary>
+        public void ApplyParameters(string id)
+        {
+            var objectData = FindObjectData(id);
+            if (objectData == null) return;
+
+            if (_spawnedObjects.TryGetValue(id, out var spawned) && spawned != null)
+            {
+                foreach (var levelObject in spawned.GetComponentsInChildren<ILevelObject>(true))
+                {
+                    levelObject.ApplyLevelParameters(objectData.parameters);
+                }
+            }
+
+            IsDirty = true;
         }
 
         /// <summary>
@@ -195,6 +340,7 @@ namespace Systems
 
         private void ClearObjects()
         {
+            _spawnedObjects.Clear();
             if (_objectRoot == null) return;
 
             //Destroy はフレームの最後まで遅れるため、先に非アクティブにして
@@ -212,12 +358,18 @@ namespace Systems
             }
         }
 
-        private void Spawn(LevelObjectData objectData)
+        private LevelObjectIdentity Spawn(LevelObjectData objectData)
         {
             if (!registry.TryGetPrefab(objectData.type, out var prefab))
             {
                 Debug.LogWarning($"[{GetType().Name}] 種別 {objectData.type} が LevelObjectRegistry に登録されていません");
-                return;
+                return null;
+            }
+
+            //ID が無いデータ(手書きの JSON 等)には割り当てる
+            if (string.IsNullOrEmpty(objectData.id))
+            {
+                objectData.id = Guid.NewGuid().ToString();
             }
 
             //回転・奥行きは Prefab の値を使う
@@ -225,7 +377,9 @@ namespace Systems
             var position = new Vector3(objectData.position.x, objectData.position.y, prefabTransform.position.z);
             var instance = Instantiate(prefab, position, prefabTransform.rotation, _objectRoot);
 
-            instance.AddComponent<LevelObjectIdentity>().Initialize(objectData.type, objectData.id);
+            var identity = instance.AddComponent<LevelObjectIdentity>();
+            identity.Initialize(objectData.type, objectData.id);
+            _spawnedObjects[objectData.id] = identity;
 
             //Instantiate 直後は Awake / OnEnable のみ実行済みで、Start はまだ
             //Start で参照される値もここで反映すれば間に合う
@@ -233,6 +387,8 @@ namespace Systems
             {
                 levelObject.ApplyLevelParameters(objectData.parameters);
             }
+
+            return identity;
         }
     }
 }
