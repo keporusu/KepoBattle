@@ -126,15 +126,15 @@
             "type": "Spring",
             "id": "8e2ee485-c827-4e4b-9e80-c8c42163728e",
             "position": {
-                "x": -3.0,
-                "y": -3.0
+                "x": 5.0,
+                "y": -2.5
             },
             "parameters": {
                 "entries": [
                     {
                         "key": "angle",
                         "type": 0,
-                        "value": "0"
+                        "value": "90"
                     }
                 ]
             }
@@ -143,7 +143,7 @@
             "type": "Player",
             "id": "6a208b93-a31e-42b5-8b5b-2295d1f9c2f9",
             "position": {
-                "x": 2.5,
+                "x": -5.5,
                 "y": -1.0
             },
             "parameters": {
@@ -165,8 +165,8 @@
             "type": "Ball",
             "id": "e4bb188d-a6a1-4703-8ed3-2825c32091ae",
             "position": {
-                "x": 0.0,
-                "y": -1.0
+                "x": -4.0,
+                "y": -2.5
             },
             "parameters": {
                 "entries": []
@@ -176,7 +176,7 @@
             "type": "Spring",
             "id": "015e641f-0ec5-4bc1-aa17-2a0234033da0",
             "position": {
-                "x": -4.5,
+                "x": 1.0,
                 "y": -3.0
             },
             "parameters": {
@@ -217,6 +217,45 @@
             "position": {
                 "x": 5.5,
                 "y": -1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bomb",
+            "id": "1c5b2513-a126-4498-bd70-d1ef326a6de1",
+            "position": {
+                "x": -0.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "fireOnSpawn",
+                        "type": 1,
+                        "value": "false"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "9c14a6ed-9062-49c1-8da8-5e92eb035e3b",
+            "position": {
+                "x": -5.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "86e0faa7-054c-4592-acbb-38141407d3e9",
+            "position": {
+                "x": -5.5,
+                "y": -2.5
             },
             "parameters": {
                 "entries": []
