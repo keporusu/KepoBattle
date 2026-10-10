@@ -31,9 +31,16 @@ namespace Systems
         private LevelData _levelData;
         private Transform _objectRoot;
         private bool _isRestartRequested;
+        private bool _isEditMode;
 
         //現在のレベルデータ(読み込み前は null)
+        //レベル作成システムではこれを編集中のデータとして書き換え、保存していなくてもそのままプレイできる
         public LevelData CurrentLevel => _levelData;
+
+        //編集モード中か？
+        //編集中は Time.timeScale = 0 でゲームを止める。入力など止まらない処理は各コンポーネントがこれを見て止める
+        //レベル作成システムが無い(ビルドしたゲーム等)場合は常に false
+        public static bool IsEditMode => Instance != null && Instance._isEditMode;
 
         //落下で消える高さ
         public float KillHeight => _levelData?.settings.killHeight ?? LevelSettings.DefaultKillHeight;
@@ -62,6 +69,9 @@ namespace Systems
             if (Instance == this)
             {
                 Instance = null;
+
+                //止めたまま残さない
+                Time.timeScale = 1.0f;
             }
         }
 
@@ -132,6 +142,26 @@ namespace Systems
         {
             _levelData = levelData;
             Rebuild();
+        }
+
+        /// <summary>
+        /// 編集モードとプレイモードを切り替える
+        /// どちらに切り替えても、レベルデータから全て作り直して初期配置に戻す
+        /// レベルの読み込み前に呼んだ場合は、読み込み時にそのモードで生成される
+        /// </summary>
+        /// <param name="editMode">編集モードにするか？</param>
+        public void SetEditMode(bool editMode)
+        {
+            _isEditMode = editMode;
+            Time.timeScale = editMode ? 0.0f : 1.0f;
+
+            //モードを切り替えた時点で、プレイ中のやり直し要求は不要になる
+            _isRestartRequested = false;
+
+            if (_levelData != null)
+            {
+                Rebuild();
+            }
         }
 
         /// <summary>

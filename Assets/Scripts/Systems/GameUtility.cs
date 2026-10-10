@@ -124,6 +124,9 @@ namespace Systems
 
         private void Update()
         {
+            //編集中に生成すると、レベルデータに無いオブジェクトが紛れ込むため無効にする
+            if (LevelManager.IsEditMode) return;
+
             if (Keyboard.current[Key.Digit1].wasPressedThisFrame)
             {
                 SpawnEnemy();

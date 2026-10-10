@@ -766,8 +766,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4.050049, y: -2.5999756}
-  m_SizeDelta: {x: -708.1, y: -369.2}
+  m_AnchoredPosition: {x: 356.90015, y: -30.599976}
+  m_SizeDelta: {x: -1413.7998, y: -425.20007}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &500999688
 PrefabInstance:
@@ -1412,10 +1412,10 @@ RectTransform:
   - {fileID: 303523866}
   m_Father: {fileID: 1540399706}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 180.4, y: -39.7}
-  m_SizeDelta: {x: 203.3, y: 47.7}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -128.20001, y: -39.7}
+  m_SizeDelta: {x: 203.29999, y: 47.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &781525273
 MonoBehaviour:
@@ -2195,6 +2195,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1146493854}
   - component: {fileID: 1146493853}
+  - component: {fileID: 1146493855}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -2232,6 +2233,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1146493855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146493852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d23296879db834c21a09d663b24334c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Systems.LevelEditor
+  startInEditMode: 0
 --- !u!1001 &1151382503
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2726,7 +2740,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5302687753421250777, guid: e52f48ba5bf5c4088b4b419dce6295ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.37976
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5302687753421250777, guid: e52f48ba5bf5c4088b4b419dce6295ce, type: 3}
       propertyPath: m_LocalPosition.y

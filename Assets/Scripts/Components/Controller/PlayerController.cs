@@ -115,6 +115,10 @@ namespace Components.Controller
 
         private void OnEnable()
         {
+            //編集中は入力を受け取らない
+            //モードを切り替えるとレベルごと作り直されるため、生成時点のモードだけを見ればよい
+            if (LevelManager.IsEditMode) return;
+
             _moveAction.Enable();
             _moveAction.performed += OnMovePerformed;
             _moveAction.canceled += OnMoveCanceled;

@@ -66,6 +66,7 @@ namespace Components.Movement
         private float _headOffset;
         private float _leftOffset;
         private float _rightOffset;
+        private float _bodyCenterOffsetX;
         private float _bodyCenterOffsetY;
 
 
@@ -139,12 +140,15 @@ namespace Components.Movement
             //通常はここで確定させる
             //生成コストをゲーム中に持ち込まないため
             _ = Solver;
+
+            //Position は他のコンポーネントの Start から読まれることがある
+            //同じオブジェクト上の Start の実行順は保証されないため、ここで取得しておく
+            if (!TryGetComponent(out _rigidbody_Cache))
+                throw new MissingComponentException($"[{GetType().Name}] Rigidbody2D が {gameObject.name} に見つかりません");
         }
 
         void Start()
         {
-            if (!TryGetComponent(out _rigidbody_Cache))
-                throw new MissingComponentException($"[{GetType().Name}] Rigidbody2D が {gameObject.name} に見つかりません");
 
             var geometryCollider = GetComponentsInChildren<Transform>()
                 .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.GeometryChannel))
@@ -179,6 +183,8 @@ namespace Components.Movement
             _rightOffset = geometryBounds.max.x - center.x;
 
             //コライダーが中心からずれている場合に備える
+            //足裏・頭センサはコライダーの中心に置かないと、ずれた側の壁にはみ出して継ぎ目を拾う
+            _bodyCenterOffsetX = (_leftOffset + _rightOffset) * 0.5f;
             _bodyCenterOffsetY = (_footOffset + _headOffset) * 0.5f;
         }
 
@@ -339,7 +345,8 @@ namespace Components.Movement
             //詰めないと接している壁を拾い、ブロックを積んだ壁の継ぎ目(各ブロックの上端)を足場と誤認する
             var sensorWidth = Mathf.Max(SkinWidth, _selfWidth - 2.0f * SkinWidth);
             var sensorSize = new Vector2(sensorWidth, SkinWidth);
-            var sensorOrigin = new Vector2(resolvedX, footY - SkinWidth * 0.5f);
+            var sensorX = resolvedX + _bodyCenterOffsetX;
+            var sensorOrigin = new Vector2(sensorX, footY - SkinWidth * 0.5f);
 
             //静止接地中は落下量が0になる
             //掃引距離を0にすると検出が不安定なので、余白を必ず足しておく
@@ -356,8 +363,8 @@ namespace Components.Movement
 
 #if UNITY_EDITOR
             Debug.DrawLine(
-                new Vector2(resolvedX, footY),
-                new Vector2(resolvedX, footY - fallDistance - 2.0f * SkinWidth),
+                new Vector2(sensorX, footY),
+                new Vector2(sensorX, footY - fallDistance - 2.0f * SkinWidth),
                 count > 0 ? Color.green : Color.red,
                 Time.fixedDeltaTime);
 #endif
@@ -408,7 +415,8 @@ namespace Components.Movement
             //足裏センサと同じく左右を詰め、ブロックを積んだ壁の継ぎ目(各ブロックの下端)を天井と誤認しないようにする
             var sensorWidth = Mathf.Max(SkinWidth, _selfWidth - 2.0f * SkinWidth);
             var sensorSize = new Vector2(sensorWidth, SkinWidth);
-            var sensorOrigin = new Vector2(resolvedX, headY + SkinWidth * 0.5f);
+            var sensorX = resolvedX + _bodyCenterOffsetX;
+            var sensorOrigin = new Vector2(sensorX, headY + SkinWidth * 0.5f);
 
             var count = Physics2D.BoxCast(
                 sensorOrigin,
@@ -421,8 +429,8 @@ namespace Components.Movement
 
 #if UNITY_EDITOR
             Debug.DrawLine(
-                new Vector2(resolvedX, headY),
-                new Vector2(resolvedX, headY + riseDistance + SkinWidth),
+                new Vector2(sensorX, headY),
+                new Vector2(sensorX, headY + riseDistance + SkinWidth),
                 count > 0 ? Color.cyan : Color.gray,
                 Time.fixedDeltaTime);
 #endif

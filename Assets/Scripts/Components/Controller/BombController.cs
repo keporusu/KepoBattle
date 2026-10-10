@@ -74,7 +74,8 @@ namespace Components.Controller
             _explosionCollisionSetting.ignoreDuration = true;
             
             //着火
-            if (fireOnSpawn)
+            //編集中は止まっているが、着火時のSEは鳴ってしまうため着火しない
+            if (fireOnSpawn && !LevelManager.IsEditMode)
             {
                 Fire();
             }
