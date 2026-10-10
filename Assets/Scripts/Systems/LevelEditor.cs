@@ -10,7 +10,7 @@ namespace Systems
 {
     /// <summary>
     /// レベル作成システム
-    /// 編集モードとプレイモードの切り替え、オブジェクトの追加・選択・移動・削除、パラメータ編集を行う
+    /// 編集モードとプレイモードの切り替え、オブジェクト・地形ブロックの追加・選択・移動・削除、パラメータ編集を行う
     /// 編集は LevelManager.CurrentLevel(メモリ上のレベルデータ)に対して行い、生成済みのオブジェクトにも同じ変更を反映する
     /// StreamingAssets にはエディタからしか書き込めないため、Unity エディタ上でのみ動かす
     /// </summary>
@@ -44,8 +44,23 @@ namespace Systems
         private enum DragMode
         {
             None,
-            MoveObjects, //選択中のオブジェクトを動かす
-            SelectRect,  //範囲選択
+            MoveObjects,   //選択中のオブジェクトを動かす
+            SelectRect,    //範囲選択
+            ExtendTerrain, //選択中の地形ブロックを縦・横に増やす(Command + ドラッグ)
+        }
+
+        //編集の対象(オブジェクトモード / 地形モード)
+        private enum EditTarget
+        {
+            Object,
+            Terrain,
+        }
+
+        //増やす時に置くブロック1つ分
+        private struct TerrainPlacement
+        {
+            public string Type;
+            public Vector2 Position;
         }
 
         //GUI の領域(GUILayout.Window が中身に合わせて大きさを決める)
@@ -56,6 +71,7 @@ namespace Systems
         //状態
         private readonly List<string> _selectedIds = new List<string>();
         private bool _snapToGrid = true;
+        private EditTarget _editTarget = EditTarget.Object;
 
         //GUI のボタンから選択やオブジェクトの数を変えると、同じフレームの GUI の描画とずれてエラーになるため
         //構造を変える操作は次の Update で行う
@@ -71,6 +87,15 @@ namespace Systems
         private Vector2 _dragStartScreen;
         private Vector2 _dragStartWorld;
         private readonly Dictionary<string, Vector2> _dragStartPositions = new Dictionary<string, Vector2>();
+
+        //地形ブロックを増やす
+        private readonly List<TerrainPlacement> _extendSources = new List<TerrainPlacement>(); //増やす元(選択中のブロック)
+        private readonly List<TerrainPlacement> _extendPreview = new List<TerrainPlacement>(); //離した時に置くブロック
+        private Vector2Int _extendSizeInCells; //増やす元のまとまりの大きさ(マス数)
+
+        //今の編集対象で扱う分類
+        private LevelObjectCategory TargetCategory =>
+            _editTarget == EditTarget.Terrain ? LevelObjectCategory.Terrain : LevelObjectCategory.Object;
 
         //カメラ
         private UnityEngine.Camera _camera;
@@ -138,6 +163,7 @@ namespace Systems
             _selectedIds.Clear();
             _fieldBuffers.Clear();
             _dragMode = DragMode.None;
+            _extendPreview.Clear();
         }
 
         //****モード切り替え****
@@ -154,6 +180,17 @@ namespace Systems
             {
                 _camera.orthographicSize = _defaultOrthographicSize;
             }
+        }
+
+        private void ChangeEditTarget(EditTarget editTarget)
+        {
+            if (_editTarget == editTarget) return;
+
+            //オブジェクトと地形ブロックは同時に選択しない
+            _editTarget = editTarget;
+            _selectedIds.Clear();
+            _dragMode = DragMode.None;
+            _extendPreview.Clear();
         }
 
         //****入力****
@@ -234,8 +271,24 @@ namespace Systems
                 _dragStartScreen = screenPos;
                 _dragStartWorld = worldPos;
 
+                //Command + ドラッグで地形ブロックを増やす(Windows では Ctrl)
+                var isExtend = _editTarget == EditTarget.Terrain
+                               && (keyboard.leftCommandKey.isPressed || keyboard.rightCommandKey.isPressed
+                                   || keyboard.ctrlKey.isPressed);
+
                 var picked = PickObject(levelManager, worldPos);
-                if (picked != null)
+                if (picked != null && isExtend)
+                {
+                    //選択していないブロックから始めた場合は、そのブロックだけを増やす
+                    if (!_selectedIds.Contains(picked.InstanceId))
+                    {
+                        _selectedIds.Clear();
+                        Select(levelManager, picked.InstanceId);
+                    }
+
+                    BeginExtend(levelManager);
+                }
+                else if (picked != null)
                 {
                     var id = picked.InstanceId;
                     if (_isAdditive && _selectedIds.Contains(id))
@@ -288,6 +341,17 @@ namespace Systems
                         _dragMode = DragMode.None;
                     }
                     break;
+                case DragMode.ExtendTerrain:
+                    if (mouse.leftButton.isPressed)
+                    {
+                        UpdateExtend(worldPos);
+                    }
+                    else
+                    {
+                        FinishExtend(levelManager);
+                        _dragMode = DragMode.None;
+                    }
+                    break;
             }
         }
 
@@ -310,18 +374,19 @@ namespace Systems
         //****選択・移動・削除****
 
         /// <summary>
-        /// オブジェクトモードで選択できるか？(地形ブロックは地形モードで扱う)
+        /// 今の編集対象で選択できるか？
+        /// オブジェクトモードではオブジェクトのみ、地形モードでは地形ブロックのみ選択できる
         /// </summary>
-        private static bool IsSelectable(LevelManager levelManager, LevelObjectIdentity identity)
+        private bool IsSelectable(LevelManager levelManager, LevelObjectIdentity identity)
         {
             return levelManager.Registry.TryGetEntry(identity.TypeKey, out var entry)
-                   && entry.category == LevelObjectCategory.Object;
+                   && entry.category == TargetCategory;
         }
 
         /// <summary>
         /// 指定位置にあるオブジェクトを探す。重なっている場合は小さいものを優先する
         /// </summary>
-        private static LevelObjectIdentity PickObject(LevelManager levelManager, Vector2 worldPos)
+        private LevelObjectIdentity PickObject(LevelManager levelManager, Vector2 worldPos)
         {
             LevelObjectIdentity picked = null;
             var pickedArea = float.PositiveInfinity;
@@ -373,13 +438,17 @@ namespace Systems
         {
             var delta = worldPos - _dragStartWorld;
 
+            //地形ブロックはマス単位で動かし、並びを崩さない
+            if (_editTarget == EditTarget.Terrain)
+            {
+                delta = new Vector2(
+                    Mathf.Round(delta.x / LevelGrid.CellSize) * LevelGrid.CellSize,
+                    Mathf.Round(delta.y / LevelGrid.CellSize) * LevelGrid.CellSize);
+            }
+
             foreach (var pair in _dragStartPositions)
             {
-                var target = pair.Value + delta;
-                if (_snapToGrid)
-                {
-                    target = LevelGrid.SnapObject(target);
-                }
+                var target = SnapForTarget(pair.Value + delta);
 
                 var objectData = levelManager.FindObjectData(pair.Key);
                 if (objectData == null || objectData.position == target) continue;
@@ -414,6 +483,107 @@ namespace Systems
             }
         }
 
+        /// <summary>
+        /// 今の編集対象に合わせて位置を揃える
+        /// 地形ブロックは常にマスの中心に揃え、オブジェクトは吸着が ON の時だけ 0.5 マス刻みに揃える
+        /// </summary>
+        private Vector2 SnapForTarget(Vector2 position)
+        {
+            if (_editTarget == EditTarget.Terrain) return LevelGrid.SnapTerrain(position);
+            return _snapToGrid ? LevelGrid.SnapObject(position) : position;
+        }
+
+        //****地形ブロックを増やす****
+
+        private void BeginExtend(LevelManager levelManager)
+        {
+            _dragMode = DragMode.ExtendTerrain;
+            _extendSources.Clear();
+            _extendPreview.Clear();
+
+            var minCell = new Vector2Int(int.MaxValue, int.MaxValue);
+            var maxCell = new Vector2Int(int.MinValue, int.MinValue);
+
+            foreach (var id in _selectedIds)
+            {
+                var objectData = levelManager.FindObjectData(id);
+                if (objectData == null) continue;
+
+                var position = LevelGrid.SnapTerrain(objectData.position);
+                _extendSources.Add(new TerrainPlacement { Type = objectData.type, Position = position });
+
+                var cell = ToCell(position);
+                minCell = Vector2Int.Min(minCell, cell);
+                maxCell = Vector2Int.Max(maxCell, cell);
+            }
+
+            //選択中のブロックを1つのまとまりとし、その大きさ単位で繰り返す
+            _extendSizeInCells = _extendSources.Count > 0 ? maxCell - minCell + Vector2Int.one : Vector2Int.one;
+        }
+
+        private void UpdateExtend(Vector2 worldPos)
+        {
+            _extendPreview.Clear();
+
+            var delta = worldPos - _dragStartWorld;
+
+            //縦・横のうち大きく動かした方向にだけ増やす
+            var isHorizontal = Mathf.Abs(delta.x) >= Mathf.Abs(delta.y);
+            var distance = isHorizontal ? delta.x : delta.y;
+            var step = (isHorizontal ? _extendSizeInCells.x : _extendSizeInCells.y) * LevelGrid.CellSize;
+
+            //まとまりの半分以上動かしたら1つ増やす
+            var count = Mathf.FloorToInt(Mathf.Abs(distance) / step + 0.5f);
+            if (count == 0) return;
+
+            var direction = (isHorizontal ? Vector2.right : Vector2.up) * Mathf.Sign(distance);
+            for (var i = 1; i <= count; i++)
+            {
+                var offset = direction * step * i;
+                foreach (var source in _extendSources)
+                {
+                    _extendPreview.Add(new TerrainPlacement { Type = source.Type, Position = source.Position + offset });
+                }
+            }
+        }
+
+        private void FinishExtend(LevelManager levelManager)
+        {
+            //既にブロックがあるマスには置かない
+            var occupied = new HashSet<Vector2Int>();
+            foreach (var identity in levelManager.SpawnedObjects)
+            {
+                if (!IsSelectable(levelManager, identity)) continue;
+
+                var objectData = levelManager.FindObjectData(identity.InstanceId);
+                if (objectData != null)
+                {
+                    occupied.Add(ToCell(LevelGrid.SnapTerrain(objectData.position)));
+                }
+            }
+
+            foreach (var placement in _extendPreview)
+            {
+                if (!occupied.Add(ToCell(placement.Position))) continue;
+
+                //増やしたブロックも選択に加え、続けて増やせるようにする
+                var spawned = levelManager.AddObject(placement.Type, placement.Position);
+                if (spawned != null)
+                {
+                    Select(levelManager, spawned.InstanceId);
+                }
+            }
+
+            _extendPreview.Clear();
+        }
+
+        private static Vector2Int ToCell(Vector2 position)
+        {
+            return new Vector2Int(
+                Mathf.FloorToInt(position.x / LevelGrid.CellSize),
+                Mathf.FloorToInt(position.y / LevelGrid.CellSize));
+        }
+
         private void DeleteSelection()
         {
             var levelManager = LevelManager.Instance;
@@ -434,11 +604,7 @@ namespace Systems
             if (levelManager == null || _camera == null) return;
 
             //画面の中央に置く
-            Vector2 position = _camera.transform.position;
-            if (_snapToGrid)
-            {
-                position = LevelGrid.SnapObject(position);
-            }
+            Vector2 position = SnapForTarget(_camera.transform.position);
 
             var spawned = levelManager.AddObject(type, position);
             if (spawned == null) return;
@@ -461,6 +627,7 @@ namespace Systems
             {
                 DrawGrid();
                 DrawSelection(levelManager);
+                DrawExtendPreview();
                 DrawSelectRect();
             }
 
@@ -470,7 +637,8 @@ namespace Systems
             if (!isEditing) return;
 
             _paletteRect.y = _utilityRect.yMax + Margin;
-            _paletteRect = GUILayout.Window(PaletteWindowId, _paletteRect, DrawPaletteWindow, "オブジェクト",
+            var paletteTitle = _editTarget == EditTarget.Terrain ? "地形" : "オブジェクト";
+            _paletteRect = GUILayout.Window(PaletteWindowId, _paletteRect, DrawPaletteWindow, paletteTitle,
                 GUILayout.Width(PanelWidth));
 
             if (_selectedIds.Count > 0)
@@ -511,9 +679,32 @@ namespace Systems
             GUI.enabled = true;
             GUILayout.EndHorizontal();
 
-            if (isEditMode)
+            if (!isEditMode) return;
+
+            //編集対象(オブジェクトモード / 地形モード)
+            GUILayout.BeginHorizontal();
+            GUI.enabled = _editTarget != EditTarget.Object;
+            if (GUILayout.Button("オブジェクト"))
+            {
+                _pendingActions.Enqueue(() => ChangeEditTarget(EditTarget.Object));
+            }
+
+            GUI.enabled = _editTarget != EditTarget.Terrain;
+            if (GUILayout.Button("地形"))
+            {
+                _pendingActions.Enqueue(() => ChangeEditTarget(EditTarget.Terrain));
+            }
+
+            GUI.enabled = true;
+            GUILayout.EndHorizontal();
+
+            if (_editTarget == EditTarget.Object)
             {
                 _snapToGrid = GUILayout.Toggle(_snapToGrid, "グリッドに吸着");
+            }
+            else
+            {
+                GUILayout.Label("Command + ドラッグで増やす");
             }
         }
 
@@ -524,7 +715,7 @@ namespace Systems
 
             foreach (var entry in levelManager.Registry.Entries)
             {
-                if (entry.category != LevelObjectCategory.Object) continue;
+                if (entry.category != TargetCategory) continue;
 
                 if (GUILayout.Button(entry.key))
                 {
@@ -712,6 +903,24 @@ namespace Systems
                 var guiMin = WorldToGui(new Vector2(bounds.min.x, bounds.max.y));
                 var guiMax = WorldToGui(new Vector2(bounds.max.x, bounds.min.y));
                 DrawOutline(Rect.MinMaxRect(guiMin.x, guiMin.y, guiMax.x, guiMax.y), color, 2.0f);
+            }
+        }
+
+        private void DrawExtendPreview()
+        {
+            if (_dragMode != DragMode.ExtendTerrain) return;
+
+            var half = LevelGrid.CellSize * 0.5f;
+            var fill = new Color(0.4f, 1.0f, 0.4f, 0.2f);
+            var outline = new Color(0.4f, 1.0f, 0.4f, 0.9f);
+
+            foreach (var placement in _extendPreview)
+            {
+                var guiMin = WorldToGui(placement.Position + new Vector2(-half, half));
+                var guiMax = WorldToGui(placement.Position + new Vector2(half, -half));
+                var rect = Rect.MinMaxRect(guiMin.x, guiMin.y, guiMax.x, guiMax.y);
+                DrawRect(rect, fill);
+                DrawOutline(rect, outline, 1.0f);
             }
         }
 
