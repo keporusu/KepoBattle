@@ -1,0 +1,193 @@
+{
+    "version": 1,
+    "settings": {
+        "cameraMin": {
+            "x": -6.599999904632568,
+            "y": -4.0
+        },
+        "cameraMax": {
+            "x": 6.599999904632568,
+            "y": 0.699999988079071
+        },
+        "killHeight": -10.0
+    },
+    "objects": [
+        {
+            "type": "Block_Normal",
+            "id": "2936e0dc-a8fc-48a2-8cba-e1fe0ebc7545",
+            "position": {
+                "x": -0.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "29991436-a003-48e9-8f50-b4fabeadcbcc",
+            "position": {
+                "x": 0.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "b6b7f7f5-b099-4f50-adb3-1a3e5c481d17",
+            "position": {
+                "x": 1.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "38340fe9-0374-41c7-bd2b-39c32dc3cf4d",
+            "position": {
+                "x": 2.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "9c4482d5-fc50-487b-9c9a-1c5469524357",
+            "position": {
+                "x": 3.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "42e17ee8-ffba-41a8-b8e0-de1c81510d39",
+            "position": {
+                "x": 4.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "10d175f2-c082-406f-8d54-7ae8e732b89c",
+            "position": {
+                "x": -1.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "3385f356-dec3-47ae-b238-ac11eba48cc5",
+            "position": {
+                "x": -2.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "3415824e-2fe5-47ba-b18c-1dd30a3e345a",
+            "position": {
+                "x": -3.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "0cf948cc-2ba4-44ac-8552-112da9c14411",
+            "position": {
+                "x": -4.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "8e2ee485-c827-4e4b-9e80-c8c42163728e",
+            "position": {
+                "x": -3.0,
+                "y": -3.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Player",
+            "id": "6a208b93-a31e-42b5-8b5b-2295d1f9c2f9",
+            "position": {
+                "x": 2.5,
+                "y": -1.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "facingRight",
+                        "type": 1,
+                        "value": "false"
+                    },
+                    {
+                        "key": "playerNumber",
+                        "type": 2,
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Ball",
+            "id": "e4bb188d-a6a1-4703-8ed3-2825c32091ae",
+            "position": {
+                "x": 0.0,
+                "y": -1.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "015e641f-0ec5-4bc1-aa17-2a0234033da0",
+            "position": {
+                "x": -4.5,
+                "y": -3.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "0"
+                    }
+                ]
+            }
+        }
+    ]
+}
