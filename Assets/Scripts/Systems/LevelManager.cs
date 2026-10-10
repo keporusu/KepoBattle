@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading;
 using Components.Camera;
 using Components.Identity;
@@ -72,6 +73,9 @@ namespace Systems
         //レベルデータに保存していない変更があるか？
         public bool IsDirty { get; private set; }
 
+        //読み込んだ・保存したレベルのファイル名(StreamingAssets/Levels 以下)
+        public string CurrentFileName { get; private set; }
+
         //レベルを生成し終えた時の通知
         public event Action OnLevelBuilt;
 
@@ -105,6 +109,7 @@ namespace Systems
             var levelData = await LoadFromStreamingAssetsAsync(levelFileName, destroyCancellationToken);
             if (levelData != null)
             {
+                CurrentFileName = levelFileName;
                 SetLevel(levelData);
             }
         }
@@ -156,6 +161,59 @@ namespace Systems
             }
 
             return levelData;
+        }
+
+        /// <summary>
+        /// 現在のレベルデータを StreamingAssets/Levels に保存する
+        /// StreamingAssets は実行時に書き込めないため、Unity エディタ上でのみ保存できる
+        /// プレイ中の状態(爆発・落下等)はレベルデータに影響しないので、どちらのモードで保存しても初期配置が保存される
+        /// </summary>
+        /// <param name="fileName">ファイル名(拡張子 .json を含む)</param>
+        /// <param name="errorMessage">失敗した理由</param>
+        /// <returns>保存できたか？</returns>
+        public bool SaveToStreamingAssets(string fileName, out string errorMessage)
+        {
+            if (_levelData == null)
+            {
+                errorMessage = "レベルが読み込まれていません";
+                return false;
+            }
+
+            if (!Application.isEditor)
+            {
+                errorMessage = "StreamingAssets には Unity エディタ上でのみ保存できます";
+                return false;
+            }
+
+            var directory = Path.Combine(Application.streamingAssetsPath, LevelDirectory);
+            var path = Path.Combine(directory, fileName);
+
+            try
+            {
+                Directory.CreateDirectory(directory);
+
+                _levelData.version = LevelData.CurrentVersion;
+                var json = JsonUtility.ToJson(_levelData, true);
+
+                //BOM 付きにすると、他のツールで扱いにくくなるため付けない
+                File.WriteAllText(path, json + "\n", new UTF8Encoding(false));
+            }
+            catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
+            {
+                Debug.LogError($"[{GetType().Name}] レベルを保存できませんでした: {path}\n{e.Message}");
+                errorMessage = e.Message;
+                return false;
+            }
+
+#if UNITY_EDITOR
+            //Project ウィンドウにすぐ反映する
+            UnityEditor.AssetDatabase.ImportAsset($"Assets/StreamingAssets/{LevelDirectory}/{fileName}");
+#endif
+
+            CurrentFileName = fileName;
+            IsDirty = false;
+            errorMessage = null;
+            return true;
         }
 
         /// <summary>

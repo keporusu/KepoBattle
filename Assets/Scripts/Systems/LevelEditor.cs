@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using Components.Identity;
 using Data;
 using UnityEngine;
@@ -41,6 +42,9 @@ namespace Systems
         //グリッド線が多すぎる(ズームアウトしすぎ)場合は描かない
         private const int MaxGridLines = 200;
 
+        //保存結果を表示しておく時間(秒)。編集中は止まっているので実時間で数える
+        private const float StatusDuration = 3.0f;
+
         private enum DragMode
         {
             None,
@@ -72,6 +76,12 @@ namespace Systems
         private readonly List<string> _selectedIds = new List<string>();
         private bool _snapToGrid = true;
         private EditTarget _editTarget = EditTarget.Object;
+
+        //保存
+        private string _saveFileName;
+        private string _statusMessage;
+        private float _statusTime = float.NegativeInfinity;
+        private bool _isStatusVisible; //GUI の描画中に表示が切り替わらないよう、Update で決める
 
         //GUI のボタンから選択やオブジェクトの数を変えると、同じフレームの GUI の描画とずれてエラーになるため
         //構造を変える操作は次の Update で行う
@@ -159,6 +169,12 @@ namespace Systems
 
         private void OnLevelBuilt()
         {
+            //保存先の初期値は読み込んだファイル
+            if (string.IsNullOrEmpty(_saveFileName) && LevelManager.Instance != null)
+            {
+                _saveFileName = LevelManager.Instance.CurrentFileName;
+            }
+
             //作り直すと選択していたオブジェクトは無くなる
             _selectedIds.Clear();
             _fieldBuffers.Clear();
@@ -201,6 +217,8 @@ namespace Systems
             {
                 _pendingActions.Dequeue().Invoke();
             }
+
+            _isStatusVisible = Time.realtimeSinceStartup - _statusTime < StatusDuration;
 
             var levelManager = LevelManager.Instance;
             if (levelManager == null || levelManager.CurrentLevel == null || !LevelManager.IsEditMode) return;
@@ -613,6 +631,60 @@ namespace Systems
             Select(levelManager, spawned.InstanceId);
         }
 
+        //****保存****
+
+        private void Save()
+        {
+            var levelManager = LevelManager.Instance;
+            if (levelManager == null) return;
+
+            if (!TryNormalizeFileName(_saveFileName, out var fileName, out var error))
+            {
+                ShowStatus(error);
+                return;
+            }
+
+            _saveFileName = fileName;
+            ShowStatus(levelManager.SaveToStreamingAssets(fileName, out var saveError)
+                ? $"保存しました: {fileName}"
+                : $"保存に失敗しました: {saveError}");
+        }
+
+        /// <summary>
+        /// 入力されたファイル名を整える(拡張子 .json を補う)
+        /// StreamingAssets/Levels の外に書き出さないよう、フォルダを含む名前は受け付けない
+        /// </summary>
+        private static bool TryNormalizeFileName(string input, out string fileName, out string error)
+        {
+            fileName = (input ?? string.Empty).Trim();
+            if (fileName.Length == 0)
+            {
+                error = "ファイル名を入力してください";
+                return false;
+            }
+
+            if (!fileName.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+            {
+                fileName += ".json";
+            }
+
+            if (fileName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0
+                || fileName.Contains("/") || fileName.Contains("\\") || fileName.StartsWith("."))
+            {
+                error = "ファイル名に使えない文字が含まれています";
+                return false;
+            }
+
+            error = null;
+            return true;
+        }
+
+        private void ShowStatus(string message)
+        {
+            _statusMessage = message;
+            _statusTime = Time.realtimeSinceStartup;
+        }
+
         //****GUI****
 
         private void OnGUI()
@@ -705,6 +777,21 @@ namespace Systems
             else
             {
                 GUILayout.Label("Command + ドラッグで増やす");
+            }
+
+            //保存(StreamingAssets/Levels 以下)
+            GUILayout.Space(4.0f);
+            GUILayout.BeginHorizontal();
+            _saveFileName = GUILayout.TextField(_saveFileName ?? string.Empty);
+            if (GUILayout.Button("保存", GUILayout.Width(50.0f)))
+            {
+                _pendingActions.Enqueue(Save);
+            }
+            GUILayout.EndHorizontal();
+
+            if (_isStatusVisible)
+            {
+                GUILayout.Label(_statusMessage);
             }
         }
 
