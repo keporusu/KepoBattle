@@ -5,6 +5,7 @@ using Components.Combat.Attack;
 using Components.Detection;
 using Components.Identity;
 using Core.Constants;
+using Core.Contracts;
 using Core.Exceptions;
 using Cysharp.Threading.Tasks;
 using Data;
@@ -23,8 +24,11 @@ namespace Components.Controller
         Fire,
         Explode,
     }
-    public class BombController : PropBehaviourController
+    public class BombController : PropBehaviourController, ILevelObject
     {
+        //レベルデータのキー
+        private const string FireOnSpawnKey = "fireOnSpawn";
+
         [SerializeField] private float explodeTime = 1.0f;
         [SerializeField] private float collisionTime = 0.2f;
         [SerializeField] private bool fireOnSpawn = false; //初手から着火しているか？
@@ -70,12 +74,27 @@ namespace Components.Controller
             _explosionCollisionSetting.ignoreDuration = true;
             
             //着火
-            if (fireOnSpawn)
+            //編集中は止まっているが、着火時のSEは鳴ってしまうため着火しない
+            if (fireOnSpawn && !LevelManager.IsEditMode)
             {
                 Fire();
             }
         }
         
+        
+        public void ApplyLevelParameters(LevelObjectParameters parameters)
+        {
+            //Start で参照されるため、Start 前に反映した場合のみ効果がある
+            if (parameters.TryGetBool(FireOnSpawnKey, out var fire))
+            {
+                fireOnSpawn = fire;
+            }
+        }
+
+        public void ExportLevelParameters(LevelObjectParameters parameters)
+        {
+            parameters.SetBool(FireOnSpawnKey, fireOnSpawn);
+        }
         
         protected override void OnDamageHit(Collider2D other)
         {

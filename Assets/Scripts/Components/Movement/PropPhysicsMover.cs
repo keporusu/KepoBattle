@@ -36,12 +36,14 @@ namespace Components.Movement
                 _isForcing = false;
                 OnRelax?.Invoke();
             }
-            
+        }
+
+        protected override void OnFellOut()
+        {
+            base.OnFellOut();
+
             //画面外に行き過ぎたら破壊
-            if (Position.y < -10.0f)
-            {
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
     }
 }

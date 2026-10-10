@@ -32,10 +32,10 @@ namespace UI
                 helpPanel.gameObject.SetActive(false);
             });
 
-            //リスポーンするボタン
+            //リスポーンするボタン(レベルをやり直す)
             respawnButton.onClick.AddListener(() =>
             {
-                gameUtility.RespawnPlayer();
+                gameUtility.RestartLevel();
             });
         }
 

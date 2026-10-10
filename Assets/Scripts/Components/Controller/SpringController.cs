@@ -3,6 +3,7 @@ using Components.Detection;
 using Components.Identity;
 using Components.Movement;
 using Core.Constants;
+using Core.Contracts;
 using UnityEngine;
 using Data;
 using DG.Tweening;
@@ -13,8 +14,11 @@ using UnityEngine.UIElements;
 
 namespace Components.Controller
 {
-    public class SpringController : MonoBehaviour
+    public class SpringController : MonoBehaviour, ILevelObject
     {
+        //レベルデータのキー
+        private const string AngleKey = "angle";
+
         //基本パラメータ
         [SerializeField] private float springForce;
         [SerializeField] private float angleOffset;
@@ -29,9 +33,41 @@ namespace Components.Controller
         private void OnValidate()
         {
             //回転がエディタ上で反映されるようにする
+            ApplyAngleToTransform();
+        }
+
+        /// <summary>
+        /// 力の向き(angleOffset)を見た目の回転に反映する
+        /// 力の向きは angleOffset で決まるため、回転は常にこちらから合わせる
+        /// </summary>
+        private void ApplyAngleToTransform()
+        {
             var eulerAngles = transform.localEulerAngles;
             eulerAngles.z = angleOffset;
             transform.localEulerAngles = eulerAngles;
+        }
+
+        /// <summary>
+        /// バネの角度を設定する
+        /// </summary>
+        /// <param name="angle">上向きを0とした角度(度)。反時計回りが正</param>
+        public void SetAngle(float angle)
+        {
+            angleOffset = angle;
+            ApplyAngleToTransform();
+        }
+
+        public void ApplyLevelParameters(LevelObjectParameters parameters)
+        {
+            if (parameters.TryGetFloat(AngleKey, out var angle))
+            {
+                SetAngle(angle);
+            }
+        }
+
+        public void ExportLevelParameters(LevelObjectParameters parameters)
+        {
+            parameters.SetFloat(AngleKey, angleOffset);
         }
 
         //イベントのId
@@ -44,6 +80,9 @@ namespace Components.Controller
 
         private void Awake()
         {
+            //OnValidate はエディタ専用なので、実行時にも見た目の回転を力の向きに合わせる
+            ApplyAngleToTransform();
+
             _characterLayer = LayerMask.GetMask(GameLayers.Character);
             _propLayer=LayerMask.GetMask(GameLayers.Prop);
         }

@@ -1,0 +1,9 @@
+{
+    "version": 1,
+    "settings": {
+        "cameraMin": { "x": -6.6, "y": -4.0 },
+        "cameraMax": { "x": 6.6, "y": 0.7 },
+        "killHeight": -10.0
+    },
+    "objects": []
+}
