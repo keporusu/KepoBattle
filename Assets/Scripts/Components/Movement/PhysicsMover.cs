@@ -335,7 +335,10 @@ namespace Components.Movement
             //足裏センサ
             //上端を足元に合わせた厚み SkinWidth の箱を、落下量 + 余白ぶんだけ下に掃く
             //x は移動先を使う。移動前の x で掃くと足場の端から出たことを検出できない
-            var sensorSize = new Vector2(_selfWidth, SkinWidth);
+            //左右を SkinWidth ずつ詰める
+            //詰めないと接している壁を拾い、ブロックを積んだ壁の継ぎ目(各ブロックの上端)を足場と誤認する
+            var sensorWidth = Mathf.Max(SkinWidth, _selfWidth - 2.0f * SkinWidth);
+            var sensorSize = new Vector2(sensorWidth, SkinWidth);
             var sensorOrigin = new Vector2(resolvedX, footY - SkinWidth * 0.5f);
 
             //静止接地中は落下量が0になる
@@ -402,7 +405,9 @@ namespace Components.Movement
 
             //頭センサ
             //下端を頭に合わせた厚み SkinWidth の箱を、上昇量ぶんだけ上に掃く
-            var sensorSize = new Vector2(_selfWidth, SkinWidth);
+            //足裏センサと同じく左右を詰め、ブロックを積んだ壁の継ぎ目(各ブロックの下端)を天井と誤認しないようにする
+            var sensorWidth = Mathf.Max(SkinWidth, _selfWidth - 2.0f * SkinWidth);
+            var sensorSize = new Vector2(sensorWidth, SkinWidth);
             var sensorOrigin = new Vector2(resolvedX, headY + SkinWidth * 0.5f);
 
             var count = Physics2D.BoxCast(
