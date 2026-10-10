@@ -57,6 +57,9 @@ namespace Systems
         //種別キーと Prefab の対応表
         public LevelObjectRegistry Registry => registry;
 
+        //起動時に読み込むレベルのファイル名(StreamingAssets/Levels 以下)
+        public string LevelFileName => levelFileName;
+
         //レベルデータから生成したオブジェクト
         //プレイ中に破棄されたものは含まれない(Unity の null 判定で除く)
         public IEnumerable<LevelObjectIdentity> SpawnedObjects

@@ -19,6 +19,9 @@ namespace Systems
     {
         [SerializeField] private bool startInEditMode = false;
 
+        //GUI(ウィンドウ)の拡大率
+        [SerializeField, Min(0.5f)] private float guiScale = 2.0f;
+
         //編集中のカメラ操作
         [SerializeField] private float minZoom = 2.0f;   //Orthographic Size の下限
         [SerializeField] private float maxZoom = 30.0f;  //Orthographic Size の上限
@@ -703,22 +706,31 @@ namespace Systems
                 DrawSelectRect();
             }
 
+            //ウィンドウは拡大して描く
+            //以降のウィンドウの位置・大きさ(_utilityRect 等)は拡大前の座標で持つ
+            var previousMatrix = GUI.matrix;
+            GUI.matrix = Matrix4x4.Scale(new Vector3(guiScale, guiScale, 1.0f));
+
             _utilityRect = GUILayout.Window(UtilityWindowId, _utilityRect, DrawUtilityWindow, "レベル作成",
                 GUILayout.Width(PanelWidth));
 
-            if (!isEditing) return;
-
-            _paletteRect.y = _utilityRect.yMax + Margin;
-            var paletteTitle = _editTarget == EditTarget.Terrain ? "地形" : "オブジェクト";
-            _paletteRect = GUILayout.Window(PaletteWindowId, _paletteRect, DrawPaletteWindow, paletteTitle,
-                GUILayout.Width(PanelWidth));
-
-            if (_selectedIds.Count > 0)
+            if (isEditing)
             {
-                _inspectorRect.x = Screen.width - InspectorWidth - Margin;
-                _inspectorRect = GUILayout.Window(InspectorWindowId, _inspectorRect, DrawInspectorWindow, "パラメータ",
-                    GUILayout.Width(InspectorWidth));
+                _paletteRect.y = _utilityRect.yMax + Margin;
+                var paletteTitle = _editTarget == EditTarget.Terrain ? "地形" : "オブジェクト";
+                _paletteRect = GUILayout.Window(PaletteWindowId, _paletteRect, DrawPaletteWindow, paletteTitle,
+                    GUILayout.Width(PanelWidth));
+
+                if (_selectedIds.Count > 0)
+                {
+                    //右端に寄せる(拡大前の座標での画面幅で計算する)
+                    _inspectorRect.x = Screen.width / guiScale - InspectorWidth - Margin;
+                    _inspectorRect = GUILayout.Window(InspectorWindowId, _inspectorRect, DrawInspectorWindow, "パラメータ",
+                        GUILayout.Width(InspectorWidth));
+                }
             }
+
+            GUI.matrix = previousMatrix;
         }
 
         private void DrawUtilityWindow(int windowId)
@@ -1046,7 +1058,8 @@ namespace Systems
 
         private bool IsOverGui(Vector2 screenPos)
         {
-            var guiPos = ScreenToGui(screenPos);
+            //ウィンドウの位置・大きさは拡大前の座標で持っているので、マウス位置も拡大前に戻す
+            var guiPos = ScreenToGui(screenPos) / guiScale;
             if (_utilityRect.Contains(guiPos)) return true;
 
             //編集中のみ表示するウィンドウ
