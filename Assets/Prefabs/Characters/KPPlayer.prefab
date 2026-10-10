@@ -475,9 +475,6 @@ PrefabInstance:
       addedObject: {fileID: 8592005129262521717}
     - targetCorrespondingSourceObject: {fileID: 3693381977577805594, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4642519649750234335}
-    - targetCorrespondingSourceObject: {fileID: 3693381977577805594, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8417148391933194332}
     - targetCorrespondingSourceObject: {fileID: 1059906580081026843, guid: 0e4592c9fba534a119784d801603ddc4, type: 3}
       insertIndex: -1
@@ -594,29 +591,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   jumpPower: 15
   moveSpeed: 5
-  initialPosition: {x: 2.5, y: 3}
+  playerNumber: 1
   chargeMaxTime: 1.2
   chargeMaxPower: 1.5
   chargeMinPower: 0.5
   sprite: {fileID: 3522190835031672556}
---- !u!114 &4642519649750234335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8132159521656806917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1bdd0d615a854fdda49da8a7c769e61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  camera: {fileID: 0}
-  offset: {x: 0, y: 1.54, z: 0}
-  maxHorizontal: 6.6
-  minHorizontal: -6.6
-  maxVertical: 0.7
-  minVertical: -4
 --- !u!114 &8417148391933194332
 MonoBehaviour:
   m_ObjectHideFlags: 0

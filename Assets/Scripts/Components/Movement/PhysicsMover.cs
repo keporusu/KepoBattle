@@ -7,6 +7,8 @@ using Core.Constants;
 using Components.Detection;
 using Components.Controller;
 using Core.Movement;
+using Data;
+using Systems;
 
 namespace Components.Movement
 {
@@ -71,6 +73,7 @@ namespace Components.Movement
         private bool _hasOtherCharacter = false;
         private bool _isRight; //向いている向き
         private bool _isRequestedExtraSpringForce; //ForceVelocity時に追加でかかる外的要因の力(バネ)
+        private bool _hasFallenOut; //落下で消える高さを下回ったか？(通知は一度だけ)
 
         private bool CanPushObject(Collider2D other)
         {
@@ -89,6 +92,9 @@ namespace Components.Movement
             add => Solver.OnForceAir += value;
             remove => Solver.OnForceAir -= value;
         }
+        //落下で消える高さを下回った時の通知(一度だけ)
+        public event System.Action OnFallOut;
+
         public event System.Action<float> OnBounce
         {
             add => Solver.OnBounce += value;
@@ -277,7 +283,34 @@ namespace Components.Movement
 
                 _rigidbody_Cache.MovePosition(step.NextPosition);
             }
-            
+
+            CheckFallOut();
+        }
+
+        /// <summary>
+        /// 落下で消える高さを下回ったかを調べ、下回ったら一度だけ通知する
+        /// 高さはレベルデータの値を使い、レベルが無ければ既定値を使う
+        /// </summary>
+        private void CheckFallOut()
+        {
+            if (_hasFallenOut) return;
+
+            var killHeight = LevelManager.Instance != null
+                ? LevelManager.Instance.KillHeight
+                : LevelSettings.DefaultKillHeight;
+            if (Position.y >= killHeight) return;
+
+            _hasFallenOut = true;
+            OnFellOut();
+        }
+
+        /// <summary>
+        /// 落下で消える高さを下回った時の処理
+        /// 何をするかは派生クラス・購読側が決める
+        /// </summary>
+        protected virtual void OnFellOut()
+        {
+            OnFallOut?.Invoke();
         }
 
         /// <summary>
@@ -537,6 +570,7 @@ namespace Components.Movement
         {
             //移動処理を全てリセット
             Solver.Reset();
+            _hasFallenOut = false;
 
             //位置
             _rigidbody_Cache.position = position;

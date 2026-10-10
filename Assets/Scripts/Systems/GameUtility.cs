@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Components.Camera;
 using Components.Controller;
 using UnityEngine;
@@ -15,21 +16,40 @@ namespace Systems
         [SerializeField] private GameObject bombPrefab;
 
 
-        //プレイヤーはレベル読み込みで生成・破棄されるため、Start で一度だけ探すのではなく
-        //プレイヤー側から登録してもらう。破棄されていれば Unity の null 判定で null になる
-        private PlayerController playerController_Cache;
+        //プレイヤーはレベル読み込みで生成・破棄され、複数いることもあるため
+        //Start で一度だけ探すのではなく、プレイヤー側から登録してもらう
+        private readonly List<PlayerController> _players = new List<PlayerController>();
 
         /// <summary>
-        /// 操作対象のプレイヤーを登録する
+        /// 1P(playerNumber が最も小さいプレイヤー)
+        /// カメラの追従やデバッグ用の生成位置の基準にする
+        /// やり直し中の旧プレイヤーは非アクティブになっているので除く
+        /// </summary>
+        public PlayerController MainPlayer
+        {
+            get
+            {
+                PlayerController mainPlayer = null;
+                foreach (var player in _players)
+                {
+                    if (player == null || !player.isActiveAndEnabled) continue;
+                    if (mainPlayer == null || player.PlayerNumber < mainPlayer.PlayerNumber)
+                    {
+                        mainPlayer = player;
+                    }
+                }
+
+                return mainPlayer;
+            }
+        }
+
+        /// <summary>
+        /// プレイヤーを登録する
         /// </summary>
         public void RegisterPlayer(PlayerController player)
         {
-            if (playerController_Cache != null && playerController_Cache != player)
-            {
-                Debug.LogWarning($"[{GetType().Name}] プレイヤーが既に登録されているため、{player.gameObject.name} で上書きします");
-            }
-
-            playerController_Cache = player;
+            if (_players.Contains(player)) return;
+            _players.Add(player);
         }
 
         /// <summary>
@@ -37,16 +57,25 @@ namespace Systems
         /// </summary>
         public void UnregisterPlayer(PlayerController player)
         {
-            if (playerController_Cache == player)
-            {
-                playerController_Cache = null;
-            }
+            _players.Remove(player);
         }
         
-        public void RespawnPlayer()
+        /// <summary>
+        /// レベルをやり直す
+        /// レベルを読み込んでいない場合は、各プレイヤーを初期位置に戻すだけにする
+        /// </summary>
+        public void RestartLevel()
         {
-            if (playerController_Cache == null) return;
-            playerController_Cache.Respawn();
+            if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+            {
+                LevelManager.Instance.RequestRestart();
+                return;
+            }
+
+            foreach (var player in _players)
+            {
+                if (player != null) player.Respawn();
+            }
         }
         
         /// <summary>
@@ -56,11 +85,8 @@ namespace Systems
         /// <param name="duration">揺らす時間</param>
         public void SetCameraShake(Vector2 size, float duration)
         {
-            if (playerController_Cache == null) return;
-            if (playerController_Cache.gameObject.TryGetComponent(out CameraController controller))
-            {
-                controller.SetCameraShake(size, duration);
-            }
+            if (CameraController.Main == null) return;
+            CameraController.Main.SetCameraShake(size, duration);
         }
         /// <summary>
         /// マウスのワールド座標の取得
@@ -116,29 +142,36 @@ namespace Systems
 
         private void SpawnBall()
         {
-            if (playerController_Cache == null) return;
-            Vector3 spawnDir = playerController_Cache.IsFacingRight ? Vector3.right : -Vector3.right;
-            Vector3 spawnPos = playerController_Cache.Position;
-            spawnPos += Vector3.up * 3.0f + spawnDir * 2.0f;
-            Instantiate(ballPrefab, spawnPos, Quaternion.identity);
+            SpawnNearMainPlayer(ballPrefab, 2.0f);
         }
 
         private void SpawnEnemy()
         {
-            if (playerController_Cache == null) return;
-            Vector3 spawnDir = playerController_Cache.IsFacingRight ? Vector3.right : -Vector3.right;
-            Vector3 spawnPos = playerController_Cache.Position;
-            spawnPos += Vector3.up * 3.0f + spawnDir * 5.0f;
-            Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+            SpawnNearMainPlayer(enemyPrefab, 5.0f);
         }
 
         private void SpawnBomb()
         {
-            if (playerController_Cache == null) return;
-            Vector3 spawnDir = playerController_Cache.IsFacingRight ? Vector3.right : -Vector3.right;
-            Vector3 spawnPos = playerController_Cache.Position;
-            spawnPos += Vector3.up * 3.0f + spawnDir * 2.0f;
-            Instantiate(bombPrefab, spawnPos, Quaternion.identity);
+            SpawnNearMainPlayer(bombPrefab, 2.0f);
+        }
+
+        /// <summary>
+        /// 1P の前方上空に生成する
+        /// レベルのやり直しで一緒に消えるよう、レベルのオブジェクトの下に入れる
+        /// </summary>
+        /// <param name="prefab">生成するもの</param>
+        /// <param name="forwardDistance">前方への距離</param>
+        private void SpawnNearMainPlayer(GameObject prefab, float forwardDistance)
+        {
+            var mainPlayer = MainPlayer;
+            if (mainPlayer == null) return;
+
+            Vector3 spawnDir = mainPlayer.IsFacingRight ? Vector3.right : -Vector3.right;
+            Vector3 spawnPos = mainPlayer.Position;
+            spawnPos += Vector3.up * 3.0f + spawnDir * forwardDistance;
+
+            var parent = LevelManager.Instance != null ? LevelManager.Instance.ObjectRoot : null;
+            Instantiate(prefab, spawnPos, Quaternion.identity, parent);
         }
 
     }

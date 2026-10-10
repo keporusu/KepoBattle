@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 using Components.Movement;
 using Components.Combat.Attack;
 using Components.Animation;
-using Components.Camera;
 using Core.Contracts;
 using Cysharp.Threading.Tasks;
 using Data;
@@ -18,11 +17,12 @@ namespace Components.Controller
     {
         //レベルデータのキー
         private const string FacingRightKey = "facingRight";
+        private const string PlayerNumberKey = "playerNumber";
 
         //SerializeField
         [SerializeField] private float jumpPower = 1.0f;
         [SerializeField] private float moveSpeed = 1.0f;
-        [SerializeField] private Vector2 initialPosition = new Vector2(2.5f, 3.0f);
+        [SerializeField] private int playerNumber = 1; //何Pか。1Pがカメラの追従対象になる
         [SerializeField] private float chargeMaxTime = 2.0f;
         [SerializeField] private float chargeMaxPower = 10.0f;
         [SerializeField] private float chargeMinPower = 5.0f;
@@ -38,7 +38,6 @@ namespace Components.Controller
         private CharacterPhysicsMover _physicsMover_Cache;
         private AttackExecutor _attackExecutor_Cache;
         private AnimatorTrigger _animatorTrigger_Cache;
-        private CameraController _cameraController_Cache;
         private PlayerUIController _playerUIController_Cache;
 
         //State
@@ -48,9 +47,11 @@ namespace Components.Controller
         private float _moveInput = 0f;
         private bool _isCharging = false;
         private float _chargeStartTime;
+        private Vector2 _spawnPosition; //リスポーン先(配置された位置)
         
         public Vector2 Position => _physicsMover_Cache.Position;
         public Vector2 Velocity => _physicsMover_Cache.Velocity;
+        public int PlayerNumber => playerNumber;
         //右を向いているか？
         //絵は右向きなので、ワールド上のスケールが正なら右向き
         //ルートが反転されていても正しく判定できるよう、localScale ではなく lossyScale で見る
@@ -80,9 +81,6 @@ namespace Components.Controller
             if (!TryGetComponent(out _animatorTrigger_Cache))
                 throw new MissingComponentException($"[{GetType().Name}] AnimatorTrigger が {gameObject.name} に見つかりません");
 
-            if (!TryGetComponent(out _cameraController_Cache))
-                throw new MissingComponentException($"[{GetType().Name}] CameraController が {gameObject.name} に見つかりません");
-            
             if(!TryGetComponent(out _playerUIController_Cache))
                 throw new MissingComponentException($"[{GetType().Name}] PlayerUIController が {gameObject.name} に見つかりません");
             
@@ -90,14 +88,17 @@ namespace Components.Controller
             _physicsMover_Cache.OnGround += OnGround;
             _physicsMover_Cache.OnForceAir += OnForceAir;
             //_attackExecutor_Cache.OnAttackFinish += CancelBlockingMove;
-            
-            //TODO: ここも初期化できるようにしたい（初期化の順番を考えないといけない）
-            //_physicsMover_Cache.ResetAll(initialPosition);
+
+            //落下時はレベルをやり直す
+            _physicsMover_Cache.OnFallOut += OnFallOut;
+
+            //配置された位置をリスポーン先にする
+            _spawnPosition = _physicsMover_Cache.Position;
             
             //最初のスプライトの向きによって最初の向きを決める
             _physicsMover_Cache.SetRight(IsFacingRight);
 
-            //マウス座標・カメラシェイク等のため、操作対象として登録する
+            //カメラの追従・デバッグ用の生成位置の基準として登録する
             if (GameUtility.Instance != null)
             {
                 GameUtility.Instance.RegisterPlayer(this);
@@ -145,8 +146,6 @@ namespace Components.Controller
             float fallSpeed = -_physicsMover_Cache.Velocity.y;
             _animatorTrigger_Cache.SetFallSpeed(fallSpeed);
             _animatorTrigger_Cache.SetIsAir(_physicsMover_Cache.IsAir);
-            //カメラ操作
-            _cameraController_Cache.AdjustCameraPosition(transform.position);
             
             //UI上にマウスがある場合、攻撃できないようにする
             if (EventSystem.current)
@@ -280,6 +279,19 @@ namespace Components.Controller
             Debug.Log("Grounded");
         }
 
+        private void OnFallOut()
+        {
+            //レベルが無い場合はその場でリスポーンする
+            if (GameUtility.Instance != null)
+            {
+                GameUtility.Instance.RestartLevel();
+            }
+            else
+            {
+                Respawn();
+            }
+        }
+
         private void OnForceAir()
         {
             _animatorTrigger_Cache.TriggerAir();
@@ -341,7 +353,7 @@ namespace Components.Controller
         
         public void Respawn()
         {
-            _physicsMover_Cache.ResetAll(initialPosition);
+            _physicsMover_Cache.ResetAll(_spawnPosition);
             _animatorTrigger_Cache.TriggerJump();
         }
 
@@ -351,11 +363,17 @@ namespace Components.Controller
             {
                 SetFacingRight(facingRight);
             }
+
+            if (parameters.TryGetInt(PlayerNumberKey, out var number))
+            {
+                playerNumber = number;
+            }
         }
 
         public void ExportLevelParameters(LevelObjectParameters parameters)
         {
             parameters.SetBool(FacingRightKey, IsFacingRight);
+            parameters.SetInt(PlayerNumberKey, playerNumber);
         }
 
     }

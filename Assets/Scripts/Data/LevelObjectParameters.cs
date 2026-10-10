@@ -11,6 +11,7 @@ namespace Data
     {
         Float,
         Bool,
+        Int,
     }
 
     //レベルデータに保存する、オブジェクト固有のパラメータ1つ分
@@ -44,6 +45,11 @@ namespace Data
             Set(key, LevelParameterType.Bool, value ? "true" : "false");
         }
 
+        public void SetInt(string key, int value)
+        {
+            Set(key, LevelParameterType.Int, value.ToString(CultureInfo.InvariantCulture));
+        }
+
         public bool TryGetFloat(string key, out float value)
         {
             value = 0.0f;
@@ -55,6 +61,13 @@ namespace Data
         {
             value = false;
             return TryGet(key, out var text) && bool.TryParse(text, out value);
+        }
+
+        public bool TryGetInt(string key, out int value)
+        {
+            value = 0;
+            return TryGet(key, out var text)
+                   && int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out value);
         }
 
         private void Set(string key, LevelParameterType type, string value)

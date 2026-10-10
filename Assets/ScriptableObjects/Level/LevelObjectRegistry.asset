@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2888c5b3d910140d6a5c30c0943c3941, type: 3}
+  m_Name: LevelObjectRegistry
+  m_EditorClassIdentifier: KepoBattle.Data::Data.LevelObjectRegistry
+  entries:
+  - key: Player
+    category: 0
+    prefab: {fileID: 8132159521656806917, guid: ffb2250bc6d85443c801c83373b30be7, type: 3}
+  - key: Enemy
+    category: 0
+    prefab: {fileID: 6006739780383853668, guid: 60ef582cdacc6423c8fdfc4773ea2c08, type: 3}
+  - key: Ball
+    category: 0
+    prefab: {fileID: 6024678564534605060, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
+  - key: Bomb
+    category: 0
+    prefab: {fileID: 6024678564534605060, guid: 5a5da3de1c35d427fac49fe58cf7276f, type: 3}
+  - key: Spring
+    category: 0
+    prefab: {fileID: 3268357890187637214, guid: 4363a3087fd8949618ce09a394a5d55c, type: 3}
+  - key: Block_Normal
+    category: 1
+    prefab: {fileID: 597719660021250835, guid: e52f48ba5bf5c4088b4b419dce6295ce, type: 3}

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Components.Combat.Attack;
+using Components.Identity;
 using Components.Movement;
 using Core.Constants;
 using Core.Contracts;
@@ -41,6 +42,9 @@ namespace Components.Controller
 
             _physicsMover_Cache.OnGround += OnGround;
 
+            //落下したら消える
+            _physicsMover_Cache.OnFallOut += OnFallOut;
+
             //最初のスプライトの向きによって最初の向きを決める
             _physicsMover_Cache.SetRight(IsFacingRight);
         }
@@ -78,6 +82,11 @@ namespace Components.Controller
         public void ExportLevelParameters(LevelObjectParameters parameters)
         {
             parameters.SetBool(FacingRightKey, IsFacingRight);
+        }
+
+        private void OnFallOut()
+        {
+            Destroy(EntityRoot.Require(this).gameObject);
         }
 
         private void OnGround()
