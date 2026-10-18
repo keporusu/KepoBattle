@@ -1,4 +1,6 @@
+using Core.Constants;
 using Systems;
+using Data;
 
 namespace Components.Controller
 {
@@ -10,6 +12,12 @@ namespace Components.Controller
         {
             //デフォルトがない
             SoundManager.Instance.PlaySe("BallDamageFromCharacter");
+        }
+
+        void Start()
+        {
+            //自身
+            SetIdentity(ObjectIdentity.Ball);
         }
         
         

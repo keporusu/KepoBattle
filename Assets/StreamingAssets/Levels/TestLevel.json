@@ -260,6 +260,17 @@
             "parameters": {
                 "entries": []
             }
+        },
+        {
+            "type": "Goal",
+            "id": "db8d20eb-375e-48c3-8cc9-cb348c87dcb7",
+            "position": {
+                "x": 1.0,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": []
+            }
         }
     ]
 }

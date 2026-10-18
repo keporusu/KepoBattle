@@ -289,11 +289,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a8a3c495d7546fa8f9bb8fc0c86a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  gravity: 1
-  weight: 1
   friction: 1
   pushedSpeed: 1.5
   kinematic: 0
+  blowAlpha: 1
   restitution: 0
   minBounceSpeed: 0
   tangentialFriction: 0
@@ -319,10 +318,12 @@ MonoBehaviour:
     boxSize: {x: 0, y: 0}
     offset: {x: 0, y: 0}
     damage: 0
+    ignoreDuration: 0
     attackPowerType: 1
     velocityAlpha: 0.4
     power: 0
     direction: {x: 0, y: 0}
+    destination: {x: 0, y: 0}
 --- !u!114 &1854120792157923243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,6 +411,10 @@ PrefabInstance:
     - target: {fileID: 5610858985798758368, guid: ab9e60331ea784fb0a3a475141ecc354, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5610858985798758368, guid: ab9e60331ea784fb0a3a475141ecc354, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

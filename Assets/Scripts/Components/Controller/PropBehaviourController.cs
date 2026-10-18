@@ -11,6 +11,7 @@ using Core.Constants;
 using Core.Exceptions;
 using Cysharp.Threading.Tasks;
 using Systems;
+using Object = UnityEngine.Object;
 
 public enum TimerEventType
 {
@@ -39,7 +40,15 @@ namespace Components.Controller
         private LayerMask _characterLayer;
         private LayerMask _propLayer;
         
-
+        /// <summary>
+        /// 自身が何者かを登録する
+        /// </summary>
+        /// <param name="identity">自身を保証するEnum</param>
+        protected void SetIdentity(ObjectIdentity identity)
+        {
+            EntityRoot.Require(this).SetIdentity(identity);
+        }
+        
         //イベント:攻撃を受けた時
         protected virtual void OnDamageHit(Collider2D other){}
         //イベント:体当たりで攻撃した時

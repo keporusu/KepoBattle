@@ -58,6 +58,9 @@ namespace Components.Controller
         
         private void Start()
         {
+            //自身
+            SetIdentity(ObjectIdentity.Bomb);
+            
             //キャッシュ
             if(!TryGetComponent(out _attackCollisionsManagerCache))
                 throw new MissingComponentException($"[{GetType().Name}] CollisionManager が {gameObject.name} に見つかりません");

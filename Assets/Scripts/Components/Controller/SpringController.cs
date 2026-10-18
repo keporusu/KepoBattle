@@ -14,7 +14,7 @@ using UnityEngine.UIElements;
 
 namespace Components.Controller
 {
-    public class SpringController : MonoBehaviour, ILevelObject
+    public class SpringController : PropBehaviourController, ILevelObject
     {
         //レベルデータのキー
         private const string AngleKey = "angle";
@@ -167,6 +167,11 @@ namespace Components.Controller
             //音
             SoundManager.Instance.PlaySe("SpringStretch");
         }
-        
+
+        private void Start()
+        {
+            //自身
+            SetIdentity(ObjectIdentity.Ball);
+        }
     }
 }
