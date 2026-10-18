@@ -1,3 +1,5 @@
+using System;
+using UI;
 using UnityEngine;
 
 namespace Systems
@@ -62,6 +64,16 @@ namespace Systems
             }
         }
 
+        private void OnEnable()
+        {
+            StageUIController.RetryButtonEvent.AddListener(Restart);
+        }
+
+        private void OnDisable()
+        {
+            StageUIController.RetryButtonEvent.RemoveListener(Restart);
+        }
+
         /// <summary>
         /// ドメインのリロードを無効にして再生した時に、前回の Current が残らないようにする
         /// </summary>
@@ -85,7 +97,13 @@ namespace Systems
             SoundManager.Instance.PlaySe("Clear2");
             SoundManager.Instance.PlaySe("Clear3");
         }
-        
+
+        public void Restart()
+        {
+            _state = StageState.Playing;
+            StageUIController.Hide();
+            GameUtility.RestartLevel();
+        }
         
     }
 

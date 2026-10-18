@@ -112,14 +112,16 @@ namespace Components.Controller
         private void OnDisable()
         {
             var damageCollider = GetComponentsInChildren<Transform>()
-                                     .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.DamageChannel))
-                                 ?? throw new MissingChannelException(GameTags.DamageChannel, gameObject.name);
+                .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.DamageChannel));
             
-            //ダメージを受けたら
-            if(!damageCollider.TryGetComponent(out DamageHitNotifier damagedNotifier))
-                throw new MissingComponentException($"[{GetType().Name}] DamageHitNotifier が {gameObject.name} に見つかりません");
-            damagedNotifier.OnHit -= OnDamageHit;
-            damagedNotifier.OnHit -= PlayDamageSound;
+            if (damageCollider != null)
+            {
+                //ダメージを受けたら
+                if(!damageCollider.TryGetComponent(out DamageHitNotifier damagedNotifier))
+                    throw new MissingComponentException($"[{GetType().Name}] DamageHitNotifier が {gameObject.name} に見つかりません");
+                damagedNotifier.OnHit -= OnDamageHit;
+                damagedNotifier.OnHit -= PlayDamageSound;
+            }
             
             //自身が体当たりで攻撃したら
             if(!TryGetComponent(out VelocityAttackGenerator velocityAttackGenerator))

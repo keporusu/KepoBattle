@@ -842,6 +842,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 207c87515915a4b3ab7dee31b075d486, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  clearPopup: {fileID: 4789728256086756093}
+  retryButton: {fileID: 7275386044539529954}
+  nextButton: {fileID: 3893652111470886366}
 --- !u!1 &6643905064709058923
 GameObject:
   m_ObjectHideFlags: 0
