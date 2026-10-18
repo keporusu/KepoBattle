@@ -8,7 +8,6 @@ namespace UI
 {
     public class UIController : MonoBehaviour
     {
-        [SerializeField] private GameUtility gameUtility;
         [SerializeField] private Button helpButton;
         [SerializeField] private Button helpPanel;
         [SerializeField] private Button respawnButton;
@@ -35,7 +34,11 @@ namespace UI
             //リスポーンするボタン(レベルをやり直す)
             respawnButton.onClick.AddListener(() =>
             {
-                gameUtility.RestartLevel();
+                //GameUtility は StageManager が実行時に生成するので、インスペクタでは参照できない
+                if (StageManager.Current != null)
+                {
+                    StageManager.Current.GameUtility.RestartLevel();
+                }
             });
         }
 

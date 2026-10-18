@@ -6,10 +6,12 @@ using UnityEngine.InputSystem;
 
 namespace Systems
 {
+    /// <summary>
+    /// ステージ内の便利機能(プレイヤーの管理・やり直し・デバッグ用の生成)
+    /// StageManager が生成するので、StageManager.Current.GameUtility から取得する
+    /// </summary>
     public class GameUtility : MonoBehaviour
     {
-        public static GameUtility Instance{ get; private set; }
-        
         //[SerializeField] private GameObject player;
         [SerializeField] private GameObject enemyPrefab;
         [SerializeField] private GameObject ballPrefab;
@@ -80,10 +82,11 @@ namespace Systems
         
         /// <summary>
         /// カメラを揺らす処理
+        /// ステージの状態を使わないので、ステージ外でも呼べるよう static にしている
         /// </summary>
         /// <param name="size">揺らす大きさ</param>
         /// <param name="duration">揺らす時間</param>
-        public void SetCameraShake(Vector2 size, float duration)
+        public static void SetCameraShake(Vector2 size, float duration)
         {
             if (CameraController.Main == null) return;
             CameraController.Main.SetCameraShake(size, duration);
@@ -91,8 +94,9 @@ namespace Systems
         /// <summary>
         /// マウスのワールド座標の取得
         /// プレイヤーがいない状態(レベル編集中など)でも使えるよう、メインカメラから直接求める
+        /// ステージの状態を使わないので、ステージ外でも呼べるよう static にしている
         /// </summary>
-        public Vector2 GetMouseWorldPos()
+        public static Vector2 GetMouseWorldPos()
         {
             var mainCamera = UnityEngine.Camera.main;
             if (mainCamera == null || Mouse.current == null) return Vector2.zero;
@@ -102,26 +106,6 @@ namespace Systems
             return world; // Vector2への暗黙変換でzは捨てられる
         }
         
-        private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Debug.LogWarning("GameUtilityの重複を破棄します");
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
-        }
-
-        private void OnDestroy()
-        {
-            if (Instance == this)
-            {
-                Instance = null;
-            }
-        }
-
         private void Update()
         {
             //編集中に生成すると、レベルデータに無いオブジェクトが紛れ込むため無効にする

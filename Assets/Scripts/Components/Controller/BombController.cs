@@ -191,7 +191,7 @@ namespace Components.Controller
             
             
             //カメラを揺らす
-            GameUtility.Instance.SetCameraShake(explosionShakeSize, explosionShakeDuration);
+            GameUtility.SetCameraShake(explosionShakeSize, explosionShakeDuration);
             
             //爆発後のタイマー
             _explodeTimerId = SetTimer(collisionTime);

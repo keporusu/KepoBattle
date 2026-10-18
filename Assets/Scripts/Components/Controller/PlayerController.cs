@@ -99,18 +99,29 @@ namespace Components.Controller
             _physicsMover_Cache.SetRight(IsFacingRight);
 
             //カメラの追従・デバッグ用の生成位置の基準として登録する
-            if (GameUtility.Instance != null)
+            var gameUtility = GetGameUtility();
+            if (gameUtility != null)
             {
-                GameUtility.Instance.RegisterPlayer(this);
+                gameUtility.RegisterPlayer(this);
             }
         }
 
         private void OnDestroy()
         {
-            if (GameUtility.Instance != null)
+            //ステージの終了時は StageManager が先に破棄されていることがある
+            var gameUtility = GetGameUtility();
+            if (gameUtility != null)
             {
-                GameUtility.Instance.UnregisterPlayer(this);
+                gameUtility.UnregisterPlayer(this);
             }
+        }
+
+        /// <summary>
+        /// 今のステージの GameUtility を取得する。ステージ外では null
+        /// </summary>
+        private static GameUtility GetGameUtility()
+        {
+            return StageManager.Current != null ? StageManager.Current.GameUtility : null;
         }
 
         private void OnEnable()
@@ -278,9 +289,10 @@ namespace Components.Controller
         private void OnFallOut()
         {
             //レベルが無い場合はその場でリスポーンする
-            if (GameUtility.Instance != null)
+            var gameUtility = GetGameUtility();
+            if (gameUtility != null)
             {
-                GameUtility.Instance.RestartLevel();
+                gameUtility.RestartLevel();
             }
             else
             {

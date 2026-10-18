@@ -227,7 +227,7 @@ namespace Components.Combat.Attack
                     }
                     
                     //マウスの位置によって目標地点を変える
-                    var mousePos = GameUtility.Instance.GetMouseWorldPos();
+                    var mousePos = GameUtility.GetMouseWorldPos();
                     var attackDir = (mousePos - root.Position).normalized;
                     var forward = root.IsRight ? Vector2.right : Vector2.left;
                     if (Vector2.Dot(attackDir, forward) < 0)
