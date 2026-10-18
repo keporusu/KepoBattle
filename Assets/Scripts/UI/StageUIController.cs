@@ -1,16 +1,31 @@
+using DG.Tweening;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class StageUIController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+   // [SerializeField] private GameObject clearPopup;
+
     void Start()
     {
-        
+        Deactivate();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Show()
     {
-        
+        Activate();
+        gameObject.transform.localScale = Vector3.zero;
+        gameObject.transform.DOScale(1.0f, 0.2f);
     }
+    
+    void Activate()
+    {
+        gameObject.SetActive(true);
+    }
+
+    void Deactivate()
+    {
+        gameObject.SetActive(false);
+    }
+    
 }

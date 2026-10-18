@@ -2,6 +2,12 @@ using UnityEngine;
 
 namespace Systems
 {
+    public enum StageState
+    {
+        Playing,
+        Clear,
+    }
+    
     /// <summary>
     /// ステージ(インゲーム)の管理
     /// ステージのシーンにだけ置き、そのシーンの間だけ Current から取得できる
@@ -20,6 +26,9 @@ namespace Systems
 
         [SerializeField] private GameObject _gameUtility_Prefab;
         [SerializeField] private GameObject _stageUIController_Prefab;
+        
+        //状態
+        StageState _state = StageState.Playing;
 
         //公開
         public GameUtility GameUtility { get; private set; }
@@ -61,6 +70,23 @@ namespace Systems
         {
             Current = null;
         }
+
+
+
+        public void GameClear()
+        {
+            //クリア実行済みなら何もしない
+            if(_state == StageState.Clear)return;
+            _state = StageState.Clear;
+            
+            StageUIController.Show();
+            GameUtility.SetCameraShake(new Vector2(2.0f,2.0f),0.5f);
+            SoundManager.Instance.PlaySe("Clear1");
+            SoundManager.Instance.PlaySe("Clear2");
+            SoundManager.Instance.PlaySe("Clear3");
+        }
+        
+        
     }
 
 }

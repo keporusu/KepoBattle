@@ -383,6 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   goalObject: 2
+  renderer: {fileID: 8795099630960080842}
 --- !u!4 &7468385413292746830 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8639198977824554502, guid: 214f4d3504f9c429c8cac8793379bcc0, type: 3}

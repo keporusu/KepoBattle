@@ -4,6 +4,7 @@ using Core.Constants;
 using Core.Contracts;
 using UnityEngine;
 using Data;
+using Systems;
 using UnityEngine.LowLevelPhysics2D;
 
 namespace Components.Controller
@@ -13,6 +14,8 @@ namespace Components.Controller
     {
         
         [SerializeField] private ObjectIdentity goalObject;
+        [SerializeField] private Renderer renderer;
+        
 
         private int _goalEventId;
             
@@ -39,7 +42,8 @@ namespace Components.Controller
         {
             //ゴール用に設定したオブジェクトではないなら、何もしない
             if (EntityRoot.Require(other).Identity != goalObject) return;
-            Debug.Log("Goal!");
+            StageManager.Current.GameClear();
+            renderer.enabled = false;
         }
         
         
