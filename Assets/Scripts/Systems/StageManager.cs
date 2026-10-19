@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Systems
 {
@@ -8,6 +11,7 @@ namespace Systems
     {
         Playing,
         Clear,
+        Exit
     }
     
     /// <summary>
@@ -68,13 +72,17 @@ namespace Systems
         {
             //重複して破棄される StageManager は、Awake で StageUIController を生成していない
             if (StageUIView == null) return;
-            StageUIView.RetryButtonEvent.AddListener(Restart);
+            StageUIView.RetryButtonEvent.AddListener(OnRestart);
+            StageUIView.NextButtonEvent.AddListener(OnNextStage);
+            StageUIView.BackButtonEvent.AddListener(OnBackToSelect);
         }
 
         private void OnDisable()
         {
             if (StageUIView == null) return;
-            StageUIView.RetryButtonEvent.RemoveListener(Restart);
+            StageUIView.RetryButtonEvent.RemoveListener(OnRestart);
+            StageUIView.NextButtonEvent.RemoveListener(OnNextStage);
+            StageUIView.BackButtonEvent.RemoveListener(OnBackToSelect);
         }
 
         /// <summary>
@@ -101,11 +109,35 @@ namespace Systems
             SoundManager.Instance.PlaySe("Clear3");
         }
 
-        public void Restart()
+        public void OnRestart()
         {
             _state = StageState.Playing;
             StageUIView.Hide();
             GameUtility.RestartLevel();
+            
+            SoundManager.Instance.PlaySe("Select2");
+        }
+
+        private void OnBackToSelect()
+        {
+            if (_state == StageState.Exit) return;
+            _state = StageState.Exit;
+            SoundManager.Instance.PlaySe("Select1");
+            StartCoroutine(LoadSceneAfterDelay("StageSelect",0.5f));
+        }
+
+        private void OnNextStage()
+        {
+            if (_state == StageState.Exit) return;
+            _state = StageState.Exit;
+            SoundManager.Instance.PlaySe("Select2");
+            //StartCoroutine(LoadSceneAfterDelay("SelectStage",0.5f));
+        }
+
+        private IEnumerator LoadSceneAfterDelay(string sceneName, float delay)
+        {
+            yield return new WaitForSecondsRealtime(delay);
+            SceneManager.LoadScene(sceneName);
         }
         
     }

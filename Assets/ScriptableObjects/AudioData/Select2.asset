@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: KepoBattle.Data::Data.AudioData
   audioName: Select2
   audioClip: {fileID: 8300000, guid: 9f90cd6ce66724fd0843e6b2b411d318, type: 3}
-  volume: 0.3
+  volume: 0.07
