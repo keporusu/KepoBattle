@@ -279,6 +279,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1857873011465441869, guid: d9578391d1955446b95c6d876d85c1e0, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789728256086756093, guid: d9578391d1955446b95c6d876d85c1e0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6531365776239198658, guid: d9578391d1955446b95c6d876d85c1e0, type: 3}
       propertyPath: m_Name
       value: StageUI

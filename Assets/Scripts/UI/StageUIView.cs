@@ -6,17 +6,19 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class StageUIController : MonoBehaviour
+    public class StageUIView : MonoBehaviour
     {
         [SerializeField] private GameObject clearPopup;
         [SerializeField] private Button retryButton;
         [SerializeField] private Button nextButton;
+        [SerializeField] private Button backButton;
         
         
         //公開
         //TODO:少し危険な公開の仕方
         public Button.ButtonClickedEvent NextButtonEvent => nextButton.onClick;
         public Button.ButtonClickedEvent RetryButtonEvent => retryButton.onClick;
+        public Button.ButtonClickedEvent BackButtonEvent => backButton.onClick;
 
         
         void Start()

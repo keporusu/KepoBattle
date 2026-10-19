@@ -34,7 +34,7 @@ namespace Systems
 
         //公開
         public GameUtility GameUtility { get; private set; }
-        public StageUIController StageUIController { get; private set; }
+        public StageUIView StageUIView { get; private set; }
 
 
         void Awake()
@@ -53,7 +53,7 @@ namespace Systems
             GameUtility = gameUtility.GetComponent<GameUtility>();
 
             var stageUIController = Instantiate(_stageUIController_Prefab, transform);
-            StageUIController = stageUIController.GetComponent<StageUIController>();
+            StageUIView = stageUIController.GetComponent<StageUIView>();
         }
 
         private void OnDestroy()
@@ -66,12 +66,15 @@ namespace Systems
 
         private void OnEnable()
         {
-            StageUIController.RetryButtonEvent.AddListener(Restart);
+            //重複して破棄される StageManager は、Awake で StageUIController を生成していない
+            if (StageUIView == null) return;
+            StageUIView.RetryButtonEvent.AddListener(Restart);
         }
 
         private void OnDisable()
         {
-            StageUIController.RetryButtonEvent.RemoveListener(Restart);
+            if (StageUIView == null) return;
+            StageUIView.RetryButtonEvent.RemoveListener(Restart);
         }
 
         /// <summary>
@@ -91,7 +94,7 @@ namespace Systems
             if(_state == StageState.Clear)return;
             _state = StageState.Clear;
             
-            StageUIController.Show();
+            StageUIView.Show();
             GameUtility.SetCameraShake(new Vector2(2.0f,2.0f),0.5f);
             SoundManager.Instance.PlaySe("Clear1");
             SoundManager.Instance.PlaySe("Clear2");
@@ -101,7 +104,7 @@ namespace Systems
         public void Restart()
         {
             _state = StageState.Playing;
-            StageUIController.Hide();
+            StageUIView.Hide();
             GameUtility.RestartLevel();
         }
         
