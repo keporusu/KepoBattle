@@ -158,6 +158,8 @@ namespace Components.Controller
             seq.Append(renderer.transform.DOScaleY(initialScale.y, stretchDuration).SetEase(Ease.OutElastic));
             seq.OnKill(()=>
             {
+                //終了時などでrendererが先に破棄されている場合がある
+                if (renderer == null) return;
                 renderer.transform.localScale = initialScale;
             });
             seq.SetLink(renderer.gameObject);
