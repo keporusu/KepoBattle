@@ -131,6 +131,7 @@ namespace Systems
             if (_state == StageState.Exit) return;
             _state = StageState.Exit;
             SoundManager.Instance.PlaySe("Select2");
+            //TODO:インデックス的に次のステージに移動できるようにしたい
             //StartCoroutine(LoadSceneAfterDelay("SelectStage",0.5f));
         }
 

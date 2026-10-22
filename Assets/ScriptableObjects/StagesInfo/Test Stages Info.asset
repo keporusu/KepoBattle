@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: KepoBattle.Data:Data:StagesInfo
   stages:
   - Id: 1-1
-    Name: Test
-    Description: The Test Stage
-    SceneName: I make a point of doing nothing every day.
+    Name: The Test Stage
+    Description: I make a point of doing nothing every day.
+    SceneName: TestLevel
   - Id: 1-2
-    Name: Test
-    Description: The Test Stage 2
-    SceneName: "It always seems impossible until it\u2019s done."
+    Name: The Test Stage 2
+    Description: "It always seems impossible until it\u2019s done."
+    SceneName: TestLevel

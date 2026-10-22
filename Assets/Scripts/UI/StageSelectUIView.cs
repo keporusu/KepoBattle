@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Data;
+using TMPro;
 
 namespace UI
 {
@@ -12,11 +13,15 @@ namespace UI
         [SerializeField] private GameObject content;
         [SerializeField] private GameObject button_Prefab;
         [SerializeField] private Button back;
+        [SerializeField] private Button start;
+        [SerializeField] private TextMeshProUGUI stageName;
+        [SerializeField] private TextMeshProUGUI stageDescription;
         
        
         private List<Button> _stageLists = new List<Button>();
         public event Action<int> OnSelectStage;
         public Button.ButtonClickedEvent OnBack => back.onClick;
+        public Button.ButtonClickedEvent OnStart => start.onClick;
         
 
         public void InitializeSelections(StagesInfo stagesInfo, UInt64 availableStageFlags, int generateButtonCount=32)
@@ -74,10 +79,19 @@ namespace UI
             foreach (var button in _stageLists)
                 button.onClick.RemoveAllListeners();
             back.onClick.RemoveAllListeners();
+            start.onClick.RemoveAllListeners();
         }
 
 
-        //public void Subscribe(int stageIndex)
+        public void SetStageName(string name)
+        {
+            stageName.text = name;
+        }
+
+        public void SetDescription(string description)
+        {
+            stageDescription.text = description;
+        }
 
     }
 }

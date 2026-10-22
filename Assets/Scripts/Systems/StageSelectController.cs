@@ -18,6 +18,7 @@ namespace Systems
         
         //状態
         private bool isLoadingStage = false;
+        private int? selectedStage = null;
 
         void Awake()
         {
@@ -28,7 +29,7 @@ namespace Systems
             }
             
             //解放ステージ初期化
-            availableStageFlags = 0b0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0001;
+            availableStageFlags = 0b0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0011;
         }
         
         void Start()
@@ -37,15 +38,35 @@ namespace Systems
                 return;
 
             stageSelectUIView.InitializeSelections(stagesInfo,availableStageFlags);
+            stageSelectUIView.OnStart.AddListener(StartStage);
             stageSelectUIView.OnBack.AddListener(BackToTitle);
             stageSelectUIView.OnSelectStage += SelectStage;
+            
         }
 
         private void SelectStage(int index)
         {
             if (index < 0 || _stages.Count <= index) return;
+            selectedStage = index;
+            
+            if (!TryGetComponent(out StageSelectUIView stageSelectUIView))
+                return;
+            
+            stageSelectUIView.SetStageName(_stages[index].Name);
+            stageSelectUIView.SetDescription(_stages[index].Description);
+        }
 
-            var sceneName = _stages[index].SceneName;
+        private void SelectUnavailableStage()
+        {
+            
+        }
+
+        private void StartStage()
+        {
+            if (!selectedStage.HasValue) return;
+            if (selectedStage < 0 || _stages.Count <= selectedStage) return;
+            
+            var sceneName = _stages[selectedStage.Value].SceneName;
             //Build Settingsに登録されていないシーンは読み込まない
             if (string.IsNullOrEmpty(sceneName) || !Application.CanStreamedLevelBeLoaded(sceneName)) return;
 
@@ -54,11 +75,6 @@ namespace Systems
             
             SoundManager.Instance.PlaySe("Select2");
             StartCoroutine(LoadSceneAfterDelay(sceneName,0.5f));
-        }
-
-        private void SelectUnavailableStage()
-        {
-            
         }
 
         private void BackToTitle()
