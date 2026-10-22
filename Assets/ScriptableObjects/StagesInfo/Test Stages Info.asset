@@ -15,5 +15,9 @@ MonoBehaviour:
   stages:
   - Id: 1-1
     Name: Test
-    Description: Yeah
-    SceneName: TestLevel
+    Description: The Test Stage
+    SceneName: I make a point of doing nothing every day.
+  - Id: 1-2
+    Name: Test
+    Description: The Test Stage 2
+    SceneName: "It always seems impossible until it\u2019s done."

@@ -36,9 +36,9 @@ namespace Systems
             if (!TryGetComponent(out StageSelectUIView stageSelectUIView))
                 return;
 
-            stageSelectUIView.Initialize(stagesInfo,availableStageFlags);
+            stageSelectUIView.InitializeSelections(stagesInfo,availableStageFlags);
+            stageSelectUIView.OnBack.AddListener(BackToTitle);
             stageSelectUIView.OnSelectStage += SelectStage;
-
         }
 
         private void SelectStage(int index)
@@ -59,6 +59,12 @@ namespace Systems
         private void SelectUnavailableStage()
         {
             
+        }
+
+        private void BackToTitle()
+        {
+            SoundManager.Instance.PlaySe("Select1");
+            StartCoroutine(LoadSceneAfterDelay("Title",0.5f));
         }
 
 

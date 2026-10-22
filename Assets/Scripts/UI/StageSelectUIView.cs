@@ -11,13 +11,15 @@ namespace UI
 
         [SerializeField] private GameObject content;
         [SerializeField] private GameObject button_Prefab;
+        [SerializeField] private Button back;
         
        
         private List<Button> _stageLists = new List<Button>();
         public event Action<int> OnSelectStage;
+        public Button.ButtonClickedEvent OnBack => back.onClick;
         
 
-        public void Initialize(StagesInfo stagesInfo, UInt64 availableStageFlags, int generateButtonCount=32)
+        public void InitializeSelections(StagesInfo stagesInfo, UInt64 availableStageFlags, int generateButtonCount=32)
         {
             
             foreach (var button in content.GetComponentsInChildren<Button>())
@@ -64,12 +66,14 @@ namespace UI
                 });
                 stageIndex++;
             }
+            
         }
         
         private void OnDisable()
         {
             foreach (var button in _stageLists)
                 button.onClick.RemoveAllListeners();
+            back.onClick.RemoveAllListeners();
         }
 
 
