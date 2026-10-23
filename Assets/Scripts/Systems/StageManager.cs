@@ -77,6 +77,7 @@ namespace Systems
             StageUIView.RetryButtonEvent.AddListener(OnRestart);
             StageUIView.NextButtonEvent.AddListener(OnNextStage);
             StageUIView.BackButtonEvent.AddListener(OnBackToSelect);
+            StageUIView.QuitButtonEvent.AddListener(OnBackToSelect);
         }
 
         private void OnDisable()
@@ -85,6 +86,7 @@ namespace Systems
             StageUIView.RetryButtonEvent.RemoveListener(OnRestart);
             StageUIView.NextButtonEvent.RemoveListener(OnNextStage);
             StageUIView.BackButtonEvent.RemoveListener(OnBackToSelect);
+            StageUIView.QuitButtonEvent.RemoveListener(OnBackToSelect);
         }
 
         /// <summary>
