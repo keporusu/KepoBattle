@@ -10,8 +10,10 @@ using UnityEngine.LowLevelPhysics2D;
 namespace Components.Controller
 {
     
-    public class GoalController : PropBehaviourController
+    public class GoalController : PropBehaviourController, ILevelObject
     {
+        //レベルデータのキー
+        private const string DeliveryObjectKey = "deliveryObject";
         
         [SerializeField] private Renderer renderer;
         [SerializeField] private ObjectIdentity deliveryObject;
@@ -54,10 +56,32 @@ namespace Components.Controller
             //自身
             SetIdentity(ObjectIdentity.Goal);
             
-            if (StageManager.Current.StageUIView != null)
+            ApplyDeliveryTargetToUI();
+        }
+
+        public void ApplyLevelParameters(LevelObjectParameters parameters)
+        {
+            if (parameters.TryGetEnum(DeliveryObjectKey, out ObjectIdentity value))
             {
-                StageManager.Current.StageUIView.SetDeliveryTarget(deliveryObject);
+                deliveryObject = value;
+                //生成後に編集された場合も UI に反映する
+                ApplyDeliveryTargetToUI();
             }
+        }
+
+        public void ExportLevelParameters(LevelObjectParameters parameters)
+        {
+            parameters.SetEnum(DeliveryObjectKey, deliveryObject);
+        }
+
+        /// <summary>
+        /// 運ぶ対象をステージの UI に表示する
+        /// </summary>
+        private void ApplyDeliveryTargetToUI()
+        {
+            var stageUIView = StageManager.Current != null ? StageManager.Current.StageUIView : null;
+            if (stageUIView == null) return;
+            stageUIView.SetDeliveryTarget(deliveryObject);
         }
         
         
