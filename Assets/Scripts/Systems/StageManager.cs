@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Data;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -32,6 +33,7 @@ namespace Systems
 
         [SerializeField] private GameObject _gameUtility_Prefab;
         [SerializeField] private GameObject _stageUIController_Prefab;
+        [SerializeField] private StagesInfo _stagesInfo;
         
         //状態
         StageState _state = StageState.Playing;
@@ -102,7 +104,7 @@ namespace Systems
             if(_state == StageState.Clear)return;
             _state = StageState.Clear;
             
-            StageUIView.Show();
+            StageUIView.ShowClearPopup();
             GameUtility.SetCameraShake(new Vector2(2.0f,2.0f),0.5f);
             SoundManager.Instance.PlaySe("Clear1");
             SoundManager.Instance.PlaySe("Clear2");
@@ -112,7 +114,7 @@ namespace Systems
         public void OnRestart()
         {
             _state = StageState.Playing;
-            StageUIView.Hide();
+            StageUIView.HideClearPopup();
             GameUtility.RestartLevel();
             
             SoundManager.Instance.PlaySe("Select2");
@@ -129,10 +131,23 @@ namespace Systems
         private void OnNextStage()
         {
             if (_state == StageState.Exit) return;
-            _state = StageState.Exit;
+            
             SoundManager.Instance.PlaySe("Select2");
-            //TODO:インデックス的に次のステージに移動できるようにしたい
-            //StartCoroutine(LoadSceneAfterDelay("SelectStage",0.5f));
+            if (_stagesInfo == null) return;
+
+            //今のシーン名から、StagesInfo 上で何番目のステージかを求める
+            var currentScene = SceneManager.GetActiveScene().name;
+            var index = _stagesInfo.stages.FindIndex(s => s.SceneName == currentScene);
+            var nextIndex = index + 1;
+            //現在のステージが見つからない、または最後のステージなら何もしない
+            if (index < 0 || _stagesInfo.stages.Count <= nextIndex) return;
+
+            var nextScene = _stagesInfo.stages[nextIndex].SceneName;
+            //Build Settingsに登録されていないシーンは読み込まない
+            if (string.IsNullOrEmpty(nextScene) || !Application.CanStreamedLevelBeLoaded(nextScene)) return;
+
+            _state = StageState.Exit;
+            StartCoroutine(LoadSceneAfterDelay(nextScene,0.5f));
         }
 
         private IEnumerator LoadSceneAfterDelay(string sceneName, float delay)

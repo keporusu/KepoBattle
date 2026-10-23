@@ -134,8 +134,8 @@ namespace Components.Controller
             physicsMover.OnBounce -= OnBounce;
             physicsMover.OnBounce -= PlayBounceSound;
         }
-        
-        
+
+
         private Dictionary<int,PropTimerActionSet> timerActions = new Dictionary<int,PropTimerActionSet>();
         private int timerCount = 0;
         /// <summary>

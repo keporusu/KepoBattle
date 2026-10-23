@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f19cbfdcbc874f20967e80686a8032b, type: 3}
+  m_Name: IconTable
+  m_EditorClassIdentifier: Assembly-CSharp::UI.ObjectIconTable
+  entries:
+  - identity: 0
+    sprite: {fileID: 3847450119560645372, guid: f420d94983e161b4985926f3a32f4818, type: 3}
+  - identity: 1
+    sprite: {fileID: 3847450119560645372, guid: f420d94983e161b4985926f3a32f4818, type: 3}
+  - identity: 2
+    sprite: {fileID: 3869070585266136573, guid: 30b2ee61040fc401e97e11368062c0ad, type: 3}
+  - identity: 3
+    sprite: {fileID: 4887848196886198091, guid: 0d820f69f56644936ac594d5c84c490e, type: 3}
+  - identity: 4
+    sprite: {fileID: 279919546456459192, guid: 24fdd825f950842e7b5c0d3e5bf7cc8f, type: 3}
+  - identity: 5
+    sprite: {fileID: -1510627027289274722, guid: 2cd440683035f41c0883e5babe283f82, type: 3}

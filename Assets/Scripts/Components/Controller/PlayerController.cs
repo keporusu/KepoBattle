@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 using Components.Movement;
 using Components.Combat.Attack;
 using Components.Animation;
+using Components.Identity;
+using Core.Constants;
 using Core.Contracts;
 using Cysharp.Threading.Tasks;
 using Data;
@@ -104,6 +106,9 @@ namespace Components.Controller
             {
                 gameUtility.RegisterPlayer(this);
             }
+            
+            //自身の設定
+            EntityRoot.Require(this).SetIdentity(ObjectIdentity.Player);
         }
 
         private void OnDestroy()

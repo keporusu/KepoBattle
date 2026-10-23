@@ -13,8 +13,8 @@ namespace Components.Controller
     public class GoalController : PropBehaviourController
     {
         
-        [SerializeField] private ObjectIdentity goalObject;
         [SerializeField] private Renderer renderer;
+        [SerializeField] private ObjectIdentity deliveryObject;
         
 
         private int _goalEventId;
@@ -41,7 +41,9 @@ namespace Components.Controller
         void TriggerGoal(Collider2D other)
         {
             //ゴール用に設定したオブジェクトではないなら、何もしない
-            if (EntityRoot.Require(other).Identity != goalObject) return;
+            if (EntityRoot.Require(other).Identity != deliveryObject) return;
+            
+            //ゴール通知
             StageManager.Current.GameClear();
             renderer.enabled = false;
         }
@@ -51,7 +53,14 @@ namespace Components.Controller
         {
             //自身
             SetIdentity(ObjectIdentity.Goal);
+            
+            if (StageManager.Current.StageUIView != null)
+            {
+                StageManager.Current.StageUIView.SetDeliveryTarget(deliveryObject);
+            }
         }
+        
+        
         
     }
     

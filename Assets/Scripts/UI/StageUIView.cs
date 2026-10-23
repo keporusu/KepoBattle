@@ -1,5 +1,5 @@
+using Core.Constants;
 using DG.Tweening;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +12,8 @@ namespace UI
         [SerializeField] private Button retryButton;
         [SerializeField] private Button nextButton;
         [SerializeField] private Button backButton;
+        [SerializeField] private Image deliveryTargetImage;
+        [SerializeField] private ObjectIconTable iconTable;
         
         
         //公開
@@ -27,17 +29,24 @@ namespace UI
         }
         
 
-        public void Show()
+        public void ShowClearPopup()
         {
             clearPopup.SetActive(true);
             clearPopup.transform.localScale = Vector3.zero;
             clearPopup.transform.DOScale(1.0f, 0.1f);
         }
-        public void Hide()
+        public void HideClearPopup()
         {
             clearPopup.transform.localScale = Vector3.one;
             clearPopup.transform.DOScale(0.0f, 0.1f);
             clearPopup.SetActive(false);
+        }
+
+        public void SetDeliveryTarget(ObjectIdentity identity)
+        {
+            if (iconTable == null) return;
+            if (!iconTable.TryGetSprite(identity, out var sprite)) return;
+            deliveryTargetImage.sprite = sprite;
         }
     
         void Activate()
