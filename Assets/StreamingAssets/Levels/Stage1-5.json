@@ -1033,8 +1033,8 @@
             "type": "Goal",
             "id": "e3d01147-4e55-425c-895e-166b08157f6f",
             "position": {
-                "x": -5.5,
-                "y": 5.5
+                "x": -2.5,
+                "y": -0.5
             },
             "parameters": {
                 "entries": [
