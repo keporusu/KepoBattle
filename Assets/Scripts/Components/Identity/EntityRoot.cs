@@ -1,4 +1,5 @@
 using Components.Movement;
+using Core.Constants;
 using UnityEngine;
 
 namespace Components.Identity
@@ -17,6 +18,12 @@ namespace Components.Identity
         /// エンティティの識別子。自分の攻撃が自分に当たらないようにする等、同一性の比較に使う。
         /// </summary>
         public EntityId Id => gameObject.GetEntityId();
+        
+        /// <summary>
+        /// 自身が何者か。相手の判定に使う
+        /// TODO:現状タグで判定している部分があるため、そのうちこれに置き換える
+        /// </summary>
+        public ObjectIdentity? Identity { get; private set; }
 
         /// <summary>
         /// 指定オブジェクトが所属するエンティティのルートを取得する。
@@ -56,7 +63,14 @@ namespace Components.Identity
             return new MissingComponentException(
                 $"[{nameof(EntityRoot)}] {name} とその親に {nameof(EntityRoot)} が見つかりません");
         }
-        
+
+        /// <summary>
+        /// 自身が何者なのかを登録する
+        /// </summary>
+        public void SetIdentity(ObjectIdentity identity)
+        {
+            Identity = identity;
+        }
         
         //位置
         public Vector2 Position => transform.position;

@@ -12,6 +12,7 @@ namespace Data
         Float,
         Bool,
         Int,
+        Enum,
     }
 
     //レベルデータに保存する、オブジェクト固有のパラメータ1つ分
@@ -21,6 +22,8 @@ namespace Data
         public string key;
         public LevelParameterType type;
         public string value;
+        //Enum のときだけ使う。編集GUIで選択肢を出すための Enum の型名
+        public string enumType;
     }
 
     /// <summary>
@@ -50,6 +53,24 @@ namespace Data
             Set(key, LevelParameterType.Int, value.ToString(CultureInfo.InvariantCulture));
         }
 
+        /// <summary>
+        /// Enum の値を設定する
+        /// 並び順を変えても壊れないよう、値は数値ではなく名前で持つ
+        /// </summary>
+        public void SetEnum<T>(string key, T value) where T : struct, Enum
+        {
+            SetEnum(key, typeof(T), value.ToString());
+        }
+
+        /// <summary>
+        /// Enum の値を名前で設定する
+        /// 型を静的に知らない編集GUIから使う
+        /// </summary>
+        public void SetEnum(string key, Type enumType, string name)
+        {
+            Set(key, LevelParameterType.Enum, name, ToTypeName(enumType));
+        }
+
         public bool TryGetFloat(string key, out float value)
         {
             value = 0.0f;
@@ -70,6 +91,33 @@ namespace Data
                    && int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out value);
         }
 
+        public bool TryGetEnum<T>(string key, out T value) where T : struct, Enum
+        {
+            value = default;
+            return TryGet(key, out var text)
+                   && Enum.TryParse(text, false, out value)
+                   && Enum.IsDefined(typeof(T), value);
+        }
+
+        /// <summary>
+        /// パラメータに記録された Enum の型を求める
+        /// </summary>
+        /// <returns>Enum でない、または型が見つからなければ null</returns>
+        public static Type ResolveEnumType(LevelParameter parameter)
+        {
+            if (parameter.type != LevelParameterType.Enum) return null;
+            if (string.IsNullOrEmpty(parameter.enumType)) return null;
+
+            var type = Type.GetType(parameter.enumType);
+            return type != null && type.IsEnum ? type : null;
+        }
+
+        //Type.GetType で引けるよう、アセンブリ名を付ける(バージョンなどは付けない)
+        private static string ToTypeName(Type type)
+        {
+            return $"{type.FullName}, {type.Assembly.GetName().Name}";
+        }
+
         /// <summary>
         /// 自身に無いキーだけを other から補う
         /// レベルデータに書かれていないパラメータを、Prefab の既定値で埋めるために使う
@@ -83,9 +131,9 @@ namespace Data
             }
         }
 
-        private void Set(string key, LevelParameterType type, string value)
+        private void Set(string key, LevelParameterType type, string value, string enumType = null)
         {
-            var parameter = new LevelParameter { key = key, type = type, value = value };
+            var parameter = new LevelParameter { key = key, type = type, value = value, enumType = enumType };
 
             //同じキーがあれば上書きする
             for (var i = 0; i < entries.Count; i++)

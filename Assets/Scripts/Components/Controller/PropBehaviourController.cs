@@ -11,6 +11,7 @@ using Core.Constants;
 using Core.Exceptions;
 using Cysharp.Threading.Tasks;
 using Systems;
+using Object = UnityEngine.Object;
 
 public enum TimerEventType
 {
@@ -39,7 +40,15 @@ namespace Components.Controller
         private LayerMask _characterLayer;
         private LayerMask _propLayer;
         
-
+        /// <summary>
+        /// 自身が何者かを登録する
+        /// </summary>
+        /// <param name="identity">自身を保証するEnum</param>
+        protected void SetIdentity(ObjectIdentity identity)
+        {
+            EntityRoot.Require(this).SetIdentity(identity);
+        }
+        
         //イベント:攻撃を受けた時
         protected virtual void OnDamageHit(Collider2D other){}
         //イベント:体当たりで攻撃した時
@@ -103,14 +112,16 @@ namespace Components.Controller
         private void OnDisable()
         {
             var damageCollider = GetComponentsInChildren<Transform>()
-                                     .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.DamageChannel))
-                                 ?? throw new MissingChannelException(GameTags.DamageChannel, gameObject.name);
+                .FirstOrDefault(obj => obj.gameObject.CompareTag(GameTags.DamageChannel));
             
-            //ダメージを受けたら
-            if(!damageCollider.TryGetComponent(out DamageHitNotifier damagedNotifier))
-                throw new MissingComponentException($"[{GetType().Name}] DamageHitNotifier が {gameObject.name} に見つかりません");
-            damagedNotifier.OnHit -= OnDamageHit;
-            damagedNotifier.OnHit -= PlayDamageSound;
+            if (damageCollider != null)
+            {
+                //ダメージを受けたら
+                if(!damageCollider.TryGetComponent(out DamageHitNotifier damagedNotifier))
+                    throw new MissingComponentException($"[{GetType().Name}] DamageHitNotifier が {gameObject.name} に見つかりません");
+                damagedNotifier.OnHit -= OnDamageHit;
+                damagedNotifier.OnHit -= PlayDamageSound;
+            }
             
             //自身が体当たりで攻撃したら
             if(!TryGetComponent(out VelocityAttackGenerator velocityAttackGenerator))
@@ -123,8 +134,8 @@ namespace Components.Controller
             physicsMover.OnBounce -= OnBounce;
             physicsMover.OnBounce -= PlayBounceSound;
         }
-        
-        
+
+
         private Dictionary<int,PropTimerActionSet> timerActions = new Dictionary<int,PropTimerActionSet>();
         private int timerCount = 0;
         /// <summary>

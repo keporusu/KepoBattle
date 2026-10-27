@@ -14,7 +14,7 @@ using UnityEngine.UIElements;
 
 namespace Components.Controller
 {
-    public class SpringController : MonoBehaviour, ILevelObject
+    public class SpringController : PropBehaviourController, ILevelObject
     {
         //レベルデータのキー
         private const string AngleKey = "angle";
@@ -158,6 +158,8 @@ namespace Components.Controller
             seq.Append(renderer.transform.DOScaleY(initialScale.y, stretchDuration).SetEase(Ease.OutElastic));
             seq.OnKill(()=>
             {
+                //終了時などでrendererが先に破棄されている場合がある
+                if (renderer == null) return;
                 renderer.transform.localScale = initialScale;
             });
             seq.SetLink(renderer.gameObject);
@@ -167,6 +169,11 @@ namespace Components.Controller
             //音
             SoundManager.Instance.PlaySe("SpringStretch");
         }
-        
+
+        private void Start()
+        {
+            //自身
+            SetIdentity(ObjectIdentity.Ball);
+        }
     }
 }

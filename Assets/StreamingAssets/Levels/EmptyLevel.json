@@ -1,9 +1,104 @@
 {
     "version": 1,
     "settings": {
-        "cameraMin": { "x": -6.6, "y": -4.0 },
-        "cameraMax": { "x": 6.6, "y": 0.7 },
+        "cameraMin": {
+            "x": -6.599999904632568,
+            "y": -4.0
+        },
+        "cameraMax": {
+            "x": 6.599999904632568,
+            "y": 0.699999988079071
+        },
         "killHeight": -10.0
     },
-    "objects": []
+    "objects": [
+        {
+            "type": "Block_Normal",
+            "id": "d948fefd-edaf-484e-8aad-a2d0e660d764",
+            "position": {
+                "x": -2.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "fdf42d2e-c2b8-414e-982f-9b7c5ec9a836",
+            "position": {
+                "x": -1.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "7c000cb7-a066-4b94-92d6-c4841fcda0b7",
+            "position": {
+                "x": -0.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "86b1b31e-8d0b-4bcf-a27b-096b1a8b9242",
+            "position": {
+                "x": 0.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "60f7e684-6a65-43b1-abac-9874c7780790",
+            "position": {
+                "x": 1.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "4cb15134-3205-4bf1-b9f5-043ee0b667a9",
+            "position": {
+                "x": 2.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Player",
+            "id": "7a256195-f72c-4589-94ae-aff8d785156e",
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "facingRight",
+                        "type": 1,
+                        "value": "false"
+                    },
+                    {
+                        "key": "playerNumber",
+                        "type": 2,
+                        "value": "1"
+                    }
+                ]
+            }
+        }
+    ]
 }

@@ -903,6 +903,19 @@ namespace Systems
                         }
                         break;
                     }
+                    case LevelParameterType.Enum:
+                    {
+                        var enumType = LevelObjectParameters.ResolveEnumType(entry);
+                        if (enumType == null) break;
+
+                        var edited = EnumField(entry.key, enumType, entry.value);
+                        if (edited != entry.value)
+                        {
+                            parameters.SetEnum(entry.key, enumType, edited);
+                            changed = true;
+                        }
+                        break;
+                    }
                 }
             }
 
@@ -932,6 +945,33 @@ namespace Systems
             }
 
             return value;
+        }
+
+        /// <summary>
+        /// Enum の値を左右のボタンで切り替える欄
+        /// </summary>
+        /// <returns>選択中の名前</returns>
+        private string EnumField(string label, Type enumType, string name)
+        {
+            var names = Enum.GetNames(enumType);
+            if (names.Length == 0) return name;
+
+            //知らない名前なら先頭から切り替え始める
+            var index = Array.IndexOf(names, name);
+            var shown = index >= 0 ? names[index] : $"({name})";
+            var step = 0;
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(label, GUILayout.Width(LabelWidth));
+            if (GUILayout.Button("<", GUILayout.Width(24.0f))) step = -1;
+            GUILayout.Label(shown);
+            if (GUILayout.Button(">", GUILayout.Width(24.0f))) step = 1;
+            GUILayout.EndHorizontal();
+
+            //押されていなければ書き換えない
+            if (step == 0) return name;
+            if (index < 0) return names[0];
+            return names[(index + step + names.Length) % names.Length];
         }
 
         /// <summary>

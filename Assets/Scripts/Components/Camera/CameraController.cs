@@ -67,7 +67,7 @@ namespace Components.Camera
             if (LevelManager.IsEditMode) return;
 
             //プレイヤーの移動を反映した後に追従する
-            var gameUtility = GameUtility.Instance;
+            var gameUtility = StageManager.Current != null ? StageManager.Current.GameUtility : null;
             if (gameUtility == null) return;
 
             var mainPlayer = gameUtility.MainPlayer;

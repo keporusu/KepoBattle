@@ -28,6 +28,9 @@ MonoBehaviour:
   - key: Spring
     category: 0
     prefab: {fileID: 3268357890187637214, guid: 4363a3087fd8949618ce09a394a5d55c, type: 3}
+  - key: Goal
+    category: 0
+    prefab: {fileID: 3407807834408993868, guid: 3f7251850e5a04124810be1f8c35bf49, type: 3}
   - key: Block_Normal
     category: 1
     prefab: {fileID: 597719660021250835, guid: e52f48ba5bf5c4088b4b419dce6295ce, type: 3}

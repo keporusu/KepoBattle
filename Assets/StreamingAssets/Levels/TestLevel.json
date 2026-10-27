@@ -134,7 +134,8 @@
                     {
                         "key": "angle",
                         "type": 0,
-                        "value": "90"
+                        "value": "90",
+                        "enumType": ""
                     }
                 ]
             }
@@ -151,12 +152,14 @@
                     {
                         "key": "facingRight",
                         "type": 1,
-                        "value": "false"
+                        "value": "false",
+                        "enumType": ""
                     },
                     {
                         "key": "playerNumber",
                         "type": 2,
-                        "value": "1"
+                        "value": "1",
+                        "enumType": ""
                     }
                 ]
             }
@@ -184,7 +187,8 @@
                     {
                         "key": "angle",
                         "type": 0,
-                        "value": "0"
+                        "value": "0",
+                        "enumType": ""
                     }
                 ]
             }
@@ -234,7 +238,8 @@
                     {
                         "key": "fireOnSpawn",
                         "type": 1,
-                        "value": "false"
+                        "value": "false",
+                        "enumType": ""
                     }
                 ]
             }
@@ -259,6 +264,24 @@
             },
             "parameters": {
                 "entries": []
+            }
+        },
+        {
+            "type": "Goal",
+            "id": "db8d20eb-375e-48c3-8cc9-cb348c87dcb7",
+            "position": {
+                "x": 1.0,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "deliveryObject",
+                        "type": 3,
+                        "value": "Ball",
+                        "enumType": "Core.Constants.ObjectIdentity, KepoBattle.Core"
+                    }
+                ]
             }
         }
     ]
