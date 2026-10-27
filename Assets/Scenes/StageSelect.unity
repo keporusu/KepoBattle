@@ -1705,7 +1705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f1fc4acb87a6432daaad302ee8b8c0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  stagesInfo: {fileID: 11400000, guid: 44773f6ca3b2e4203bab131ff470d5e8, type: 2}
+  stagesInfo: {fileID: 11400000, guid: 39e65719809e14d5bb021ef404a45791, type: 2}
 --- !u!224 &1340758982 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5665851581935881423, guid: f1ea2a9e68b8845eaae23b2dccaa58df, type: 3}

@@ -22,6 +22,9 @@ MonoBehaviour:
   - key: Ball
     category: 0
     prefab: {fileID: 6024678564534605060, guid: f7330d5b5bcf84fc194242229b6cf37d, type: 3}
+  - key: Ball2
+    category: 0
+    prefab: {fileID: 6024678564534605060, guid: 31419e010f14c446eaa72c132950ddaf, type: 3}
   - key: Bomb
     category: 0
     prefab: {fileID: 6024678564534605060, guid: 5a5da3de1c35d427fac49fe58cf7276f, type: 3}
