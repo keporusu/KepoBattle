@@ -29,3 +29,7 @@ MonoBehaviour:
     Name: Hit-Hit
     Description: "It always seems impossible until it\u2019s done."
     SceneName: Stage1-4
+  - Id: 1-5
+    Name: Dig up the Ball
+    Description: "It always seems impossible until it\u2019s done."
+    SceneName: Stage1-5
