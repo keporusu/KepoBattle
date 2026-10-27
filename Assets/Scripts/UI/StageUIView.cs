@@ -13,6 +13,7 @@ namespace UI
         [SerializeField] private Button nextButton;
         [SerializeField] private Button backButton;
         [SerializeField] private Button quitButton;
+        [SerializeField] private Button restartButton;
         [SerializeField] private Image deliveryTargetImage;
         [SerializeField] private ObjectIconTable iconTable;
         
@@ -23,6 +24,7 @@ namespace UI
         public Button.ButtonClickedEvent RetryButtonEvent => retryButton.onClick;
         public Button.ButtonClickedEvent BackButtonEvent => backButton.onClick;
         public Button.ButtonClickedEvent QuitButtonEvent => quitButton.onClick;
+        public Button.ButtonClickedEvent RestartButtonEvent => restartButton.onClick;
 
         
         void Start()

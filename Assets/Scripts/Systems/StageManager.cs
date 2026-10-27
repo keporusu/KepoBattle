@@ -78,6 +78,7 @@ namespace Systems
             StageUIView.NextButtonEvent.AddListener(OnNextStage);
             StageUIView.BackButtonEvent.AddListener(OnBackToSelect);
             StageUIView.QuitButtonEvent.AddListener(OnBackToSelect);
+            StageUIView.RestartButtonEvent.AddListener(OnRestart);
         }
 
         private void OnDisable()
@@ -87,6 +88,7 @@ namespace Systems
             StageUIView.NextButtonEvent.RemoveListener(OnNextStage);
             StageUIView.BackButtonEvent.RemoveListener(OnBackToSelect);
             StageUIView.QuitButtonEvent.RemoveListener(OnBackToSelect);
+            StageUIView.RestartButtonEvent.RemoveListener(OnRestart);
         }
 
         /// <summary>
