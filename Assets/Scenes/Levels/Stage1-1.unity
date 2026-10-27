@@ -172,8 +172,12 @@ PrefabInstance:
       value: LevelDesigneSystem
       objectReference: {fileID: 0}
     - target: {fileID: 7953759005897710692, guid: 1b0201d96fe0141aba250404643eb73b, type: 3}
+      propertyPath: loadOnStart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953759005897710692, guid: 1b0201d96fe0141aba250404643eb73b, type: 3}
       propertyPath: levelFileName
-      value: EmptyLevel.json
+      value: Stage1-1.json
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

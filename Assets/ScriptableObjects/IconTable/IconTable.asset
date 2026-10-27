@@ -19,8 +19,6 @@ MonoBehaviour:
     sprite: {fileID: 3847450119560645372, guid: f420d94983e161b4985926f3a32f4818, type: 3}
   - identity: 2
     sprite: {fileID: 3869070585266136573, guid: 30b2ee61040fc401e97e11368062c0ad, type: 3}
-  - identity: 3
-    sprite: {fileID: 4887848196886198091, guid: 0d820f69f56644936ac594d5c84c490e, type: 3}
   - identity: 4
     sprite: {fileID: 279919546456459192, guid: 24fdd825f950842e7b5c0d3e5bf7cc8f, type: 3}
   - identity: 5
