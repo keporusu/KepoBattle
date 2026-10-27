@@ -25,3 +25,7 @@ MonoBehaviour:
     Name: Mario
     Description: "It always seems impossible until it\u2019s done."
     SceneName: Stage1-3
+  - Id: 1-4
+    Name: Hit-Hit
+    Description: "It always seems impossible until it\u2019s done."
+    SceneName: Stage1-4
