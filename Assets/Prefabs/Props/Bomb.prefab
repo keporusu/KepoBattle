@@ -392,7 +392,7 @@ MonoBehaviour:
   collisionTime: 0.2
   fireOnSpawn: 0
   explosionRadius: 15
-  explosionPower: 15
+  explosionPower: 16
   explosionDamage: 10
   explosionShakeSize: {x: 0.5, y: 0.5}
   explosionShakeDuration: 0.2
