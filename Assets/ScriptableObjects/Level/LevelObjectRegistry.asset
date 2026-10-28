@@ -37,3 +37,9 @@ MonoBehaviour:
   - key: Block_Normal
     category: 1
     prefab: {fileID: 597719660021250835, guid: e52f48ba5bf5c4088b4b419dce6295ce, type: 3}
+  - key: Switch
+    category: 0
+    prefab: {fileID: 6934463479726488186, guid: dd00231365c3b4c6899182e1f08e0e4e, type: 3}
+  - key: Block_Switch
+    category: 1
+    prefab: {fileID: 597719660021250835, guid: d46dbc17c24c940f38daf7deba57ab17, type: 3}
