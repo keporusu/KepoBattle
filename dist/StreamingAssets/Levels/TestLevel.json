@@ -134,7 +134,8 @@
                     {
                         "key": "angle",
                         "type": 0,
-                        "value": "90"
+                        "value": "90",
+                        "enumType": ""
                     }
                 ]
             }
@@ -144,19 +145,21 @@
             "id": "6a208b93-a31e-42b5-8b5b-2295d1f9c2f9",
             "position": {
                 "x": -5.5,
-                "y": -1.0
+                "y": 0.0
             },
             "parameters": {
                 "entries": [
                     {
                         "key": "facingRight",
                         "type": 1,
-                        "value": "false"
+                        "value": "false",
+                        "enumType": ""
                     },
                     {
                         "key": "playerNumber",
                         "type": 2,
-                        "value": "1"
+                        "value": "1",
+                        "enumType": ""
                     }
                 ]
             }
@@ -184,7 +187,8 @@
                     {
                         "key": "angle",
                         "type": 0,
-                        "value": "0"
+                        "value": "0",
+                        "enumType": ""
                     }
                 ]
             }
@@ -234,7 +238,8 @@
                     {
                         "key": "fireOnSpawn",
                         "type": 1,
-                        "value": "false"
+                        "value": "false",
+                        "enumType": ""
                     }
                 ]
             }
@@ -254,7 +259,498 @@
             "type": "Block_Normal",
             "id": "86e0faa7-054c-4592-acbb-38141407d3e9",
             "position": {
+                "x": -6.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Goal",
+            "id": "db8d20eb-375e-48c3-8cc9-cb348c87dcb7",
+            "position": {
+                "x": 1.0,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "deliveryObject",
+                        "type": 3,
+                        "value": "Ball",
+                        "enumType": "Core.Constants.ObjectIdentity, KepoBattle.Core"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "aa66b50f-aad2-4b12-90f9-6290dd404bbd",
+            "position": {
+                "x": -7.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "4bbfae8f-da14-4e2c-b108-7cffb38262d0",
+            "position": {
+                "x": -8.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "cd016e0e-ced2-4443-b855-a1bfb8121616",
+            "position": {
+                "x": -9.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "2e692fd3-d853-402d-9c19-d29862d6c39b",
+            "position": {
+                "x": -10.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "dc066788-7104-4bb0-a8ab-dd3304745447",
+            "position": {
+                "x": -11.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "fc94c251-0904-41c0-8a0a-a0bc0e085dc8",
+            "position": {
+                "x": -11.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "e5d47850-16fc-4fb5-97e7-694d3a769270",
+            "position": {
+                "x": -11.5,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "4fe157cd-4ad1-4a93-b0f8-aef8f6d03e2a",
+            "position": {
+                "x": -11.5,
+                "y": -0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "1f164a2f-cd99-4a41-a1c0-de0d03e6e3cf",
+            "position": {
+                "x": -11.5,
+                "y": 0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "803788c1-5567-431e-b237-17f0fcd170d5",
+            "position": {
+                "x": -11.5,
+                "y": 1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "26985490-9597-43bc-9b6f-79ec39207be2",
+            "position": {
+                "x": -11.5,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "1886408e-d7d2-40a9-b76c-8105b344278b",
+            "position": {
+                "x": -0.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "b5a7bce7-136b-4e1b-a800-70dcd37fddbd",
+            "position": {
+                "x": 0.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "b1fe7d06-c88c-4428-9b9f-79108d5a7974",
+            "position": {
+                "x": 1.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "2b30c627-b95e-4985-8c3b-05b75323e70d",
+            "position": {
+                "x": 2.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "d7a57c12-1344-4b1b-88d4-0673d96ee701",
+            "position": {
+                "x": 3.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "b814ee83-a9b9-4e1c-ae33-e458dd618a0d",
+            "position": {
+                "x": 4.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "a78765d5-7e0f-4c7d-a955-2c46a859f666",
+            "position": {
+                "x": -1.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "ea8ff283-690f-46d7-831e-97153782252b",
+            "position": {
+                "x": -2.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "7cc567ec-b312-4f13-aa6b-c1af8bebb5d0",
+            "position": {
+                "x": -3.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "4ecadc04-b783-43a0-95c6-8fd6026d1feb",
+            "position": {
+                "x": -4.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "d89345ce-8072-4af4-b4e8-d5b57b92c221",
+            "position": {
+                "x": 5.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "65320755-68d8-4051-99c0-227679936573",
+            "position": {
                 "x": -5.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "ec103f02-0217-4ee4-9cc3-b1eae60bba69",
+            "position": {
+                "x": -6.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "baea10a2-ce51-4ff8-b551-72c2e6545b87",
+            "position": {
+                "x": -7.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "43fa07c2-a092-4760-8244-b43a06a12e2e",
+            "position": {
+                "x": -8.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "1b896dfc-3f7d-4711-9a34-1a50823756f7",
+            "position": {
+                "x": -9.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "331e0a52-27b4-4bb8-989c-34ccf7d16699",
+            "position": {
+                "x": -10.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "866b86de-7444-42e5-b6f0-7a45b49231d9",
+            "position": {
+                "x": -11.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "8ce98d27-6dd4-44f7-b59a-951793cd9ce0",
+            "position": {
+                "x": -8.5,
+                "y": 0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "8a29aece-5de3-4e28-8fdc-8030db9545b9",
+            "position": {
+                "x": -8.5,
+                "y": 1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "b8820578-a7bf-4618-84e6-17242d9a444d",
+            "position": {
+                "x": -8.5,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "b1dfbca3-eb9c-48a9-8acc-ac50b4a38f0f",
+            "position": {
+                "x": -8.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "b692132c-482d-447b-b146-4f3e7016b6a3",
+            "position": {
+                "x": -8.5,
+                "y": 4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "7cc23330-87e6-4ec7-9a86-619195c45ad1",
+            "position": {
+                "x": -8.5,
+                "y": 5.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "6b34802f-82e2-4e94-aab4-3a3ee10d1d8c",
+            "position": {
+                "x": -11.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "52edc728-e83a-49e5-817b-7d9394ff5c19",
+            "position": {
+                "x": -11.5,
+                "y": 4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "7c5a153b-78a6-40cf-b9e6-0f05fe97e93e",
+            "position": {
+                "x": -11.5,
+                "y": 5.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "03ee9d95-db30-428e-9f03-fe3988a540da",
+            "position": {
+                "x": -8.5,
+                "y": -0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Ball2",
+            "id": "8d17ee5e-314b-4bd8-b18c-52ebaf0fb772",
+            "position": {
+                "x": -10.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Ball",
+            "id": "17194d33-5c98-4d24-b135-92b1454b79a8",
+            "position": {
+                "x": 2.0,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Ball",
+            "id": "b939e737-fadb-4c57-b7b9-947565fdb3b7",
+            "position": {
+                "x": 3.0,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Ball2",
+            "id": "254b5a91-e964-44be-afe4-c948d3a08d9c",
+            "position": {
+                "x": -9.0,
                 "y": -2.5
             },
             "parameters": {
