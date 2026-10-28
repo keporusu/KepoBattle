@@ -235,9 +235,12 @@ namespace Components.Combat.Attack
                         //マウスの方向とキャラクターの向きが逆なら、ベクトルを反転させる
                         attackDir *= -1;
                     }
-
+                    
+                    //吹き飛ばしに補正をかける（横向きに飛ばすほど弱くなる）
+                    var directionFix = 0.5f + 0.5f * Mathf.Sin(Mathf.Atan2(attackDir.y, attackDir.x));
+                    
                     if (_attackCharge.HasValue)
-                        fixedCollisionSetting.destination = attackDir * _attackCharge.Value;
+                        fixedCollisionSetting.destination = attackDir * _attackCharge.Value * directionFix;
                     
                     _collisionsManager.ActivateCollision(id, root.gameObject, fixedCollisionSetting);
                 }

@@ -579,6 +579,12 @@ namespace Components.Movement
             _isRight = right;
         }
 
+        public void SetPosition(Vector2 position)
+        {
+            _rigidbody_Cache.position = position;
+            ;
+        }
+
         public void ResetAll(Vector2 position)
         {
             //移動処理を全てリセット

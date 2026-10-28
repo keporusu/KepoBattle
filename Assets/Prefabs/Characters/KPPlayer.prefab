@@ -593,7 +593,7 @@ MonoBehaviour:
   moveSpeed: 5
   playerNumber: 1
   chargeMaxTime: 1.2
-  chargeMaxPower: 1.5
+  chargeMaxPower: 1.2
   chargeMinPower: 0.5
   sprite: {fileID: 3522190835031672556}
 --- !u!114 &8417148391933194332

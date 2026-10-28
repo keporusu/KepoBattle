@@ -13,91 +13,71 @@
     },
     "objects": [
         {
-            "type": "Block_Normal",
-            "id": "d948fefd-edaf-484e-8aad-a2d0e660d764",
-            "position": {
-                "x": -2.5,
-                "y": -2.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "fdf42d2e-c2b8-414e-982f-9b7c5ec9a836",
-            "position": {
-                "x": -1.5,
-                "y": -2.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "7c000cb7-a066-4b94-92d6-c4841fcda0b7",
-            "position": {
-                "x": -0.5,
-                "y": -2.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "86b1b31e-8d0b-4bcf-a27b-096b1a8b9242",
-            "position": {
-                "x": 0.5,
-                "y": -2.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "60f7e684-6a65-43b1-abac-9874c7780790",
-            "position": {
-                "x": 1.5,
-                "y": -2.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "4cb15134-3205-4bf1-b9f5-043ee0b667a9",
-            "position": {
-                "x": 2.5,
-                "y": -2.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
             "type": "Player",
             "id": "7a256195-f72c-4589-94ae-aff8d785156e",
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": -10.5,
+                "y": -1.5
             },
             "parameters": {
                 "entries": [
                     {
                         "key": "facingRight",
                         "type": 1,
-                        "value": "false"
+                        "value": "false",
+                        "enumType": ""
                     },
                     {
                         "key": "playerNumber",
                         "type": 2,
-                        "value": "1"
+                        "value": "1",
+                        "enumType": ""
                     }
                 ]
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "d7955cdb-b62f-4652-9f93-c03e70ff4355",
+            "position": {
+                "x": -7.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "8d57b5f4-3f69-4aa3-b18d-ae11d9fe1264",
+            "position": {
+                "x": -8.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "0010367d-a80b-45c5-9362-fcce66659fce",
+            "position": {
+                "x": -9.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "34ce883f-baca-4e72-849d-4411638bc258",
+            "position": {
+                "x": -10.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
             }
         }
     ]

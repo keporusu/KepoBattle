@@ -22,6 +22,7 @@ namespace Components.Controller
         //基本パラメータ
         [SerializeField] private float springForce;
         [SerializeField] private float angleOffset;
+        [SerializeField] private float fixedOffset; //飛ばすオブジェクトの位置をどれくらの位置で固定するか
         [SerializeField] private float jumpExtraForce = 8.0f;
         [SerializeField] private float jumpVectorRatio = 0.8f; //0~1 どのくらいを上向きと許容するか
         
@@ -133,12 +134,24 @@ namespace Components.Controller
             
             if (!otherRoot.TryGetComponent(out PhysicsMover mover)) return;
             
+            
             //飛ばす処理
             var fixedSpringForce = springForce;
             var forceDirection = Quaternion.Euler(new Vector3(0.0f, 0.0f, angleOffset)) * Vector3.up;
             //力の向きが上向きなら、バネジャンプを認める（横向きを許容するとジャンプじゃなくなる）
             if (mover.IsRequestedSpringForce && Vector2.Dot(Vector2.up, (Vector2)forceDirection) > jumpVectorRatio)
                 fixedSpringForce += jumpExtraForce;
+            
+            //位置を固定してから飛ばす
+            if (EntityRoot.Require(otherRoot).Identity == ObjectIdentity.Player)
+            {
+                //TODO: プレイヤーだけ例外処理（応急処置）
+                mover.SetPosition(transform.position + forceDirection * fixedOffset + Vector3.up * 1.0f);
+            }
+            else
+            {
+                mover.SetPosition(transform.position + forceDirection * fixedOffset);
+            }
             mover.AddForceVelocity((Vector2)forceDirection * fixedSpringForce, true);
             
             //アニメーション再生

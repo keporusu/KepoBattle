@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 182eaa7d6b4d04f8b9a5adac8fe3213f, type: 3}
+  m_Name: True Stages Info
+  m_EditorClassIdentifier: KepoBattle.Data:Data:StagesInfo
+  stages:
+  - Id: 1-1
+    Name: Choose
+    Description: I make a point of doing nothing every day.
+    SceneName: Stage1-1
+  - Id: 1-2
+    Name: Aim
+    Description: "It always seems impossible until it\u2019s done."
+    SceneName: Stage1-2
+  - Id: 1-3
+    Name: Mario
+    Description: "It always seems impossible until it\u2019s done."
+    SceneName: Stage1-3
+  - Id: 1-4
+    Name: Hit-Hit
+    Description: "It always seems impossible until it\u2019s done."
+    SceneName: Stage1-4
+  - Id: 1-5
+    Name: Dig up the Ball
+    Description: "It always seems impossible until it\u2019s done."
+    SceneName: Stage1-5
+  - Id: 2-1
+    Name: Bomb
+    Description: "It always seems impossible until it\u2019s done."
+    SceneName: Stage2-1
+  - Id: 2-2
+    Name: Switch
+    Description: "It always seems impossible until it\u2019s done."
+    SceneName: Stage2-2

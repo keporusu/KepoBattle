@@ -9,8 +9,10 @@ namespace Core.Constants
         Player,
         Enemy,
         Ball,
+        Ball2,
         Bomb,
         Spring,
-        Goal
+        Goal,
+        Switch
     }
 }
