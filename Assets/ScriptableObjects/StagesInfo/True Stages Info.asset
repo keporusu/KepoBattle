@@ -33,3 +33,11 @@ MonoBehaviour:
     Name: Dig up the Ball
     Description: "It always seems impossible until it\u2019s done."
     SceneName: Stage1-5
+  - Id: 2-1
+    Name: Bomb
+    Description: "It always seems impossible until it\u2019s done."
+    SceneName: Stage2-1
+  - Id: 2-2
+    Name: Switch
+    Description: "It always seems impossible until it\u2019s done."
+    SceneName: Stage2-2
