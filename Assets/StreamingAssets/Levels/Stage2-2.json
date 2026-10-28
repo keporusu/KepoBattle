@@ -620,17 +620,6 @@
             }
         },
         {
-            "type": "Block_Normal",
-            "id": "f77f38c8-9f78-4cba-b133-e65d2ca4160e",
-            "position": {
-                "x": -10.5,
-                "y": 1.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
             "type": "Spring",
             "id": "fe167df1-edd3-40fa-8328-e38fa3ada37a",
             "position": {

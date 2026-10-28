@@ -14,6 +14,12 @@ namespace Systems
         Clear,
         Exit
     }
+
+    public struct SwitchEvent
+    {
+        public int Id;
+        public bool On;
+    }
     
     /// <summary>
     /// ステージ(インゲーム)の管理
@@ -41,6 +47,7 @@ namespace Systems
         //公開
         public GameUtility GameUtility { get; private set; }
         public StageUIView StageUIView { get; private set; }
+        public event Action<SwitchEvent> OnSwitchChanged; //スイッチがOn/OFFになる
 
 
         void Awake()
@@ -159,6 +166,18 @@ namespace Systems
             yield return new WaitForSecondsRealtime(delay);
             SceneManager.LoadScene(sceneName);
         }
+
+        
+        /// <summary>
+        /// スイッチが切り替わったときに呼ぶ関数
+        /// ※SwitchControllerからしか呼ばない
+        /// </summary>
+        /// <param name="switchEvent">今回のスイッチのイベント内容</param>
+        public void Switch(SwitchEvent switchEvent)
+        {
+            OnSwitchChanged?.Invoke(switchEvent);
+        }
+        
         
     }
 

@@ -12,6 +12,7 @@ namespace Core.Constants
         Ball2,
         Bomb,
         Spring,
-        Goal
+        Goal,
+        Switch
     }
 }
