@@ -702,7 +702,7 @@
                     {
                         "key": "deliveryObject",
                         "type": 3,
-                        "value": "Ball",
+                        "value": "Ball2",
                         "enumType": "Core.Constants.ObjectIdentity, KepoBattle.Core"
                     }
                 ]
@@ -883,6 +883,28 @@
                         "enumType": ""
                     }
                 ]
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "5b57790a-cfe0-424c-918e-d7bf2e2a6450",
+            "position": {
+                "x": -8.5,
+                "y": 1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "bfe93f0e-53e9-45be-9485-2c5a534b7d54",
+            "position": {
+                "x": -8.5,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": []
             }
         }
     ]
