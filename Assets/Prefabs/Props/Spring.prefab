@@ -299,6 +299,7 @@ MonoBehaviour:
   friction: 1
   pushedSpeed: 1.5
   kinematic: 1
+  freezeX: 1
   blowAlpha: 1
   restitution: 0
   minBounceSpeed: 0

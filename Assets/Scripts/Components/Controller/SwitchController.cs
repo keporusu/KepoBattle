@@ -16,6 +16,7 @@ namespace Components.Controller
         [SerializeField] private bool onInitialize;
         [SerializeField] private int switchId; //0~2
         [SerializeField] private float sameColliderIgnoreDuration = 0.5f; //同じコライダーからの攻撃で切り替わらない時間
+        [SerializeField] private float switchInterval = 0.2f; //どのコライダーからの攻撃でも切り替わらない時間
         
         //アニメーション関連
         [SerializeField] private SpriteRenderer renderer;
@@ -28,6 +29,8 @@ namespace Components.Controller
         private int _switchEventId = 0;
         //コライダーごとの、最後にスイッチを切り替えた時刻
         private readonly Dictionary<Collider2D, float> _lastSwitchTimes = new Dictionary<Collider2D, float>();
+        //最後にスイッチを切り替えた時刻(コライダーを問わない)
+        private float _lastSwitchTime = float.NegativeInfinity;
 
         void Start()
         {
@@ -88,12 +91,16 @@ namespace Components.Controller
 
         protected override void OnDamageHit(Collider2D other)
         {
+            //切り替えた直後は、どのコライダーからの攻撃でも切り替えない
+            if (Time.time < _lastSwitchTime + switchInterval) return;
+
             //同じコライダーから続けて攻撃を受けた場合は、一定時間切り替えない
             if (_lastSwitchTimes.TryGetValue(other, out var lastTime)
                 && Time.time < lastTime + sameColliderIgnoreDuration) return;
 
             RemoveExpiredSwitchTimes();
             _lastSwitchTimes[other] = Time.time;
+            _lastSwitchTime = Time.time;
             Switch();
         }
 

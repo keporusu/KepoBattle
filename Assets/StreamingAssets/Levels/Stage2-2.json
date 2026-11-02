@@ -16,8 +16,8 @@
             "type": "Player",
             "id": "7a256195-f72c-4589-94ae-aff8d785156e",
             "position": {
-                "x": -5.5,
-                "y": -1.5
+                "x": -4.5,
+                "y": -0.5
             },
             "parameters": {
                 "entries": [
@@ -757,42 +757,6 @@
         },
         {
             "type": "Block_Switch",
-            "id": "1d43b355-8cff-47f6-8404-bbf4a067d9da",
-            "position": {
-                "x": -6.5,
-                "y": -1.5
-            },
-            "parameters": {
-                "entries": [
-                    {
-                        "key": "switchId",
-                        "type": 2,
-                        "value": "0",
-                        "enumType": ""
-                    }
-                ]
-            }
-        },
-        {
-            "type": "Block_Switch",
-            "id": "de1eba1d-c54e-4460-a6a1-3944320fd322",
-            "position": {
-                "x": -6.5,
-                "y": -2.5
-            },
-            "parameters": {
-                "entries": [
-                    {
-                        "key": "switchId",
-                        "type": 2,
-                        "value": "0",
-                        "enumType": ""
-                    }
-                ]
-            }
-        },
-        {
-            "type": "Block_Switch",
             "id": "50fbc692-ca01-4cde-a4e8-04e210d5380a",
             "position": {
                 "x": -5.5,
@@ -804,6 +768,12 @@
                         "key": "switchId",
                         "type": 2,
                         "value": "0",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "onInitialize",
+                        "type": 1,
+                        "value": "false",
                         "enumType": ""
                     }
                 ]
@@ -822,6 +792,12 @@
                         "key": "switchId",
                         "type": 2,
                         "value": "0",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "onInitialize",
+                        "type": 1,
+                        "value": "false",
                         "enumType": ""
                     }
                 ]
@@ -864,30 +840,6 @@
             }
         },
         {
-            "type": "Block_Switch",
-            "id": "d46c5903-76f8-4f87-a01b-6ce516909dcd",
-            "position": {
-                "x": -8.5,
-                "y": 2.5
-            },
-            "parameters": {
-                "entries": [
-                    {
-                        "key": "switchId",
-                        "type": 2,
-                        "value": "0",
-                        "enumType": ""
-                    },
-                    {
-                        "key": "onInitialize",
-                        "type": 1,
-                        "value": "true",
-                        "enumType": ""
-                    }
-                ]
-            }
-        },
-        {
             "type": "Block_Normal",
             "id": "e947c6a6-587f-4f5c-9e19-7f77a240cdf4",
             "position": {
@@ -913,8 +865,8 @@
             "type": "Block_Switch",
             "id": "1fbfec68-7e0c-445a-b332-6d92dc3707ba",
             "position": {
-                "x": -2.5,
-                "y": 0.5
+                "x": -7.5,
+                "y": 1.5
             },
             "parameters": {
                 "entries": [
@@ -927,7 +879,7 @@
                     {
                         "key": "onInitialize",
                         "type": 1,
-                        "value": "false",
+                        "value": "true",
                         "enumType": ""
                     }
                 ]
@@ -942,6 +894,30 @@
             },
             "parameters": {
                 "entries": []
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "b7d249cc-94e3-483e-a116-99a749704446",
+            "position": {
+                "x": -7.0,
+                "y": 2.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "0",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "false",
+                        "enumType": ""
+                    }
+                ]
             }
         }
     ]
