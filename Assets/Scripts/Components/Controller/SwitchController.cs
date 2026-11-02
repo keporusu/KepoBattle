@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Core.Constants;
 using Core.Contracts;
 using Systems;
@@ -14,6 +15,7 @@ namespace Components.Controller
 
         [SerializeField] private bool onInitialize;
         [SerializeField] private int switchId; //0~2
+        [SerializeField] private float sameColliderIgnoreDuration = 0.5f; //同じコライダーからの攻撃で切り替わらない時間
         
         //アニメーション関連
         [SerializeField] private SpriteRenderer renderer;
@@ -24,6 +26,8 @@ namespace Components.Controller
         //状態
         private bool _on = false;
         private int _switchEventId = 0;
+        //コライダーごとの、最後にスイッチを切り替えた時刻
+        private readonly Dictionary<Collider2D, float> _lastSwitchTimes = new Dictionary<Collider2D, float>();
 
         void Start()
         {
@@ -91,7 +95,34 @@ namespace Components.Controller
 
         protected override void OnDamageHit(Collider2D other)
         {
+            //同じコライダーから続けて攻撃を受けた場合は、一定時間切り替えない
+            if (_lastSwitchTimes.TryGetValue(other, out var lastTime)
+                && Time.time < lastTime + sameColliderIgnoreDuration) return;
+
+            RemoveExpiredSwitchTimes();
+            _lastSwitchTimes[other] = Time.time;
             Switch();
+        }
+
+        /// <summary>
+        /// 無視する時間を過ぎた記録を消す
+        /// 破棄されたコライダーの記録が溜まり続けないようにする
+        /// </summary>
+        private void RemoveExpiredSwitchTimes()
+        {
+            var expired = new List<Collider2D>();
+            foreach (var pair in _lastSwitchTimes)
+            {
+                if (pair.Key == null || pair.Value + sameColliderIgnoreDuration <= Time.time)
+                {
+                    expired.Add(pair.Key);
+                }
+            }
+
+            foreach (var col in expired)
+            {
+                _lastSwitchTimes.Remove(col);
+            }
         }
 
 
