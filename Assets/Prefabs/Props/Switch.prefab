@@ -76,7 +76,8 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 229fde39a731a4bc5ae6194440717b12, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1663105239040280103, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -85,15 +86,15 @@ PrefabInstance:
       addedObject: {fileID: 9077590603151694523}
     - targetCorrespondingSourceObject: {fileID: 6362865065703469651, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6368749063284701201}
+      addedObject: {fileID: 1349091889831302171}
   m_SourcePrefab: {fileID: 100100000, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
 --- !u!1 &1674124033710787685 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6362865065703469651, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
   m_PrefabInstance: {fileID: 5726009033823485494}
   m_PrefabAsset: {fileID: 0}
---- !u!61 &6368749063284701201
-BoxCollider2D:
+--- !u!58 &1349091889831302171
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -127,17 +128,7 @@ BoxCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1.2, y: 1.2}
-  m_EdgeRadius: 0
+  m_Radius: 0.75
 --- !u!212 &3853012433840015868 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 8795099630960080842, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
@@ -162,6 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   onInitialize: 0
   switchId: 0
+  sameColliderIgnoreDuration: 0.5
+  switchInterval: 0.2
   renderer: {fileID: 3853012433840015868}
   switchOn: {fileID: 21300000, guid: 229fde39a731a4bc5ae6194440717b12, type: 3}
   switchOff: {fileID: 21300000, guid: 300ac9d4d608945abb48aad0e3db4e58, type: 3}
