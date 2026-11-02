@@ -35,16 +35,9 @@ namespace Components.Controller
             SetIdentity(ObjectIdentity.Switch);
 
             //初期化
+            //ブロックの初期状態はブロックごとに持つため、ここではスイッチの見た目だけを決める
             _on = onInitialize;
             ApplyAppearance();
-
-            //On で始まる場合は、同じ switchId のブロックも切り替える
-            //ブロックは OnEnable で購読済み(同じフレームに生成されたものも、Start より前に OnEnable が呼ばれる)
-            //編集中に切り替えるとブロックの当たり判定が消えて選びにくくなるため、編集中は送らない
-            if (_on && !LevelManager.IsEditMode && StageManager.Current != null)
-            {
-                StageManager.Current.Switch(new SwitchEvent(){Id = switchId, On = _on});
-            }
         }
 
         public void ApplyLevelParameters(LevelObjectParameters parameters)

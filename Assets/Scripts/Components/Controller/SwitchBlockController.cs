@@ -10,18 +10,20 @@ namespace Components.Controller
     {
         //レベルデータのキー
         private const string SwitchIdKey = "switchId";
+        private const string OnInitializeKey = "onInitialize";
 
         [SerializeField] private int switchId;
+        [SerializeField] private bool onInitialize;
         [SerializeField] private Collider2D geometry;
         [SerializeField] private SpriteRenderer renderer;
 
         //状態
-        //スイッチから On が届くまでは Off で始める
         private bool _on = false;
 
 
         private void Start()
         {
+            _on = onInitialize;
             ApplyAppearance();
         }
 
@@ -30,19 +32,26 @@ namespace Components.Controller
             if (parameters.TryGetInt(SwitchIdKey, out var id))
             {
                 switchId = id;
-                //生成後に編集された場合も見た目に反映する
-                ApplyAppearance();
             }
+
+            if (parameters.TryGetBool(OnInitializeKey, out var on))
+            {
+                onInitialize = on;
+                _on = on;
+            }
+
+            //生成後に編集された場合も見た目に反映する
+            ApplyAppearance();
         }
 
         public void ExportLevelParameters(LevelObjectParameters parameters)
         {
             parameters.SetInt(SwitchIdKey, switchId);
+            parameters.SetBool(OnInitializeKey, onInitialize);
         }
 
         /// <summary>
         /// switchId の色と、On/Off の状態を見た目と当たり判定に反映する
-        /// スイッチの Start と自身の Start のどちらが先でも同じ結果になるよう、状態は _on から決める
         /// </summary>
         private void ApplyAppearance()
         {
@@ -89,7 +98,8 @@ namespace Components.Controller
         {
             if (switchEvent.Id != switchId) return;
 
-            _on = switchEvent.On;
+            //スイッチの On/Off に揃えるのではなく、ブロックごとに今の状態を反転する
+            _on = !_on;
             ApplyAppearance();
         }
     }

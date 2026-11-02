@@ -587,17 +587,6 @@
             }
         },
         {
-            "type": "Block_Normal",
-            "id": "6242cdfd-538e-4461-b1ec-513908dd2d2f",
-            "position": {
-                "x": -11.5,
-                "y": 0.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
             "type": "Switch",
             "id": "78f36241-5137-46bc-a9a1-f8e392de7e86",
             "position": {
@@ -803,17 +792,6 @@
             }
         },
         {
-            "type": "Block_Normal",
-            "id": "58de7241-692d-412b-8ee5-bbd523744141",
-            "position": {
-                "x": -11.5,
-                "y": 1.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
             "type": "Block_Switch",
             "id": "50fbc692-ca01-4cde-a4e8-04e210d5380a",
             "position": {
@@ -886,11 +864,35 @@
             }
         },
         {
-            "type": "Block_Normal",
-            "id": "5b57790a-cfe0-424c-918e-d7bf2e2a6450",
+            "type": "Block_Switch",
+            "id": "d46c5903-76f8-4f87-a01b-6ce516909dcd",
             "position": {
                 "x": -8.5,
-                "y": 1.5
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "switchId",
+                        "type": 2,
+                        "value": "0",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "onInitialize",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "e947c6a6-587f-4f5c-9e19-7f77a240cdf4",
+            "position": {
+                "x": -11.5,
+                "y": 0.5
             },
             "parameters": {
                 "entries": []
@@ -898,10 +900,45 @@
         },
         {
             "type": "Block_Normal",
-            "id": "bfe93f0e-53e9-45be-9485-2c5a534b7d54",
+            "id": "dd08dec6-6d0d-439d-b7e0-af903e84eb86",
+            "position": {
+                "x": -11.5,
+                "y": 1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Switch",
+            "id": "1fbfec68-7e0c-445a-b332-6d92dc3707ba",
+            "position": {
+                "x": -2.5,
+                "y": 0.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "switchId",
+                        "type": 2,
+                        "value": "0",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "onInitialize",
+                        "type": 1,
+                        "value": "false",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "b7417f8a-6d2f-40a6-9656-f5960143b6a1",
             "position": {
                 "x": -8.5,
-                "y": 2.5
+                "y": 1.5
             },
             "parameters": {
                 "entries": []

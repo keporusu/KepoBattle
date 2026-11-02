@@ -69,6 +69,12 @@ namespace Components.Combat.Attack
                     //衝突時の法線を計算し、その法線で反射させる
                     Vector2 closerPoint = other.ClosestPoint(transform.position);
                     Vector2 normal = (physicsMover.Position - closerPoint).normalized;
+                    //中心が相手の内側にあると ClosestPoint は中心そのものを返し、法線がゼロになる
+                    //その場合は進んできた向きの逆を法線とし、来た方向へ跳ね返す
+                    if (normal == Vector2.zero)
+                    {
+                        normal = -physicsMover.Velocity.normalized;
+                    }
                     var reflectVelocity = Vector2.Reflect(physicsMover.Velocity, normal);
                     reflectVelocity *= 0.2f;
                     physicsMover.AddForceVelocity(reflectVelocity,true);
