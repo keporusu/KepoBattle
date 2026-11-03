@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Core.Constants;
 using Core.Contracts;
 using Systems;
@@ -14,6 +15,8 @@ namespace Components.Controller
 
         [SerializeField] private bool onInitialize;
         [SerializeField] private int switchId; //0~2
+        [SerializeField] private float sameColliderIgnoreDuration = 0.5f; //同じコライダーからの攻撃で切り替わらない時間
+        [SerializeField] private float switchInterval = 0.2f; //どのコライダーからの攻撃でも切り替わらない時間
         
         //アニメーション関連
         [SerializeField] private SpriteRenderer renderer;
@@ -24,6 +27,10 @@ namespace Components.Controller
         //状態
         private bool _on = false;
         private int _switchEventId = 0;
+        //コライダーごとの、最後にスイッチを切り替えた時刻
+        private readonly Dictionary<Collider2D, float> _lastSwitchTimes = new Dictionary<Collider2D, float>();
+        //最後にスイッチを切り替えた時刻(コライダーを問わない)
+        private float _lastSwitchTime = float.NegativeInfinity;
 
         void Start()
         {
@@ -31,16 +38,9 @@ namespace Components.Controller
             SetIdentity(ObjectIdentity.Switch);
 
             //初期化
+            //ブロックの初期状態はブロックごとに持つため、ここではスイッチの見た目だけを決める
             _on = onInitialize;
             ApplyAppearance();
-
-            //On で始まる場合は、同じ switchId のブロックも切り替える
-            //ブロックは OnEnable で購読済み(同じフレームに生成されたものも、Start より前に OnEnable が呼ばれる)
-            //編集中に切り替えるとブロックの当たり判定が消えて選びにくくなるため、編集中は送らない
-            if (_on && !LevelManager.IsEditMode && StageManager.Current != null)
-            {
-                StageManager.Current.Switch(new SwitchEvent(){Id = switchId, On = _on});
-            }
         }
 
         public void ApplyLevelParameters(LevelObjectParameters parameters)
@@ -91,7 +91,38 @@ namespace Components.Controller
 
         protected override void OnDamageHit(Collider2D other)
         {
+            //切り替えた直後は、どのコライダーからの攻撃でも切り替えない
+            if (Time.time < _lastSwitchTime + switchInterval) return;
+
+            //同じコライダーから続けて攻撃を受けた場合は、一定時間切り替えない
+            if (_lastSwitchTimes.TryGetValue(other, out var lastTime)
+                && Time.time < lastTime + sameColliderIgnoreDuration) return;
+
+            RemoveExpiredSwitchTimes();
+            _lastSwitchTimes[other] = Time.time;
+            _lastSwitchTime = Time.time;
             Switch();
+        }
+
+        /// <summary>
+        /// 無視する時間を過ぎた記録を消す
+        /// 破棄されたコライダーの記録が溜まり続けないようにする
+        /// </summary>
+        private void RemoveExpiredSwitchTimes()
+        {
+            var expired = new List<Collider2D>();
+            foreach (var pair in _lastSwitchTimes)
+            {
+                if (pair.Key == null || pair.Value + sameColliderIgnoreDuration <= Time.time)
+                {
+                    expired.Add(pair.Key);
+                }
+            }
+
+            foreach (var col in expired)
+            {
+                _lastSwitchTimes.Remove(col);
+            }
         }
 
 

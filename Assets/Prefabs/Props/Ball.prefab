@@ -114,7 +114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: collisionSetting.circleRadius
-      value: 0
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 7187526979552378451, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
       propertyPath: collisionSetting.attackPower.x

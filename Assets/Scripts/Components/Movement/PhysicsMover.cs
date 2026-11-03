@@ -27,6 +27,7 @@ namespace Components.Movement
         [SerializeField] private float friction = 1.0f;
         [SerializeField] private float pushedSpeed = 1.5f;
         [SerializeField] private bool kinematic = false;
+        [SerializeField] private bool freezeX = false; //x軸方向に動かないようにする
         [SerializeField] private float blowAlpha = 1.0f;
 
         //反発関連
@@ -110,6 +111,7 @@ namespace Components.Movement
         public bool IsRight => _isRight;
         public bool IsRequestedSpringForce => _isRequestedExtraSpringForce;
         public float BlowAlpha => blowAlpha;
+        public bool IsKinematic => kinematic;
         
         private Vector2 GetVelocity() => Solver.Velocity;
         
@@ -259,6 +261,12 @@ namespace Components.Movement
                     from,
                     pushTargetX);
 
+                //x軸を固定する場合、予測の段階で x を動かさない
+                if (freezeX)
+                {
+                    candidate.x = from.x;
+                }
+
                 //X軸を先に解決する
                 //壁で止められた場合、足場の判定はブロック後の x で行う必要がある
                 SurfaceHit? wallHit = QueryWall(from, candidate);
@@ -287,7 +295,15 @@ namespace Components.Movement
                     ceilingHit,
                     wallHit);
 
-                _rigidbody_Cache.MovePosition(step.NextPosition);
+                var nextPosition = step.NextPosition;
+                if (freezeX)
+                {
+                    //吸着などで x がずれないよう確定位置でも固定し、x方向の速度も溜めない
+                    nextPosition.x = from.x;
+                    Solver.CutVelocity(true, false);
+                }
+
+                _rigidbody_Cache.MovePosition(nextPosition);
             }
 
             CheckFallOut();
@@ -577,6 +593,15 @@ namespace Components.Movement
         public void SetRight(bool right)
         {
             _isRight = right;
+        }
+
+        /// <summary>
+        /// kinematic を切り替える
+        /// FixedUpdate で毎回参照するため、生成後に切り替えても次の物理更新から反映される
+        /// </summary>
+        public void SetKinematic(bool isKinematic)
+        {
+            kinematic = isKinematic;
         }
 
         public void SetPosition(Vector2 position)

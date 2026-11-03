@@ -18,6 +18,7 @@ namespace Components.Controller
     {
         //レベルデータのキー
         private const string AngleKey = "angle";
+        private const string KinematicKey = "kinematic";
 
         //基本パラメータ
         [SerializeField] private float springForce;
@@ -64,11 +65,23 @@ namespace Components.Controller
             {
                 SetAngle(angle);
             }
+
+            //kinematic は PhysicsMover が持つため、このコントローラーを経由して設定する
+            if (parameters.TryGetBool(KinematicKey, out var kinematic)
+                && TryGetComponent(out PhysicsMover physicsMover))
+            {
+                physicsMover.SetKinematic(kinematic);
+            }
         }
 
         public void ExportLevelParameters(LevelObjectParameters parameters)
         {
             parameters.SetFloat(AngleKey, angleOffset);
+
+            if (TryGetComponent(out PhysicsMover physicsMover))
+            {
+                parameters.SetBool(KinematicKey, physicsMover.IsKinematic);
+            }
         }
 
         //イベントのId

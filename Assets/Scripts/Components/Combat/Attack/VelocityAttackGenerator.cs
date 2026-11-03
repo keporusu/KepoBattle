@@ -23,6 +23,11 @@ namespace Components.Combat.Attack
         [SerializeField] private float relaxSpeed; //攻撃判定を生成しない速度
         [SerializeField] private AttackCollisionSetting collisionSetting; //攻撃判定
         
+        //攻撃が当たった時の跳ね返り
+        [SerializeField] private float reflectRatio = 0.2f; //当たった速度に対する跳ね返り速度の割合
+        [SerializeField] private float switchReflectRatio = 0.6f; //相手がスイッチの場合の割合
+        [SerializeField] private float switchMinReflectSpeed = 3.0f; //相手がスイッチの場合の、跳ね返り速度の下限
+        
         //イベント
         public event Action<Collider2D> OnAttackVelocity; //速度による攻撃を行った時
 
@@ -69,8 +74,28 @@ namespace Components.Combat.Attack
                     //衝突時の法線を計算し、その法線で反射させる
                     Vector2 closerPoint = other.ClosestPoint(transform.position);
                     Vector2 normal = (physicsMover.Position - closerPoint).normalized;
+                    //中心が相手の内側にあると ClosestPoint は中心そのものを返し、法線がゼロになる
+                    //その場合は進んできた向きの逆を法線とし、来た方向へ跳ね返す
+                    if (normal == Vector2.zero)
+                    {
+                        normal = -physicsMover.Velocity.normalized;
+                    }
                     var reflectVelocity = Vector2.Reflect(physicsMover.Velocity, normal);
-                    reflectVelocity *= 0.2f;
+                    
+                    //スイッチは少し強く跳ね返り、遅く当たっても下限の速度では跳ね返る
+                    if (EntityRoot.Require(other).Identity == ObjectIdentity.Switch)
+                    {
+                        reflectVelocity *= switchReflectRatio;
+                        if (reflectVelocity.magnitude < switchMinReflectSpeed)
+                        {
+                            reflectVelocity = reflectVelocity.normalized * switchMinReflectSpeed;
+                        }
+                    }
+                    else
+                    {
+                        reflectVelocity *= reflectRatio;
+                    }
+                    
                     physicsMover.AddForceVelocity(reflectVelocity,true);
                 }
                 );
