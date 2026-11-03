@@ -47,7 +47,7 @@ namespace UI
                 }
                 
                 //まだ解放されていないステージは灰色に
-                if (((ulong)(1 << i) & availableStageFlags) == 0) 
+                if (((1UL << i) & availableStageFlags) == 0) 
                 {
                     buttonView.SetColor(Color.gray);
                 }
@@ -62,7 +62,7 @@ namespace UI
                 var index = stageIndex;
                 
                 //解放されていなステージなら何も登録しない
-                if (((ulong)(1 << stageIndex) & availableStageFlags) == 0) return;
+                if (((1UL << stageIndex) & availableStageFlags) == 0) return;
                 
                 stageElement.onClick.AddListener(() =>
                 {

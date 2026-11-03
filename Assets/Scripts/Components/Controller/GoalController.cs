@@ -42,10 +42,14 @@ namespace Components.Controller
 
         void TriggerGoal(Collider2D other)
         {
+            //TODO:[GoalDebug] WebGL でクリアにならない原因の調査用。原因が分かったら消す
+            Debug.Log($"[GoalDebug] TriggerGoal: other={other.name}, identity={EntityRoot.Require(other).Identity}, deliveryObject={deliveryObject}");
+
             //ゴール用に設定したオブジェクトではないなら、何もしない
             if (EntityRoot.Require(other).Identity != deliveryObject) return;
             
             //ゴール通知
+            Debug.Log($"[GoalDebug] GameClear 呼び出し: StageManager.Current={(StageManager.Current != null)}");
             StageManager.Current.GameClear();
             renderer.enabled = false;
         }
@@ -61,6 +65,10 @@ namespace Components.Controller
 
         public void ApplyLevelParameters(LevelObjectParameters parameters)
         {
+            //TODO:[GoalDebug] 調査用
+            var parsed = parameters.TryGetEnum(DeliveryObjectKey, out ObjectIdentity debugValue);
+            Debug.Log($"[GoalDebug] ApplyLevelParameters: parsed={parsed}, value={debugValue}");
+
             if (parameters.TryGetEnum(DeliveryObjectKey, out ObjectIdentity value))
             {
                 deliveryObject = value;

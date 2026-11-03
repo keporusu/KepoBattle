@@ -111,11 +111,15 @@ namespace Systems
 
         public void GameClear()
         {
+            //TODO:[GoalDebug] 調査用
+            Debug.Log($"[GoalDebug] GameClear: state={_state}, StageUIView={(StageUIView != null)}");
+
             //クリア実行済みなら何もしない
             if(_state == StageState.Clear)return;
             _state = StageState.Clear;
             
             StageUIView.ShowClearPopup();
+            Debug.Log("[GoalDebug] ShowClearPopup 完了");
             GameUtility.SetCameraShake(new Vector2(2.0f,2.0f),0.5f);
             SoundManager.Instance.PlaySe("Clear1");
             SoundManager.Instance.PlaySe("Clear2");
