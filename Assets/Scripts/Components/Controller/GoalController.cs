@@ -30,7 +30,7 @@ namespace Components.Controller
                 var setting = new TriggerShapeSetting
                 {
                     shape = ColliderShape.Circle,
-                    circleRadius = 3.0f,
+                    circleRadius = 0.3f,
                 };
 
                 _goalEventId = eventTriggersManager.Subscribe(setting, TriggerType.Enter, Vector2.down * 0.3f, TriggerGoal);
