@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: KepoBattle.Data::Data.AudioData
   audioName: BellRigingGold
   audioClip: {fileID: 8300000, guid: fb8a20c9e7f2646d4bd4e0e6bbe02785, type: 3}
-  volume: 0.2
+  volume: 0.1
