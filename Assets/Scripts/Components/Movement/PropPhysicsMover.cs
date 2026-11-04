@@ -1,3 +1,4 @@
+using Core.Constants;
 using Core.Contracts;
 using UnityEngine;
 
@@ -14,6 +15,9 @@ namespace Components.Movement
         //イベント
         public event System.Action<GameObject> OnForce;
         public event System.Action OnRelax;
+
+        //Propは GroundPassProp をすり抜ける
+        protected override LayerMask SurfaceLayers => LayerMask.GetMask(GameLayers.Ground);
 
         
         public void SetRelaxSpeed(float relaxSpeed)

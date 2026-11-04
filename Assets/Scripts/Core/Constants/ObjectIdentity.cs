@@ -13,6 +13,8 @@ namespace Core.Constants
         Bomb,
         Spring,
         Goal,
-        Switch
+        Switch,
+        Bell,
+        Launcher
     }
 }

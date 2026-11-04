@@ -44,7 +44,6 @@ namespace Components.Movement
         //押し判定をする相手
         private LayerMask _characterLayer;
         private LayerMask _propLayer;
-        private LayerMask _groundLayer;
 
         //接地判定の余白
         //足場に吸着し続けるための厚み
@@ -114,6 +113,9 @@ namespace Components.Movement
         public bool IsKinematic => kinematic;
         
         private Vector2 GetVelocity() => Solver.Velocity;
+
+        //足場・壁・天井として扱うレイヤー
+        protected virtual LayerMask SurfaceLayers => LayerMask.GetMask(GameLayers.Ground, GameLayers.GroundPassProp);
         
 
         private MovementSolver CreateSolver()
@@ -162,13 +164,12 @@ namespace Components.Movement
             //レイヤー取得
             _characterLayer=LayerMask.GetMask(GameLayers.Character);
             _propLayer=LayerMask.GetMask(GameLayers.Prop);
-            _groundLayer=LayerMask.GetMask(GameLayers.Ground);
 
             //接触判定用フィルタ
             //足場のCollider2Dは GeometryHitNotifier によって isTrigger にされるので
             //useTriggers を有効にしないと一切ヒットしない
             _surfaceFilter = new ContactFilter2D { useTriggers = true };
-            _surfaceFilter.SetLayerMask(_groundLayer);
+            _surfaceFilter.SetLayerMask(SurfaceLayers);
 
             //自分の形状をキャッシュする
             //Physics2D の AutoSyncTransforms が無効なため、Rigidbody2D.position へ直接代入した

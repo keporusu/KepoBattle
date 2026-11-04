@@ -63,15 +63,15 @@ namespace Components.Combat.Attack
                 id,
                 (Collider2D other) =>
                 {
+                    var otherRoot = EntityRoot.Require(other);
+
                     //自分が攻撃者の攻撃は自分に当たらない
-                    if (collisionManager.GetAttackerId(id) == EntityRoot.Require(other).Id)
+                    if (collisionManager.GetAttackerId(id) == otherRoot.Id)
                     {
                         return;
                     }
-                    
-                    OnAttackVelocity?.Invoke(other);
-                
-                    //衝突時の法線を計算し、その法線で反射させる
+
+                    //衝突時の法線を計算する
                     Vector2 closerPoint = other.ClosestPoint(transform.position);
                     Vector2 normal = (physicsMover.Position - closerPoint).normalized;
                     //中心が相手の内側にあると ClosestPoint は中心そのものを返し、法線がゼロになる
@@ -80,10 +80,29 @@ namespace Components.Combat.Attack
                     {
                         normal = -physicsMover.Velocity.normalized;
                     }
+
+                    //相手に近づいていなければ、ぶつかったことにしない
+                    //隣り合う相手と一緒に飛ぶ時や遠ざかる時は、判定が重なっただけで衝突ではない
+                    var relativeVelocity = physicsMover.Velocity - (otherRoot.Velocity ?? Vector2.zero);
+                    if (Vector2.Dot(relativeVelocity, normal) >= 0.0f)
+                    {
+                        return;
+                    }
+                    
+                    OnAttackVelocity?.Invoke(other);
+
+                    //ベルは自身で相手を弾き返すため、ここでは跳ね返らない
+                    //両方で速度を上書きすると、処理順によって結果が変わってしまう
+                    if (otherRoot.Identity == ObjectIdentity.Bell)
+                    {
+                        return;
+                    }
+
+                    //法線で反射させる
                     var reflectVelocity = Vector2.Reflect(physicsMover.Velocity, normal);
                     
                     //スイッチは少し強く跳ね返り、遅く当たっても下限の速度では跳ね返る
-                    if (EntityRoot.Require(other).Identity == ObjectIdentity.Switch)
+                    if (otherRoot.Identity == ObjectIdentity.Switch)
                     {
                         reflectVelocity *= switchReflectRatio;
                         if (reflectVelocity.magnitude < switchMinReflectSpeed)

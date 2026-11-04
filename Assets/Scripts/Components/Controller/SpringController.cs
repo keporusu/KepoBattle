@@ -199,7 +199,7 @@ namespace Components.Controller
         private void Start()
         {
             //自身
-            SetIdentity(ObjectIdentity.Ball);
+            SetIdentity(ObjectIdentity.Spring);
         }
     }
 }

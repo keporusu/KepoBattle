@@ -14,5 +14,8 @@ namespace Core.Constants
 
         //足場
         public const string Ground = "Ground";
+
+        //足場。キャラクターだけが乗れて、Propはすり抜ける
+        public const string GroundPassProp = "GroundPassProp";
     }
 }
