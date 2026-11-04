@@ -43,10 +43,12 @@ namespace Systems
         
         //状態
         StageState _state = StageState.Playing;
+        private float _elapsedTime = 0.0f; //ステージ開始からの経過時間(秒)
 
         //公開
         public GameUtility GameUtility { get; private set; }
         public StageUIView StageUIView { get; private set; }
+        public float ElapsedTime => _elapsedTime;
         public event Action<SwitchEvent> OnSwitchChanged; //スイッチがOn/OFFになる
 
 
@@ -98,6 +100,24 @@ namespace Systems
             StageUIView.RestartButtonEvent.RemoveListener(OnRestart);
         }
 
+        private void Start()
+        {
+            if (StageUIView == null) return;
+            StageUIView.SetElapsedTime(_elapsedTime);
+        }
+
+        private void Update()
+        {
+            //プレイ中だけ時間を進める
+            //クリア後やステージを出る間は止め、クリア時の時間を表示し続ける
+            if (_state != StageState.Playing) return;
+            //編集中はゲームが進まないので測らない
+            if (LevelManager.IsEditMode) return;
+
+            _elapsedTime += Time.deltaTime;
+            StageUIView.SetElapsedTime(_elapsedTime);
+        }
+
         /// <summary>
         /// ドメインのリロードを無効にして再生した時に、前回の Current が残らないようにする
         /// </summary>
@@ -115,7 +135,7 @@ namespace Systems
             if(_state == StageState.Clear)return;
             _state = StageState.Clear;
             
-            StageUIView.ShowClearPopup();
+            StageUIView.ShowClearPopup(_elapsedTime);
             GameUtility.SetCameraShake(new Vector2(2.0f,2.0f),0.5f);
             SoundManager.Instance.PlaySe("Clear1");
             SoundManager.Instance.PlaySe("Clear2");
@@ -125,6 +145,7 @@ namespace Systems
         public void OnRestart()
         {
             _state = StageState.Playing;
+            ResetElapsedTime();
             StageUIView.HideClearPopup();
             GameUtility.RestartLevel();
             
@@ -176,6 +197,15 @@ namespace Systems
         public void Switch(SwitchEvent switchEvent)
         {
             OnSwitchChanged?.Invoke(switchEvent);
+        }
+
+        /// <summary>
+        /// 経過時間を0に戻す
+        /// </summary>
+        private void ResetElapsedTime()
+        {
+            _elapsedTime = 0.0f;
+            StageUIView.SetElapsedTime(_elapsedTime);
         }
         
         
