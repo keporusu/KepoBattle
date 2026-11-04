@@ -1,6 +1,8 @@
 using Components.Identity;
 using Components.Movement;
 using Core.Constants;
+using Core.Contracts;
+using Data;
 using DG.Tweening;
 using Systems;
 using TMPro;
@@ -8,17 +10,40 @@ using UnityEngine;
 
 namespace Components.Controller
 {
-    public class BellController : PropBehaviourController
+    /// <summary>
+    /// ベルのステータス。鳴らしたときのスコアが決まる
+    /// </summary>
+    public enum BellStatus
     {
+        Bronze,
+        Silver,
+        Gold,
+        Red
+    }
+
+    public class BellController : PropBehaviourController, ILevelObject
+    {
+        //レベルデータのキー
+        private const string StatusKey = "status";
+
         //弾き返し
         [SerializeField] private float reflectRatio = 1.0f; //当たってきた速度に対する弾き返す速度の割合
         [SerializeField] private float minReflectSpeed = 5.0f; //弾き返す速度の下限
 
         //スコア
-        [SerializeField] private int ringScore = 100; //ベルを鳴らしたときに加算するスコア
+        [SerializeField] private BellStatus status = BellStatus.Bronze;
+        //ベルを鳴らしたときに加算するスコア
+        [SerializeField] private int bronzeScore = 100;
+        [SerializeField] private int silverScore = 500;
+        [SerializeField] private int goldScore = 2500;
+        [SerializeField] private int redScore = 25000;
 
         //アニメーション関連
         [SerializeField] private SpriteRenderer spRenderer;
+        [SerializeField] private Sprite bronzeSprite;
+        [SerializeField] private Sprite silverSprite;
+        [SerializeField] private Sprite goldSprite; //Red も Gold のスプライトを使う
+        [SerializeField] private Color redColor = new Color(1.0f, 0.3f, 0.3f); //Red のときに Gold のスプライトへ乗算する色
         [SerializeField] private float swingAngle = 15.0f; //揺れの最大角度(度)
         [SerializeField] private float swingDuration = 0.4f; //揺れ始めてから元に戻るまでの時間
         
@@ -32,6 +57,43 @@ namespace Components.Controller
         //キャッシュ
         private float _scoreTextAlpha; //スコアの元の透明度
 
+        /// <summary>
+        /// ステータスに応じた、鳴らしたときのスコア
+        /// </summary>
+        private int RingScore
+        {
+            get
+            {
+                switch (status)
+                {
+                    case BellStatus.Silver:
+                        return silverScore;
+                    case BellStatus.Gold:
+                        return goldScore;
+                    case BellStatus.Red:
+                        return redScore;
+                    default:
+                        return bronzeScore;
+                }
+            }
+        }
+
+        public void ApplyLevelParameters(LevelObjectParameters parameters)
+        {
+            if (parameters.TryGetEnum<BellStatus>(StatusKey, out var value))
+            {
+                status = value;
+            }
+
+            //生成後に編集された場合も見た目に反映する
+            ApplyAppearance();
+        }
+
+        public void ExportLevelParameters(LevelObjectParameters parameters)
+        {
+            parameters.SetEnum(StatusKey, status);
+        }
+
         private void Start()
         {
             //自身
@@ -40,6 +102,35 @@ namespace Components.Controller
             //スコアはベルに当たったときだけ表示する
             _scoreTextAlpha = scoreText.alpha;
             scoreText.gameObject.SetActive(false);
+
+            ApplyAppearance();
+        }
+
+        /// <summary>
+        /// ステータスのスプライトと色を見た目に反映する
+        /// SpriteRenderer の色はスプライトに乗算される
+        /// </summary>
+        private void ApplyAppearance()
+        {
+            switch (status)
+            {
+                case BellStatus.Silver:
+                    spRenderer.sprite = silverSprite;
+                    spRenderer.color = Color.white;
+                    break;
+                case BellStatus.Gold:
+                    spRenderer.sprite = goldSprite;
+                    spRenderer.color = Color.white;
+                    break;
+                case BellStatus.Red:
+                    spRenderer.sprite = goldSprite;
+                    spRenderer.color = redColor;
+                    break;
+                default:
+                    spRenderer.sprite = bronzeSprite;
+                    spRenderer.color = Color.white;
+                    break;
+            }
         }
 
         protected override void OnDamageHit(Collider2D other)
@@ -59,7 +150,7 @@ namespace Components.Controller
             //スコア加算
             if (StageManager.Current != null)
             {
-                StageManager.Current.AddScore(ringScore);
+                StageManager.Current.AddScore(RingScore);
             }
 
             //アニメーション再生
@@ -122,7 +213,7 @@ namespace Components.Controller
             var animationId = "ScoreText" + gameObject.GetEntityId();
             DOTween.Kill(animationId);
 
-            scoreText.SetText(ringScore.ToString());
+            scoreText.SetText(RingScore.ToString());
             scoreText.alpha = _scoreTextAlpha;
             var scoreTransform = scoreText.transform;
             scoreTransform.position = transform.position + (Vector3)(Random.insideUnitCircle * scoreTextRadius);

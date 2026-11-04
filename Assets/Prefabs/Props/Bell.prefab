@@ -320,6 +320,18 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -5607369923128005935, guid: 3960d31634ef74c8a8b426fb0cc0bd5e, type: 3}
+    - target: {fileID: 8795099630960080842, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795099630960080842, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795099630960080842, guid: 50ee9e17748d9404d8219c3a92951b3a, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -414,8 +426,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   reflectRatio: 0.8
   minReflectSpeed: 3
-  ringScore: 100
+  status: 0
+  bronzeScore: 100
+  silverScore: 500
+  goldScore: 2500
+  redScore: 25000
   spRenderer: {fileID: 4012144230389814249}
+  bronzeSprite: {fileID: 6576771046705579551, guid: 9e90e5b60da3c430ba422ab77bfd5e2a, type: 3}
+  silverSprite: {fileID: 7599734483445699331, guid: c894c608d54484cd0841729d8e35aa43, type: 3}
+  goldSprite: {fileID: -5607369923128005935, guid: 3960d31634ef74c8a8b426fb0cc0bd5e, type: 3}
+  redColor: {r: 1, g: 0.3, b: 0.3, a: 1}
   swingAngle: 30
   swingDuration: 0.4
   scoreText: {fileID: 8213130480385652163}
+  scoreTextDuration: 0.5
+  scoreTextRadius: 1
+  scoreTextFadeDelay: 0.3
+  scoreTextRiseDistance: 0.5

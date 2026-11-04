@@ -752,7 +752,14 @@
                 "y": 7.0
             },
             "parameters": {
-                "entries": []
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Red",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
             }
         },
         {
@@ -763,7 +770,14 @@
                 "y": 5.0
             },
             "parameters": {
-                "entries": []
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Gold",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
             }
         },
         {
@@ -774,7 +788,14 @@
                 "y": 5.0
             },
             "parameters": {
-                "entries": []
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Gold",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
             }
         },
         {
@@ -785,7 +806,14 @@
                 "y": 3.0
             },
             "parameters": {
-                "entries": []
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Silver",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
             }
         },
         {
@@ -796,7 +824,14 @@
                 "y": 3.0
             },
             "parameters": {
-                "entries": []
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Silver",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
             }
         },
         {
@@ -807,7 +842,14 @@
                 "y": 3.0
             },
             "parameters": {
-                "entries": []
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Silver",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
             }
         },
         {
