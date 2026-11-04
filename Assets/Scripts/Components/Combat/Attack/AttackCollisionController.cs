@@ -177,6 +177,8 @@ namespace Components.Combat.Attack
                 {
                     //目標地点（相手からの相対）をもとに、attackPowerを算出
                     //攻撃者基準にすると、目標地点より奥にいる相手が攻撃者側へ引き戻されてしまう
+                    //NOTE: 移動時(MovementSolver)にも速度へ BlowAlpha が掛かるため、実際の頂点はさらに BlowAlpha 倍になる
+                    //      つまり横方向は destination × BlowAlpha² まで飛ぶ。今の飛距離はこの前提で調整している
                     var relativeDestination = _setting.Value.destination * additionalInfo.OtherBlowAlpha;
                     //目標地点は放物運動の頂点なので、相手より下にある場合は到達できない
                     //また高さの差が0に近いと上昇時間も0に近づき、x方向の速度が発散する
