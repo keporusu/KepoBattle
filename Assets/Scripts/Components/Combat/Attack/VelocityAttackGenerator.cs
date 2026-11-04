@@ -70,7 +70,14 @@ namespace Components.Combat.Attack
                     }
                     
                     OnAttackVelocity?.Invoke(other);
-                
+
+                    //ベルは自身で相手を弾き返すため、ここでは跳ね返らない
+                    //両方で速度を上書きすると、処理順によって結果が変わってしまう
+                    if (EntityRoot.Require(other).Identity == ObjectIdentity.Bell)
+                    {
+                        return;
+                    }
+
                     //衝突時の法線を計算し、その法線で反射させる
                     Vector2 closerPoint = other.ClosestPoint(transform.position);
                     Vector2 normal = (physicsMover.Position - closerPoint).normalized;
