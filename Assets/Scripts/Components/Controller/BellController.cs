@@ -78,6 +78,25 @@ namespace Components.Controller
             }
         }
 
+        /// <summary>
+        /// ステータスに応じた、鳴らしたときの音の名前
+        /// </summary>
+        private string RingSoundName
+        {
+            get
+            {
+                switch (status)
+                {
+                    case BellStatus.Gold:
+                        return "BellRingingGold";
+                    case BellStatus.Red:
+                        return "BellRingingRed";
+                    default:
+                        return "BellRinging";
+                }
+            }
+        }
+
         public void ApplyLevelParameters(LevelObjectParameters parameters)
         {
             if (parameters.TryGetEnum<BellStatus>(StatusKey, out var value))
@@ -162,11 +181,11 @@ namespace Components.Controller
         //基底の Prop 用の音と重ならないように、どちらもベルの音に置き換える
         protected override void PlayDamageSoundFromCharacter()
         {
-            SoundManager.Instance.PlaySe("BellRinging");
+            SoundManager.Instance.PlaySe(RingSoundName);
         }
         protected override void PlayDamageSoundFromProp()
         {
-            SoundManager.Instance.PlaySe("BellRinging");
+            SoundManager.Instance.PlaySe(RingSoundName);
         }
 
         /// <summary>
