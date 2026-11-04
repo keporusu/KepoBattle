@@ -54,7 +54,9 @@ namespace Systems
         public bool HasTimeLimit => _timeLimit > 0.0f;
         public float RemainingTime => HasTimeLimit ? Mathf.Max(0.0f, _timeLimit - _elapsedTime) : 0.0f;
         public int Score => _score;
+        public bool IsPlaying => _state == StageState.Playing;
         public event Action<SwitchEvent> OnSwitchChanged; //スイッチがOn/OFFになる
+        public event Action OnRestarted; //ステージをやり直した
 
 
         void Awake()
@@ -175,6 +177,7 @@ namespace Systems
             _score = 0;
             StageUIView.HideClearPopup();
             GameUtility.RestartLevel();
+            OnRestarted?.Invoke();
             
             SoundManager.Instance.PlaySe("Select2");
         }

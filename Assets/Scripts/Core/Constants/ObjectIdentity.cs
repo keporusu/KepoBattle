@@ -14,6 +14,7 @@ namespace Core.Constants
         Spring,
         Goal,
         Switch,
-        Bell
+        Bell,
+        Launcher
     }
 }

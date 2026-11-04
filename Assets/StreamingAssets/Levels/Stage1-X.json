@@ -60,31 +60,9 @@
         },
         {
             "type": "Block_Normal",
-            "id": "0010367d-a80b-45c5-9362-fcce66659fce",
-            "position": {
-                "x": -9.5,
-                "y": -3.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
             "id": "34ce883f-baca-4e72-849d-4411638bc258",
             "position": {
                 "x": -10.5,
-                "y": -3.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "bb135373-ef8f-4284-9c85-2207c126e9c5",
-            "position": {
-                "x": -6.5,
                 "y": -3.5
             },
             "parameters": {
@@ -115,17 +93,6 @@
         },
         {
             "type": "Block_Normal",
-            "id": "96f4f246-5400-459a-aaf5-9d2deac894a9",
-            "position": {
-                "x": -3.5,
-                "y": -3.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
             "id": "75e5bc9f-acf9-4c76-b3de-40b08ede5d40",
             "position": {
                 "x": -2.5,
@@ -140,17 +107,6 @@
             "id": "9d7c82ed-0648-4ddd-9309-eb196b8a68fc",
             "position": {
                 "x": -1.5,
-                "y": -3.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "9c415b78-7acf-4252-a09f-f2d59b77e04a",
-            "position": {
-                "x": -0.5,
                 "y": -3.5
             },
             "parameters": {
@@ -203,31 +159,9 @@
         },
         {
             "type": "Block_Normal",
-            "id": "f2b6d57d-72c9-487c-ae38-d8fe19c68bb3",
-            "position": {
-                "x": -9.5,
-                "y": -4.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
             "id": "e20845fd-c359-413f-8dd4-16a4b33c353a",
             "position": {
                 "x": -10.5,
-                "y": -4.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "0bec1184-8604-4edd-ac26-e94e54f6ea64",
-            "position": {
-                "x": -6.5,
                 "y": -4.5
             },
             "parameters": {
@@ -258,17 +192,6 @@
         },
         {
             "type": "Block_Normal",
-            "id": "25c1942c-4329-408e-9877-8a098a2baa5d",
-            "position": {
-                "x": -3.5,
-                "y": -4.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
             "id": "c0569279-5c09-4ec2-9d4d-d58206ed0f47",
             "position": {
                 "x": -2.5,
@@ -283,17 +206,6 @@
             "id": "87ccfff4-52b9-4300-aa45-5d9a6fc1c668",
             "position": {
                 "x": -1.5,
-                "y": -4.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "d0e40ffe-cc52-45ac-9f0f-f2f1d53f0c50",
-            "position": {
-                "x": -0.5,
                 "y": -4.5
             },
             "parameters": {
@@ -346,28 +258,6 @@
         },
         {
             "type": "Block_Normal",
-            "id": "465df6fa-9c98-4cdf-9922-c7ee294eb8e5",
-            "position": {
-                "x": -12.5,
-                "y": -3.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "1c2d1b51-b18a-4c15-8505-489b87a391bf",
-            "position": {
-                "x": -12.5,
-                "y": -4.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
             "id": "15f50bc9-ee70-4e68-9fbe-5fb757719c37",
             "position": {
                 "x": -13.5,
@@ -405,17 +295,6 @@
             "position": {
                 "x": -17.5,
                 "y": -4.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Ball2",
-            "id": "c2400a82-680c-4157-be70-163a875da286",
-            "position": {
-                "x": -10.5,
-                "y": -2.5
             },
             "parameters": {
                 "entries": []
@@ -777,7 +656,7 @@
             "type": "Spring",
             "id": "553b95a5-4c4c-4bf7-aac9-c08ab3132d6b",
             "position": {
-                "x": -13.0,
+                "x": -15.5,
                 "y": -2.5
             },
             "parameters": {
@@ -785,7 +664,7 @@
                     {
                         "key": "angle",
                         "type": 0,
-                        "value": "-20",
+                        "value": "-30",
                         "enumType": ""
                     },
                     {
@@ -801,7 +680,7 @@
             "type": "Spring",
             "id": "69e747b9-9eb6-452b-a7b4-d0ffc975416a",
             "position": {
-                "x": 0.0,
+                "x": 2.5,
                 "y": -2.5
             },
             "parameters": {
@@ -809,7 +688,7 @@
                     {
                         "key": "angle",
                         "type": 0,
-                        "value": "20",
+                        "value": "30",
                         "enumType": ""
                     },
                     {
@@ -845,28 +724,6 @@
         },
         {
             "type": "Block_Normal",
-            "id": "6fe0a466-f87a-47a5-b535-e5910a9eedd5",
-            "position": {
-                "x": 2.5,
-                "y": -3.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "1ca1109e-d7fa-4644-9170-bbc4c2d8ed66",
-            "position": {
-                "x": 2.5,
-                "y": -4.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
             "id": "b4ab6140-e73e-4a93-85ef-ae2a0665a16e",
             "position": {
                 "x": -14.5,
@@ -881,28 +738,6 @@
             "id": "1cd56431-259d-44ae-b9c3-ff577474c4f4",
             "position": {
                 "x": -14.5,
-                "y": -4.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "0b73463e-5790-4b6a-a4d5-07ab257a80a8",
-            "position": {
-                "x": -15.5,
-                "y": -3.5
-            },
-            "parameters": {
-                "entries": []
-            }
-        },
-        {
-            "type": "Block_Normal",
-            "id": "c88ccb30-1161-4e60-8416-f1ccfb11880e",
-            "position": {
-                "x": -15.5,
                 "y": -4.5
             },
             "parameters": {
@@ -1017,6 +852,102 @@
             },
             "parameters": {
                 "entries": []
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "b8ac7d8d-0db2-46a5-b33e-98a3d2c1e6c0",
+            "position": {
+                "x": -12.5,
+                "y": -3.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "-20",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "4de92b52-66c3-4108-acda-7574dccf4ddb",
+            "position": {
+                "x": -0.5,
+                "y": -3.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "20",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "425139b7-b638-49fc-b137-2b27dfacbfc7",
+            "position": {
+                "x": -15.5,
+                "y": 2.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "-20",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "35150ba3-9411-46d3-a257-b0731d58f1ae",
+            "position": {
+                "x": 2.5,
+                "y": 2.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "20",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
             }
         }
     ]
