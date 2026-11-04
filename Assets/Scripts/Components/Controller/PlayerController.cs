@@ -297,8 +297,9 @@ namespace Components.Controller
             
             //ジャンプ状態遷移（AnimController）
             _animatorTrigger_Cache.TriggerJump();
+            SoundManager.Instance.PlaySe("Jump");
             Debug.Log("Jump started");
-            
+
         }
 
         private async void RequestSpringForce(InputAction.CallbackContext ctx)
