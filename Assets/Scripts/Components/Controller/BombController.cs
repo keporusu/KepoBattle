@@ -217,7 +217,7 @@ namespace Components.Controller
             }
                 
             spRenderer.sprite = explosionSprite;
-            spRenderer.transform.DOScale(Vector3.one * 6.0f, 0.2f).SetLink(spRenderer.gameObject);
+            spRenderer.transform.DOScale(Vector3.one * 1.0f, 0.2f).SetLink(spRenderer.gameObject);
             spRenderer.DOFade(0.0f, 0.2f).SetEase(Ease.OutQuad).SetLink(spRenderer.gameObject);
         }
 

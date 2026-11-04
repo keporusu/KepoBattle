@@ -98,9 +98,9 @@ namespace Components.Controller
             
             
             //自身が体当たりで攻撃したら
-            if(!TryGetComponent(out VelocityAttackGenerator velocityAttackGenerator))
-                throw new MissingComponentException($"[{GetType().Name}] AttackController が {gameObject.name} に見つかりません");
-            velocityAttackGenerator.OnAttackVelocity += OnAttackVelocity;
+            //ゴールなど体当たりしないPropは VelocityAttackGenerator を持たないことがある
+            if(TryGetComponent(out VelocityAttackGenerator velocityAttackGenerator))
+                velocityAttackGenerator.OnAttackVelocity += OnAttackVelocity;
             
             //接地・壁衝突判定
             if (!TryGetComponent(out PhysicsMover physicsMover))
@@ -124,9 +124,8 @@ namespace Components.Controller
             }
             
             //自身が体当たりで攻撃したら
-            if(!TryGetComponent(out VelocityAttackGenerator velocityAttackGenerator))
-                throw new MissingComponentException($"[{GetType().Name}] VelocityAttackGenerator が {gameObject.name} に見つかりません");
-            velocityAttackGenerator.OnAttackVelocity -= OnAttackVelocity;
+            if(TryGetComponent(out VelocityAttackGenerator velocityAttackGenerator))
+                velocityAttackGenerator.OnAttackVelocity -= OnAttackVelocity;
             
             //接地・壁衝突判定
             if (!TryGetComponent(out PhysicsMover physicsMover))
