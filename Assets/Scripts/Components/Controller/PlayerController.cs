@@ -49,6 +49,7 @@ namespace Components.Controller
         private MaterialPropertyBlock _spritePropertyBlock_Cache;
 
         //State
+        private bool _isInputEnabled = false;
         private bool _isJumping = false;
         private bool _blockingMove = false;
         private bool _blockingAttack = false;
@@ -159,16 +160,14 @@ namespace Components.Controller
             //モードを切り替えるとレベルごと作り直されるため、生成時点のモードだけを見ればよい
             if (LevelManager.IsEditMode) return;
 
-            _moveAction.Enable();
             _moveAction.performed += OnMovePerformed;
             _moveAction.canceled += OnMoveCanceled;
-            _jumpAction.Enable();
             _jumpAction.started += RequestSpringForce;
             _jumpAction.started += OnJumpStarted;
             _jumpAction.canceled += OnJumpCanceled;
-            _attackAction.Enable();
             _attackAction.started += OnCharge;
             _attackAction.canceled += OnAttack;
+            EnableInput();
         }
 
         private void OnDisable()
@@ -181,10 +180,65 @@ namespace Components.Controller
             _attackAction.started -= OnCharge;
             _attackAction.canceled -= OnAttack;
             _inputActions.Disable();
+            _isInputEnabled = false;
+        }
+
+        private void EnableInput()
+        {
+            _moveAction.Enable();
+            _jumpAction.Enable();
+            _attackAction.Enable();
+            _isInputEnabled = true;
+        }
+
+        /// <summary>
+        /// プレイヤーへの入力を全て切る
+        /// </summary>
+        private void DisableInput()
+        {
+            //入力を切ると押しっぱなしの操作に canceled が発火するので、先に状態を片付ける
+            //チャージ中なら、攻撃を出さずに取りやめる
+            if (_isCharging)
+            {
+                _isCharging = false;
+                _attackExecutor_Cache.CancelCharge();
+            }
+            _blockingMove = false;
+            //ジャンプの上昇は打ち切らず、最後まで飛ばす
+            _isJumping = false;
+
+            _inputActions.Disable();
+            _isInputEnabled = false;
+            CancelMove();
+        }
+
+        /// <summary>
+        /// ステージの状態に合わせて入力を切り替える
+        /// クリア後は入力を切り、やり直したら戻す
+        /// </summary>
+        private void UpdateInputEnabled()
+        {
+            //編集中は OnEnable の時点で入力を有効にしていない
+            if (LevelManager.IsEditMode) return;
+
+            //ステージ外では StageManager が無いので、入力を切らない
+            var canReceiveInput = StageManager.Current == null || StageManager.Current.IsPlaying;
+            if (canReceiveInput == _isInputEnabled) return;
+
+            if (canReceiveInput)
+            {
+                EnableInput();
+            }
+            else
+            {
+                DisableInput();
+            }
         }
 
         private void Update()
         {
+            UpdateInputEnabled();
+
             //移動アニメーション(AnimController)
             _animatorTrigger_Cache.SetSpeed(Mathf.Abs(_physicsMover_Cache.Velocity.x));
             float fallSpeed = -_physicsMover_Cache.Velocity.y;

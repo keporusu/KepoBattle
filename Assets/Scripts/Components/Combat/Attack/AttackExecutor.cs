@@ -175,6 +175,17 @@ namespace Components.Combat.Attack
         }
 
 
+        /// <summary>
+        /// チャージを取りやめ、攻撃を出さずに通常のアニメーションへ戻す
+        /// </summary>
+        public void CancelCharge()
+        {
+            //止めていた Attack1 をそのまま再開すると、攻撃判定が出てしまう
+            animator.speed = 1.0f;
+            animator.Play("Stand", -1, 0.0f);
+        }
+
+
         public void StartAttack(AttackType attackType, float charge)
         {
             //パワーの設定
