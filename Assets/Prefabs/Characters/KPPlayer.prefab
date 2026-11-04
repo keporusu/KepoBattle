@@ -309,6 +309,10 @@ PrefabInstance:
       value: Unitychan_Battle(Sword)
       objectReference: {fileID: 0}
     - target: {fileID: 6341593781401802801, guid: 517224459be7f4376b61653219e6a47b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value:
+      objectReference: {fileID: 2100000, guid: 430f2caae585402ca45a68c01afef8e1, type: 2}
+    - target: {fileID: 6341593781401802801, guid: 517224459be7f4376b61653219e6a47b, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 511230160480843948, guid: 8231b28eb0557114b894f1cf9e3c7cd0, type: 3}

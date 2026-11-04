@@ -21,6 +21,9 @@ namespace Components.Controller
         private const string FacingRightKey = "facingRight";
         private const string PlayerNumberKey = "playerNumber";
 
+        //シェーダーのプロパティ
+        private static readonly int FlashAmountId = Shader.PropertyToID("_FlashAmount");
+
         //SerializeField
         [SerializeField] private float jumpPower = 1.0f;
         [SerializeField] private float moveSpeed = 1.0f;
@@ -28,6 +31,7 @@ namespace Components.Controller
         [SerializeField] private float chargeMaxTime = 2.0f;
         [SerializeField] private float chargeMaxPower = 10.0f;
         [SerializeField] private float chargeMinPower = 5.0f;
+        [SerializeField] private float chargeMaxFlashDuration = 0.2f; //チャージが満タンになったときに白く光る時間
         [SerializeField] private GameObject sprite;
 
         //InputAction
@@ -42,6 +46,7 @@ namespace Components.Controller
         private AnimatorTrigger _animatorTrigger_Cache;
         private PlayerUIController _playerUIController_Cache;
         private SpriteRenderer _spriteRenderer_Cache;
+        private MaterialPropertyBlock _spritePropertyBlock_Cache;
 
         //State
         private bool _isJumping = false;
@@ -61,6 +66,16 @@ namespace Components.Controller
         public bool IsFacingRight => sprite.transform.lossyScale.x > 0;
         //チャージの溜まり具合(0~1)
         private float ChargeRatio => Mathf.Clamp01((Time.time - _chargeStartTime) / chargeMaxTime);
+        //チャージが満タンになった瞬間に1になり、線形に0へ戻る値。満タンになる前は0
+        private float ChargeMaxFlashAmount
+        {
+            get
+            {
+                var timeAfterMax = Time.time - _chargeStartTime - chargeMaxTime;
+                if (timeAfterMax < 0.0f) return 0.0f;
+                return 1.0f - Mathf.Clamp01(timeAfterMax / chargeMaxFlashDuration);
+            }
+        }
 
         void Awake()
         {
@@ -69,6 +84,8 @@ namespace Components.Controller
 
             if (!sprite.TryGetComponent(out _spriteRenderer_Cache))
                 throw new MissingComponentException($"[{GetType().Name}] SpriteRenderer が {sprite.name} に見つかりません");
+
+            _spritePropertyBlock_Cache = new MaterialPropertyBlock();
 
             _inputActions = new InputSystem_Actions();
             _moveAction = _inputActions.Player.Move;
@@ -186,11 +203,13 @@ namespace Components.Controller
 
                 //チャージが溜まるほどマゼンタに近づける
                 _spriteRenderer_Cache.color = Color.Lerp(Color.white, Color.magenta, ChargeRatio);
+                SetSpriteFlashAmount(ChargeMaxFlashAmount);
             }
             else
             {
                 _playerUIController_Cache.ShowUpdateDebugText("");
                 _spriteRenderer_Cache.color = Color.white;
+                SetSpriteFlashAmount(0.0f);
             }
             
         }
@@ -352,6 +371,18 @@ namespace Components.Controller
         }
         
         
+
+        /// <summary>
+        /// スプライトの白さを設定する
+        /// SpriteRenderer の色は乗算で真っ白にできないため、シェーダー(Sprites/Flash)側で白くする
+        /// </summary>
+        /// <param name="amount">0で元の色、1で真っ白</param>
+        private void SetSpriteFlashAmount(float amount)
+        {
+            _spriteRenderer_Cache.GetPropertyBlock(_spritePropertyBlock_Cache);
+            _spritePropertyBlock_Cache.SetFloat(FlashAmountId, amount);
+            _spriteRenderer_Cache.SetPropertyBlock(_spritePropertyBlock_Cache);
+        }
 
         private void CancelBlockingMove()
         {
