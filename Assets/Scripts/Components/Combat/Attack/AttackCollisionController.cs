@@ -177,7 +177,9 @@ namespace Components.Combat.Attack
                 {
                     //目標地点（相手からの相対）をもとに、attackPowerを算出
                     //攻撃者基準にすると、目標地点より奥にいる相手が攻撃者側へ引き戻されてしまう
-                    var relativeDestination = _setting.Value.destination * additionalInfo.OtherBlowAlpha;
+                    //NOTE: 移動時(MovementSolver)にも速度へ BlowAlpha が掛かるため、実際の頂点はさらに BlowAlpha 倍になる
+                    //      つまり横方向は destination × BlowAlpha² まで飛ぶ。今の飛距離はこの前提で調整している
+                    var relativeDestination = ResolveDestination(additionalInfo.OtherPosition) * additionalInfo.OtherBlowAlpha;
                     //目標地点は放物運動の頂点なので、相手より下にある場合は到達できない
                     //また高さの差が0に近いと上昇時間も0に近づき、x方向の速度が発散する
                     //そのため上昇する高さに下限を設ける
@@ -192,8 +194,27 @@ namespace Components.Combat.Attack
             
             attackInfo.damage = _setting.Value.damage;
             attackInfo.ignoreDuration = _setting.Value.ignoreDuration;
-            
+
             return attackInfo;
+        }
+
+        /// <summary>
+        /// Destination型の目標地点を求める
+        /// </summary>
+        /// <param name="otherPosition">吹き飛ばす相手の位置</param>
+        /// <returns>相手からの相対位置</returns>
+        private Vector2 ResolveDestination(Vector2 otherPosition)
+        {
+            if (!_setting.Value.aimPosition.HasValue) return _setting.Value.destination;
+
+            //相手は自身の位置から飛ぶので、向きも相手を基準にする
+            //攻撃者を基準にすると、相手との位置の差の分だけ狙いからずれてしまう
+            var aimDirection = (_setting.Value.aimPosition.Value - otherPosition).normalized;
+
+            //吹き飛ばしに補正をかける（横向きに飛ばすほど弱くなる）
+            var directionFix = 0.5f + 0.5f * Mathf.Sin(Mathf.Atan2(aimDirection.y, aimDirection.x));
+
+            return aimDirection * _setting.Value.power * directionFix;
         }
     }
 }

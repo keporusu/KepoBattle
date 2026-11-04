@@ -175,6 +175,17 @@ namespace Components.Combat.Attack
         }
 
 
+        /// <summary>
+        /// チャージを取りやめ、攻撃を出さずに通常のアニメーションへ戻す
+        /// </summary>
+        public void CancelCharge()
+        {
+            //止めていた Attack1 をそのまま再開すると、攻撃判定が出てしまう
+            animator.speed = 1.0f;
+            animator.Play("Stand", -1, 0.0f);
+        }
+
+
         public void StartAttack(AttackType attackType, float charge)
         {
             //パワーの設定
@@ -226,22 +237,18 @@ namespace Components.Combat.Attack
                         fixedCollisionSetting.offset = new Vector2(-offset.x, offset.y);
                     }
                     
-                    //マウスの位置によって目標地点を変える
-                    var mousePos = GameUtility.GetMouseWorldPos();
-                    var attackDir = (mousePos - root.Position).normalized;
+                    //マウスの位置を狙う
+                    var mouseOffset = GameUtility.GetMouseWorldPos() - root.Position;
                     var forward = root.IsRight ? Vector2.right : Vector2.left;
-                    if (Vector2.Dot(attackDir, forward) < 0)
+                    if (Vector2.Dot(mouseOffset, forward) < 0)
                     {
-                        //マウスの方向とキャラクターの向きが逆なら、ベクトルを反転させる
-                        attackDir *= -1;
+                        //マウスの方向とキャラクターの向きが逆なら、キャラクターを挟んだ反対側を狙う
+                        mouseOffset *= -1;
                     }
-                    
-                    //吹き飛ばしに補正をかける（横向きに飛ばすほど弱くなる）
-                    var directionFix = 0.5f + 0.5f * Mathf.Sin(Mathf.Atan2(attackDir.y, attackDir.x));
-                    
+
                     if (_attackCharge.HasValue)
-                        fixedCollisionSetting.destination = attackDir * _attackCharge.Value * directionFix;
-                    
+                        fixedCollisionSetting.aimPosition = root.Position + mouseOffset;
+
                     _collisionsManager.ActivateCollision(id, root.gameObject, fixedCollisionSetting);
                 }
                 id++;

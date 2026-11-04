@@ -21,6 +21,9 @@ namespace Components.Controller
         private const string FacingRightKey = "facingRight";
         private const string PlayerNumberKey = "playerNumber";
 
+        //シェーダーのプロパティ
+        private static readonly int FlashAmountId = Shader.PropertyToID("_FlashAmount");
+
         //SerializeField
         [SerializeField] private float jumpPower = 1.0f;
         [SerializeField] private float moveSpeed = 1.0f;
@@ -28,6 +31,7 @@ namespace Components.Controller
         [SerializeField] private float chargeMaxTime = 2.0f;
         [SerializeField] private float chargeMaxPower = 10.0f;
         [SerializeField] private float chargeMinPower = 5.0f;
+        [SerializeField] private float chargeMaxFlashDuration = 0.2f; //チャージが満タンになったときに白く光る時間
         [SerializeField] private GameObject sprite;
 
         //InputAction
@@ -41,14 +45,18 @@ namespace Components.Controller
         private AttackExecutor _attackExecutor_Cache;
         private AnimatorTrigger _animatorTrigger_Cache;
         private PlayerUIController _playerUIController_Cache;
+        private SpriteRenderer _spriteRenderer_Cache;
+        private MaterialPropertyBlock _spritePropertyBlock_Cache;
 
         //State
+        private bool _isInputEnabled = false;
         private bool _isJumping = false;
         private bool _blockingMove = false;
         private bool _blockingAttack = false;
         private float _moveInput = 0f;
         private bool _isCharging = false;
         private float _chargeStartTime;
+        private bool _isChargeMaxSoundPlayed = false; //今回のチャージで満タンの音を鳴らしたか？
         private Vector2 _spawnPosition; //リスポーン先(配置された位置)
         
         public Vector2 Position => _physicsMover_Cache.Position;
@@ -58,11 +66,28 @@ namespace Components.Controller
         //絵は右向きなので、ワールド上のスケールが正なら右向き
         //ルートが反転されていても正しく判定できるよう、localScale ではなく lossyScale で見る
         public bool IsFacingRight => sprite.transform.lossyScale.x > 0;
-            
+        //チャージの溜まり具合(0~1)
+        private float ChargeRatio => Mathf.Clamp01((Time.time - _chargeStartTime) / chargeMaxTime);
+        //チャージが満タンになった瞬間に1になり、線形に0へ戻る値。満タンになる前は0
+        private float ChargeMaxFlashAmount
+        {
+            get
+            {
+                var timeAfterMax = Time.time - _chargeStartTime - chargeMaxTime;
+                if (timeAfterMax < 0.0f) return 0.0f;
+                return 1.0f - Mathf.Clamp01(timeAfterMax / chargeMaxFlashDuration);
+            }
+        }
+
         void Awake()
         {
             if (sprite == null)
                 throw new MissingReferenceException($"[{GetType().Name}] sprite が {gameObject.name} に設定されていません");
+
+            if (!sprite.TryGetComponent(out _spriteRenderer_Cache))
+                throw new MissingComponentException($"[{GetType().Name}] SpriteRenderer が {sprite.name} に見つかりません");
+
+            _spritePropertyBlock_Cache = new MaterialPropertyBlock();
 
             _inputActions = new InputSystem_Actions();
             _moveAction = _inputActions.Player.Move;
@@ -135,16 +160,14 @@ namespace Components.Controller
             //モードを切り替えるとレベルごと作り直されるため、生成時点のモードだけを見ればよい
             if (LevelManager.IsEditMode) return;
 
-            _moveAction.Enable();
             _moveAction.performed += OnMovePerformed;
             _moveAction.canceled += OnMoveCanceled;
-            _jumpAction.Enable();
             _jumpAction.started += RequestSpringForce;
             _jumpAction.started += OnJumpStarted;
             _jumpAction.canceled += OnJumpCanceled;
-            _attackAction.Enable();
             _attackAction.started += OnCharge;
             _attackAction.canceled += OnAttack;
+            EnableInput();
         }
 
         private void OnDisable()
@@ -157,10 +180,65 @@ namespace Components.Controller
             _attackAction.started -= OnCharge;
             _attackAction.canceled -= OnAttack;
             _inputActions.Disable();
+            _isInputEnabled = false;
+        }
+
+        private void EnableInput()
+        {
+            _moveAction.Enable();
+            _jumpAction.Enable();
+            _attackAction.Enable();
+            _isInputEnabled = true;
+        }
+
+        /// <summary>
+        /// プレイヤーへの入力を全て切る
+        /// </summary>
+        private void DisableInput()
+        {
+            //入力を切ると押しっぱなしの操作に canceled が発火するので、先に状態を片付ける
+            //チャージ中なら、攻撃を出さずに取りやめる
+            if (_isCharging)
+            {
+                _isCharging = false;
+                _attackExecutor_Cache.CancelCharge();
+            }
+            _blockingMove = false;
+            //ジャンプの上昇は打ち切らず、最後まで飛ばす
+            _isJumping = false;
+
+            _inputActions.Disable();
+            _isInputEnabled = false;
+            CancelMove();
+        }
+
+        /// <summary>
+        /// ステージの状態に合わせて入力を切り替える
+        /// クリア後は入力を切り、やり直したら戻す
+        /// </summary>
+        private void UpdateInputEnabled()
+        {
+            //編集中は OnEnable の時点で入力を有効にしていない
+            if (LevelManager.IsEditMode) return;
+
+            //ステージ外では StageManager が無いので、入力を切らない
+            var canReceiveInput = StageManager.Current == null || StageManager.Current.IsPlaying;
+            if (canReceiveInput == _isInputEnabled) return;
+
+            if (canReceiveInput)
+            {
+                EnableInput();
+            }
+            else
+            {
+                DisableInput();
+            }
         }
 
         private void Update()
         {
+            UpdateInputEnabled();
+
             //移動アニメーション(AnimController)
             _animatorTrigger_Cache.SetSpeed(Mathf.Abs(_physicsMover_Cache.Velocity.x));
             float fallSpeed = -_physicsMover_Cache.Velocity.y;
@@ -175,13 +253,25 @@ namespace Components.Controller
             //UI更新
             if (_isCharging)
             {
-                var charge = (int)(chargeMinPower + (chargeMaxPower - chargeMinPower) *
-                    Mathf.Clamp01((Time.time - _chargeStartTime) / chargeMaxTime));
+                var charge = (int)(chargeMinPower + (chargeMaxPower - chargeMinPower) * ChargeRatio);
                 _playerUIController_Cache.ShowUpdateDebugText(charge.ToString());
+
+                //チャージが溜まるほどマゼンタに近づける
+                _spriteRenderer_Cache.color = Color.Lerp(Color.white, Color.magenta, ChargeRatio);
+                SetSpriteFlashAmount(ChargeMaxFlashAmount);
+
+                //チャージが満タンになったら音を鳴らす
+                if (!_isChargeMaxSoundPlayed && ChargeRatio >= 1.0f)
+                {
+                    _isChargeMaxSoundPlayed = true;
+                    SoundManager.Instance.PlaySe("ChargeMax");
+                }
             }
             else
             {
                 _playerUIController_Cache.ShowUpdateDebugText("");
+                _spriteRenderer_Cache.color = Color.white;
+                SetSpriteFlashAmount(0.0f);
             }
             
         }
@@ -261,8 +351,9 @@ namespace Components.Controller
             
             //ジャンプ状態遷移（AnimController）
             _animatorTrigger_Cache.TriggerJump();
+            SoundManager.Instance.PlaySe("Jump");
             Debug.Log("Jump started");
-            
+
         }
 
         private async void RequestSpringForce(InputAction.CallbackContext ctx)
@@ -286,6 +377,10 @@ namespace Components.Controller
         //接地/空中
         private void OnGround()
         {
+            //Stand を通らずに空中へ移ると Jump トリガーが消費されずに残る
+            //残したまま着地すると、地上で空中モーションに入って戻れなくなるので消しておく
+            _animatorTrigger_Cache.ResetJump();
+
             //接地状態遷移（AnimController）
             _animatorTrigger_Cache.TriggerGround();
             Debug.Log("Grounded");
@@ -297,6 +392,7 @@ namespace Components.Controller
             var gameUtility = GetGameUtility();
             if (gameUtility != null)
             {
+                SoundManager.Instance.PlaySe("StageFailed");
                 gameUtility.RestartLevel();
             }
             else
@@ -324,6 +420,7 @@ namespace Components.Controller
             
             _isCharging = true;
             _chargeStartTime = Time.time;
+            _isChargeMaxSoundPlayed = false;
             _attackExecutor_Cache.StartCharge();
         }
         private void OnAttack(InputAction.CallbackContext ctx)
@@ -332,9 +429,8 @@ namespace Components.Controller
             _isCharging = false;
             
             //チャージ量の決定
-            var charge = chargeMinPower + (chargeMaxPower - chargeMinPower) *
-                Mathf.Clamp01((Time.time - _chargeStartTime) / chargeMaxTime);
-            
+            var charge = chargeMinPower + (chargeMaxPower - chargeMinPower) * ChargeRatio;
+
             //現状Attack1のみ
             //トリガもAttackExecutor側に任せる
             _attackExecutor_Cache.StartAttack(AttackType.Attack1, charge);
@@ -344,6 +440,18 @@ namespace Components.Controller
         }
         
         
+
+        /// <summary>
+        /// スプライトの白さを設定する
+        /// SpriteRenderer の色は乗算で真っ白にできないため、シェーダー(Sprites/Flash)側で白くする
+        /// </summary>
+        /// <param name="amount">0で元の色、1で真っ白</param>
+        private void SetSpriteFlashAmount(float amount)
+        {
+            _spriteRenderer_Cache.GetPropertyBlock(_spritePropertyBlock_Cache);
+            _spritePropertyBlock_Cache.SetFloat(FlashAmountId, amount);
+            _spriteRenderer_Cache.SetPropertyBlock(_spritePropertyBlock_Cache);
+        }
 
         private void CancelBlockingMove()
         {

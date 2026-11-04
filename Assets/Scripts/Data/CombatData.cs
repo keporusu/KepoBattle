@@ -51,9 +51,12 @@ namespace Data
         
         public AttackPowerType attackPowerType;
         public float velocityAlpha; //Velocityのみ
-        public float power; //RadialとFixedのみ
+        public float power; //Radial、Fixed、aimPosition を指定したDestinationのみ
         [FormerlySerializedAs("attackPower")] public Vector2 direction; //Fixedのみ
         public Vector2 destination; //Destinationのみ。吹き飛ばされる相手からの相対位置(放物運動の頂点)
+        //Destinationのみ。実行時に指定する狙いの位置(ワールド座標)
+        //指定すると destination の代わりに、相手からこの位置への向きと power で目標地点を決める
+        [NonSerialized] public Vector2? aimPosition;
 
     }
 
