@@ -323,6 +323,10 @@ namespace Components.Controller
         //接地/空中
         private void OnGround()
         {
+            //Stand を通らずに空中へ移ると Jump トリガーが消費されずに残る
+            //残したまま着地すると、地上で空中モーションに入って戻れなくなるので消しておく
+            _animatorTrigger_Cache.ResetJump();
+
             //接地状態遷移（AnimController）
             _animatorTrigger_Cache.TriggerGround();
             Debug.Log("Grounded");
@@ -334,6 +338,7 @@ namespace Components.Controller
             var gameUtility = GetGameUtility();
             if (gameUtility != null)
             {
+                SoundManager.Instance.PlaySe("StageFailed");
                 gameUtility.RestartLevel();
             }
             else

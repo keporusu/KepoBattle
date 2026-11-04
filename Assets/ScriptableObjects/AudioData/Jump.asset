@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: KepoBattle.Data::Data.AudioData
   audioName: Jump
   audioClip: {fileID: 8300000, guid: abb89425fa1944e6da9f27208b107e36, type: 3}
-  volume: 0.3
+  volume: 0.1
