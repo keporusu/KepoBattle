@@ -55,6 +55,7 @@ namespace Components.Controller
         private float _moveInput = 0f;
         private bool _isCharging = false;
         private float _chargeStartTime;
+        private bool _isChargeMaxSoundPlayed = false; //今回のチャージで満タンの音を鳴らしたか？
         private Vector2 _spawnPosition; //リスポーン先(配置された位置)
         
         public Vector2 Position => _physicsMover_Cache.Position;
@@ -204,6 +205,13 @@ namespace Components.Controller
                 //チャージが溜まるほどマゼンタに近づける
                 _spriteRenderer_Cache.color = Color.Lerp(Color.white, Color.magenta, ChargeRatio);
                 SetSpriteFlashAmount(ChargeMaxFlashAmount);
+
+                //チャージが満タンになったら音を鳴らす
+                if (!_isChargeMaxSoundPlayed && ChargeRatio >= 1.0f)
+                {
+                    _isChargeMaxSoundPlayed = true;
+                    SoundManager.Instance.PlaySe("ChargeMax");
+                }
             }
             else
             {
@@ -352,6 +360,7 @@ namespace Components.Controller
             
             _isCharging = true;
             _chargeStartTime = Time.time;
+            _isChargeMaxSoundPlayed = false;
             _attackExecutor_Cache.StartCharge();
         }
         private void OnAttack(InputAction.CallbackContext ctx)
