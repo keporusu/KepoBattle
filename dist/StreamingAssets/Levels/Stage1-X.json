@@ -3,7 +3,7 @@
     "settings": {
         "cameraMin": {
             "x": -6.599999904632568,
-            "y": -4.0
+            "y": 0.5699999928474426
         },
         "cameraMax": {
             "x": 6.599999904632568,
@@ -60,7 +60,985 @@
         },
         {
             "type": "Block_Normal",
-            "id": "0010367d-a80b-45c5-9362-fcce66659fce",
+            "id": "34ce883f-baca-4e72-849d-4411638bc258",
+            "position": {
+                "x": -10.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "c70ac340-6d9b-4b6e-bad1-30292b9894c5",
+            "position": {
+                "x": -5.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "3d6242de-2a1e-4528-a41b-c6b01f3b6f33",
+            "position": {
+                "x": -4.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "75e5bc9f-acf9-4c76-b3de-40b08ede5d40",
+            "position": {
+                "x": -2.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "9d7c82ed-0648-4ddd-9309-eb196b8a68fc",
+            "position": {
+                "x": -1.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "e5ac8510-6c93-4717-b59f-2fe0ed78e0a2",
+            "position": {
+                "x": 0.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "bc0cd4ab-2f14-4d95-a5ec-90905eacc6eb",
+            "position": {
+                "x": 3.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "bfd031d8-d3ca-4a3a-b534-30155dff54b3",
+            "position": {
+                "x": -7.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "ad9e7426-8553-4a35-91f0-24714d9cba32",
+            "position": {
+                "x": -8.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "e20845fd-c359-413f-8dd4-16a4b33c353a",
+            "position": {
+                "x": -10.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "c04c9c18-0627-4309-9b67-2717f496db21",
+            "position": {
+                "x": -5.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "9a614954-2e57-416d-964d-f0f741f947d6",
+            "position": {
+                "x": -4.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "c0569279-5c09-4ec2-9d4d-d58206ed0f47",
+            "position": {
+                "x": -2.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "87ccfff4-52b9-4300-aa45-5d9a6fc1c668",
+            "position": {
+                "x": -1.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "0b4fe2ec-a4b6-4907-af49-c4d0014c401c",
+            "position": {
+                "x": 0.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "cbe35c27-4370-43de-8404-8ac21c608ed2",
+            "position": {
+                "x": 3.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "7b527b6d-4401-49a4-855a-8fce6f1e3870",
+            "position": {
+                "x": -11.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "69eb232f-3f15-40bb-99b9-cd1fe0a377e8",
+            "position": {
+                "x": -11.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "15f50bc9-ee70-4e68-9fbe-5fb757719c37",
+            "position": {
+                "x": -13.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "3a0e37cf-7dd7-47f1-a360-7f5f1cb4f035",
+            "position": {
+                "x": -13.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "97493aed-5e03-4c4e-8755-d29d2897f3e2",
+            "position": {
+                "x": -16.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "a1bba8fd-72d4-4b12-a60e-0b15e7c82745",
+            "position": {
+                "x": -17.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "ec33bde3-2932-4156-b580-fd121bb99383",
+            "position": {
+                "x": -16.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "063c409a-96f5-4a6a-a729-c9ef039d7335",
+            "position": {
+                "x": -16.5,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "8c799dd3-938e-4acb-a42a-6f618700d76d",
+            "position": {
+                "x": -16.5,
+                "y": -0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "f299e0e1-e96b-41d1-9eb6-e4e679ea9ef9",
+            "position": {
+                "x": -16.5,
+                "y": 0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "bf85539f-521a-453a-9f0b-9b513fc733b9",
+            "position": {
+                "x": -16.5,
+                "y": 1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "bc412f40-eccc-481c-8fb5-1557be6d02ab",
+            "position": {
+                "x": -16.5,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "f6193275-468b-4de6-8a90-80a92ad2e64f",
+            "position": {
+                "x": -16.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "51af4e0b-3938-4dac-88fc-9478a52b9975",
+            "position": {
+                "x": -16.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "2a49908d-4465-4d91-8263-7a17e4175079",
+            "position": {
+                "x": -17.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "ec1e53ce-1536-4ff7-8f45-bd1d63081a81",
+            "position": {
+                "x": -17.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "f0383310-0cce-43a1-8042-fd6b1b07e46c",
+            "position": {
+                "x": -17.5,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "edb169e0-3027-4a0a-a367-66bf96686576",
+            "position": {
+                "x": -17.5,
+                "y": -0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "176c98a3-1692-438e-be60-1c3cc16f5a7e",
+            "position": {
+                "x": -17.5,
+                "y": 0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "583a6a25-aacb-4e91-9bd5-5aa859eb07ad",
+            "position": {
+                "x": -17.5,
+                "y": 1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "df7216ac-fda3-4bf1-b897-823beb473493",
+            "position": {
+                "x": -17.5,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "b2d54a0f-6ea6-4a91-aab4-fa87e6bc89cc",
+            "position": {
+                "x": -17.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "73023a9a-0cd2-4ca7-a98b-d334633f175f",
+            "position": {
+                "x": 3.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "9ef542d0-6431-431e-bcf9-4d8f00e788f3",
+            "position": {
+                "x": 3.5,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "77841271-1052-4834-bd44-ba37bd5b08e9",
+            "position": {
+                "x": 3.5,
+                "y": -0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "15263c74-ab5d-40b6-97b5-95a9a4303ccc",
+            "position": {
+                "x": 3.5,
+                "y": 0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "93db0576-c665-4e37-b0ea-756ea1d7bf09",
+            "position": {
+                "x": 3.5,
+                "y": 1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "d7128ae5-e91d-4018-b688-a31f1cc1ac02",
+            "position": {
+                "x": 3.5,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "cdc2e6e5-bb3d-4b45-b702-b0f45b37eaf5",
+            "position": {
+                "x": 3.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "0ff54f1f-83dd-450a-b999-bf56821c72ef",
+            "position": {
+                "x": 4.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "61802b69-e1e8-4a7e-b787-ee64b34c2584",
+            "position": {
+                "x": 4.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "090dd465-348a-459f-86d0-e6a712d5233b",
+            "position": {
+                "x": 4.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "0598b58d-59e5-4e2f-b55c-8138b1c28bf4",
+            "position": {
+                "x": 4.5,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "70b67d3c-acb3-4fc5-877b-7a469976c10e",
+            "position": {
+                "x": 4.5,
+                "y": -0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "630a723d-283e-4d8a-838d-18e6efd22343",
+            "position": {
+                "x": 4.5,
+                "y": 0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "7e463a77-a2fd-4af8-b78a-0c7d8a68808c",
+            "position": {
+                "x": 4.5,
+                "y": 1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "4d7f768a-e62e-42be-8765-a507d8593801",
+            "position": {
+                "x": 4.5,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "bd050fe1-4906-41ca-91d2-36385be2631c",
+            "position": {
+                "x": 4.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "553b95a5-4c4c-4bf7-aac9-c08ab3132d6b",
+            "position": {
+                "x": -15.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "-30",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "69e747b9-9eb6-452b-a7b4-d0ffc975416a",
+            "position": {
+                "x": 2.5,
+                "y": -2.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "30",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "fa2ae979-216e-4f12-aaa5-1c877c585e9e",
+            "position": {
+                "x": 1.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "a14f13a4-4c75-42c0-921e-68aa85b52418",
+            "position": {
+                "x": 1.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "b4ab6140-e73e-4a93-85ef-ae2a0665a16e",
+            "position": {
+                "x": -14.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "1cd56431-259d-44ae-b9c3-ff577474c4f4",
+            "position": {
+                "x": -14.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "b55fcb0e-24c3-49ce-b9f0-5e542bbb263a",
+            "position": {
+                "x": -6.5,
+                "y": 5.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Red",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "0beacc54-0e18-489c-97d1-9d6233e6cb15",
+            "position": {
+                "x": -9.5,
+                "y": 5.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Gold",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "3bbc25e3-fc2b-45cd-a130-99b3a3ae936e",
+            "position": {
+                "x": -3.5,
+                "y": 5.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Gold",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "253b5bcb-ab09-4017-956c-ae702a63eabd",
+            "position": {
+                "x": -11.5,
+                "y": 3.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Silver",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "1d45561d-e857-4d1e-87ca-eebda1b7ec95",
+            "position": {
+                "x": -6.5,
+                "y": 3.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Silver",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "109e88f5-3d07-4e3d-b50e-4966ade70435",
+            "position": {
+                "x": -1.5,
+                "y": 3.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Silver",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "0b7bbe52-49f6-48cd-a3f0-663effcf40bc",
+            "position": {
+                "x": -14.0,
+                "y": 1.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "eb33783a-08a4-4e88-8fca-8e48058aa23e",
+            "position": {
+                "x": -4.0,
+                "y": 1.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "5c5a01aa-7540-49f9-b9a1-e3ed0bd2786a",
+            "position": {
+                "x": 1.0,
+                "y": 1.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "a26f58ce-3544-49a0-ba51-5503fc65ac1c",
+            "position": {
+                "x": -9.0,
+                "y": 1.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "b8ac7d8d-0db2-46a5-b33e-98a3d2c1e6c0",
+            "position": {
+                "x": -12.5,
+                "y": -3.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "-20",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "4de92b52-66c3-4108-acda-7574dccf4ddb",
+            "position": {
+                "x": -0.5,
+                "y": -3.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "20",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "425139b7-b638-49fc-b137-2b27dfacbfc7",
+            "position": {
+                "x": -15.5,
+                "y": 2.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "-20",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "35150ba3-9411-46d3-a257-b0731d58f1ae",
+            "position": {
+                "x": 2.5,
+                "y": 2.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "20",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "f4a612b4-6a8b-4f37-8782-014c728e24ad",
+            "position": {
+                "x": -12.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "2d65245e-fb7f-4704-b65e-da31e77b0333",
+            "position": {
+                "x": -12.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "0b9dba11-4bda-4353-852b-492eef9cbc16",
+            "position": {
+                "x": -15.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "161271e5-b445-47c3-bef0-d7ef8d3b39bd",
+            "position": {
+                "x": -15.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "ee622a11-080a-40aa-88ae-a85c576825af",
             "position": {
                 "x": -9.5,
                 "y": -3.5
@@ -70,10 +1048,98 @@
             }
         },
         {
-            "type": "Block_Normal",
-            "id": "34ce883f-baca-4e72-849d-4411638bc258",
+            "type": "Block_PassProp",
+            "id": "93d00cc8-39e6-4ea3-a5e7-8a65d09ac454",
             "position": {
-                "x": -10.5,
+                "x": -9.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "64be7ab1-2302-4372-8190-b1cb03303fd6",
+            "position": {
+                "x": -6.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "40b6d632-a285-4385-a303-8bb7df2b910f",
+            "position": {
+                "x": -6.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "f956e74a-d0e8-4d71-b98f-515f3051a6f8",
+            "position": {
+                "x": -3.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "0371a6bf-987c-46ea-ae15-a123fb62c7be",
+            "position": {
+                "x": -3.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "c57c24b7-25e0-4495-a8ec-47c3d29b9503",
+            "position": {
+                "x": -0.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "0b1ef20b-27fe-4dd5-a94d-840b7fd46bdb",
+            "position": {
+                "x": -0.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "09f12bd7-9d8b-4750-ac5a-0ed4a4f6d6a9",
+            "position": {
+                "x": 2.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "efe07dfe-9649-4ee4-b312-03852a00e9a5",
+            "position": {
+                "x": 2.5,
                 "y": -3.5
             },
             "parameters": {
