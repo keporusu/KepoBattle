@@ -307,6 +307,7 @@ MonoBehaviour:
   _gameUtility_Prefab: {fileID: 5312629242832592866, guid: bcaf5853881264637bd158862df1ed20, type: 3}
   _stageUIController_Prefab: {fileID: 6531365776239198658, guid: d9578391d1955446b95c6d876d85c1e0, type: 3}
   _stagesInfo: {fileID: 11400000, guid: 39e65719809e14d5bb021ef404a45791, type: 2}
+  _timeLimit: 0
 --- !u!4 &1384888225
 Transform:
   m_ObjectHideFlags: 0

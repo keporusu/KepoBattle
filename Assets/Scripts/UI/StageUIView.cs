@@ -11,6 +11,7 @@ namespace UI
     {
         [SerializeField] private GameObject clearPopup;
         [SerializeField] private TextMeshProUGUI clearTimeText;
+        [SerializeField] private TextMeshProUGUI clearScoreText;
         [SerializeField] private Button retryButton;
         [SerializeField] private Button nextButton;
         [SerializeField] private Button backButton;
@@ -40,11 +41,23 @@ namespace UI
         /// クリア画面を表示する
         /// </summary>
         /// <param name="clearTime">クリアまでにかかった時間(秒)</param>
-        public void ShowClearPopup(float clearTime)
+        /// <param name="score">表示するスコア。null ならスコアを表示しない</param>
+        public void ShowClearPopup(float clearTime, int? score)
         {
+            //スコアを表示するときは、クリア時間を表示しない
             if (clearTimeText != null)
             {
+                clearTimeText.gameObject.SetActive(!score.HasValue);
                 clearTimeText.SetText($"Time {FormatTime(clearTime)}");
+            }
+
+            if (clearScoreText != null)
+            {
+                clearScoreText.gameObject.SetActive(score.HasValue);
+                if (score.HasValue)
+                {
+                    clearScoreText.SetText($"score {score.Value}");
+                }
             }
 
             clearPopup.SetActive(true);
@@ -59,10 +72,10 @@ namespace UI
         }
 
         /// <summary>
-        /// 経過時間を「分:秒:1/100秒」(mm:ss:ff)の形式で表示する
+        /// 画面上部の時間を「分:秒:1/100秒」(mm:ss:ff)の形式で表示する
         /// </summary>
-        /// <param name="seconds">経過時間(秒)</param>
-        public void SetElapsedTime(float seconds)
+        /// <param name="seconds">表示する時間(秒)。経過時間または残り時間</param>
+        public void SetTime(float seconds)
         {
             if (timeText == null) return;
             timeText.SetText(FormatTime(seconds));
