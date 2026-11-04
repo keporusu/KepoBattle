@@ -41,6 +41,7 @@ namespace Components.Controller
         private AttackExecutor _attackExecutor_Cache;
         private AnimatorTrigger _animatorTrigger_Cache;
         private PlayerUIController _playerUIController_Cache;
+        private SpriteRenderer _spriteRenderer_Cache;
 
         //State
         private bool _isJumping = false;
@@ -58,11 +59,16 @@ namespace Components.Controller
         //絵は右向きなので、ワールド上のスケールが正なら右向き
         //ルートが反転されていても正しく判定できるよう、localScale ではなく lossyScale で見る
         public bool IsFacingRight => sprite.transform.lossyScale.x > 0;
-            
+        //チャージの溜まり具合(0~1)
+        private float ChargeRatio => Mathf.Clamp01((Time.time - _chargeStartTime) / chargeMaxTime);
+
         void Awake()
         {
             if (sprite == null)
                 throw new MissingReferenceException($"[{GetType().Name}] sprite が {gameObject.name} に設定されていません");
+
+            if (!sprite.TryGetComponent(out _spriteRenderer_Cache))
+                throw new MissingComponentException($"[{GetType().Name}] SpriteRenderer が {sprite.name} に見つかりません");
 
             _inputActions = new InputSystem_Actions();
             _moveAction = _inputActions.Player.Move;
@@ -175,13 +181,16 @@ namespace Components.Controller
             //UI更新
             if (_isCharging)
             {
-                var charge = (int)(chargeMinPower + (chargeMaxPower - chargeMinPower) *
-                    Mathf.Clamp01((Time.time - _chargeStartTime) / chargeMaxTime));
+                var charge = (int)(chargeMinPower + (chargeMaxPower - chargeMinPower) * ChargeRatio);
                 _playerUIController_Cache.ShowUpdateDebugText(charge.ToString());
+
+                //チャージが溜まるほどマゼンタに近づける
+                _spriteRenderer_Cache.color = Color.Lerp(Color.white, Color.magenta, ChargeRatio);
             }
             else
             {
                 _playerUIController_Cache.ShowUpdateDebugText("");
+                _spriteRenderer_Cache.color = Color.white;
             }
             
         }
@@ -332,9 +341,8 @@ namespace Components.Controller
             _isCharging = false;
             
             //チャージ量の決定
-            var charge = chargeMinPower + (chargeMaxPower - chargeMinPower) *
-                Mathf.Clamp01((Time.time - _chargeStartTime) / chargeMaxTime);
-            
+            var charge = chargeMinPower + (chargeMaxPower - chargeMinPower) * ChargeRatio;
+
             //現状Attack1のみ
             //トリガもAttackExecutor側に任せる
             _attackExecutor_Cache.StartAttack(AttackType.Attack1, charge);
