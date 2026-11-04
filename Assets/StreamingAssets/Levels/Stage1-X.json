@@ -908,6 +908,116 @@
             "parameters": {
                 "entries": []
             }
+        },
+        {
+            "type": "Bell",
+            "id": "b55fcb0e-24c3-49ce-b9f0-5e542bbb263a",
+            "position": {
+                "x": -6.5,
+                "y": 7.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "0beacc54-0e18-489c-97d1-9d6233e6cb15",
+            "position": {
+                "x": -9.0,
+                "y": 5.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "3bbc25e3-fc2b-45cd-a130-99b3a3ae936e",
+            "position": {
+                "x": -4.0,
+                "y": 5.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "253b5bcb-ab09-4017-956c-ae702a63eabd",
+            "position": {
+                "x": -11.5,
+                "y": 3.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "1d45561d-e857-4d1e-87ca-eebda1b7ec95",
+            "position": {
+                "x": -6.5,
+                "y": 3.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "109e88f5-3d07-4e3d-b50e-4966ade70435",
+            "position": {
+                "x": -1.5,
+                "y": 3.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "0b7bbe52-49f6-48cd-a3f0-663effcf40bc",
+            "position": {
+                "x": -14.0,
+                "y": 1.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "eb33783a-08a4-4e88-8fca-8e48058aa23e",
+            "position": {
+                "x": -4.0,
+                "y": 1.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "5c5a01aa-7540-49f9-b9a1-e3ed0bd2786a",
+            "position": {
+                "x": 1.0,
+                "y": 1.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "a26f58ce-3544-49a0-ba51-5503fc65ac1c",
+            "position": {
+                "x": -9.0,
+                "y": 1.0
+            },
+            "parameters": {
+                "entries": []
+            }
         }
     ]
 }
