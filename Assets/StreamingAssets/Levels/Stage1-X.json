@@ -749,7 +749,7 @@
             "id": "b55fcb0e-24c3-49ce-b9f0-5e542bbb263a",
             "position": {
                 "x": -6.5,
-                "y": 6.0
+                "y": 5.5
             },
             "parameters": {
                 "entries": [
@@ -766,7 +766,7 @@
             "type": "Bell",
             "id": "0beacc54-0e18-489c-97d1-9d6233e6cb15",
             "position": {
-                "x": -9.0,
+                "x": -9.5,
                 "y": 5.0
             },
             "parameters": {
@@ -784,7 +784,7 @@
             "type": "Bell",
             "id": "3bbc25e3-fc2b-45cd-a130-99b3a3ae936e",
             "position": {
-                "x": -4.0,
+                "x": -3.5,
                 "y": 5.0
             },
             "parameters": {
@@ -990,6 +990,160 @@
                         "enumType": ""
                     }
                 ]
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "f4a612b4-6a8b-4f37-8782-014c728e24ad",
+            "position": {
+                "x": -12.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "2d65245e-fb7f-4704-b65e-da31e77b0333",
+            "position": {
+                "x": -12.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "0b9dba11-4bda-4353-852b-492eef9cbc16",
+            "position": {
+                "x": -15.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "161271e5-b445-47c3-bef0-d7ef8d3b39bd",
+            "position": {
+                "x": -15.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "ee622a11-080a-40aa-88ae-a85c576825af",
+            "position": {
+                "x": -9.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "93d00cc8-39e6-4ea3-a5e7-8a65d09ac454",
+            "position": {
+                "x": -9.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "64be7ab1-2302-4372-8190-b1cb03303fd6",
+            "position": {
+                "x": -6.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "40b6d632-a285-4385-a303-8bb7df2b910f",
+            "position": {
+                "x": -6.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "f956e74a-d0e8-4d71-b98f-515f3051a6f8",
+            "position": {
+                "x": -3.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "0371a6bf-987c-46ea-ae15-a123fb62c7be",
+            "position": {
+                "x": -3.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "c57c24b7-25e0-4495-a8ec-47c3d29b9503",
+            "position": {
+                "x": -0.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "0b1ef20b-27fe-4dd5-a94d-840b7fd46bdb",
+            "position": {
+                "x": -0.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "09f12bd7-9d8b-4750-ac5a-0ed4a4f6d6a9",
+            "position": {
+                "x": 2.5,
+                "y": -4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_PassProp",
+            "id": "efe07dfe-9649-4ee4-b312-03852a00e9a5",
+            "position": {
+                "x": 2.5,
+                "y": -3.5
+            },
+            "parameters": {
+                "entries": []
             }
         }
     ]

@@ -43,6 +43,9 @@ MonoBehaviour:
   - key: Block_Switch
     category: 1
     prefab: {fileID: 597719660021250835, guid: d46dbc17c24c940f38daf7deba57ab17, type: 3}
+  - key: Block_PassProp
+    category: 1
+    prefab: {fileID: 597719660021250835, guid: f561594c3a9ef40d8a5d3a044db9bdf4, type: 3}
   - key: Bell
     category: 0
     prefab: {fileID: 7127351322704224367, guid: e678ba1941c964f119011fa5359e1c61, type: 3}

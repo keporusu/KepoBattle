@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99266399cee684c959f15315a3310e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  reflectRatio: 0.8
+  reflectRatio: 0.95
   minReflectSpeed: 3
   status: 0
   bronzeScore: 100
