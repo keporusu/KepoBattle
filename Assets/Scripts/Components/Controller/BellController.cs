@@ -3,6 +3,7 @@ using Components.Movement;
 using Core.Constants;
 using DG.Tweening;
 using Systems;
+using TMPro;
 using UnityEngine;
 
 namespace Components.Controller
@@ -13,15 +14,32 @@ namespace Components.Controller
         [SerializeField] private float reflectRatio = 1.0f; //当たってきた速度に対する弾き返す速度の割合
         [SerializeField] private float minReflectSpeed = 5.0f; //弾き返す速度の下限
 
+        //スコア
+        [SerializeField] private int ringScore = 100; //ベルを鳴らしたときに加算するスコア
+
         //アニメーション関連
         [SerializeField] private SpriteRenderer spRenderer;
         [SerializeField] private float swingAngle = 15.0f; //揺れの最大角度(度)
         [SerializeField] private float swingDuration = 0.4f; //揺れ始めてから元に戻るまでの時間
+        
+        //UI関連
+        [SerializeField] private TextMeshProUGUI scoreText;
+        [SerializeField] private float scoreTextDuration = 0.5f; //スコアを表示する時間
+        [SerializeField] private float scoreTextRadius = 1.0f; //ベルの中心からスコアを表示する範囲の半径
+        [SerializeField] private float scoreTextFadeDelay = 0.3f; //表示を始めてから透明になり始めるまでの時間
+        [SerializeField] private float scoreTextRiseDistance = 0.5f; //表示している間に上へ移動する距離
+
+        //キャッシュ
+        private float _scoreTextAlpha; //スコアの元の透明度
 
         private void Start()
         {
             //自身
             SetIdentity(ObjectIdentity.Bell);
+
+            //スコアはベルに当たったときだけ表示する
+            _scoreTextAlpha = scoreText.alpha;
+            scoreText.gameObject.SetActive(false);
         }
 
         protected override void OnDamageHit(Collider2D other)
@@ -38,8 +56,15 @@ namespace Components.Controller
                 Reflect(mover);
             }
 
+            //スコア加算
+            if (StageManager.Current != null)
+            {
+                StageManager.Current.AddScore(ringScore);
+            }
+
             //アニメーション再生
             SwingEffect();
+            ShowScoreText();
         }
 
         //当たってきたときの音
@@ -86,6 +111,39 @@ namespace Components.Controller
             }
 
             mover.AddForceVelocity(reflectVelocity, true);
+        }
+
+        /// <summary>
+        /// ベル付近のランダムな位置に、加算したスコアを一定時間表示する
+        /// </summary>
+        private void ShowScoreText()
+        {
+            //表示中に当たった場合は、前の表示を止めて表示し直す
+            var animationId = "ScoreText" + gameObject.GetEntityId();
+            DOTween.Kill(animationId);
+
+            scoreText.SetText(ringScore.ToString());
+            scoreText.alpha = _scoreTextAlpha;
+            var scoreTransform = scoreText.transform;
+            scoreTransform.position = transform.position + (Vector3)(Random.insideUnitCircle * scoreTextRadius);
+            scoreText.gameObject.SetActive(true);
+
+            Sequence seq = DOTween.Sequence();
+            //最初から最後まで上へ移動する
+            seq.Join(
+                scoreTransform.DOMoveY(scoreTransform.position.y + scoreTextRiseDistance, scoreTextDuration)
+                    .SetEase(Ease.Linear)
+            );
+            //少し待ってから、最後に透明になるように薄くしていく
+            seq.Insert(
+                scoreTextFadeDelay,
+                DOTween.To(() => scoreText.alpha, alpha => scoreText.alpha = alpha, 0.0f, scoreTextDuration - scoreTextFadeDelay)
+                    .SetEase(Ease.Linear)
+            );
+            seq.OnComplete(() => scoreText.gameObject.SetActive(false));
+            seq.SetLink(scoreText.gameObject);
+            seq.SetId(animationId);
+            seq.Play();
         }
 
         /// <summary>
