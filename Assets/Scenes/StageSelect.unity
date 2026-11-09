@@ -1871,6 +1871,7 @@ MonoBehaviour:
   start: {fileID: 1023043046}
   stageName: {fileID: 2004388860}
   stageDescription: {fileID: 798353831}
+  stageThumbnail: {fileID: 579235418}
 --- !u!114 &1159587629
 MonoBehaviour:
   m_ObjectHideFlags: 0

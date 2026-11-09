@@ -12,6 +12,8 @@ namespace Data
         public string Name;
         public string Description;
         public string SceneName;
+        //ステージ選択画面に表示するサムネイル
+        public Sprite Thumbnail;
     }
     
     [CreateAssetMenu(menuName="ScriptableObjects/StagesInfo")]

@@ -60,6 +60,7 @@ namespace Systems
             
             stageSelectUIView.SetStageName(_stages[index].Name);
             stageSelectUIView.SetDescription(_stages[index].Description);
+            stageSelectUIView.SetThumbnail(_stages[index].Thumbnail);
         }
 
         private void SelectUnavailableStage()
