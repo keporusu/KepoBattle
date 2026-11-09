@@ -14,34 +14,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: KepoBattle.Data:Data:StagesInfo
   stages:
   - Id: 1-1
-    Name: Choose
-    Description: I make a point of doing nothing every day.
+    Name: Take Your Pick
+    Description: Choose your move, then aim for the goal!
     SceneName: Stage1-1
   - Id: 1-2
-    Name: Aim
-    Description: "It always seems impossible until it\u2019s done."
+    Name: Sharpshooter
+    Description: Aim for the tiny gap!
     SceneName: Stage1-2
   - Id: 1-3
     Name: Mario
-    Description: "It always seems impossible until it\u2019s done."
+    Description: Watch your step and head for the goal!
     SceneName: Stage1-3
   - Id: 1-4
-    Name: Hit-Hit
-    Description: "It always seems impossible until it\u2019s done."
+    Name: Trick Shot
+    Description: How will you get the ball over there?
     SceneName: Stage1-4
   - Id: 1-5
-    Name: Dig up the Ball
-    Description: "It always seems impossible until it\u2019s done."
+    Name: Dig It Up
+    Description: Get the ball, and the win is yours!
     SceneName: Stage1-5
   - Id: 1-X
     Name: Pinball
-    Description: "It always seems impossible until it\u2019s done."
+    Description: Ring all the bells and make some noise!
     SceneName: Stage1-X
   - Id: 2-1
-    Name: Bomb
-    Description: "It always seems impossible until it\u2019s done."
+    Name: Up High
+    Description: "Can\u2019t reach it? There\u2019s still a way!"
     SceneName: Stage2-1
   - Id: 2-2
     Name: Switch
-    Description: "It always seems impossible until it\u2019s done."
+    Description: Flip the switches and work your way through!
     SceneName: Stage2-2
