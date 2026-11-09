@@ -178,7 +178,7 @@ MonoBehaviour:
   bigJumpSetting:
     timingWindow: 0.2
     duration: 0.5
-    risingGravityScale: 0.5
+    risingGravityScale: 0.4
   stretchScale: 1.5
   stretchDuration: 0.4
   renderer: {fileID: 38589666553909222}

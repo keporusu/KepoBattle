@@ -29,7 +29,7 @@ namespace Components.Controller
         {
             timingWindow = 0.2f,
             duration = 0.5f,
-            risingGravityScale = 0.5f,
+            risingGravityScale = 0.4f,
         };
         
         //アニメーション関連
