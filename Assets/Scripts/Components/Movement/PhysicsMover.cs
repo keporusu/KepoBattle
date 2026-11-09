@@ -73,7 +73,13 @@ namespace Components.Movement
         //状態
         private bool _hasOtherCharacter = false;
         private bool _isRight; //向いている向き
-        private bool _isRequestedExtraSpringForce; //ForceVelocity時に追加でかかる外的要因の力(バネ)
+
+        //バネの大ジャンプ
+        private bool _isSpringJumpHeld; //ジャンプボタンを押しているか？
+        private float _springJumpPressedTime; //ジャンプボタンを押した時刻
+        private float? _springLaunchTime; //直近にバネで飛んだ時刻
+        private BigJumpSetting _springLaunchSetting; //直近に飛ばしたバネの設定
+        private bool _isBigJumping; //大ジャンプモード中か？
         private bool _hasFallenOut; //落下で消える高さを下回ったか？(通知は一度だけ)
 
         private bool CanPushObject(Collider2D other)
@@ -108,7 +114,7 @@ namespace Components.Movement
         public Vector2 Velocity =>Solver.Velocity;
         public Vector2 Position => _rigidbody_Cache.position;
         public bool IsRight => _isRight;
-        public bool IsRequestedSpringForce => _isRequestedExtraSpringForce;
+        public bool IsBigJumping => _isBigJumping;
         public float BlowAlpha => blowAlpha;
         public bool IsKinematic => kinematic;
         
@@ -248,6 +254,9 @@ namespace Components.Movement
 
         protected virtual void FixedUpdate()
         {
+            //重力の倍率は Predict で使うので、先に解除を判定する
+            UpdateBigJump();
+
             //kinematicの設定の場合、動かないようにする
             if (!kinematic)
             {
@@ -586,9 +595,82 @@ namespace Components.Movement
         }
         
         
-        public void RequestExtraSpringForceVelocity(bool request)
+        /// <summary>
+        /// バネの大ジャンプ用に、ジャンプボタンを押したことを伝える
+        /// 直前にバネで飛んでいれば、その場で大ジャンプモードになる
+        /// </summary>
+        public void PressSpringJump()
         {
-            _isRequestedExtraSpringForce = request;
+            _isSpringJumpHeld = true;
+            _springJumpPressedTime = Time.time;
+
+            //バネで飛んだ直後に押した場合
+            if (_springLaunchTime.HasValue
+                && Time.time - _springLaunchTime.Value <= _springLaunchSetting.timingWindow)
+            {
+                StartBigJump();
+            }
+        }
+
+        /// <summary>
+        /// バネの大ジャンプ用に、ジャンプボタンを離したことを伝える
+        /// 大ジャンプモード中なら解除する
+        /// </summary>
+        public void ReleaseSpringJump()
+        {
+            _isSpringJumpHeld = false;
+            EndBigJump();
+        }
+
+        /// <summary>
+        /// 上向きのバネで飛んだことを伝える
+        /// 直前にジャンプボタンを押していれば、大ジャンプモードになる
+        /// </summary>
+        /// <param name="setting">飛ばしたバネの大ジャンプ設定</param>
+        public void NotifySpringLaunch(BigJumpSetting setting)
+        {
+            //前のバネの大ジャンプは引き継がない
+            EndBigJump();
+
+            _springLaunchTime = Time.time;
+            _springLaunchSetting = setting;
+
+            //バネで飛ぶ直前に押していた場合
+            //押してから離していれば、モードに入ってもすぐ解除されるので入らない
+            if (_isSpringJumpHeld && Time.time - _springJumpPressedTime <= setting.timingWindow)
+            {
+                StartBigJump();
+            }
+        }
+
+        /// <summary>
+        /// 大ジャンプモードを解除する
+        /// </summary>
+        public void EndBigJump()
+        {
+            _isBigJumping = false;
+            Solver.RisingGravityScale = 1.0f;
+        }
+
+        private void StartBigJump()
+        {
+            _isBigJumping = true;
+            Solver.RisingGravityScale = _springLaunchSetting.risingGravityScale;
+        }
+
+        /// <summary>
+        /// 大ジャンプモードの時間切れ・着地を調べ、該当すれば解除する
+        /// </summary>
+        private void UpdateBigJump()
+        {
+            if (!_isBigJumping || !_springLaunchTime.HasValue) return;
+
+            //時間はバネで飛んだ瞬間から数える
+            var isTimeOver = Time.time - _springLaunchTime.Value >= _springLaunchSetting.duration;
+            if (isTimeOver || !Solver.IsAir)
+            {
+                EndBigJump();
+            }
         }
 
         public void SetRight(bool right)
@@ -616,6 +698,8 @@ namespace Components.Movement
             //移動処理を全てリセット
             Solver.Reset();
             _hasFallenOut = false;
+            _isBigJumping = false;
+            _springLaunchTime = null;
 
             //位置
             _rigidbody_Cache.position = position;

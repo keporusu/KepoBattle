@@ -81,6 +81,9 @@ namespace Core.Movement
         public bool IsAir => _isAir;
         public Vector2 Velocity { get; private set; }
 
+        //上昇中(上向きの速度があるとき)だけ重力に掛ける倍率
+        public float RisingGravityScale { get; set; } = 1.0f;
+
         private bool _isBraking;
         private bool _isAir;
         private float _movingVelocity;
@@ -161,6 +164,7 @@ namespace Core.Movement
 
             _isBraking = false;
             _isAir = true;
+            RisingGravityScale = 1.0f;
 
             Velocity = Vector2.zero;
         }
@@ -205,7 +209,9 @@ namespace Core.Movement
             if (_isAir)
             {
                 //重力による上方向減衰
-                _forceVelocity += _settings.Gravity * deltaTime * Vector2.down;
+                //上昇中だけ倍率を掛ける。下降に転じたら通常の重力に戻す
+                var gravityScale = _forceVelocity.y > 0.0f ? RisingGravityScale : 1.0f;
+                _forceVelocity += _settings.Gravity * gravityScale * deltaTime * Vector2.down;
                 //movePoint += _settings.Gravity * deltaTime * deltaTime * Vector2.down;
             }
             //地面についているときの処理
