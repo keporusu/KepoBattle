@@ -16,13 +16,21 @@ namespace UI
         [SerializeField] private Button start;
         [SerializeField] private TextMeshProUGUI stageName;
         [SerializeField] private TextMeshProUGUI stageDescription;
+        [SerializeField] private Image stageThumbnail;
         
        
         private List<Button> _stageLists = new List<Button>();
+        //サムネイル未設定のステージで表示する画像
+        private Sprite _defaultThumbnail;
         public event Action<int> OnSelectStage;
         public Button.ButtonClickedEvent OnBack => back.onClick;
         public Button.ButtonClickedEvent OnStart => start.onClick;
         
+
+        private void Awake()
+        {
+            _defaultThumbnail = stageThumbnail.sprite;
+        }
 
         public void InitializeSelections(StagesInfo stagesInfo, UInt64 availableStageFlags, int generateButtonCount=32)
         {
@@ -83,6 +91,16 @@ namespace UI
         }
 
 
+        /// <summary>
+        /// 指定したステージのボタンを選択状態にする
+        /// </summary>
+        /// <param name="index">ステージのインデックス</param>
+        public void SelectButton(int index)
+        {
+            if (index < 0 || _stageLists.Count <= index) return;
+            _stageLists[index].Select();
+        }
+
         public void SetStageName(string name)
         {
             stageName.text = name;
@@ -91,6 +109,16 @@ namespace UI
         public void SetDescription(string description)
         {
             stageDescription.text = description;
+        }
+
+        /// <summary>
+        /// サムネイルを設定する
+        /// 未設定(null)のステージはシーンに置いてある初期画像を表示する
+        /// </summary>
+        /// <param name="thumbnail">ステージのサムネイル</param>
+        public void SetThumbnail(Sprite thumbnail)
+        {
+            stageThumbnail.sprite = thumbnail != null ? thumbnail : _defaultThumbnail;
         }
 
     }

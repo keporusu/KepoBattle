@@ -41,7 +41,13 @@ namespace Systems
             stageSelectUIView.OnStart.AddListener(StartStage);
             stageSelectUIView.OnBack.AddListener(BackToTitle);
             stageSelectUIView.OnSelectStage += SelectStage;
-            
+
+            //最初は先頭のステージを選んだ状態にする
+            if (_stages.Count > 0)
+            {
+                SelectStage(0);
+                stageSelectUIView.SelectButton(0);
+            }
         }
 
         private void SelectStage(int index)
@@ -54,6 +60,7 @@ namespace Systems
             
             stageSelectUIView.SetStageName(_stages[index].Name);
             stageSelectUIView.SetDescription(_stages[index].Description);
+            stageSelectUIView.SetThumbnail(_stages[index].Thumbnail);
         }
 
         private void SelectUnavailableStage()
