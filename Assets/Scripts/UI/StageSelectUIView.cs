@@ -83,6 +83,16 @@ namespace UI
         }
 
 
+        /// <summary>
+        /// 指定したステージのボタンを選択状態にする
+        /// </summary>
+        /// <param name="index">ステージのインデックス</param>
+        public void SelectButton(int index)
+        {
+            if (index < 0 || _stageLists.Count <= index) return;
+            _stageLists[index].Select();
+        }
+
         public void SetStageName(string name)
         {
             stageName.text = name;
