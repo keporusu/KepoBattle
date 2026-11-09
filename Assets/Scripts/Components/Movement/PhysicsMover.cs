@@ -102,6 +102,10 @@ namespace Components.Movement
         //落下で消える高さを下回った時の通知(一度だけ)
         public event System.Action OnFallOut;
 
+        //外から力を受けて、移動の入力速度が捨てられた時の通知
+        //入力イベントは値が変わった時にしか来ないので、押しっぱなしの入力は受け手が読み直す必要がある
+        public event System.Action OnMoveDiscarded;
+
         public event System.Action<float> OnBounce
         {
             add => Solver.OnBounce += value;
@@ -592,6 +596,11 @@ namespace Components.Movement
         public void AddForceVelocity(Vector2 velocity, bool ignoreRecentVelocity, GameObject instigator=null)
         {
             Solver.AddForceVelocity(velocity, ignoreRecentVelocity);
+
+            if (ignoreRecentVelocity)
+            {
+                OnMoveDiscarded?.Invoke();
+            }
         }
         
         

@@ -113,6 +113,8 @@ namespace Components.Controller
             //接地イベント登録
             _physicsMover_Cache.OnGround += OnGround;
             _physicsMover_Cache.OnForceAir += OnForceAir;
+            //バネや吹き飛びで移動速度が消されたら、押しっぱなしの移動入力を反映し直す
+            _physicsMover_Cache.OnMoveDiscarded += ReapplyHeldMove;
             //_attackExecutor_Cache.OnAttackFinish += CancelBlockingMove;
 
             //落下時はレベルをやり直す
@@ -320,6 +322,19 @@ namespace Components.Controller
             {
                 _physicsMover_Cache.SetRight(right);
             }
+        }
+
+        /// <summary>
+        /// 押しっぱなしの移動入力を読み直して反映する
+        /// 移動速度が外から消された後、入力の値が変わらないと performed が来ないため
+        /// </summary>
+        private void ReapplyHeldMove()
+        {
+            if (!_isInputEnabled || _blockingMove) return;
+
+            float currentMoveX = _moveAction.ReadValue<Vector2>().x;
+            if (currentMoveX == 0.0f) return;
+            Move(currentMoveX);
         }
 
         private void OnMoveCanceled(InputAction.CallbackContext ctx)
