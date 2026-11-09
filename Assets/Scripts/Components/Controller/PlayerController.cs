@@ -9,7 +9,6 @@ using Components.Animation;
 using Components.Identity;
 using Core.Constants;
 using Core.Contracts;
-using Cysharp.Threading.Tasks;
 using Data;
 using Systems;
 
@@ -162,7 +161,7 @@ namespace Components.Controller
 
             _moveAction.performed += OnMovePerformed;
             _moveAction.canceled += OnMoveCanceled;
-            _jumpAction.started += RequestSpringForce;
+            _jumpAction.started += OnSpringJumpPressed;
             _jumpAction.started += OnJumpStarted;
             _jumpAction.canceled += OnJumpCanceled;
             _attackAction.started += OnCharge;
@@ -174,7 +173,7 @@ namespace Components.Controller
         {
             _moveAction.performed -= OnMovePerformed;
             _moveAction.canceled -= OnMoveCanceled;
-            _jumpAction.started -= RequestSpringForce;
+            _jumpAction.started -= OnSpringJumpPressed;
             _jumpAction.started -= OnJumpStarted;
             _jumpAction.canceled -= OnJumpCanceled;
             _attackAction.started -= OnCharge;
@@ -356,17 +355,25 @@ namespace Components.Controller
 
         }
 
-        private async void RequestSpringForce(InputAction.CallbackContext ctx)
+        private void OnSpringJumpPressed(InputAction.CallbackContext ctx)
         {
-            //バネで飛ぶ時の追加の力
-            _physicsMover_Cache.RequestExtraSpringForceVelocity(true);
-            await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
-            _physicsMover_Cache.RequestExtraSpringForceVelocity(false);
+            //バネで飛ぶ前後に押していれば、大ジャンプモードになる
+            _physicsMover_Cache.PressSpringJump();
         }
         
         
         private void OnJumpCanceled(InputAction.CallbackContext ctx)
         {
+            //大ジャンプモード中なら、モードを解除するだけにする
+            //上昇を打ち切ると、バネで飛んだ勢いまで消えてしまう
+            var wasBigJumping = _physicsMover_Cache.IsBigJumping;
+            _physicsMover_Cache.ReleaseSpringJump();
+            if (wasBigJumping)
+            {
+                _isJumping = false;
+                return;
+            }
+
             if (!_isJumping) return;
             _isJumping = false;
             _physicsMover_Cache.StopJump();
