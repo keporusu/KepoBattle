@@ -102,7 +102,7 @@
             "type": "Ball2",
             "id": "c70a2ef1-0dfb-44ff-8646-17c62d168dbf",
             "position": {
-                "x": -7.5,
+                "x": -6.0,
                 "y": -2.5
             },
             "parameters": {
@@ -476,7 +476,7 @@
             "type": "Ball",
             "id": "6c69b426-fb36-4c66-bf6d-baa69b4fbb6b",
             "position": {
-                "x": -6.0,
+                "x": -4.5,
                 "y": -2.5
             },
             "parameters": {
@@ -487,7 +487,7 @@
             "type": "Bomb",
             "id": "d25fdec7-4492-46ec-b35d-3cea35a057a0",
             "position": {
-                "x": -4.5,
+                "x": -7.5,
                 "y": -2.5
             },
             "parameters": {
