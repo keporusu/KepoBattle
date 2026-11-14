@@ -16,8 +16,8 @@
             "type": "Player",
             "id": "7a256195-f72c-4589-94ae-aff8d785156e",
             "position": {
-                "x": -10.5,
-                "y": -1.5
+                "x": -13.5,
+                "y": 3.5
             },
             "parameters": {
                 "entries": [
@@ -40,8 +40,8 @@
             "type": "Block_Normal",
             "id": "d7955cdb-b62f-4652-9f93-c03e70ff4355",
             "position": {
-                "x": -7.5,
-                "y": -3.5
+                "x": -10.5,
+                "y": 1.5
             },
             "parameters": {
                 "entries": []
@@ -51,8 +51,8 @@
             "type": "Block_Normal",
             "id": "8d57b5f4-3f69-4aa3-b18d-ae11d9fe1264",
             "position": {
-                "x": -8.5,
-                "y": -3.5
+                "x": -11.5,
+                "y": 1.5
             },
             "parameters": {
                 "entries": []
@@ -62,8 +62,8 @@
             "type": "Block_Normal",
             "id": "0010367d-a80b-45c5-9362-fcce66659fce",
             "position": {
-                "x": -9.5,
-                "y": -3.5
+                "x": -12.5,
+                "y": 1.5
             },
             "parameters": {
                 "entries": []
@@ -73,8 +73,976 @@
             "type": "Block_Normal",
             "id": "34ce883f-baca-4e72-849d-4411638bc258",
             "position": {
+                "x": -13.5,
+                "y": 1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "ae496594-e4cd-446d-82f3-178a706726ab",
+            "position": {
+                "x": -5.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "58eae0ce-3ff4-4c5d-9811-e34934dbc8cd",
+            "position": {
+                "x": -6.5,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "ddce5f24-f438-4477-9603-80843c3c644d",
+            "position": {
+                "x": -7.5,
+                "y": 1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "77c07d34-0546-4bc4-8d21-1c8ac7a5da41",
+            "position": {
+                "x": -7.5,
+                "y": 0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "55d2b706-584b-4599-af69-597d69014493",
+            "position": {
+                "x": -8.5,
+                "y": -0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "69632122-a238-412f-9d9a-8208100c77a8",
+            "position": {
+                "x": -8.5,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "279227f2-94f3-4e60-9f93-0d628fca1af4",
+            "position": {
+                "x": 2.5,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "9b263b96-877a-41fa-a050-0f442c13ab99",
+            "position": {
+                "x": 2.5,
+                "y": -0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "45a6ae36-b4ea-4f01-ae5e-63d16f9db3fa",
+            "position": {
+                "x": 1.5,
+                "y": 0.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "e89c6768-8aa2-4de0-bd8d-8240125f36c4",
+            "position": {
+                "x": 1.5,
+                "y": 1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "15f2a0d9-fdc4-4383-9c9b-aebc6a811025",
+            "position": {
+                "x": 0.5,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "dd1cb0db-6a58-4f67-bb9e-d3ddc0abc1c8",
+            "position": {
+                "x": -0.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "291411a4-1b91-4282-b165-24a40a455fda",
+            "position": {
+                "x": -4.5,
+                "y": 4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "17723ab8-797e-49b9-8e65-9b730c5d05f2",
+            "position": {
+                "x": -1.5,
+                "y": 4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "b97f2597-85b3-466d-ab69-6ba2c07bdfe6",
+            "position": {
+                "x": -5.5,
+                "y": 4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "d1e22196-5dd0-4cad-8a68-81dd631e558a",
+            "position": {
+                "x": -6.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "60bf2458-683d-4a64-8322-278e0ddba588",
+            "position": {
+                "x": 0.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "0850aff3-cb81-4fa3-838b-eb37758150f3",
+            "position": {
+                "x": -0.5,
+                "y": 4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "4f94f090-4baa-4b8d-b78e-29d600803925",
+            "position": {
+                "x": -3.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Bronze",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "37f1907b-4286-4068-91f8-a2fc387d2353",
+            "position": {
+                "x": -2.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Bronze",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "80eb9e6b-2192-4e1f-a2a2-497db68e8a0d",
+            "position": {
+                "x": -3.0,
+                "y": 2.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Bronze",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "8f77ba37-885c-4a6c-959c-6283d3acfe91",
+            "position": {
+                "x": -4.5,
+                "y": 2.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Silver",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "d97ce2c9-2b08-4cb7-bede-a43d96bd6639",
+            "position": {
+                "x": -1.5,
+                "y": 2.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Silver",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "1a39e259-4d9b-4cdc-abcf-1235f232df64",
+            "position": {
+                "x": -7.5,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Red",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "d48d9a17-b418-4fd2-9a0f-752a0d82923c",
+            "position": {
+                "x": 0.0,
+                "y": 0.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Gold",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "6c3908aa-d94b-4314-bf21-69b9d74a1036",
+            "position": {
+                "x": -2.0,
+                "y": 1.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Bronze",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "5272eed1-33d6-445d-b36b-279d009a9f0d",
+            "position": {
+                "x": -4.0,
+                "y": 1.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Bronze",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "eb2f88a7-2d64-4db7-a612-ea3b26acf471",
+            "position": {
+                "x": -5.0,
+                "y": -0.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Silver",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "46ee16c1-7c8d-4871-9871-59e6f3f2f024",
+            "position": {
+                "x": -6.0,
+                "y": 0.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Gold",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Ball",
+            "id": "b5875472-a7c6-43af-bb2f-45813780d6b0",
+            "position": {
+                "x": -11.5,
+                "y": 5.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "312ea37f-b1e3-47e5-90cc-a18a2745e780",
+            "position": {
+                "x": -1.0,
+                "y": -0.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Silver",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "2c80d568-dd23-4cfc-afaa-5ef42a28f051",
+            "position": {
+                "x": -3.0,
+                "y": 0.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Bronze",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "e7f02815-6d17-4c1a-9149-6bfc2cfdfdec",
+            "position": {
+                "x": -2.0,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Silver",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "b5216bb4-2e51-4cfb-bc8a-9b6bdc1b3dcd",
+            "position": {
+                "x": -6.0,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Gold",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "5a3e3981-c78d-4be5-ba02-f878c2a30725",
+            "position": {
+                "x": -4.0,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Silver",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "59040da9-4263-45e4-a074-b178c8c09633",
+            "position": {
+                "x": 0.0,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Gold",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Bell",
+            "id": "57c9f9e9-00f0-4953-ab72-e2808e6c26ae",
+            "position": {
+                "x": 1.5,
+                "y": -1.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "status",
+                        "type": 3,
+                        "value": "Red",
+                        "enumType": "Components.Controller.BellStatus, Assembly-CSharp"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "d5eb3120-694c-42a2-8fe0-09f86fc47d6f",
+            "position": {
                 "x": -10.5,
-                "y": -3.5
+                "y": 2.0
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "0",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "65810963-8bfa-4bab-8397-5007f5455c50",
+            "position": {
+                "x": -11.0,
+                "y": 7.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "-90",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Spring",
+            "id": "85b7260a-c1aa-4723-bbcf-4566d4047b86",
+            "position": {
+                "x": -9.5,
+                "y": 7.5
+            },
+            "parameters": {
+                "entries": [
+                    {
+                        "key": "angle",
+                        "type": 0,
+                        "value": "-90",
+                        "enumType": ""
+                    },
+                    {
+                        "key": "kinematic",
+                        "type": 1,
+                        "value": "true",
+                        "enumType": ""
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Ball",
+            "id": "4aef165b-df0b-4d46-a568-4a180441b05a",
+            "position": {
+                "x": -11.5,
+                "y": 6.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Ball",
+            "id": "9c79cd51-eebc-4d7a-afcd-7787a2b543e8",
+            "position": {
+                "x": -11.5,
+                "y": 7.0
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Ball",
+            "id": "ead73a52-bf56-485b-aede-5ae4d2659d18",
+            "position": {
+                "x": -11.5,
+                "y": 7.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Ball",
+            "id": "a7b83ab3-e947-4148-a16a-d96bf2fd0b31",
+            "position": {
+                "x": -11.5,
+                "y": 5.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Ball",
+            "id": "ed24c96d-0ca5-40bd-8bd3-a5f19bc4c544",
+            "position": {
+                "x": -11.5,
+                "y": 6.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Ball",
+            "id": "64f37429-01ea-4937-8aeb-b1d365b6d1ac",
+            "position": {
+                "x": -11.5,
+                "y": 6.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Ball",
+            "id": "e66a491c-04d9-4dc0-a7c7-3598d143279f",
+            "position": {
+                "x": -11.0,
+                "y": 5.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "2ed9ef93-63f2-402f-b6e1-fb93736f41be",
+            "position": {
+                "x": -4.5,
+                "y": 5.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "da3b9b06-afc3-446e-ac6f-9113959ef7a9",
+            "position": {
+                "x": -4.5,
+                "y": 6.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "4c749d58-fa54-4a40-93f3-64b73a053012",
+            "position": {
+                "x": -5.5,
+                "y": 6.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "c16a9789-0a22-4f86-a6af-7e1113043c5e",
+            "position": {
+                "x": -6.5,
+                "y": 6.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "ce9019e4-ef4a-4047-8816-ae2e2c06fb30",
+            "position": {
+                "x": -7.5,
+                "y": 6.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "f5702d19-cec5-452b-8545-2d578103ab4d",
+            "position": {
+                "x": -8.5,
+                "y": 6.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "d595d093-9852-41a6-bc70-8330cc83cb80",
+            "position": {
+                "x": -1.5,
+                "y": 5.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "3e30ee48-582f-455f-b8c5-0be4b35d6b54",
+            "position": {
+                "x": -1.5,
+                "y": 6.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "b3e2dab4-6241-4fa0-a86f-d7dbf3c9862d",
+            "position": {
+                "x": -1.5,
+                "y": 8.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "85e4aa98-eed4-4780-b58a-ad2b1686240d",
+            "position": {
+                "x": -1.5,
+                "y": 7.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "10b14e18-a64a-4057-8b94-c9195c624006",
+            "position": {
+                "x": -2.5,
+                "y": 8.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "f48e0055-76e6-4528-a27c-e9ed02464e46",
+            "position": {
+                "x": -3.5,
+                "y": 8.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "9b9f68df-0565-40c8-a2cb-535326adf698",
+            "position": {
+                "x": -4.5,
+                "y": 8.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "fa54d2aa-ff1c-405d-a331-dfae380bfe77",
+            "position": {
+                "x": -5.5,
+                "y": 8.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "c2e224ac-0ade-49bb-a440-191d156b97be",
+            "position": {
+                "x": -6.5,
+                "y": 8.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "05e02012-2277-401e-910c-491c91448368",
+            "position": {
+                "x": -7.5,
+                "y": 8.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "18b5a9e1-3509-443a-ba85-165ba2559f83",
+            "position": {
+                "x": -8.5,
+                "y": 8.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "487fc1ad-270b-41b2-99b8-eb04038cfe6e",
+            "position": {
+                "x": -9.5,
+                "y": 8.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "a4f7e5e8-793e-4fe4-aaf4-cc1db1120c90",
+            "position": {
+                "x": -10.5,
+                "y": 8.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "2d7ab720-4008-4356-aa9c-23b0f65536da",
+            "position": {
+                "x": -11.5,
+                "y": 8.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "3bf9e790-9c64-4fe1-a412-5a0208ff1e9e",
+            "position": {
+                "x": -9.5,
+                "y": 1.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "c12c73fd-2e7f-4f55-ba4e-6485fc6b7656",
+            "position": {
+                "x": -9.5,
+                "y": 2.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "f29a99e8-8838-4e06-9939-b20cac8db2f9",
+            "position": {
+                "x": -9.5,
+                "y": 3.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "e322eac5-a96d-4040-b4f0-7a7cac83b37d",
+            "position": {
+                "x": -9.5,
+                "y": 4.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "04309608-b950-4ea8-9deb-f910eded3ffd",
+            "position": {
+                "x": -9.5,
+                "y": 5.5
+            },
+            "parameters": {
+                "entries": []
+            }
+        },
+        {
+            "type": "Block_Normal",
+            "id": "1dd00d55-d3ed-45c0-b010-e78f9c3c8f53",
+            "position": {
+                "x": -9.5,
+                "y": 6.5
             },
             "parameters": {
                 "entries": []
